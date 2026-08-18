@@ -1,12 +1,23 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
 <title>Sales & Marketing Dashboard</title>
+
+
+<!-- =====================================================
+     SUPABASE LIBRARY
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 
 <style>
 
@@ -21,7 +32,10 @@ body {
     background: #f4f6f9;
 }
 
-/* HEADER */
+
+/* =====================================================
+   HEADER
+===================================================== */
 
 .header {
     background: #2563eb;
@@ -46,7 +60,19 @@ body {
     font-weight: bold;
 }
 
-/* CONTAINER */
+.logout:hover {
+    background: #eef4ff;
+}
+
+.logout:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+
+/* =====================================================
+   CONTAINER
+===================================================== */
 
 .container {
     padding: 30px;
@@ -54,7 +80,10 @@ body {
     margin: auto;
 }
 
-/* WELCOME */
+
+/* =====================================================
+   WELCOME
+===================================================== */
 
 .welcome {
     margin-bottom: 25px;
@@ -69,7 +98,10 @@ body {
     color: #666;
 }
 
-/* CARDS */
+
+/* =====================================================
+   CARDS
+===================================================== */
 
 .cards {
     display: grid;
@@ -95,7 +127,10 @@ body {
     color: #2563eb;
 }
 
-/* MENU */
+
+/* =====================================================
+   MENU
+===================================================== */
 
 .menu {
     margin-top: 30px;
@@ -112,6 +147,7 @@ body {
     font-size: 17px;
     cursor: pointer;
     box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    transition: 0.2s;
 }
 
 .menu button:hover {
@@ -119,7 +155,10 @@ body {
     transform: translateY(-2px);
 }
 
-/* REFRESH */
+
+/* =====================================================
+   REFRESH
+===================================================== */
 
 .refresh-box {
     margin-top: 25px;
@@ -140,7 +179,10 @@ body {
     background: #15803d;
 }
 
-/* MOBILE */
+
+/* =====================================================
+   MOBILE
+===================================================== */
 
 @media (max-width: 900px) {
 
@@ -154,7 +196,20 @@ body {
 
 }
 
+
 @media (max-width: 600px) {
+
+    .header {
+        padding: 15px;
+    }
+
+    .header h2 {
+        font-size: 17px;
+    }
+
+    .logout {
+        padding: 8px 12px;
+    }
 
     .cards {
         grid-template-columns: 1fr;
@@ -174,9 +229,13 @@ body {
 
 </head>
 
+
 <body>
 
-<!-- HEADER -->
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
 <div class="header">
 
@@ -184,9 +243,10 @@ body {
         Sales & Marketing System
     </h2>
 
+
     <button
         class="logout"
-        onclick="logout()">
+        id="logoutButton">
 
         Logout
 
@@ -195,9 +255,13 @@ body {
 </div>
 
 
-<!-- MAIN -->
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
 
 <div class="container">
+
 
     <!-- WELCOME -->
 
@@ -207,16 +271,20 @@ body {
             Dashboard
         </h1>
 
-        <p>
+        <p id="welcomeText">
             Welcome to your Sales & Marketing Management System.
         </p>
 
     </div>
 
 
-    <!-- DASHBOARD CARDS -->
+
+    <!-- =================================================
+         DASHBOARD CARDS
+    ================================================== -->
 
     <div class="cards">
+
 
         <!-- TOTAL SALES -->
 
@@ -235,6 +303,7 @@ body {
             </div>
 
         </div>
+
 
 
         <!-- CUSTOMERS -->
@@ -256,6 +325,7 @@ body {
         </div>
 
 
+
         <!-- PRODUCTS -->
 
         <div class="card">
@@ -273,6 +343,7 @@ body {
             </div>
 
         </div>
+
 
 
         <!-- TODAY SALES -->
@@ -296,13 +367,16 @@ body {
     </div>
 
 
-    <!-- REFRESH -->
+
+    <!-- =================================================
+         REFRESH
+    ================================================== -->
 
     <div class="refresh-box">
 
         <button
             class="refresh-btn"
-            onclick="loadDashboard()">
+            id="refreshButton">
 
             🔄 Refresh Dashboard
 
@@ -311,72 +385,64 @@ body {
     </div>
 
 
-    <!-- MENU -->
+
+    <!-- =================================================
+         MENU
+    ================================================== -->
 
     <div class="menu">
 
-        <button
-            onclick="go('sales.html')">
+
+        <button onclick="go('sales.html')">
 
             📊 Sales Entry
 
         </button>
 
 
-        <button
-            onclick="go('sales-history.html')">
+        <button onclick="go('sales-history.html')">
 
             📋 Sales History
 
         </button>
 
 
-        <button
-            onclick="go('customers.html')">
+        <button onclick="go('customers.html')">
 
             👥 Customers
 
         </button>
 
 
-        <button
-            onclick="go('products.html')">
+        <button onclick="go('products.html')">
 
             📦 Products
 
         </button>
 
 
-        <button
-            onclick="go('inventory.html')">
+        <button onclick="go('inventory.html')">
 
             📋 Inventory
 
         </button>
 
 
-        <button
-            onclick="go('reports.html')">
+        <button onclick="go('reports.html')">
 
             📈 Reports
 
         </button>
 
 
-        <!-- MARKETING -->
-
-        <button
-            onclick="go('marketing.html')">
+        <button onclick="go('marketing.html')">
 
             📢 Marketing
 
         </button>
 
 
-        <!-- SETTINGS -->
-
-        <button
-            onclick="go('settings.html')">
+        <button onclick="go('settings.html')">
 
             ⚙️ Settings
 
@@ -384,14 +450,219 @@ body {
 
     </div>
 
+
 </div>
+
 
 
 <script>
 
-/* ==========================================
-   SAFE LOCAL STORAGE
-========================================== */
+
+// =====================================================
+// SUPABASE CONFIGURATION
+// =====================================================
+
+const SUPABASE_URL =
+    "https://ucrtujcqrpjcwepiugak.supabase.co";
+
+
+const SUPABASE_KEY =
+    "sb_publishable_RnDm7gJ6ROuU49hcY_BA3g_snx27-M9";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+
+// =====================================================
+// ELEMENTS
+// =====================================================
+
+const logoutButton =
+    document.getElementById("logoutButton");
+
+const refreshButton =
+    document.getElementById("refreshButton");
+
+const welcomeText =
+    document.getElementById("welcomeText");
+
+
+
+// =====================================================
+// CHECK LOGIN SESSION
+// =====================================================
+
+async function checkLogin() {
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient.auth.getSession();
+
+
+        if (error) {
+
+            console.error(
+                "Session error:",
+                error
+            );
+
+            window.location.href =
+                "index.html";
+
+            return;
+
+        }
+
+
+        // No logged-in user
+
+        if (!data.session) {
+
+            window.location.href =
+                "index.html";
+
+            return;
+
+        }
+
+
+        // Show logged-in email
+
+        if (
+            data.session.user &&
+            data.session.user.email
+        ) {
+
+            welcomeText.innerText =
+                "Welcome, " +
+                data.session.user.email +
+                " — Sales & Marketing Management System.";
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Authentication error:",
+            error
+        );
+
+        window.location.href =
+            "index.html";
+
+    }
+
+}
+
+
+checkLogin();
+
+
+
+// =====================================================
+// LOGOUT
+// =====================================================
+
+async function logout() {
+
+    logoutButton.disabled =
+        true;
+
+    logoutButton.innerText =
+        "Logging out...";
+
+
+    try {
+
+        const {
+            error
+        } =
+        await supabaseClient.auth.signOut();
+
+
+        if (error) {
+
+            console.error(
+                "Logout error:",
+                error
+            );
+
+
+            alert(
+                "Logout failed: " +
+                error.message
+            );
+
+
+            logoutButton.disabled =
+                false;
+
+            logoutButton.innerText =
+                "Logout";
+
+            return;
+
+        }
+
+
+        // Logout successful
+
+        window.location.replace(
+            "index.html"
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Unexpected logout error:",
+            error
+        );
+
+
+        alert(
+            "Something went wrong during logout."
+        );
+
+
+        logoutButton.disabled =
+            false;
+
+        logoutButton.innerText =
+            "Logout";
+
+    }
+
+}
+
+
+
+// =====================================================
+// LOGOUT BUTTON
+// =====================================================
+
+logoutButton.addEventListener(
+    "click",
+    logout
+);
+
+
+
+// =====================================================
+// SAFE LOCAL STORAGE
+// =====================================================
 
 function getData(key) {
 
@@ -400,24 +671,32 @@ function getData(key) {
         const data =
             localStorage.getItem(key);
 
+
         if (!data) {
+
             return [];
+
         }
+
 
         const parsed =
             JSON.parse(data);
+
 
         return Array.isArray(parsed)
             ? parsed
             : [];
 
-    } catch(error) {
+    }
+
+    catch(error) {
 
         console.error(
             "Storage error:",
             key,
             error
         );
+
 
         return [];
 
@@ -426,33 +705,34 @@ function getData(key) {
 }
 
 
-/* ==========================================
-   LOAD DASHBOARD
-========================================== */
+
+// =====================================================
+// LOAD DASHBOARD
+// =====================================================
 
 function loadDashboard() {
 
-    /* CUSTOMERS */
+
+    // CUSTOMERS
 
     const customers =
         getData("customers");
 
 
-    /* PRODUCTS */
+    // PRODUCTS
 
     const products =
         getData("products");
 
 
-    /* SALES */
+    // SALES
 
     const sales =
         getData("sales");
 
 
-    /* ======================================
-       TOTAL CUSTOMERS
-    ====================================== */
+
+    // TOTAL CUSTOMERS
 
     document.getElementById(
         "totalCustomers"
@@ -460,9 +740,8 @@ function loadDashboard() {
         customers.length;
 
 
-    /* ======================================
-       TOTAL PRODUCTS
-    ====================================== */
+
+    // TOTAL PRODUCTS
 
     document.getElementById(
         "totalProducts"
@@ -470,19 +749,20 @@ function loadDashboard() {
         products.length;
 
 
-    /* ======================================
-       TOTAL SALES
-    ====================================== */
+
+    // TOTAL SALES
 
     let totalSales = 0;
 
 
-    sales.forEach(function(sale) {
+    sales.forEach(
+        function(sale) {
 
-        totalSales +=
-            Number(sale.total) || 0;
+            totalSales +=
+                Number(sale.total) || 0;
 
-    });
+        }
+    );
 
 
     document.getElementById(
@@ -492,9 +772,8 @@ function loadDashboard() {
         totalSales.toLocaleString();
 
 
-    /* ======================================
-       TODAY SALES
-    ====================================== */
+
+    // TODAY SALES
 
     const today =
         new Date()
@@ -505,19 +784,21 @@ function loadDashboard() {
     let todaySales = 0;
 
 
-    sales.forEach(function(sale) {
+    sales.forEach(
+        function(sale) {
 
-        if (
-            String(sale.date) ===
-            today
-        ) {
+            if (
+                String(sale.date) ===
+                today
+            ) {
 
-            todaySales +=
-                Number(sale.total) || 0;
+                todaySales +=
+                    Number(sale.total) || 0;
+
+            }
 
         }
-
-    });
+    );
 
 
     document.getElementById(
@@ -529,47 +810,41 @@ function loadDashboard() {
 }
 
 
-/* ==========================================
-   PAGE NAVIGATION
-========================================== */
+
+// =====================================================
+// PAGE NAVIGATION
+// =====================================================
 
 function go(page) {
 
-    window.location.href = page;
-
-}
-
-
-/* ==========================================
-   LOGOUT
-========================================== */
-
-function logout() {
-
     window.location.href =
-        "index.html";
+        page;
 
 }
 
 
-/* ==========================================
-   INITIAL LOAD
-========================================== */
+
+// =====================================================
+// REFRESH BUTTON
+// =====================================================
+
+refreshButton.addEventListener(
+    "click",
+    loadDashboard
+);
+
+
+
+// =====================================================
+// INITIAL LOAD
+// =====================================================
 
 loadDashboard();
 
-
-/* ==========================================
-   AUTO UPDATE
-========================================== */
-
-setInterval(
-    loadDashboard,
-    1000
-);
-
 </script>
+
 
 </body>
 
 </html>
+```
