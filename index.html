@@ -12,9 +12,7 @@
     <title>Sales & Marketing System - Login</title>
 
 
-    <!-- =========================================
-         SUPABASE LIBRARY
-    ========================================== -->
+    <!-- Supabase -->
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -28,7 +26,6 @@
             font-family: Arial, sans-serif;
         }
 
-
         body {
             min-height: 100vh;
             display: flex;
@@ -36,7 +33,6 @@
             align-items: center;
             background: #f2f4f7;
         }
-
 
         .login-box {
             width: 360px;
@@ -46,13 +42,11 @@
             box-shadow: 0 5px 25px rgba(0,0,0,0.12);
         }
 
-
         h1 {
             text-align: center;
             margin-bottom: 10px;
             color: #222;
         }
-
 
         .subtitle {
             text-align: center;
@@ -60,13 +54,11 @@
             margin-bottom: 25px;
         }
 
-
         label {
             display: block;
             margin-bottom: 7px;
             font-weight: bold;
         }
-
 
         input {
             width: 100%;
@@ -78,11 +70,9 @@
             outline: none;
         }
 
-
         input:focus {
             border-color: #2563eb;
         }
-
 
         button {
             width: 100%;
@@ -96,17 +86,14 @@
             font-weight: bold;
         }
 
-
         button:hover {
             background: #1d4ed8;
         }
-
 
         button:disabled {
             background: #93c5fd;
             cursor: not-allowed;
         }
-
 
         #message {
             text-align: center;
@@ -123,17 +110,9 @@
 <body>
 
 
-    <!-- =========================================
-         LOGIN BOX
-    ========================================== -->
-
     <div class="login-box">
 
-
-        <h1>
-            Welcome
-        </h1>
-
+        <h1>Welcome</h1>
 
         <p class="subtitle">
             Sales & Marketing System
@@ -142,11 +121,7 @@
 
         <form id="loginForm">
 
-
-            <label>
-                Email
-            </label>
-
+            <label>Email</label>
 
             <input
                 type="email"
@@ -157,10 +132,7 @@
             >
 
 
-            <label>
-                Password
-            </label>
-
+            <label>Password</label>
 
             <input
                 type="password"
@@ -179,12 +151,10 @@
 
             </button>
 
-
         </form>
 
 
         <p id="message"></p>
-
 
     </div>
 
@@ -202,10 +172,8 @@ const SUPABASE_URL =
 
 
 const SUPABASE_KEY =
-    "PASTE_YOUR_PUBLISHABLE_KEY_HERE";
+    "sb_publishable_RnDm7gJ6ROuU49hcY_BA3g_snx27-M9";
 
-
-//sb_publishable_RnDm7gJ6ROuU49hcY_BA3g_snx27-M9 Create Supabase client
 
 const supabaseClient =
     window.supabase.createClient(
@@ -216,7 +184,7 @@ const supabaseClient =
 
 
 // =====================================================
-// ELEMENTS
+// GET HTML ELEMENTS
 // =====================================================
 
 const loginForm =
@@ -237,7 +205,7 @@ const message =
 
 
 // =====================================================
-// CHECK SUPABASE SESSION
+// CHECK EXISTING SESSION
 // =====================================================
 
 async function checkExistingSession() {
@@ -253,7 +221,10 @@ async function checkExistingSession() {
 
         if (error) {
 
-            console.error(error);
+            console.error(
+                "Session error:",
+                error
+            );
 
             return;
 
@@ -269,7 +240,7 @@ async function checkExistingSession() {
 
     }
 
-    catch(error) {
+    catch (error) {
 
         console.error(
             "Session check error:",
@@ -315,13 +286,13 @@ loginForm.addEventListener(
         }
 
 
-        loginButton.disabled = true;
+        loginButton.disabled =
+            true;
 
         loginButton.innerText =
             "Logging in...";
 
         message.innerText = "";
-
 
 
         try {
@@ -340,14 +311,16 @@ loginForm.addEventListener(
             });
 
 
-
             if (error) {
 
-                console.error(error);
+                console.error(
+                    "Login error:",
+                    error
+                );
 
 
                 showMessage(
-                    "Invalid email or password.",
+                    error.message,
                     "red"
                 );
 
@@ -364,9 +337,7 @@ loginForm.addEventListener(
             }
 
 
-
             if (data.session) {
-
 
                 showMessage(
                     "Login Successful!",
@@ -384,14 +355,16 @@ loginForm.addEventListener(
                     500
                 );
 
-
             }
 
         }
 
-        catch(error) {
+        catch (error) {
 
-            console.error(error);
+            console.error(
+                "Unexpected error:",
+                error
+            );
 
 
             showMessage(
@@ -414,7 +387,7 @@ loginForm.addEventListener(
 
 
 // =====================================================
-// MESSAGE
+// SHOW MESSAGE
 // =====================================================
 
 function showMessage(
@@ -433,16 +406,14 @@ function showMessage(
 
 
 // =====================================================
-// ENTER KEY SUPPORT
+// ENTER KEY LOGIN
 // =====================================================
 
 passwordInput.addEventListener(
     "keydown",
     function(event) {
 
-        if (
-            event.key === "Enter"
-        ) {
+        if (event.key === "Enter") {
 
             loginForm.requestSubmit();
 
@@ -450,6 +421,7 @@ passwordInput.addEventListener(
 
     }
 );
+
 
 </script>
 
