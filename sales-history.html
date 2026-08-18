@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sales History</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4f6f9;
+}
+
+.header {
+    background: #2563eb;
+    color: white;
+    padding: 18px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.back-btn {
+    background: white;
+    color: #2563eb;
+    border: none;
+    padding: 9px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+.box {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+}
+
+h1 {
+    color: #222;
+    margin-bottom: 20px;
+}
+
+.summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.summary-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+.summary-card p {
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.summary-card h2 {
+    color: #2563eb;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1100px;
+}
+
+th,
+td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background: #f1f5f9;
+}
+
+.pack {
+    font-weight: bold;
+    color: #2563eb;
+}
+
+.delete-btn {
+    background: #dc2626;
+    color: white;
+    border: none;
+    padding: 7px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.empty {
+    text-align: center;
+    padding: 30px;
+    color: #777;
+}
+
+@media (max-width: 700px) {
+
+    .summary {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <h2>
+        Sales History
+    </h2>
+
+    <button
+        class="back-btn"
+        onclick="goDashboard()">
+
+        Dashboard
+
+    </button>
+
+</div>
+
+
+
+<div class="container">
+
+
+<!-- ======================================
+     SUMMARY
+====================================== -->
+
+<div class="summary">
+
+
+    <div class="summary-card">
+
+        <p>
+            Total Sales
+        </p>
+
+        <h2 id="totalSales">
+            ৳ 0
+        </h2>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <p>
+            Total Quantity
+        </p>
+
+        <h2 id="totalQuantity">
+            0
+        </h2>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <p>
+            Total Transactions
+        </p>
+
+        <h2 id="totalTransactions">
+            0
+        </h2>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ======================================
+     SALES HISTORY
+====================================== -->
+
+<div class="box">
+
+<h1>
+    Sales History
+</h1>
+
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+
+    <th>
+        Date
+    </th>
+
+    <th>
+        Customer
+    </th>
+
+    <th>
+        Product
+    </th>
+
+    <th>
+        Code
+    </th>
+
+    <th>
+        Pack Size
+    </th>
+
+    <th>
+        Unit
+    </th>
+
+    <th>
+        Quantity
+    </th>
+
+    <th>
+        TP
+    </th>
+
+    <th>
+        MRP
+    </th>
+
+    <th>
+        Total
+    </th>
+
+    <th>
+        Action
+    </th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="salesList">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<script>
+
+
+// ======================================
+// LOAD SALES
+// ======================================
+
+let sales =
+    JSON.parse(
+        localStorage.getItem(
+            "sales"
+        )
+    ) || [];
+
+
+
+// ======================================
+// DISPLAY SALES
+// ======================================
+
+function displaySales() {
+
+
+    const list =
+        document.getElementById(
+            "salesList"
+        );
+
+
+    list.innerHTML = "";
+
+
+    let totalSales = 0;
+
+    let totalQuantity = 0;
+
+
+
+    // ==================================
+    // NO SALES
+    // ==================================
+
+    if (
+        sales.length === 0
+    ) {
+
+        list.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="11"
+                    class="empty">
+
+                    No sales found.
+
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+
+
+
+    // ==================================
+    // SALES LOOP
+    // ==================================
+
+    sales.forEach(
+        function(sale, index) {
+
+
+            totalSales +=
+                Number(
+                    sale.total || 0
+                );
+
+
+            totalQuantity +=
+                Number(
+                    sale.quantity || 0
+                );
+
+
+
+            // ==================================
+            // PACK SIZE
+            // ==================================
+
+            const packSize =
+                sale.packSize || "-";
+
+
+            const unit =
+                sale.unit || "-";
+
+
+
+            // ==================================
+            // ROW
+            // ==================================
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${sale.date || "-"}
+                </td>
+
+
+                <td>
+                    ${sale.customer || "-"}
+                </td>
+
+
+                <td>
+                    ${sale.product || "-"}
+                </td>
+
+
+                <td>
+                    ${sale.productCode || "-"}
+                </td>
+
+
+                <td class="pack">
+                    ${packSize}
+                </td>
+
+
+                <td class="pack">
+                    ${unit}
+                </td>
+
+
+                <td>
+                    ${sale.quantity || 0}
+                </td>
+
+
+                <td>
+                    ৳ ${Number(
+                        sale.tp || 0
+                    ).toLocaleString()}
+                </td>
+
+
+                <td>
+                    ৳ ${Number(
+                        sale.mrp || 0
+                    ).toLocaleString()}
+                </td>
+
+
+                <td>
+                    ৳ ${Number(
+                        sale.total || 0
+                    ).toLocaleString()}
+                </td>
+
+
+                <td>
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteSale(${index})">
+
+                        Delete
+
+                    </button>
+
+                </td>
+
+            `;
+
+
+            list.appendChild(
+                row
+            );
+
+        }
+    );
+
+
+
+    // ==================================
+    // SUMMARY UPDATE
+    // ==================================
+
+    document.getElementById(
+        "totalSales"
+    ).innerText =
+        "৳ " +
+        totalSales.toLocaleString();
+
+
+
+    document.getElementById(
+        "totalQuantity"
+    ).innerText =
+        totalQuantity.toLocaleString();
+
+
+
+    document.getElementById(
+        "totalTransactions"
+    ).innerText =
+        sales.length;
+
+}
+
+
+
+// ======================================
+// DELETE SALE
+// ======================================
+
+function deleteSale(index) {
+
+
+    if (
+        confirm(
+            "Are you sure you want to delete this sale?"
+        )
+    ) {
+
+
+        sales.splice(
+            index,
+            1
+        );
+
+
+        localStorage.setItem(
+            "sales",
+            JSON.stringify(
+                sales
+            )
+        );
+
+
+        displaySales();
+
+    }
+
+}
+
+
+
+// ======================================
+// DASHBOARD
+// ======================================
+
+function goDashboard() {
+
+    window.location.href =
+        "dashboard.html";
+
+}
+
+
+
+// ======================================
+// START
+// ======================================
+
+displaySales();
+
+</script>
+
+
+</body>
+
+</html>

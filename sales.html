@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sales Entry</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4f6f9;
+}
+
+.header {
+    background: #2563eb;
+    color: white;
+    padding: 18px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.back-btn {
+    background: white;
+    color: #2563eb;
+    border: none;
+    padding: 9px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.container {
+    max-width: 900px;
+    margin: 35px auto;
+    padding: 20px;
+}
+
+.box {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+}
+
+h1 {
+    margin-bottom: 25px;
+    color: #222;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.full {
+    grid-column: 1 / -1;
+}
+
+label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: bold;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 15px;
+}
+
+input[readonly] {
+    background: #f1f5f9;
+}
+
+.info {
+    color: #666;
+    font-size: 13px;
+    margin-top: 6px;
+}
+
+.stock-info {
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #16a34a;
+}
+
+.total-box {
+    background: #f1f5f9;
+    padding: 18px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.grand-total {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2563eb;
+    border-top: 1px solid #ddd;
+    padding-top: 12px;
+}
+
+.save-btn {
+    width: 100%;
+    padding: 14px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 7px;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.save-btn:hover {
+    background: #1d4ed8;
+}
+
+#message {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+@media (max-width: 700px) {
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full {
+        grid-column: auto;
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <h2>
+        Sales Entry
+    </h2>
+
+    <button
+        class="back-btn"
+        onclick="goDashboard()">
+
+        Dashboard
+
+    </button>
+
+</div>
+
+
+
+<div class="container">
+
+<div class="box">
+
+<h1>
+    New Sale
+</h1>
+
+
+<form id="salesForm">
+
+
+<div class="form-grid">
+
+
+<!-- ======================================
+     CUSTOMER NAME
+====================================== -->
+
+<div>
+
+<label>
+    Customer Name
+</label>
+
+<input
+    type="text"
+    id="customerName"
+    list="customerSuggestions"
+    placeholder="Type customer name"
+    autocomplete="off"
+    required>
+
+<datalist id="customerSuggestions"></datalist>
+
+<div class="info">
+    Type customer name or select an existing customer.
+</div>
+
+</div>
+
+
+
+<!-- ======================================
+     DATE
+====================================== -->
+
+<div>
+
+<label>
+    Sales Date
+</label>
+
+<input
+    type="date"
+    id="salesDate"
+    required>
+
+</div>
+
+
+
+<!-- ======================================
+     PRODUCT
+====================================== -->
+
+<div class="full">
+
+<label>
+    Product
+</label>
+
+<select
+    id="product"
+    required>
+
+<option value="">
+    Select Product
+</option>
+
+</select>
+
+<div class="info">
+    Product name, pack size and unit will appear automatically.
+</div>
+
+<div
+    id="productInfo"
+    class="info">
+
+    Product: -
+
+</div>
+
+<div
+    id="stockInfo"
+    class="stock-info">
+
+    Available Stock: 0
+
+</div>
+
+</div>
+
+
+
+<!-- ======================================
+     TP
+====================================== -->
+
+<div>
+
+<label>
+    TP
+</label>
+
+<input
+    type="number"
+    id="tp"
+    readonly>
+
+</div>
+
+
+
+<!-- ======================================
+     MRP
+====================================== -->
+
+<div>
+
+<label>
+    MRP
+</label>
+
+<input
+    type="number"
+    id="mrp"
+    readonly>
+
+</div>
+
+
+
+<!-- ======================================
+     QUANTITY
+====================================== -->
+
+<div>
+
+<label>
+    Quantity
+</label>
+
+<input
+    type="number"
+    id="quantity"
+    placeholder="Enter quantity"
+    min="1"
+    required>
+
+</div>
+
+
+
+<!-- ======================================
+     TOTAL
+====================================== -->
+
+<div>
+
+<label>
+    Total Amount
+</label>
+
+<input
+    type="number"
+    id="total"
+    readonly>
+
+</div>
+
+
+</div>
+
+
+
+<!-- ======================================
+     SUMMARY
+====================================== -->
+
+<div class="total-box">
+
+
+<div class="total-row">
+
+<span>
+    Product:
+</span>
+
+<strong id="summaryProduct">
+    -
+</strong>
+
+</div>
+
+
+
+<div class="total-row">
+
+<span>
+    Pack Size:
+</span>
+
+<strong id="summaryPack">
+    -
+</strong>
+
+</div>
+
+
+
+<div class="total-row">
+
+<span>
+    Customer:
+</span>
+
+<strong id="summaryCustomer">
+    -
+</strong>
+
+</div>
+
+
+
+<div class="total-row">
+
+<span>
+    Quantity:
+</span>
+
+<strong id="summaryQuantity">
+    0
+</strong>
+
+</div>
+
+
+
+<div class="total-row grand-total">
+
+<span>
+    Total:
+</span>
+
+<strong>
+    ৳
+    <span id="summaryTotal">
+        0
+    </span>
+</strong>
+
+</div>
+
+
+</div>
+
+
+
+<!-- ======================================
+     SAVE
+====================================== -->
+
+<button
+    class="save-btn"
+    type="submit">
+
+    Save Sale
+
+</button>
+
+
+</form>
+
+
+<p id="message"></p>
+
+
+</div>
+
+</div>
+
+
+
+<script>
+
+
+// ======================================
+// LOAD CUSTOMERS
+// ======================================
+
+let customers =
+    JSON.parse(
+        localStorage.getItem("customers")
+    ) || [];
+
+
+
+// ======================================
+// LOAD PRODUCTS
+// ======================================
+
+let products =
+    JSON.parse(
+        localStorage.getItem("products")
+    ) || [];
+
+
+
+// ======================================
+// ELEMENTS
+// ======================================
+
+const customerNameInput =
+    document.getElementById(
+        "customerName"
+    );
+
+const customerSuggestions =
+    document.getElementById(
+        "customerSuggestions"
+    );
+
+const productSelect =
+    document.getElementById(
+        "product"
+    );
+
+const tpInput =
+    document.getElementById(
+        "tp"
+    );
+
+const mrpInput =
+    document.getElementById(
+        "mrp"
+    );
+
+const quantityInput =
+    document.getElementById(
+        "quantity"
+    );
+
+const totalInput =
+    document.getElementById(
+        "total"
+    );
+
+const stockInfo =
+    document.getElementById(
+        "stockInfo"
+    );
+
+const productInfo =
+    document.getElementById(
+        "productInfo"
+    );
+
+
+
+// ======================================
+// TODAY DATE
+// ======================================
+
+const today =
+    new Date()
+    .toISOString()
+    .split("T")[0];
+
+
+document.getElementById(
+    "salesDate"
+).value = today;
+
+
+
+// ======================================
+// LOAD CUSTOMER SUGGESTIONS
+// ======================================
+
+customers.forEach(
+function(customer) {
+
+    const option =
+        document.createElement(
+            "option"
+        );
+
+    option.value =
+        customer.name;
+
+    customerSuggestions.appendChild(
+        option
+    );
+
+});
+
+
+
+// ======================================
+// CUSTOMER TYPING
+// ======================================
+
+customerNameInput.addEventListener(
+    "input",
+    function() {
+
+        const name =
+            this.value.trim();
+
+        document.getElementById(
+            "summaryCustomer"
+        ).innerText =
+            name || "-";
+
+    }
+);
+
+
+
+// ======================================
+// LOAD PRODUCTS
+// ======================================
+
+products.forEach(
+function(product, index) {
+
+    const option =
+        document.createElement(
+            "option"
+        );
+
+    option.value =
+        index;
+
+    let displayName =
+        product.name || "";
+
+
+    if (
+        product.packSize ||
+        product.unit
+    ) {
+
+        displayName +=
+            " - " +
+            (
+                product.packSize || ""
+            ) +
+            " " +
+            (
+                product.unit || ""
+            );
+
+    }
+
+
+    if (product.code) {
+
+        displayName +=
+            " [" +
+            product.code +
+            "]";
+
+    }
+
+
+    option.textContent =
+        displayName;
+
+
+    productSelect.appendChild(
+        option
+    );
+
+});
+
+
+
+// ======================================
+// PRODUCT SELECT
+// ======================================
+
+productSelect.addEventListener(
+    "change",
+    function() {
+
+        const index =
+            this.value;
+
+
+        if (index === "") {
+
+            tpInput.value = "";
+
+            mrpInput.value = "";
+
+            stockInfo.innerText =
+                "Available Stock: 0";
+
+            productInfo.innerText =
+                "Product: -";
+
+
+            document.getElementById(
+                "summaryProduct"
+            ).innerText = "-";
+
+
+            document.getElementById(
+                "summaryPack"
+            ).innerText = "-";
+
+
+            calculateTotal();
+
+            return;
+
+        }
+
+
+
+        const product =
+            products[index];
+
+
+
+        const tp =
+            Number(
+                product.tp || 0
+            );
+
+
+        const mrp =
+            Number(
+                product.mrp || 0
+            );
+
+
+        const stock =
+            Number(
+                product.stock || 0
+            );
+
+
+
+        // TP
+
+        tpInput.value =
+            tp;
+
+
+
+        // MRP
+
+        mrpInput.value =
+            mrp;
+
+
+
+        // PACK SIZE
+
+        const packSize =
+            product.packSize || "";
+
+
+        const unit =
+            product.unit || "";
+
+
+        const packDisplay =
+            (
+                packSize +
+                " " +
+                unit
+            ).trim();
+
+
+
+        // PRODUCT INFO
+
+        productInfo.innerText =
+            "Product: " +
+            product.name +
+            (
+                packDisplay
+                    ? " | Pack: " +
+                      packDisplay
+                    : ""
+            );
+
+
+
+        // STOCK
+
+        stockInfo.innerText =
+            "Available Stock: " +
+            stock;
+
+
+
+        if (stock <= 10) {
+
+            stockInfo.style.color =
+                "#dc2626";
+
+        } else {
+
+            stockInfo.style.color =
+                "#16a34a";
+
+        }
+
+
+
+        // SUMMARY PRODUCT
+
+        document.getElementById(
+            "summaryProduct"
+        ).innerText =
+            product.name;
+
+
+
+        // SUMMARY PACK
+
+        document.getElementById(
+            "summaryPack"
+        ).innerText =
+            packDisplay || "-";
+
+
+
+        calculateTotal();
+
+    }
+);
+
+
+
+// ======================================
+// QUANTITY
+// ======================================
+
+quantityInput.addEventListener(
+    "input",
+    calculateTotal
+);
+
+
+
+// ======================================
+// CALCULATE TOTAL
+// ======================================
+
+function calculateTotal() {
+
+    const quantity =
+        Number(
+            quantityInput.value
+        );
+
+
+    const tp =
+        Number(
+            tpInput.value
+        );
+
+
+    const total =
+        quantity * tp;
+
+
+    totalInput.value =
+        total;
+
+
+    document.getElementById(
+        "summaryQuantity"
+    ).innerText =
+        quantity || 0;
+
+
+    document.getElementById(
+        "summaryTotal"
+    ).innerText =
+        total.toLocaleString();
+
+}
+
+
+
+// ======================================
+// SAVE SALE
+// ======================================
+
+document
+.getElementById("salesForm")
+.addEventListener(
+    "submit",
+    function(event) {
+
+        event.preventDefault();
+
+
+
+        // ==================================
+        // CUSTOMER NAME
+        // ==================================
+
+        const typedCustomerName =
+            customerNameInput.value.trim();
+
+
+
+        if (!typedCustomerName) {
+
+            showMessage(
+                "Please enter customer name.",
+                "red"
+            );
+
+            return;
+
+        }
+
+
+
+        // ==================================
+        // PRODUCT CHECK
+        // ==================================
+
+        if (
+            products.length === 0
+        ) {
+
+            showMessage(
+                "Please add a product first.",
+                "red"
+            );
+
+            return;
+
+        }
+
+
+
+        const productIndex =
+            productSelect.value;
+
+
+
+        const quantity =
+            Number(
+                quantityInput.value
+            );
+
+
+
+        if (
+            productIndex === ""
+        ) {
+
+            showMessage(
+                "Please select a product.",
+                "red"
+            );
+
+            return;
+
+        }
+
+
+
+        if (
+            quantity <= 0
+        ) {
+
+            showMessage(
+                "Please enter a valid quantity.",
+                "red"
+            );
+
+            return;
+
+        }
+
+
+
+        const product =
+            products[
+                productIndex
+            ];
+
+
+
+        // ==================================
+        // FIND EXISTING CUSTOMER
+        // ==================================
+
+        let customerIndex =
+            customers.findIndex(
+                function(customer) {
+
+                    return (
+                        customer.name
+                        .toLowerCase()
+                        ===
+                        typedCustomerName
+                        .toLowerCase()
+                    );
+
+                }
+            );
+
+
+
+        // ==================================
+        // CREATE NEW CUSTOMER
+        // ==================================
+
+        let customer;
+
+
+        if (
+            customerIndex === -1
+        ) {
+
+            customer = {
+
+                name:
+                    typedCustomerName,
+
+                phone:
+                    "",
+
+                type:
+                    "Retailer",
+
+                address:
+                    ""
+
+            };
+
+
+            customers.push(
+                customer
+            );
+
+
+            localStorage.setItem(
+                "customers",
+                JSON.stringify(
+                    customers
+                )
+            );
+
+
+        } else {
+
+            customer =
+                customers[
+                    customerIndex
+                ];
+
+        }
+
+
+
+        // ==================================
+        // STOCK
+        // ==================================
+
+        const currentStock =
+            Number(
+                product.stock || 0
+            );
+
+
+
+        if (
+            currentStock <= 0
+        ) {
+
+            showMessage(
+                "This product is out of stock.",
+                "red"
+            );
+
+            return;
+
+        }
+
+
+
+        if (
+            quantity >
+            currentStock
+        ) {
+
+            showMessage(
+                "Not enough stock. Available stock: " +
+                currentStock,
+                "red"
+            );
+
+            return;
+
+        }
+
+
+
+        // ==================================
+        // REDUCE STOCK
+        // ==================================
+
+        product.stock =
+            currentStock -
+            quantity;
+
+
+
+        localStorage.setItem(
+            "products",
+            JSON.stringify(
+                products
+            )
+        );
+
+
+
+        // ==================================
+        // PACK
+        // ==================================
+
+        const packSize =
+            product.packSize || "";
+
+
+        const unit =
+            product.unit || "";
+
+
+        const packDisplay =
+            (
+                packSize +
+                " " +
+                unit
+            ).trim();
+
+
+
+        // ==================================
+        // CREATE SALE
+        // ==================================
+
+        const sale = {
+
+            customer:
+                customer.name,
+
+            customerPhone:
+                customer.phone || "",
+
+            product:
+                product.name,
+
+            productCode:
+                product.code || "",
+
+            category:
+                product.category || "",
+
+            packSize:
+                packSize,
+
+            unit:
+                unit,
+
+            quantity:
+                quantity,
+
+            tp:
+                Number(
+                    product.tp || 0
+                ),
+
+            mrp:
+                Number(
+                    product.mrp || 0
+                ),
+
+            total:
+                quantity *
+                Number(
+                    product.tp || 0
+                ),
+
+            date:
+                document.getElementById(
+                    "salesDate"
+                ).value
+
+        };
+
+
+
+        // ==================================
+        // SAVE SALES
+        // ==================================
+
+        let sales =
+            JSON.parse(
+                localStorage.getItem(
+                    "sales"
+                )
+            ) || [];
+
+
+        sales.push(
+            sale
+        );
+
+
+        localStorage.setItem(
+            "sales",
+            JSON.stringify(
+                sales
+            )
+        );
+
+
+
+        // ==================================
+        // STOCK MOVEMENT
+        // ==================================
+
+        let movements =
+            JSON.parse(
+                localStorage.getItem(
+                    "stockMovements"
+                )
+            ) || [];
+
+
+        movements.push({
+
+            date:
+                sale.date,
+
+            product:
+                product.name,
+
+            productCode:
+                product.code || "",
+
+            category:
+                product.category || "",
+
+            packSize:
+                packSize,
+
+            unit:
+                unit,
+
+            type:
+                "Stock Out",
+
+            quantity:
+                quantity,
+
+            customer:
+                customer.name
+
+        });
+
+
+        localStorage.setItem(
+            "stockMovements",
+            JSON.stringify(
+                movements
+            )
+        );
+
+
+
+        // ==================================
+        // SUCCESS
+        // ==================================
+
+        showMessage(
+            "Sale saved successfully! Stock updated.",
+            "green"
+        );
+
+
+
+        // ==================================
+        // RESET
+        // ==================================
+
+        document
+        .getElementById(
+            "salesForm"
+        )
+        .reset();
+
+
+        document.getElementById(
+            "salesDate"
+        ).value =
+            today;
+
+
+        tpInput.value = "";
+
+        mrpInput.value = "";
+
+        totalInput.value = "";
+
+
+        productInfo.innerText =
+            "Product: -";
+
+
+        stockInfo.innerText =
+            "Available Stock: 0";
+
+
+        stockInfo.style.color =
+            "#16a34a";
+
+
+        document.getElementById(
+            "summaryProduct"
+        ).innerText =
+            "-";
+
+
+        document.getElementById(
+            "summaryPack"
+        ).innerText =
+            "-";
+
+
+        document.getElementById(
+            "summaryCustomer"
+        ).innerText =
+            "-";
+
+
+        document.getElementById(
+            "summaryQuantity"
+        ).innerText =
+            "0";
+
+
+        document.getElementById(
+            "summaryTotal"
+        ).innerText =
+            "0";
+
+
+        // UPDATE CUSTOMER SUGGESTIONS
+
+        customerSuggestions.innerHTML =
+            "";
+
+
+        customers.forEach(
+            function(customer) {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+                option.value =
+                    customer.name;
+
+                customerSuggestions.appendChild(
+                    option
+                );
+
+            }
+        );
+
+    }
+);
+
+
+
+// ======================================
+// MESSAGE
+// ======================================
+
+function showMessage(
+    text,
+    color
+) {
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    message.innerText =
+        text;
+
+
+    message.style.color =
+        color;
+
+}
+
+
+
+// ======================================
+// DASHBOARD
+// ======================================
+
+function goDashboard() {
+
+    window.location.href =
+        "dashboard.html";
+
+}
+
+</script>
+
+
+</body>
+
+</html>

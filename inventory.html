@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Inventory Management</title>
+
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+
+body {
+    background: #f4f6f9;
+}
+
+
+/* HEADER */
+
+.header {
+    background: #2563eb;
+    color: white;
+    padding: 18px 25px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.back-btn {
+    background: white;
+    color: #2563eb;
+    border: none;
+
+    padding: 9px 15px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+}
+
+
+
+/* CONTAINER */
+
+.container {
+    max-width: 1200px;
+
+    margin: 30px auto;
+
+    padding: 20px;
+}
+
+
+
+/* CARDS */
+
+.cards {
+
+    display: grid;
+
+    grid-template-columns:
+    repeat(4, 1fr);
+
+    gap: 18px;
+
+    margin-bottom: 25px;
+}
+
+
+.card {
+
+    background: white;
+
+    padding: 22px;
+
+    border-radius: 10px;
+
+    box-shadow:
+    0 3px 12px rgba(0,0,0,0.08);
+}
+
+
+.card p {
+
+    color: #666;
+
+    margin-bottom: 10px;
+}
+
+
+.card h2 {
+
+    color: #2563eb;
+}
+
+
+
+/* BOX */
+
+.box {
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 12px;
+
+    box-shadow:
+    0 3px 15px rgba(0,0,0,0.08);
+
+    margin-bottom: 25px;
+}
+
+
+h1 {
+
+    margin-bottom: 20px;
+
+    color: #222;
+}
+
+
+
+/* FORM */
+
+.form {
+
+    display: grid;
+
+    grid-template-columns:
+    repeat(4, 1fr);
+
+    gap: 12px;
+
+    margin-bottom: 20px;
+}
+
+
+input,
+select {
+
+    padding: 11px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 6px;
+
+    width: 100%;
+}
+
+
+.add-btn {
+
+    background: #16a34a;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+}
+
+
+.reset-btn {
+
+    background: #64748b;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+}
+
+
+
+/* TABLE */
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+
+th,
+td {
+
+    padding: 12px;
+
+    border-bottom:
+    1px solid #ddd;
+
+    text-align: left;
+}
+
+
+th {
+
+    background: #f1f5f9;
+}
+
+
+
+/* STOCK */
+
+.low {
+
+    color: #dc2626;
+
+    font-weight: bold;
+}
+
+
+.good {
+
+    color: #16a34a;
+
+    font-weight: bold;
+}
+
+
+.stock-in {
+
+    color: #16a34a;
+
+    font-weight: bold;
+}
+
+
+.stock-out {
+
+    color: #dc2626;
+
+    font-weight: bold;
+}
+
+
+
+/* BUTTON */
+
+.delete-btn {
+
+    background: #dc2626;
+
+    color: white;
+
+    border: none;
+
+    padding: 7px 10px;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+}
+
+
+.empty {
+
+    text-align: center;
+
+    padding: 25px;
+
+    color: #777;
+}
+
+
+
+/* MOBILE */
+
+@media(max-width:900px) {
+
+    .cards {
+
+        grid-template-columns:
+        repeat(2,1fr);
+
+    }
+
+
+    .form {
+
+        grid-template-columns:
+        repeat(2,1fr);
+
+    }
+
+}
+
+
+@media(max-width:600px) {
+
+    .cards {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .form {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .box {
+
+        overflow-x: auto;
+
+    }
+
+
+    table {
+
+        min-width: 900px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <h2>
+        Inventory Management
+    </h2>
+
+
+    <button
+    class="back-btn"
+    onclick="goDashboard()">
+
+        Dashboard
+
+    </button>
+
+</div>
+
+
+
+<div class="container">
+
+
+<!-- SUMMARY -->
+
+<div class="cards">
+
+
+    <div class="card">
+
+        <p>
+            Total Products
+        </p>
+
+        <h2 id="totalProducts">
+            0
+        </h2>
+
+    </div>
+
+
+    <div class="card">
+
+        <p>
+            Total Stock
+        </p>
+
+        <h2 id="totalStock">
+            0
+        </h2>
+
+    </div>
+
+
+    <div class="card">
+
+        <p>
+            Stock Value
+        </p>
+
+        <h2 id="stockValue">
+            ৳ 0
+        </h2>
+
+    </div>
+
+
+    <div class="card">
+
+        <p>
+            Low Stock
+        </p>
+
+        <h2 id="lowStock">
+            0
+        </h2>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- STOCK IN -->
+
+<div class="box">
+
+    <h1>
+        Stock In / Purchase
+    </h1>
+
+
+    <div class="form">
+
+
+        <select id="productSelect">
+
+            <option value="">
+                Select Product
+            </option>
+
+        </select>
+
+
+        <input
+        type="number"
+        id="quantity"
+        placeholder="Quantity"
+        min="1">
+
+
+        <input
+        type="number"
+        id="purchasePrice"
+        placeholder="Purchase Price"
+        min="0">
+
+
+        <button
+        class="add-btn"
+        onclick="addStock()">
+
+            + Add Stock
+
+        </button>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- INVENTORY -->
+
+<div class="box">
+
+    <h1>
+        Current Inventory
+    </h1>
+
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    Product
+                </th>
+
+                <th>
+                    Code
+                </th>
+
+                <th>
+                    TP
+                </th>
+
+                <th>
+                    MRP
+                </th>
+
+                <th>
+                    Current Stock
+                </th>
+
+                <th>
+                    Stock Value
+                </th>
+
+                <th>
+                    Status
+                </th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody id="inventoryTable">
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+
+<!-- STOCK MOVEMENT -->
+
+<div class="box">
+
+    <h1>
+        Stock Movement
+    </h1>
+
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    Date
+                </th>
+
+                <th>
+                    Product
+                </th>
+
+                <th>
+                    Type
+                </th>
+
+                <th>
+                    Quantity
+                </th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody id="movementTable">
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+
+// =====================================
+// LOAD PRODUCTS
+// =====================================
+
+let products =
+JSON.parse(
+localStorage.getItem("products")
+) || [];
+
+
+// =====================================
+// STOCK MOVEMENTS
+// =====================================
+
+let movements =
+JSON.parse(
+localStorage.getItem("stockMovements")
+) || [];
+
+
+
+// =====================================
+// PRODUCT DROPDOWN
+// =====================================
+
+const productSelect =
+document.getElementById(
+"productSelect"
+);
+
+
+products.forEach(
+function(product, index) {
+
+    const option =
+    document.createElement(
+    "option"
+    );
+
+
+    option.value =
+    index;
+
+
+    option.textContent =
+    product.name;
+
+
+    productSelect.appendChild(
+    option
+    );
+
+});
+
+
+
+// =====================================
+// MAKE SURE STOCK EXISTS
+// =====================================
+
+products.forEach(
+function(product) {
+
+    if (
+        product.stock === undefined
+    ) {
+
+        product.stock = 0;
+
+    }
+
+});
+
+
+
+// =====================================
+// DISPLAY INVENTORY
+// =====================================
+
+function displayInventory() {
+
+
+    const table =
+    document.getElementById(
+    "inventoryTable"
+    );
+
+
+    table.innerHTML = "";
+
+
+    let totalStock = 0;
+
+    let stockValue = 0;
+
+    let lowStock = 0;
+
+
+
+    if (
+        products.length === 0
+    ) {
+
+        table.innerHTML = `
+
+        <tr>
+
+            <td
+            colspan="7"
+            class="empty">
+
+                No products found.
+
+            </td>
+
+        </tr>
+
+        `;
+
+    }
+
+
+
+    products.forEach(
+    function(product) {
+
+
+        const stock =
+        Number(
+        product.stock || 0
+        );
+
+
+        const tp =
+        Number(
+        product.tp || 0
+        );
+
+
+        const value =
+        stock * tp;
+
+
+        totalStock +=
+        stock;
+
+
+        stockValue +=
+        value;
+
+
+
+        if (stock <= 10) {
+
+            lowStock++;
+
+        }
+
+
+
+        const status =
+        stock <= 10
+
+        ? `<span class="low">
+            Low Stock
+          </span>`
+
+        : `<span class="good">
+            Good
+          </span>`;
+
+
+
+        const row =
+        document.createElement(
+        "tr"
+        );
+
+
+        row.innerHTML = `
+
+        <td>
+            ${product.name || ""}
+        </td>
+
+        <td>
+            ${product.code || product.productCode || ""}
+        </td>
+
+        <td>
+            ৳ ${tp.toLocaleString()}
+        </td>
+
+        <td>
+            ৳ ${Number(
+                product.mrp || 0
+            ).toLocaleString()}
+        </td>
+
+        <td>
+            ${stock}
+        </td>
+
+        <td>
+            ৳ ${value.toLocaleString()}
+        </td>
+
+        <td>
+            ${status}
+        </td>
+
+        `;
+
+
+        table.appendChild(row);
+
+
+    });
+
+
+
+    document.getElementById(
+    "totalProducts"
+    ).innerText =
+    products.length;
+
+
+    document.getElementById(
+    "totalStock"
+    ).innerText =
+    totalStock.toLocaleString();
+
+
+    document.getElementById(
+    "stockValue"
+    ).innerText =
+    "৳ " +
+    stockValue.toLocaleString();
+
+
+    document.getElementById(
+    "lowStock"
+    ).innerText =
+    lowStock;
+
+
+
+    localStorage.setItem(
+    "products",
+    JSON.stringify(products)
+    );
+
+}
+
+
+
+// =====================================
+// ADD STOCK
+// =====================================
+
+function addStock() {
+
+
+    const index =
+    document.getElementById(
+    "productSelect"
+    ).value;
+
+
+    const quantity =
+    Number(
+    document.getElementById(
+    "quantity"
+    ).value
+    );
+
+
+    const purchasePrice =
+    Number(
+    document.getElementById(
+    "purchasePrice"
+    ).value
+    );
+
+
+
+    if (
+        index === ""
+    ) {
+
+        alert(
+        "Please select a product."
+        );
+
+        return;
+
+    }
+
+
+
+    if (
+        quantity <= 0
+    ) {
+
+        alert(
+        "Please enter a valid quantity."
+        );
+
+        return;
+
+    }
+
+
+
+    const product =
+    products[index];
+
+
+
+    product.stock =
+    Number(
+    product.stock || 0
+    ) + quantity;
+
+
+
+    // SAVE PRODUCT
+
+    localStorage.setItem(
+    "products",
+    JSON.stringify(products)
+    );
+
+
+
+    // MOVEMENT
+
+    movements.push({
+
+        date:
+        new Date()
+        .toISOString()
+        .split("T")[0],
+
+        product:
+        product.name,
+
+        type:
+        "Stock In",
+
+        quantity:
+        quantity,
+
+        purchasePrice:
+        purchasePrice
+
+    });
+
+
+
+    localStorage.setItem(
+    "stockMovements",
+    JSON.stringify(movements)
+    );
+
+
+
+    // RESET
+
+    document.getElementById(
+    "quantity"
+    ).value = "";
+
+
+    document.getElementById(
+    "purchasePrice"
+    ).value = "";
+
+
+    document.getElementById(
+    "productSelect"
+    ).value = "";
+
+
+
+    displayInventory();
+
+    displayMovements();
+
+
+
+    alert(
+    "Stock added successfully!"
+    );
+
+}
+
+
+
+// =====================================
+// DISPLAY MOVEMENTS
+// =====================================
+
+function displayMovements() {
+
+
+    const table =
+    document.getElementById(
+    "movementTable"
+    );
+
+
+    table.innerHTML = "";
+
+
+
+    if (
+        movements.length === 0
+    ) {
+
+        table.innerHTML = `
+
+        <tr>
+
+            <td
+            colspan="4"
+            class="empty">
+
+                No stock movement found.
+
+            </td>
+
+        </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+
+    movements
+    .slice()
+    .reverse()
+    .forEach(
+    function(item) {
+
+
+        const row =
+        document.createElement(
+        "tr"
+        );
+
+
+        const typeClass =
+        item.type === "Stock In"
+
+        ? "stock-in"
+
+        : "stock-out";
+
+
+
+        row.innerHTML = `
+
+        <td>
+            ${item.date}
+        </td>
+
+        <td>
+            ${item.product}
+        </td>
+
+        <td class="${typeClass}">
+            ${item.type}
+        </td>
+
+        <td>
+            ${item.quantity}
+        </td>
+
+        `;
+
+
+        table.appendChild(row);
+
+
+    });
+
+}
+
+
+
+// =====================================
+// DASHBOARD
+// =====================================
+
+function goDashboard() {
+
+    window.location.href =
+    "dashboard.html";
+
+}
+
+
+
+// =====================================
+// START
+// =====================================
+
+displayInventory();
+
+displayMovements();
+
+
+</script>
+
+
+</body>
+
+</html>

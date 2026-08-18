@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Product Management</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4f6f9;
+}
+
+.header {
+    background: #2563eb;
+    color: white;
+    padding: 18px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h2 {
+    font-size: 22px;
+}
+
+.back-btn {
+    background: white;
+    color: #2563eb;
+    border: none;
+    padding: 9px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+.count-box {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+}
+
+.count-title {
+    color: #666;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.count-number {
+    font-size: 32px;
+    font-weight: bold;
+    color: #2563eb;
+}
+
+.box {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: #222;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 15px;
+}
+
+.full {
+    grid-column: 1 / -1;
+}
+
+.price-note {
+    font-size: 12px;
+    color: #777;
+    margin-top: 5px;
+}
+
+.save-btn {
+    margin-top: 20px;
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 7px;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.save-btn:hover {
+    background: #1d4ed8;
+}
+
+.cancel-btn {
+    margin-top: 10px;
+    width: 100%;
+    padding: 11px;
+    border: none;
+    border-radius: 7px;
+    background: #64748b;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    display: none;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background: #f1f5f9;
+}
+
+.edit-btn {
+    background: #16a34a;
+    color: white;
+    border: none;
+    padding: 7px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.delete-btn {
+    background: #dc2626;
+    color: white;
+    border: none;
+    padding: 7px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#message {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+@media (max-width: 700px) {
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full {
+        grid-column: auto;
+    }
+
+    table {
+        min-width: 1100px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <h2>
+        Product Management
+    </h2>
+
+    <button
+        class="back-btn"
+        onclick="goDashboard()">
+
+        Dashboard
+
+    </button>
+
+</div>
+
+
+
+<div class="container">
+
+
+<!-- TOTAL PRODUCTS -->
+
+<div class="count-box">
+
+    <div class="count-title">
+        Total Products
+    </div>
+
+    <div
+        class="count-number"
+        id="productCount">
+
+        0
+
+    </div>
+
+</div>
+
+
+
+<!-- PRODUCT FORM -->
+
+<div class="box">
+
+    <h1 id="formTitle">
+        Add Product
+    </h1>
+
+
+    <form id="productForm">
+
+
+        <div class="form-grid">
+
+
+            <!-- PRODUCT NAME -->
+
+            <div>
+
+                <label>
+                    Product Name
+                </label>
+
+                <input
+                    type="text"
+                    id="productName"
+                    placeholder="Enter product name"
+                    required>
+
+            </div>
+
+
+
+            <!-- PRODUCT CODE -->
+
+            <div>
+
+                <label>
+                    Product Code
+                </label>
+
+                <input
+                    type="text"
+                    id="productCode"
+                    placeholder="Enter product code"
+                    required>
+
+            </div>
+
+
+
+            <!-- CATEGORY -->
+
+            <div>
+
+                <label>
+                    Category
+                </label>
+
+                <input
+                    type="text"
+                    id="category"
+                    placeholder="Enter category"
+                    required>
+
+            </div>
+
+
+
+            <!-- PACK SIZE -->
+
+            <div>
+
+                <label>
+                    Pack Size
+                </label>
+
+                <input
+                    type="text"
+                    id="packSize"
+                    placeholder="Example: 100, 500, 1"
+                    required>
+
+                <div class="price-note">
+                    Type your pack size
+                </div>
+
+            </div>
+
+
+
+            <!-- UNIT -->
+
+            <div>
+
+                <label>
+                    Unit
+                </label>
+
+                <input
+                    type="text"
+                    id="unit"
+                    placeholder="Example: Gram, KG, ML, Liter, Piece"
+                    required>
+
+                <div class="price-note">
+                    You can type any unit
+                </div>
+
+            </div>
+
+
+
+            <!-- TP -->
+
+            <div>
+
+                <label>
+                    TP (Trade Price)
+                </label>
+
+                <input
+                    type="number"
+                    id="tp"
+                    placeholder="Enter TP"
+                    min="0"
+                    step="0.01"
+                    required>
+
+            </div>
+
+
+
+            <!-- MRP -->
+
+            <div>
+
+                <label>
+                    MRP (Maximum Retail Price)
+                </label>
+
+                <input
+                    type="number"
+                    id="mrp"
+                    placeholder="Enter MRP"
+                    min="0"
+                    step="0.01"
+                    required>
+
+            </div>
+
+
+
+            <!-- STOCK -->
+
+            <div>
+
+                <label>
+                    Stock Quantity
+                </label>
+
+                <input
+                    type="number"
+                    id="stock"
+                    placeholder="Enter stock quantity"
+                    min="0"
+                    required>
+
+            </div>
+
+
+        </div>
+
+
+
+        <button
+            class="save-btn"
+            id="saveBtn"
+            type="submit">
+
+            Save Product
+
+        </button>
+
+
+
+        <button
+            class="cancel-btn"
+            id="cancelBtn"
+            type="button"
+            onclick="cancelEdit()">
+
+            Cancel Edit
+
+        </button>
+
+
+    </form>
+
+
+    <p id="message"></p>
+
+</div>
+
+
+
+<!-- PRODUCT LIST -->
+
+<div class="box">
+
+    <h1>
+        Product List
+    </h1>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Product</th>
+                    <th>Code</th>
+                    <th>Category</th>
+                    <th>Pack Size</th>
+                    <th>Unit</th>
+                    <th>TP</th>
+                    <th>MRP</th>
+                    <th>Stock</th>
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="productList"></tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+
+// ======================================
+// LOAD PRODUCTS
+// ======================================
+
+let products = [];
+
+let editIndex = -1;
+
+
+function loadProducts() {
+
+    const saved =
+        localStorage.getItem("products");
+
+
+    if (saved) {
+
+        try {
+
+            const data =
+                JSON.parse(saved);
+
+
+            if (Array.isArray(data)) {
+
+                products = data;
+
+            } else {
+
+                products = [];
+
+            }
+
+        } catch(error) {
+
+            products = [];
+
+        }
+
+    } else {
+
+        products = [];
+
+    }
+
+}
+
+
+loadProducts();
+
+
+
+// ======================================
+// PRODUCT COUNT
+// ======================================
+
+function updateProductCount() {
+
+    document.getElementById(
+        "productCount"
+    ).innerText =
+        products.length;
+
+}
+
+
+
+// ======================================
+// DISPLAY PRODUCTS
+// ======================================
+
+function displayProducts() {
+
+
+    const list =
+        document.getElementById(
+            "productList"
+        );
+
+
+    list.innerHTML = "";
+
+
+    products.forEach(
+    function(product, index) {
+
+
+        const row =
+            document.createElement("tr");
+
+
+        row.innerHTML = `
+
+            <td>
+                ${product.name || ""}
+            </td>
+
+            <td>
+                ${product.code || ""}
+            </td>
+
+            <td>
+                ${product.category || ""}
+            </td>
+
+            <td>
+                ${product.packSize || ""}
+            </td>
+
+            <td>
+                ${product.unit || ""}
+            </td>
+
+            <td>
+                ৳ ${Number(product.tp || 0).toLocaleString()}
+            </td>
+
+            <td>
+                ৳ ${Number(product.mrp || 0).toLocaleString()}
+            </td>
+
+            <td>
+                ${Number(product.stock || 0).toLocaleString()}
+            </td>
+
+            <td>
+
+                <button
+                    class="edit-btn"
+                    onclick="editProduct(${index})">
+
+                    Edit
+
+                </button>
+
+
+                <button
+                    class="delete-btn"
+                    onclick="deleteProduct(${index})">
+
+                    Delete
+
+                </button>
+
+            </td>
+
+        `;
+
+
+        list.appendChild(row);
+
+    });
+
+
+    updateProductCount();
+
+}
+
+
+
+// ======================================
+// SAVE PRODUCT
+// ======================================
+
+document
+.getElementById("productForm")
+.addEventListener(
+"submit",
+function(event) {
+
+
+    event.preventDefault();
+
+
+    const product = {
+
+        name:
+            document.getElementById(
+                "productName"
+            ).value.trim(),
+
+        code:
+            document.getElementById(
+                "productCode"
+            ).value.trim(),
+
+        category:
+            document.getElementById(
+                "category"
+            ).value.trim(),
+
+        packSize:
+            document.getElementById(
+                "packSize"
+            ).value.trim(),
+
+        unit:
+            document.getElementById(
+                "unit"
+            ).value.trim(),
+
+        tp:
+            document.getElementById(
+                "tp"
+            ).value,
+
+        mrp:
+            document.getElementById(
+                "mrp"
+            ).value,
+
+        stock:
+            document.getElementById(
+                "stock"
+            ).value
+
+    };
+
+
+
+    // NEW PRODUCT
+
+    if (editIndex === -1) {
+
+
+        products.push(product);
+
+
+        showMessage(
+            "Product saved successfully!",
+            "green"
+        );
+
+    }
+
+
+    // UPDATE PRODUCT
+
+    else {
+
+
+        products[editIndex] =
+            product;
+
+
+        showMessage(
+            "Product updated successfully!",
+            "green"
+        );
+
+
+        editIndex = -1;
+
+
+        document.getElementById(
+            "formTitle"
+        ).innerText =
+            "Add Product";
+
+
+        document.getElementById(
+            "saveBtn"
+        ).innerText =
+            "Save Product";
+
+
+        document.getElementById(
+            "cancelBtn"
+        ).style.display =
+            "none";
+
+    }
+
+
+
+    // SAVE
+
+    localStorage.setItem(
+        "products",
+        JSON.stringify(products)
+    );
+
+
+
+    // RESET
+
+    document
+    .getElementById(
+        "productForm"
+    )
+    .reset();
+
+
+
+    // DISPLAY
+
+    displayProducts();
+
+});
+
+
+
+// ======================================
+// EDIT PRODUCT
+// ======================================
+
+function editProduct(index) {
+
+
+    const product =
+        products[index];
+
+
+    editIndex = index;
+
+
+    document.getElementById(
+        "productName"
+    ).value =
+        product.name || "";
+
+
+    document.getElementById(
+        "productCode"
+    ).value =
+        product.code || "";
+
+
+    document.getElementById(
+        "category"
+    ).value =
+        product.category || "";
+
+
+    document.getElementById(
+        "packSize"
+    ).value =
+        product.packSize || "";
+
+
+    document.getElementById(
+        "unit"
+    ).value =
+        product.unit || "";
+
+
+    document.getElementById(
+        "tp"
+    ).value =
+        product.tp || "";
+
+
+    document.getElementById(
+        "mrp"
+    ).value =
+        product.mrp || "";
+
+
+    document.getElementById(
+        "stock"
+    ).value =
+        product.stock || "";
+
+
+    document.getElementById(
+        "formTitle"
+    ).innerText =
+        "Edit Product";
+
+
+    document.getElementById(
+        "saveBtn"
+    ).innerText =
+        "Update Product";
+
+
+    document.getElementById(
+        "cancelBtn"
+    ).style.display =
+        "block";
+
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+}
+
+
+
+// ======================================
+// CANCEL EDIT
+// ======================================
+
+function cancelEdit() {
+
+
+    editIndex = -1;
+
+
+    document
+    .getElementById(
+        "productForm"
+    )
+    .reset();
+
+
+    document.getElementById(
+        "formTitle"
+    ).innerText =
+        "Add Product";
+
+
+    document.getElementById(
+        "saveBtn"
+    ).innerText =
+        "Save Product";
+
+
+    document.getElementById(
+        "cancelBtn"
+    ).style.display =
+        "none";
+
+}
+
+
+
+// ======================================
+// DELETE PRODUCT
+// ======================================
+
+function deleteProduct(index) {
+
+
+    if (
+        confirm(
+            "Are you sure you want to delete this product?"
+        )
+    ) {
+
+
+        products.splice(
+            index,
+            1
+        );
+
+
+        localStorage.setItem(
+            "products",
+            JSON.stringify(products)
+        );
+
+
+        displayProducts();
+
+    }
+
+}
+
+
+
+// ======================================
+// MESSAGE
+// ======================================
+
+function showMessage(
+    text,
+    color
+) {
+
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    message.innerText =
+        text;
+
+
+    message.style.color =
+        color;
+
+}
+
+
+
+// ======================================
+// DASHBOARD
+// ======================================
+
+function goDashboard() {
+
+    window.location.href =
+        "dashboard.html";
+
+}
+
+
+
+// ======================================
+// INITIAL DISPLAY
+// ======================================
+
+displayProducts();
+
+</script>
+
+
+</body>
+
+</html>

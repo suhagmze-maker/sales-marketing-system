@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Settings - Sales & Marketing System</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4f6f9;
+    color: #222;
+}
+
+/* HEADER */
+
+.header {
+    background: #2563eb;
+    color: white;
+    padding: 18px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h2 {
+    font-size: 22px;
+}
+
+.back-btn {
+    background: white;
+    color: #2563eb;
+    border: none;
+    padding: 9px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* CONTAINER */
+
+.container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+/* BOX */
+
+.box {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+}
+
+.box h1 {
+    margin-bottom: 20px;
+    color: #222;
+    font-size: 22px;
+}
+
+.box p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* FORM */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.full {
+    grid-column: 1 / -1;
+}
+
+label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: bold;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 15px;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+/* BUTTON */
+
+.save-btn {
+    width: 100%;
+    padding: 14px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 7px;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.save-btn:hover {
+    background: #1d4ed8;
+}
+
+/* PASSWORD */
+
+.password-btn {
+    margin-top: 15px;
+    padding: 11px 18px;
+    border: none;
+    border-radius: 6px;
+    background: #16a34a;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* TOGGLE */
+
+.setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.setting-row:last-child {
+    border-bottom: none;
+}
+
+.setting-title {
+    font-weight: bold;
+}
+
+.setting-description {
+    font-size: 13px;
+    color: #777;
+    margin-top: 5px;
+}
+
+/* SWITCH */
+
+.switch {
+    position: relative;
+    width: 50px;
+    height: 26px;
+}
+
+.switch input {
+    display: none;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: #ccc;
+    border-radius: 30px;
+    transition: 0.3s;
+}
+
+.slider:before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 3px;
+    top: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.switch input:checked + .slider {
+    background: #2563eb;
+}
+
+.switch input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+/* MESSAGE */
+
+#message {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+/* DARK MODE */
+
+body.dark {
+    background: #111827;
+    color: white;
+}
+
+body.dark .box {
+    background: #1f2937;
+}
+
+body.dark .box h1 {
+    color: white;
+}
+
+body.dark .box p {
+    color: #cbd5e1;
+}
+
+body.dark input,
+body.dark select {
+    background: #374151;
+    color: white;
+    border-color: #4b5563;
+}
+
+body.dark .setting-row {
+    border-color: #374151;
+}
+
+body.dark .setting-description {
+    color: #9ca3af;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full {
+        grid-column: auto;
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    .header h2 {
+        font-size: 17px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <h2>
+        ⚙️ Settings
+    </h2>
+
+    <button
+        class="back-btn"
+        onclick="goDashboard()">
+
+        Dashboard
+
+    </button>
+
+</div>
+
+
+
+<div class="container">
+
+
+<!-- COMPANY INFORMATION -->
+
+<div class="box">
+
+    <h1>
+        🏢 Company Information
+    </h1>
+
+    <p>
+        Update your company information.
+    </p>
+
+
+    <form id="companyForm">
+
+        <div class="form-grid">
+
+
+            <div>
+
+                <label>
+                    Company Name
+                </label>
+
+                <input
+                    type="text"
+                    id="companyName"
+                    placeholder="Enter company name">
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Phone Number
+                </label>
+
+                <input
+                    type="text"
+                    id="companyPhone"
+                    placeholder="Enter phone number">
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="companyEmail"
+                    placeholder="Enter email">
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Currency
+                </label>
+
+                <select id="currency">
+
+                    <option value="BDT">
+                        BDT - ৳
+                    </option>
+
+                    <option value="USD">
+                        USD - $
+                    </option>
+
+                    <option value="EUR">
+                        EUR - €
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="full">
+
+                <label>
+                    Company Address
+                </label>
+
+                <input
+                    type="text"
+                    id="companyAddress"
+                    placeholder="Enter company address">
+
+            </div>
+
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="save-btn">
+
+            💾 Save Company Information
+
+        </button>
+
+    </form>
+
+
+    <p id="message"></p>
+
+</div>
+
+
+
+<!-- USER INFORMATION -->
+
+<div class="box">
+
+    <h1>
+        👤 User Information
+    </h1>
+
+    <div class="form-grid">
+
+
+        <div>
+
+            <label>
+                User Name
+            </label>
+
+            <input
+                type="text"
+                id="userName"
+                placeholder="Enter user name">
+
+        </div>
+
+
+        <div>
+
+            <label>
+                User Email
+            </label>
+
+            <input
+                type="email"
+                id="userEmail"
+                placeholder="Enter user email">
+
+        </div>
+
+
+    </div>
+
+
+    <button
+        class="save-btn"
+        onclick="saveUser()">
+
+        💾 Save User Information
+
+    </button>
+
+</div>
+
+
+
+<!-- NOTIFICATION -->
+
+<div class="box">
+
+    <h1>
+        🔔 Notifications
+    </h1>
+
+
+    <div class="setting-row">
+
+        <div>
+
+            <div class="setting-title">
+                Low Stock Alert
+            </div>
+
+            <div class="setting-description">
+                Show alert when product stock is low.
+            </div>
+
+        </div>
+
+
+        <label class="switch">
+
+            <input
+                type="checkbox"
+                id="lowStock">
+
+            <span class="slider"></span>
+
+        </label>
+
+    </div>
+
+
+    <div class="setting-row">
+
+        <div>
+
+            <div class="setting-title">
+                Sales Notification
+            </div>
+
+            <div class="setting-description">
+                Show notification after saving a sale.
+            </div>
+
+        </div>
+
+
+        <label class="switch">
+
+            <input
+                type="checkbox"
+                id="salesNotification">
+
+            <span class="slider"></span>
+
+        </label>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- APPEARANCE -->
+
+<div class="box">
+
+    <h1>
+        🎨 Appearance
+    </h1>
+
+
+    <div class="setting-row">
+
+        <div>
+
+            <div class="setting-title">
+                Dark Mode
+            </div>
+
+            <div class="setting-description">
+                Change the system appearance.
+            </div>
+
+        </div>
+
+
+        <label class="switch">
+
+            <input
+                type="checkbox"
+                id="darkMode"
+                onchange="toggleDarkMode()">
+
+            <span class="slider"></span>
+
+        </label>
+
+    </div>
+
+</div>
+
+
+
+<!-- PASSWORD -->
+
+<div class="box">
+
+    <h1>
+        🔐 Security
+    </h1>
+
+    <p>
+        Change your account password.
+    </p>
+
+
+    <div class="form-grid">
+
+
+        <div>
+
+            <label>
+                Current Password
+            </label>
+
+            <input
+                type="password"
+                id="currentPassword"
+                placeholder="Current password">
+
+        </div>
+
+
+        <div>
+
+            <label>
+                New Password
+            </label>
+
+            <input
+                type="password"
+                id="newPassword"
+                placeholder="New password">
+
+        </div>
+
+
+    </div>
+
+
+    <button
+        class="password-btn"
+        onclick="changePassword()">
+
+        🔑 Change Password
+
+    </button>
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+
+// ======================================
+// LOAD SETTINGS
+// ======================================
+
+function loadSettings() {
+
+
+    let settings =
+        JSON.parse(
+            localStorage.getItem("settings")
+        ) || {};
+
+
+    document.getElementById(
+        "companyName"
+    ).value =
+        settings.companyName || "";
+
+
+    document.getElementById(
+        "companyPhone"
+    ).value =
+        settings.companyPhone || "";
+
+
+    document.getElementById(
+        "companyEmail"
+    ).value =
+        settings.companyEmail || "";
+
+
+    document.getElementById(
+        "companyAddress"
+    ).value =
+        settings.companyAddress || "";
+
+
+    document.getElementById(
+        "currency"
+    ).value =
+        settings.currency || "BDT";
+
+
+    document.getElementById(
+        "userName"
+    ).value =
+        settings.userName || "";
+
+
+    document.getElementById(
+        "userEmail"
+    ).value =
+        settings.userEmail || "";
+
+
+    document.getElementById(
+        "lowStock"
+    ).checked =
+        settings.lowStock !== false;
+
+
+    document.getElementById(
+        "salesNotification"
+    ).checked =
+        settings.salesNotification !== false;
+
+
+    document.getElementById(
+        "darkMode"
+    ).checked =
+        settings.darkMode === true;
+
+
+    if (settings.darkMode === true) {
+
+        document.body.classList.add("dark");
+
+    }
+
+}
+
+
+
+// ======================================
+// SAVE COMPANY
+// ======================================
+
+document
+.getElementById("companyForm")
+.addEventListener(
+"submit",
+function(event) {
+
+    event.preventDefault();
+
+
+    let settings =
+        JSON.parse(
+            localStorage.getItem("settings")
+        ) || {};
+
+
+    settings.companyName =
+        document.getElementById(
+            "companyName"
+        ).value;
+
+
+    settings.companyPhone =
+        document.getElementById(
+            "companyPhone"
+        ).value;
+
+
+    settings.companyEmail =
+        document.getElementById(
+            "companyEmail"
+        ).value;
+
+
+    settings.companyAddress =
+        document.getElementById(
+            "companyAddress"
+        ).value;
+
+
+    settings.currency =
+        document.getElementById(
+            "currency"
+        ).value;
+
+
+    localStorage.setItem(
+        "settings",
+        JSON.stringify(settings)
+    );
+
+
+    showMessage(
+        "Company information saved successfully!",
+        "green"
+    );
+
+});
+
+
+
+// ======================================
+// SAVE USER
+// ======================================
+
+function saveUser() {
+
+
+    let settings =
+        JSON.parse(
+            localStorage.getItem("settings")
+        ) || {};
+
+
+    settings.userName =
+        document.getElementById(
+            "userName"
+        ).value;
+
+
+    settings.userEmail =
+        document.getElementById(
+            "userEmail"
+        ).value;
+
+
+    localStorage.setItem(
+        "settings",
+        JSON.stringify(settings)
+    );
+
+
+    showMessage(
+        "User information saved successfully!",
+        "green"
+    );
+
+}
+
+
+
+// ======================================
+// DARK MODE
+// ======================================
+
+function toggleDarkMode() {
+
+
+    const enabled =
+        document.getElementById(
+            "darkMode"
+        ).checked;
+
+
+    document.body.classList.toggle(
+        "dark",
+        enabled
+    );
+
+
+    let settings =
+        JSON.parse(
+            localStorage.getItem("settings")
+        ) || {};
+
+
+    settings.darkMode =
+        enabled;
+
+
+    localStorage.setItem(
+        "settings",
+        JSON.stringify(settings)
+    );
+
+}
+
+
+
+// ======================================
+// CHANGE PASSWORD
+// ======================================
+
+function changePassword() {
+
+
+    const currentPassword =
+        document.getElementById(
+            "currentPassword"
+        ).value;
+
+
+    const newPassword =
+        document.getElementById(
+            "newPassword"
+        ).value;
+
+
+    if (!currentPassword ||
+        !newPassword) {
+
+        alert(
+            "Please enter current and new password."
+        );
+
+        return;
+
+    }
+
+
+    let savedPassword =
+        localStorage.getItem(
+            "userPassword"
+        );
+
+
+    if (!savedPassword) {
+
+        savedPassword = "123456";
+
+    }
+
+
+    if (
+        currentPassword !==
+        savedPassword
+    ) {
+
+        alert(
+            "Current password is incorrect."
+        );
+
+        return;
+
+    }
+
+
+    localStorage.setItem(
+        "userPassword",
+        newPassword
+    );
+
+
+    alert(
+        "Password changed successfully!"
+    );
+
+
+    document.getElementById(
+        "currentPassword"
+    ).value = "";
+
+
+    document.getElementById(
+        "newPassword"
+    ).value = "";
+
+}
+
+
+
+// ======================================
+// MESSAGE
+// ======================================
+
+function showMessage(
+    text,
+    color
+) {
+
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    message.innerText =
+        text;
+
+
+    message.style.color =
+        color;
+
+
+    setTimeout(
+        function() {
+
+            message.innerText = "";
+
+        },
+        3000
+    );
+
+}
+
+
+
+// ======================================
+// DASHBOARD
+// ======================================
+
+function goDashboard() {
+
+    window.location.href =
+        "dashboard.html";
+
+}
+
+
+
+// ======================================
+// LOAD
+// ======================================
+
+loadSettings();
+
+</script>
+
+
+</body>
+
+</html>
