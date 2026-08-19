@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,6 +8,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Sales Entry</title>
+
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 
 <style>
 
@@ -138,9 +146,24 @@ input[readonly] {
     background: #1d4ed8;
 }
 
+.save-btn:disabled {
+    background: #93c5fd;
+    cursor: not-allowed;
+}
+
 #message {
     text-align: center;
     margin-top: 15px;
+    font-weight: bold;
+    min-height: 20px;
+}
+
+.employee-box {
+    background: #eef4ff;
+    padding: 12px;
+    border-radius: 7px;
+    margin-bottom: 20px;
+    color: #1d4ed8;
     font-weight: bold;
 }
 
@@ -168,7 +191,9 @@ input[readonly] {
 <body>
 
 
-<!-- HEADER -->
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
 <div class="header">
 
@@ -197,15 +222,25 @@ input[readonly] {
 </h1>
 
 
+<!-- LOGGED-IN EMPLOYEE -->
+
+<div class="employee-box">
+
+    Employee:
+    <span id="employeeEmail">
+        Checking login...
+    </span>
+
+</div>
+
+
 <form id="salesForm">
 
 
 <div class="form-grid">
 
 
-<!-- ======================================
-     CUSTOMER NAME
-====================================== -->
+<!-- CUSTOMER -->
 
 <div>
 
@@ -231,9 +266,7 @@ input[readonly] {
 
 
 
-<!-- ======================================
-     DATE
-====================================== -->
+<!-- DATE -->
 
 <div>
 
@@ -250,9 +283,7 @@ input[readonly] {
 
 
 
-<!-- ======================================
-     PRODUCT
-====================================== -->
+<!-- PRODUCT -->
 
 <div class="full">
 
@@ -294,9 +325,7 @@ input[readonly] {
 
 
 
-<!-- ======================================
-     TP
-====================================== -->
+<!-- TP -->
 
 <div>
 
@@ -313,9 +342,7 @@ input[readonly] {
 
 
 
-<!-- ======================================
-     MRP
-====================================== -->
+<!-- MRP -->
 
 <div>
 
@@ -332,9 +359,7 @@ input[readonly] {
 
 
 
-<!-- ======================================
-     QUANTITY
-====================================== -->
+<!-- QUANTITY -->
 
 <div>
 
@@ -353,9 +378,7 @@ input[readonly] {
 
 
 
-<!-- ======================================
-     TOTAL
-====================================== -->
+<!-- TOTAL -->
 
 <div>
 
@@ -375,9 +398,7 @@ input[readonly] {
 
 
 
-<!-- ======================================
-     SUMMARY
-====================================== -->
+<!-- SUMMARY -->
 
 <div class="total-box">
 
@@ -395,7 +416,6 @@ input[readonly] {
 </div>
 
 
-
 <div class="total-row">
 
 <span>
@@ -407,7 +427,6 @@ input[readonly] {
 </strong>
 
 </div>
-
 
 
 <div class="total-row">
@@ -423,7 +442,6 @@ input[readonly] {
 </div>
 
 
-
 <div class="total-row">
 
 <span>
@@ -435,7 +453,6 @@ input[readonly] {
 </strong>
 
 </div>
-
 
 
 <div class="total-row grand-total">
@@ -458,12 +475,11 @@ input[readonly] {
 
 
 
-<!-- ======================================
-     SAVE
-====================================== -->
+<!-- SAVE -->
 
 <button
     class="save-btn"
+    id="saveButton"
     type="submit">
 
     Save Sale
@@ -486,88 +502,161 @@ input[readonly] {
 <script>
 
 
-// ======================================
-// LOAD CUSTOMERS
-// ======================================
+// =====================================================
+// SUPABASE CONFIGURATION
+// =====================================================
+
+const SUPABASE_URL =
+    "https://ucrtujcqrpjcwepiugak.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_RnDm7gJ6ROuU49hcY_BA3g_snx27-M9";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+
+// =====================================================
+// ELEMENTS
+// =====================================================
+
+const salesForm =
+    document.getElementById("salesForm");
+
+const customerNameInput =
+    document.getElementById("customerName");
+
+const customerSuggestions =
+    document.getElementById("customerSuggestions");
+
+const productSelect =
+    document.getElementById("product");
+
+const tpInput =
+    document.getElementById("tp");
+
+const mrpInput =
+    document.getElementById("mrp");
+
+const quantityInput =
+    document.getElementById("quantity");
+
+const totalInput =
+    document.getElementById("total");
+
+const stockInfo =
+    document.getElementById("stockInfo");
+
+const productInfo =
+    document.getElementById("productInfo");
+
+const saveButton =
+    document.getElementById("saveButton");
+
+const employeeEmail =
+    document.getElementById("employeeEmail");
+
+const message =
+    document.getElementById("message");
+
+
+
+// =====================================================
+// DATA
+// =====================================================
 
 let customers =
     JSON.parse(
         localStorage.getItem("customers")
     ) || [];
 
-
-
-// ======================================
-// LOAD PRODUCTS
-// ======================================
-
 let products =
     JSON.parse(
         localStorage.getItem("products")
     ) || [];
 
-
-
-// ======================================
-// ELEMENTS
-// ======================================
-
-const customerNameInput =
-    document.getElementById(
-        "customerName"
-    );
-
-const customerSuggestions =
-    document.getElementById(
-        "customerSuggestions"
-    );
-
-const productSelect =
-    document.getElementById(
-        "product"
-    );
-
-const tpInput =
-    document.getElementById(
-        "tp"
-    );
-
-const mrpInput =
-    document.getElementById(
-        "mrp"
-    );
-
-const quantityInput =
-    document.getElementById(
-        "quantity"
-    );
-
-const totalInput =
-    document.getElementById(
-        "total"
-    );
-
-const stockInfo =
-    document.getElementById(
-        "stockInfo"
-    );
-
-const productInfo =
-    document.getElementById(
-        "productInfo"
-    );
+let currentUser = null;
 
 
 
-// ======================================
+// =====================================================
+// CHECK LOGIN
+// =====================================================
+
+async function checkLogin() {
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient.auth.getSession();
+
+
+        if (error) {
+
+            console.error(error);
+
+            window.location.href =
+                "index.html";
+
+            return;
+
+        }
+
+
+        if (!data.session) {
+
+            window.location.href =
+                "index.html";
+
+            return;
+
+        }
+
+
+        currentUser =
+            data.session.user;
+
+
+        employeeEmail.innerText =
+            currentUser.email || "Employee";
+
+
+    }
+
+    catch(error) {
+
+        console.error(
+            "Authentication error:",
+            error
+        );
+
+        window.location.href =
+            "index.html";
+
+    }
+
+}
+
+
+checkLogin();
+
+
+
+// =====================================================
 // TODAY DATE
-// ======================================
+// =====================================================
 
 const today =
     new Date()
     .toISOString()
     .split("T")[0];
-
 
 document.getElementById(
     "salesDate"
@@ -575,32 +664,39 @@ document.getElementById(
 
 
 
-// ======================================
+// =====================================================
 // LOAD CUSTOMER SUGGESTIONS
-// ======================================
+// =====================================================
 
-customers.forEach(
-function(customer) {
+function loadCustomerSuggestions() {
 
-    const option =
-        document.createElement(
-            "option"
-        );
+    customerSuggestions.innerHTML = "";
 
-    option.value =
-        customer.name;
+    customers.forEach(
+        function(customer) {
 
-    customerSuggestions.appendChild(
-        option
+            const option =
+                document.createElement("option");
+
+            option.value =
+                customer.name;
+
+            customerSuggestions.appendChild(
+                option
+            );
+
+        }
     );
 
-});
+}
+
+loadCustomerSuggestions();
 
 
 
-// ======================================
+// =====================================================
 // CUSTOMER TYPING
-// ======================================
+// =====================================================
 
 customerNameInput.addEventListener(
     "input",
@@ -619,68 +715,81 @@ customerNameInput.addEventListener(
 
 
 
-// ======================================
+// =====================================================
 // LOAD PRODUCTS
-// ======================================
+// =====================================================
 
-products.forEach(
-function(product, index) {
+function loadProducts() {
 
-    const option =
-        document.createElement(
-            "option"
-        );
-
-    option.value =
-        index;
-
-    let displayName =
-        product.name || "";
+    productSelect.innerHTML = `
+        <option value="">
+            Select Product
+        </option>
+    `;
 
 
-    if (
-        product.packSize ||
-        product.unit
-    ) {
+    products.forEach(
+        function(product, index) {
 
-        displayName +=
-            " - " +
-            (
-                product.packSize || ""
-            ) +
-            " " +
-            (
-                product.unit || ""
+            const option =
+                document.createElement("option");
+
+            option.value =
+                index;
+
+
+            let displayName =
+                product.name || "";
+
+
+            if (
+                product.packSize ||
+                product.unit
+            ) {
+
+                displayName +=
+                    " - " +
+                    (
+                        product.packSize || ""
+                    ) +
+                    " " +
+                    (
+                        product.unit || ""
+                    );
+
+            }
+
+
+            if (product.code) {
+
+                displayName +=
+                    " [" +
+                    product.code +
+                    "]";
+
+            }
+
+
+            option.textContent =
+                displayName;
+
+
+            productSelect.appendChild(
+                option
             );
 
-    }
-
-
-    if (product.code) {
-
-        displayName +=
-            " [" +
-            product.code +
-            "]";
-
-    }
-
-
-    option.textContent =
-        displayName;
-
-
-    productSelect.appendChild(
-        option
+        }
     );
 
-});
+}
+
+loadProducts();
 
 
 
-// ======================================
+// =====================================================
 // PRODUCT SELECT
-// ======================================
+// =====================================================
 
 productSelect.addEventListener(
     "change",
@@ -720,50 +829,29 @@ productSelect.addEventListener(
         }
 
 
-
         const product =
             products[index];
 
 
-
         const tp =
-            Number(
-                product.tp || 0
-            );
-
+            Number(product.tp || 0);
 
         const mrp =
-            Number(
-                product.mrp || 0
-            );
-
+            Number(product.mrp || 0);
 
         const stock =
-            Number(
-                product.stock || 0
-            );
+            Number(product.stock || 0);
 
-
-
-        // TP
 
         tpInput.value =
             tp;
-
-
-
-        // MRP
 
         mrpInput.value =
             mrp;
 
 
-
-        // PACK SIZE
-
         const packSize =
             product.packSize || "";
-
 
         const unit =
             product.unit || "";
@@ -777,9 +865,6 @@ productSelect.addEventListener(
             ).trim();
 
 
-
-        // PRODUCT INFO
-
         productInfo.innerText =
             "Product: " +
             product.name +
@@ -791,13 +876,9 @@ productSelect.addEventListener(
             );
 
 
-
-        // STOCK
-
         stockInfo.innerText =
             "Available Stock: " +
             stock;
-
 
 
         if (stock <= 10) {
@@ -813,23 +894,16 @@ productSelect.addEventListener(
         }
 
 
-
-        // SUMMARY PRODUCT
-
         document.getElementById(
             "summaryProduct"
         ).innerText =
             product.name;
 
 
-
-        // SUMMARY PACK
-
         document.getElementById(
             "summaryPack"
         ).innerText =
             packDisplay || "-";
-
 
 
         calculateTotal();
@@ -839,9 +913,9 @@ productSelect.addEventListener(
 
 
 
-// ======================================
+// =====================================================
 // QUANTITY
-// ======================================
+// =====================================================
 
 quantityInput.addEventListener(
     "input",
@@ -850,23 +924,17 @@ quantityInput.addEventListener(
 
 
 
-// ======================================
+// =====================================================
 // CALCULATE TOTAL
-// ======================================
+// =====================================================
 
 function calculateTotal() {
 
     const quantity =
-        Number(
-            quantityInput.value
-        );
-
+        Number(quantityInput.value);
 
     const tp =
-        Number(
-            tpInput.value
-        );
-
+        Number(tpInput.value);
 
     const total =
         quantity * tp;
@@ -891,27 +959,35 @@ function calculateTotal() {
 
 
 
-// ======================================
+// =====================================================
 // SAVE SALE
-// ======================================
+// =====================================================
 
-document
-.getElementById("salesForm")
-.addEventListener(
+salesForm.addEventListener(
     "submit",
-    function(event) {
+    async function(event) {
 
         event.preventDefault();
 
 
+        // LOGIN CHECK
 
-        // ==================================
-        // CUSTOMER NAME
-        // ==================================
+        if (!currentUser) {
+
+            showMessage(
+                "Please login first.",
+                "red"
+            );
+
+            return;
+
+        }
+
+
+        // CUSTOMER
 
         const typedCustomerName =
             customerNameInput.value.trim();
-
 
 
         if (!typedCustomerName) {
@@ -926,14 +1002,9 @@ document
         }
 
 
+        // PRODUCT
 
-        // ==================================
-        // PRODUCT CHECK
-        // ==================================
-
-        if (
-            products.length === 0
-        ) {
+        if (products.length === 0) {
 
             showMessage(
                 "Please add a product first.",
@@ -945,22 +1016,11 @@ document
         }
 
 
-
         const productIndex =
             productSelect.value;
 
 
-
-        const quantity =
-            Number(
-                quantityInput.value
-            );
-
-
-
-        if (
-            productIndex === ""
-        ) {
+        if (productIndex === "") {
 
             showMessage(
                 "Please select a product.",
@@ -972,10 +1032,11 @@ document
         }
 
 
+        const quantity =
+            Number(quantityInput.value);
 
-        if (
-            quantity <= 0
-        ) {
+
+        if (quantity <= 0) {
 
             showMessage(
                 "Please enter a valid quantity.",
@@ -987,101 +1048,17 @@ document
         }
 
 
-
         const product =
-            products[
-                productIndex
-            ];
+            products[productIndex];
 
 
-
-        // ==================================
-        // FIND EXISTING CUSTOMER
-        // ==================================
-
-        let customerIndex =
-            customers.findIndex(
-                function(customer) {
-
-                    return (
-                        customer.name
-                        .toLowerCase()
-                        ===
-                        typedCustomerName
-                        .toLowerCase()
-                    );
-
-                }
-            );
-
-
-
-        // ==================================
-        // CREATE NEW CUSTOMER
-        // ==================================
-
-        let customer;
-
-
-        if (
-            customerIndex === -1
-        ) {
-
-            customer = {
-
-                name:
-                    typedCustomerName,
-
-                phone:
-                    "",
-
-                type:
-                    "Retailer",
-
-                address:
-                    ""
-
-            };
-
-
-            customers.push(
-                customer
-            );
-
-
-            localStorage.setItem(
-                "customers",
-                JSON.stringify(
-                    customers
-                )
-            );
-
-
-        } else {
-
-            customer =
-                customers[
-                    customerIndex
-                ];
-
-        }
-
-
-
-        // ==================================
-        // STOCK
-        // ==================================
+        // STOCK CHECK
 
         const currentStock =
-            Number(
-                product.stock || 0
-            );
+            Number(product.stock || 0);
 
 
-
-        if (
-            currentStock <= 0
-        ) {
+        if (currentStock <= 0) {
 
             showMessage(
                 "This product is out of stock.",
@@ -1093,11 +1070,7 @@ document
         }
 
 
-
-        if (
-            quantity >
-            currentStock
-        ) {
+        if (quantity > currentStock) {
 
             showMessage(
                 "Not enough stock. Available stock: " +
@@ -1110,305 +1083,416 @@ document
         }
 
 
+        const unitPrice =
+            Number(product.tp || 0);
 
-        // ==================================
-        // REDUCE STOCK
-        // ==================================
 
-        product.stock =
-            currentStock -
-            quantity;
+        const totalAmount =
+            quantity * unitPrice;
 
 
+        // BUTTON
 
-        localStorage.setItem(
-            "products",
-            JSON.stringify(
-                products
-            )
-        );
+        saveButton.disabled =
+            true;
 
+        saveButton.innerText =
+            "Saving Order...";
 
+        message.innerText = "";
 
-        // ==================================
-        // PACK
-        // ==================================
 
-        const packSize =
-            product.packSize || "";
+        try {
 
 
-        const unit =
-            product.unit || "";
+            // =================================================
+            // SAVE TO SUPABASE
+            // =================================================
 
+            const {
+                data,
+                error
+            } =
+            await supabaseClient
+            .from("orders")
+            .insert([{
 
-        const packDisplay =
-            (
-                packSize +
-                " " +
-                unit
-            ).trim();
+                customer_name:
+                    typedCustomerName,
 
+                employee_name:
+                    currentUser.email,
 
+                product_name:
+                    product.name || "",
 
-        // ==================================
-        // CREATE SALE
-        // ==================================
+                quantity:
+                    quantity,
 
-        const sale = {
+                unit_price:
+                    unitPrice,
 
-            customer:
-                customer.name,
+                total_amount:
+                    totalAmount
 
-            customerPhone:
-                customer.phone || "",
+            }])
+            .select();
 
-            product:
-                product.name,
 
-            productCode:
-                product.code || "",
+            if (error) {
 
-            category:
-                product.category || "",
-
-            packSize:
-                packSize,
-
-            unit:
-                unit,
-
-            quantity:
-                quantity,
-
-            tp:
-                Number(
-                    product.tp || 0
-                ),
-
-            mrp:
-                Number(
-                    product.mrp || 0
-                ),
-
-            total:
-                quantity *
-                Number(
-                    product.tp || 0
-                ),
-
-            date:
-                document.getElementById(
-                    "salesDate"
-                ).value
-
-        };
-
-
-
-        // ==================================
-        // SAVE SALES
-        // ==================================
-
-        let sales =
-            JSON.parse(
-                localStorage.getItem(
-                    "sales"
-                )
-            ) || [];
-
-
-        sales.push(
-            sale
-        );
-
-
-        localStorage.setItem(
-            "sales",
-            JSON.stringify(
-                sales
-            )
-        );
-
-
-
-        // ==================================
-        // STOCK MOVEMENT
-        // ==================================
-
-        let movements =
-            JSON.parse(
-                localStorage.getItem(
-                    "stockMovements"
-                )
-            ) || [];
-
-
-        movements.push({
-
-            date:
-                sale.date,
-
-            product:
-                product.name,
-
-            productCode:
-                product.code || "",
-
-            category:
-                product.category || "",
-
-            packSize:
-                packSize,
-
-            unit:
-                unit,
-
-            type:
-                "Stock Out",
-
-            quantity:
-                quantity,
-
-            customer:
-                customer.name
-
-        });
-
-
-        localStorage.setItem(
-            "stockMovements",
-            JSON.stringify(
-                movements
-            )
-        );
-
-
-
-        // ==================================
-        // SUCCESS
-        // ==================================
-
-        showMessage(
-            "Sale saved successfully! Stock updated.",
-            "green"
-        );
-
-
-
-        // ==================================
-        // RESET
-        // ==================================
-
-        document
-        .getElementById(
-            "salesForm"
-        )
-        .reset();
-
-
-        document.getElementById(
-            "salesDate"
-        ).value =
-            today;
-
-
-        tpInput.value = "";
-
-        mrpInput.value = "";
-
-        totalInput.value = "";
-
-
-        productInfo.innerText =
-            "Product: -";
-
-
-        stockInfo.innerText =
-            "Available Stock: 0";
-
-
-        stockInfo.style.color =
-            "#16a34a";
-
-
-        document.getElementById(
-            "summaryProduct"
-        ).innerText =
-            "-";
-
-
-        document.getElementById(
-            "summaryPack"
-        ).innerText =
-            "-";
-
-
-        document.getElementById(
-            "summaryCustomer"
-        ).innerText =
-            "-";
-
-
-        document.getElementById(
-            "summaryQuantity"
-        ).innerText =
-            "0";
-
-
-        document.getElementById(
-            "summaryTotal"
-        ).innerText =
-            "0";
-
-
-        // UPDATE CUSTOMER SUGGESTIONS
-
-        customerSuggestions.innerHTML =
-            "";
-
-
-        customers.forEach(
-            function(customer) {
-
-                const option =
-                    document.createElement(
-                        "option"
-                    );
-
-                option.value =
-                    customer.name;
-
-                customerSuggestions.appendChild(
-                    option
+                console.error(
+                    "Supabase order error:",
+                    error
                 );
 
+                showMessage(
+                    "Order save failed: " +
+                    error.message,
+                    "red"
+                );
+
+                saveButton.disabled =
+                    false;
+
+                saveButton.innerText =
+                    "Save Sale";
+
+                return;
+
             }
-        );
+
+
+
+            // =================================================
+            // LOCAL CUSTOMER
+            // =================================================
+
+            let customerIndex =
+                customers.findIndex(
+                    function(customer) {
+
+                        return (
+                            customer.name
+                            .toLowerCase()
+                            ===
+                            typedCustomerName
+                            .toLowerCase()
+                        );
+
+                    }
+                );
+
+
+            let customer;
+
+
+            if (customerIndex === -1) {
+
+                customer = {
+
+                    name:
+                        typedCustomerName,
+
+                    phone:
+                        "",
+
+                    type:
+                        "Retailer",
+
+                    address:
+                        ""
+
+                };
+
+
+                customers.push(
+                    customer
+                );
+
+
+                localStorage.setItem(
+                    "customers",
+                    JSON.stringify(
+                        customers
+                    )
+                );
+
+
+            } else {
+
+                customer =
+                    customers[
+                        customerIndex
+                    ];
+
+            }
+
+
+
+            // =================================================
+            // REDUCE LOCAL STOCK
+            // =================================================
+
+            product.stock =
+                currentStock -
+                quantity;
+
+
+            localStorage.setItem(
+                "products",
+                JSON.stringify(
+                    products
+                )
+            );
+
+
+
+            // =================================================
+            // LOCAL SALES
+            // =================================================
+
+            const packSize =
+                product.packSize || "";
+
+            const unit =
+                product.unit || "";
+
+
+            const sale = {
+
+                customer:
+                    customer.name,
+
+                customerPhone:
+                    customer.phone || "",
+
+                product:
+                    product.name,
+
+                productCode:
+                    product.code || "",
+
+                category:
+                    product.category || "",
+
+                packSize:
+                    packSize,
+
+                unit:
+                    unit,
+
+                quantity:
+                    quantity,
+
+                tp:
+                    unitPrice,
+
+                mrp:
+                    Number(product.mrp || 0),
+
+                total:
+                    totalAmount,
+
+                date:
+                    document.getElementById(
+                        "salesDate"
+                    ).value,
+
+                employee:
+                    currentUser.email
+
+            };
+
+
+            let sales =
+                JSON.parse(
+                    localStorage.getItem("sales")
+                ) || [];
+
+
+            sales.push(sale);
+
+
+            localStorage.setItem(
+                "sales",
+                JSON.stringify(sales)
+            );
+
+
+
+            // =================================================
+            // STOCK MOVEMENT
+            // =================================================
+
+            let movements =
+                JSON.parse(
+                    localStorage.getItem(
+                        "stockMovements"
+                    )
+                ) || [];
+
+
+            movements.push({
+
+                date:
+                    sale.date,
+
+                product:
+                    product.name,
+
+                productCode:
+                    product.code || "",
+
+                category:
+                    product.category || "",
+
+                packSize:
+                    packSize,
+
+                unit:
+                    unit,
+
+                type:
+                    "Stock Out",
+
+                quantity:
+                    quantity,
+
+                customer:
+                    customer.name,
+
+                employee:
+                    currentUser.email
+
+            });
+
+
+            localStorage.setItem(
+                "stockMovements",
+                JSON.stringify(
+                    movements
+                )
+            );
+
+
+
+            // =================================================
+            // SUCCESS
+            // =================================================
+
+            showMessage(
+                "✅ Order saved successfully to database!",
+                "green"
+            );
+
+
+
+            // =================================================
+            // RESET FORM
+            // =================================================
+
+            salesForm.reset();
+
+
+            document.getElementById(
+                "salesDate"
+            ).value =
+                today;
+
+
+            tpInput.value = "";
+
+            mrpInput.value = "";
+
+            totalInput.value = "";
+
+
+            productInfo.innerText =
+                "Product: -";
+
+
+            stockInfo.innerText =
+                "Available Stock: 0";
+
+
+            stockInfo.style.color =
+                "#16a34a";
+
+
+            document.getElementById(
+                "summaryProduct"
+            ).innerText =
+                "-";
+
+
+            document.getElementById(
+                "summaryPack"
+            ).innerText =
+                "-";
+
+
+            document.getElementById(
+                "summaryCustomer"
+            ).innerText =
+                "-";
+
+
+            document.getElementById(
+                "summaryQuantity"
+            ).innerText =
+                "0";
+
+
+            document.getElementById(
+                "summaryTotal"
+            ).innerText =
+                "0";
+
+
+            loadCustomerSuggestions();
+
+        }
+
+        catch(error) {
+
+            console.error(
+                "Unexpected error:",
+                error
+            );
+
+
+            showMessage(
+                "Something went wrong: " +
+                error.message,
+                "red"
+            );
+
+        }
+
+
+        saveButton.disabled =
+            false;
+
+        saveButton.innerText =
+            "Save Sale";
 
     }
 );
 
 
 
-// ======================================
+// =====================================================
 // MESSAGE
-// ======================================
+// =====================================================
 
 function showMessage(
     text,
     color
 ) {
 
-    const message =
-        document.getElementById(
-            "message"
-        );
-
-
     message.innerText =
         text;
-
 
     message.style.color =
         color;
@@ -1417,9 +1501,9 @@ function showMessage(
 
 
 
-// ======================================
+// =====================================================
 // DASHBOARD
-// ======================================
+// =====================================================
 
 function goDashboard() {
 
@@ -1434,3 +1518,4 @@ function goDashboard() {
 </body>
 
 </html>
+```
