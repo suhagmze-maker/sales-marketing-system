@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,6 +8,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Sales History</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 
@@ -89,7 +92,7 @@ h1 {
 table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 1100px;
+    min-width: 1200px;
 }
 
 th,
@@ -117,10 +120,26 @@ th {
     cursor: pointer;
 }
 
+.delete-btn:hover {
+    background: #b91c1c;
+}
+
 .empty {
     text-align: center;
     padding: 30px;
     color: #777;
+}
+
+.loading {
+    text-align: center;
+    padding: 30px;
+    color: #2563eb;
+    font-weight: bold;
+}
+
+.employee {
+    font-weight: bold;
+    color: #16a34a;
 }
 
 @media (max-width: 700px) {
@@ -244,19 +263,11 @@ th {
     </th>
 
     <th>
+        Employee
+    </th>
+
+    <th>
         Product
-    </th>
-
-    <th>
-        Code
-    </th>
-
-    <th>
-        Pack Size
-    </th>
-
-    <th>
-        Unit
     </th>
 
     <th>
@@ -265,10 +276,6 @@ th {
 
     <th>
         TP
-    </th>
-
-    <th>
-        MRP
     </th>
 
     <th>
@@ -286,6 +293,18 @@ th {
 
 <tbody id="salesList">
 
+<tr>
+
+    <td
+        colspan="8"
+        class="loading">
+
+        Loading sales...
+
+    </td>
+
+</tr>
+
 </tbody>
 
 </table>
@@ -301,22 +320,154 @@ th {
 <script>
 
 
-// ======================================
-// LOAD SALES
-// ======================================
+/* =====================================================
+   SUPABASE
+===================================================== */
 
-let sales =
-    JSON.parse(
-        localStorage.getItem(
-            "sales"
-        )
-    ) || [];
+const SUPABASE_URL =
+    "https://ucrtujcqrpjcwepiugak.supabase.co";
 
+const SUPABASE_KEY =
+    "sb_publishable_RnDm7gJ6ROuU49hcY_BA3g_snx27-M9";
 
 
-// ======================================
-// DISPLAY SALES
-// ======================================
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+
+/* =====================================================
+   SALES DATA
+===================================================== */
+
+let sales = [];
+
+
+
+/* =====================================================
+   LOAD SALES FROM SUPABASE
+===================================================== */
+
+async function loadSales() {
+
+    const list =
+        document.getElementById(
+            "salesList"
+        );
+
+
+    list.innerHTML = `
+
+        <tr>
+
+            <td
+                colspan="8"
+                class="loading">
+
+                Loading sales...
+
+            </td>
+
+        </tr>
+
+    `;
+
+
+    try {
+
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient
+            .from("orders")
+            .select("*")
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
+
+
+        if (error) {
+
+            console.error(
+                "Supabase Error:",
+                error
+            );
+
+
+            list.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="8"
+                        class="empty">
+
+                        Failed to load sales:
+                        ${error.message}
+
+                    </td>
+
+                </tr>
+
+            `;
+
+
+            return;
+
+        }
+
+
+        sales =
+            data || [];
+
+
+        displaySales();
+
+
+    }
+
+    catch(error) {
+
+        console.error(
+            "Unexpected Error:",
+            error
+        );
+
+
+        list.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="8"
+                    class="empty">
+
+                    Something went wrong:
+                    ${error.message}
+
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   DISPLAY SALES
+===================================================== */
 
 function displaySales() {
 
@@ -336,9 +487,9 @@ function displaySales() {
 
 
 
-    // ==================================
-    // NO SALES
-    // ==================================
+    /* ==============================================
+       NO SALES
+    ============================================== */
 
     if (
         sales.length === 0
@@ -349,7 +500,7 @@ function displaySales() {
             <tr>
 
                 <td
-                    colspan="11"
+                    colspan="8"
                     class="empty">
 
                     No sales found.
@@ -364,17 +515,17 @@ function displaySales() {
 
 
 
-    // ==================================
-    // SALES LOOP
-    // ==================================
+    /* ==============================================
+       SALES LOOP
+    ============================================== */
 
     sales.forEach(
-        function(sale, index) {
+        function(sale) {
 
 
             totalSales +=
                 Number(
-                    sale.total || 0
+                    sale.total_amount || 0
                 );
 
 
@@ -385,22 +536,31 @@ function displaySales() {
 
 
 
-            // ==================================
-            // PACK SIZE
-            // ==================================
+            /* ======================================
+               DATE
+            ====================================== */
 
-            const packSize =
-                sale.packSize || "-";
-
-
-            const unit =
-                sale.unit || "-";
+            let saleDate = "-";
 
 
+            if (
+                sale.created_at
+            ) {
 
-            // ==================================
-            // ROW
-            // ==================================
+                saleDate =
+                    new Date(
+                        sale.created_at
+                    ).toLocaleDateString(
+                        "en-GB"
+                    );
+
+            }
+
+
+
+            /* ======================================
+               ROW
+            ====================================== */
 
             const row =
                 document.createElement(
@@ -411,58 +571,55 @@ function displaySales() {
             row.innerHTML = `
 
                 <td>
-                    ${sale.date || "-"}
+
+                    ${saleDate}
+
                 </td>
 
 
                 <td>
-                    ${sale.customer || "-"}
+
+                    ${sale.customer_name || "-"}
+
+                </td>
+
+
+                <td class="employee">
+
+                    ${sale.employee_name || "-"}
+
                 </td>
 
 
                 <td>
-                    ${sale.product || "-"}
+
+                    ${sale.product_name || "-"}
+
                 </td>
 
 
                 <td>
-                    ${sale.productCode || "-"}
-                </td>
 
-
-                <td class="pack">
-                    ${packSize}
-                </td>
-
-
-                <td class="pack">
-                    ${unit}
-                </td>
-
-
-                <td>
                     ${sale.quantity || 0}
+
                 </td>
 
 
                 <td>
+
                     ৳ ${Number(
-                        sale.tp || 0
+                        sale.unit_price || 0
                     ).toLocaleString()}
+
                 </td>
 
 
                 <td>
-                    ৳ ${Number(
-                        sale.mrp || 0
-                    ).toLocaleString()}
-                </td>
 
-
-                <td>
                     ৳ ${Number(
-                        sale.total || 0
+                        sale.total_amount || 0
                     ).toLocaleString()}
+
                 </td>
 
 
@@ -470,7 +627,7 @@ function displaySales() {
 
                     <button
                         class="delete-btn"
-                        onclick="deleteSale(${index})">
+                        onclick="deleteSale('${sale.id}')">
 
                         Delete
 
@@ -490,9 +647,9 @@ function displaySales() {
 
 
 
-    // ==================================
-    // SUMMARY UPDATE
-    // ==================================
+    /* ==============================================
+       SUMMARY
+    ============================================== */
 
     document.getElementById(
         "totalSales"
@@ -501,12 +658,10 @@ function displaySales() {
         totalSales.toLocaleString();
 
 
-
     document.getElementById(
         "totalQuantity"
     ).innerText =
         totalQuantity.toLocaleString();
-
 
 
     document.getElementById(
@@ -518,35 +673,81 @@ function displaySales() {
 
 
 
-// ======================================
-// DELETE SALE
-// ======================================
+/* =====================================================
+   DELETE SALE
+===================================================== */
 
-function deleteSale(index) {
+async function deleteSale(id) {
 
 
-    if (
+    const confirmDelete =
         confirm(
             "Are you sure you want to delete this sale?"
-        )
-    ) {
-
-
-        sales.splice(
-            index,
-            1
         );
 
 
-        localStorage.setItem(
-            "sales",
-            JSON.stringify(
-                sales
-            )
+    if (!confirmDelete) {
+
+        return;
+
+    }
+
+
+    try {
+
+
+        const {
+            error
+        } =
+        await supabaseClient
+            .from("orders")
+            .delete()
+            .eq(
+                "id",
+                id
+            );
+
+
+        if (error) {
+
+            console.error(
+                "Delete Error:",
+                error
+            );
+
+
+            alert(
+                "Delete failed: " +
+                error.message
+            );
+
+
+            return;
+
+        }
+
+
+        alert(
+            "Sale deleted successfully."
         );
 
 
-        displaySales();
+        loadSales();
+
+
+    }
+
+    catch(error) {
+
+        console.error(
+            error
+        );
+
+
+        alert(
+            "Something went wrong: " +
+            error.message
+        );
 
     }
 
@@ -554,9 +755,9 @@ function deleteSale(index) {
 
 
 
-// ======================================
-// DASHBOARD
-// ======================================
+/* =====================================================
+   DASHBOARD
+===================================================== */
 
 function goDashboard() {
 
@@ -567,11 +768,23 @@ function goDashboard() {
 
 
 
-// ======================================
-// START
-// ======================================
+/* =====================================================
+   INITIAL LOAD
+===================================================== */
 
-displaySales();
+loadSales();
+
+
+
+/* =====================================================
+   AUTO REFRESH
+   EVERY 10 SECONDS
+===================================================== */
+
+setInterval(
+    loadSales,
+    10000
+);
 
 </script>
 
@@ -579,3 +792,4 @@ displaySales();
 </body>
 
 </html>
+```
