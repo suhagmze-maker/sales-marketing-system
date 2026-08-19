@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,12 +8,7 @@
 
 <title>Sales Entry</title>
 
-<!-- =====================================================
-     SUPABASE
-===================================================== -->
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 
 <style>
 
@@ -187,13 +181,7 @@ input[readonly] {
 
 </head>
 
-
 <body>
-
-
-<!-- =====================================================
-     HEADER
-===================================================== -->
 
 <div class="header">
 
@@ -211,8 +199,6 @@ input[readonly] {
 
 </div>
 
-
-
 <div class="container">
 
 <div class="box">
@@ -220,9 +206,6 @@ input[readonly] {
 <h1>
     New Sale
 </h1>
-
-
-<!-- LOGGED-IN EMPLOYEE -->
 
 <div class="employee-box">
 
@@ -233,14 +216,9 @@ input[readonly] {
 
 </div>
 
-
 <form id="salesForm">
 
-
 <div class="form-grid">
-
-
-<!-- CUSTOMER -->
 
 <div>
 
@@ -264,10 +242,6 @@ input[readonly] {
 
 </div>
 
-
-
-<!-- DATE -->
-
 <div>
 
 <label>
@@ -280,10 +254,6 @@ input[readonly] {
     required>
 
 </div>
-
-
-
-<!-- PRODUCT -->
 
 <div class="full">
 
@@ -323,10 +293,6 @@ input[readonly] {
 
 </div>
 
-
-
-<!-- TP -->
-
 <div>
 
 <label>
@@ -340,10 +306,6 @@ input[readonly] {
 
 </div>
 
-
-
-<!-- MRP -->
-
 <div>
 
 <label>
@@ -356,10 +318,6 @@ input[readonly] {
     readonly>
 
 </div>
-
-
-
-<!-- QUANTITY -->
 
 <div>
 
@@ -376,10 +334,6 @@ input[readonly] {
 
 </div>
 
-
-
-<!-- TOTAL -->
-
 <div>
 
 <label>
@@ -393,15 +347,9 @@ input[readonly] {
 
 </div>
 
-
 </div>
 
-
-
-<!-- SUMMARY -->
-
 <div class="total-box">
-
 
 <div class="total-row">
 
@@ -415,7 +363,6 @@ input[readonly] {
 
 </div>
 
-
 <div class="total-row">
 
 <span>
@@ -427,7 +374,6 @@ input[readonly] {
 </strong>
 
 </div>
-
 
 <div class="total-row">
 
@@ -441,7 +387,6 @@ input[readonly] {
 
 </div>
 
-
 <div class="total-row">
 
 <span>
@@ -453,7 +398,6 @@ input[readonly] {
 </strong>
 
 </div>
-
 
 <div class="total-row grand-total">
 
@@ -470,12 +414,7 @@ input[readonly] {
 
 </div>
 
-
 </div>
-
-
-
-<!-- SAVE -->
 
 <button
     class="save-btn"
@@ -486,25 +425,15 @@ input[readonly] {
 
 </button>
 
-
 </form>
-
 
 <p id="message"></p>
 
-
 </div>
 
 </div>
-
-
 
 <script>
-
-
-// =====================================================
-// SUPABASE CONFIGURATION
-// =====================================================
 
 const SUPABASE_URL =
     "https://ucrtujcqrpjcwepiugak.supabase.co";
@@ -518,11 +447,6 @@ const supabaseClient =
         SUPABASE_KEY
     );
 
-
-
-// =====================================================
-// ELEMENTS
-// =====================================================
 
 const salesForm =
     document.getElementById("salesForm");
@@ -564,11 +488,6 @@ const message =
     document.getElementById("message");
 
 
-
-// =====================================================
-// DATA
-// =====================================================
-
 let customers =
     JSON.parse(
         localStorage.getItem("customers")
@@ -582,11 +501,6 @@ let products =
 let currentUser = null;
 
 
-
-// =====================================================
-// CHECK LOGIN
-// =====================================================
-
 async function checkLogin() {
 
     try {
@@ -596,7 +510,6 @@ async function checkLogin() {
             error
         } =
         await supabaseClient.auth.getSession();
-
 
         if (error) {
 
@@ -609,7 +522,6 @@ async function checkLogin() {
 
         }
 
-
         if (!data.session) {
 
             window.location.href =
@@ -619,14 +531,11 @@ async function checkLogin() {
 
         }
 
-
         currentUser =
             data.session.user;
 
-
         employeeEmail.innerText =
             currentUser.email || "Employee";
-
 
     }
 
@@ -644,14 +553,8 @@ async function checkLogin() {
 
 }
 
-
 checkLogin();
 
-
-
-// =====================================================
-// TODAY DATE
-// =====================================================
 
 const today =
     new Date()
@@ -662,11 +565,6 @@ document.getElementById(
     "salesDate"
 ).value = today;
 
-
-
-// =====================================================
-// LOAD CUSTOMER SUGGESTIONS
-// =====================================================
 
 function loadCustomerSuggestions() {
 
@@ -693,11 +591,6 @@ function loadCustomerSuggestions() {
 loadCustomerSuggestions();
 
 
-
-// =====================================================
-// CUSTOMER TYPING
-// =====================================================
-
 customerNameInput.addEventListener(
     "input",
     function() {
@@ -714,11 +607,6 @@ customerNameInput.addEventListener(
 );
 
 
-
-// =====================================================
-// LOAD PRODUCTS
-// =====================================================
-
 function loadProducts() {
 
     productSelect.innerHTML = `
@@ -726,7 +614,6 @@ function loadProducts() {
             Select Product
         </option>
     `;
-
 
     products.forEach(
         function(product, index) {
@@ -737,10 +624,8 @@ function loadProducts() {
             option.value =
                 index;
 
-
             let displayName =
                 product.name || "";
-
 
             if (
                 product.packSize ||
@@ -759,7 +644,6 @@ function loadProducts() {
 
             }
 
-
             if (product.code) {
 
                 displayName +=
@@ -769,10 +653,8 @@ function loadProducts() {
 
             }
 
-
             option.textContent =
                 displayName;
-
 
             productSelect.appendChild(
                 option
@@ -786,18 +668,12 @@ function loadProducts() {
 loadProducts();
 
 
-
-// =====================================================
-// PRODUCT SELECT
-// =====================================================
-
 productSelect.addEventListener(
     "change",
     function() {
 
         const index =
             this.value;
-
 
         if (index === "") {
 
@@ -811,16 +687,13 @@ productSelect.addEventListener(
             productInfo.innerText =
                 "Product: -";
 
-
             document.getElementById(
                 "summaryProduct"
             ).innerText = "-";
 
-
             document.getElementById(
                 "summaryPack"
             ).innerText = "-";
-
 
             calculateTotal();
 
@@ -828,10 +701,8 @@ productSelect.addEventListener(
 
         }
 
-
         const product =
             products[index];
-
 
         const tp =
             Number(product.tp || 0);
@@ -842,13 +713,11 @@ productSelect.addEventListener(
         const stock =
             Number(product.stock || 0);
 
-
         tpInput.value =
             tp;
 
         mrpInput.value =
             mrp;
-
 
         const packSize =
             product.packSize || "";
@@ -856,14 +725,12 @@ productSelect.addEventListener(
         const unit =
             product.unit || "";
 
-
         const packDisplay =
             (
                 packSize +
                 " " +
                 unit
             ).trim();
-
 
         productInfo.innerText =
             "Product: " +
@@ -875,11 +742,9 @@ productSelect.addEventListener(
                     : ""
             );
 
-
         stockInfo.innerText =
             "Available Stock: " +
             stock;
-
 
         if (stock <= 10) {
 
@@ -893,18 +758,15 @@ productSelect.addEventListener(
 
         }
 
-
         document.getElementById(
             "summaryProduct"
         ).innerText =
             product.name;
 
-
         document.getElementById(
             "summaryPack"
         ).innerText =
             packDisplay || "-";
-
 
         calculateTotal();
 
@@ -912,21 +774,11 @@ productSelect.addEventListener(
 );
 
 
-
-// =====================================================
-// QUANTITY
-// =====================================================
-
 quantityInput.addEventListener(
     "input",
     calculateTotal
 );
 
-
-
-// =====================================================
-// CALCULATE TOTAL
-// =====================================================
 
 function calculateTotal() {
 
@@ -939,16 +791,13 @@ function calculateTotal() {
     const total =
         quantity * tp;
 
-
     totalInput.value =
         total;
-
 
     document.getElementById(
         "summaryQuantity"
     ).innerText =
         quantity || 0;
-
 
     document.getElementById(
         "summaryTotal"
@@ -958,19 +807,11 @@ function calculateTotal() {
 }
 
 
-
-// =====================================================
-// SAVE SALE
-// =====================================================
-
 salesForm.addEventListener(
     "submit",
     async function(event) {
 
         event.preventDefault();
-
-
-        // LOGIN CHECK
 
         if (!currentUser) {
 
@@ -983,12 +824,8 @@ salesForm.addEventListener(
 
         }
 
-
-        // CUSTOMER
-
         const typedCustomerName =
             customerNameInput.value.trim();
-
 
         if (!typedCustomerName) {
 
@@ -1001,9 +838,6 @@ salesForm.addEventListener(
 
         }
 
-
-        // PRODUCT
-
         if (products.length === 0) {
 
             showMessage(
@@ -1015,10 +849,8 @@ salesForm.addEventListener(
 
         }
 
-
         const productIndex =
             productSelect.value;
-
 
         if (productIndex === "") {
 
@@ -1031,10 +863,8 @@ salesForm.addEventListener(
 
         }
 
-
         const quantity =
             Number(quantityInput.value);
-
 
         if (quantity <= 0) {
 
@@ -1047,16 +877,11 @@ salesForm.addEventListener(
 
         }
 
-
         const product =
             products[productIndex];
 
-
-        // STOCK CHECK
-
         const currentStock =
             Number(product.stock || 0);
-
 
         if (currentStock <= 0) {
 
@@ -1068,7 +893,6 @@ salesForm.addEventListener(
             return;
 
         }
-
 
         if (quantity > currentStock) {
 
@@ -1082,16 +906,11 @@ salesForm.addEventListener(
 
         }
 
-
         const unitPrice =
             Number(product.tp || 0);
 
-
         const totalAmount =
             quantity * unitPrice;
-
-
-        // BUTTON
 
         saveButton.disabled =
             true;
@@ -1104,17 +923,17 @@ salesForm.addEventListener(
 
         try {
 
-
-            // =================================================
-            // SAVE TO SUPABASE
-            // =================================================
+            /* ==========================================
+               SAVE ORDER TO SUPABASE
+               TABLE NAME = "Order"
+            ========================================== */
 
             const {
                 data,
                 error
             } =
             await supabaseClient
-            .from("orders")
+            .from('"Order"')
             .insert([{
 
                 customer_name:
@@ -1163,10 +982,9 @@ salesForm.addEventListener(
             }
 
 
-
-            // =================================================
-            // LOCAL CUSTOMER
-            // =================================================
+            /* ==========================================
+               LOCAL CUSTOMER
+            ========================================== */
 
             let customerIndex =
                 customers.findIndex(
@@ -1205,11 +1023,9 @@ salesForm.addEventListener(
 
                 };
 
-
                 customers.push(
                     customer
                 );
-
 
                 localStorage.setItem(
                     "customers",
@@ -1217,7 +1033,6 @@ salesForm.addEventListener(
                         customers
                     )
                 );
-
 
             } else {
 
@@ -1229,15 +1044,13 @@ salesForm.addEventListener(
             }
 
 
-
-            // =================================================
-            // REDUCE LOCAL STOCK
-            // =================================================
+            /* ==========================================
+               REDUCE LOCAL STOCK
+            ========================================== */
 
             product.stock =
                 currentStock -
                 quantity;
-
 
             localStorage.setItem(
                 "products",
@@ -1247,17 +1060,15 @@ salesForm.addEventListener(
             );
 
 
-
-            // =================================================
-            // LOCAL SALES
-            // =================================================
+            /* ==========================================
+               LOCAL SALES
+            ========================================== */
 
             const packSize =
                 product.packSize || "";
 
             const unit =
                 product.unit || "";
-
 
             const sale = {
 
@@ -1310,9 +1121,7 @@ salesForm.addEventListener(
                     localStorage.getItem("sales")
                 ) || [];
 
-
             sales.push(sale);
-
 
             localStorage.setItem(
                 "sales",
@@ -1320,10 +1129,9 @@ salesForm.addEventListener(
             );
 
 
-
-            // =================================================
-            // STOCK MOVEMENT
-            // =================================================
+            /* ==========================================
+               STOCK MOVEMENT
+            ========================================== */
 
             let movements =
                 JSON.parse(
@@ -1331,7 +1139,6 @@ salesForm.addEventListener(
                         "stockMovements"
                     )
                 ) || [];
-
 
             movements.push({
 
@@ -1367,7 +1174,6 @@ salesForm.addEventListener(
 
             });
 
-
             localStorage.setItem(
                 "stockMovements",
                 JSON.stringify(
@@ -1376,30 +1182,18 @@ salesForm.addEventListener(
             );
 
 
-
-            // =================================================
-            // SUCCESS
-            // =================================================
-
             showMessage(
                 "✅ Order saved successfully to database!",
                 "green"
             );
 
 
-
-            // =================================================
-            // RESET FORM
-            // =================================================
-
             salesForm.reset();
-
 
             document.getElementById(
                 "salesDate"
             ).value =
                 today;
-
 
             tpInput.value = "";
 
@@ -1407,48 +1201,39 @@ salesForm.addEventListener(
 
             totalInput.value = "";
 
-
             productInfo.innerText =
                 "Product: -";
-
 
             stockInfo.innerText =
                 "Available Stock: 0";
 
-
             stockInfo.style.color =
                 "#16a34a";
-
 
             document.getElementById(
                 "summaryProduct"
             ).innerText =
                 "-";
 
-
             document.getElementById(
                 "summaryPack"
             ).innerText =
                 "-";
-
 
             document.getElementById(
                 "summaryCustomer"
             ).innerText =
                 "-";
 
-
             document.getElementById(
                 "summaryQuantity"
             ).innerText =
                 "0";
 
-
             document.getElementById(
                 "summaryTotal"
             ).innerText =
                 "0";
-
 
             loadCustomerSuggestions();
 
@@ -1461,7 +1246,6 @@ salesForm.addEventListener(
                 error
             );
 
-
             showMessage(
                 "Something went wrong: " +
                 error.message,
@@ -1469,7 +1253,6 @@ salesForm.addEventListener(
             );
 
         }
-
 
         saveButton.disabled =
             false;
@@ -1480,11 +1263,6 @@ salesForm.addEventListener(
     }
 );
 
-
-
-// =====================================================
-// MESSAGE
-// =====================================================
 
 function showMessage(
     text,
@@ -1500,11 +1278,6 @@ function showMessage(
 }
 
 
-
-// =====================================================
-// DASHBOARD
-// =====================================================
-
 function goDashboard() {
 
     window.location.href =
@@ -1514,8 +1287,6 @@ function goDashboard() {
 
 </script>
 
-
 </body>
 
 </html>
-```
