@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -97,7 +98,7 @@ input[readonly] {
 
 .stock-info {
     margin-top: 8px;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: bold;
     color: #16a34a;
 }
@@ -161,6 +162,15 @@ input[readonly] {
     font-weight: bold;
 }
 
+.error-box {
+    background: #fee2e2;
+    color: #b91c1c;
+    padding: 12px;
+    border-radius: 7px;
+    margin-bottom: 15px;
+    display: none;
+}
+
 @media (max-width: 700px) {
 
     .form-grid {
@@ -187,9 +197,7 @@ input[readonly] {
 
 <div class="header">
 
-    <h2>
-        Sales Entry
-    </h2>
+    <h2>Sales Entry</h2>
 
     <button
         class="back-btn"
@@ -202,13 +210,12 @@ input[readonly] {
 </div>
 
 
+
 <div class="container">
 
 <div class="box">
 
-<h1>
-    New Sale
-</h1>
+<h1>New Sale</h1>
 
 
 <div class="employee-box">
@@ -222,11 +229,20 @@ input[readonly] {
 </div>
 
 
+<div
+    id="errorBox"
+    class="error-box">
+</div>
+
+
+
 <form id="salesForm">
 
 
 <div class="form-grid">
 
+
+<!-- CUSTOMER -->
 
 <div>
 
@@ -246,12 +262,11 @@ input[readonly] {
     id="customerSuggestions">
 </datalist>
 
-<div class="info">
-    Type customer name or select an existing customer.
 </div>
 
-</div>
 
+
+<!-- DATE -->
 
 <div>
 
@@ -267,6 +282,9 @@ input[readonly] {
 </div>
 
 
+
+<!-- PRODUCT -->
+
 <div class="full">
 
 <label>
@@ -278,15 +296,10 @@ input[readonly] {
     required>
 
     <option value="">
-        Select Product
+        Loading Products...
     </option>
 
 </select>
-
-
-<div class="info">
-    Product name, pack size and unit will appear automatically.
-</div>
 
 
 <div
@@ -309,6 +322,9 @@ input[readonly] {
 </div>
 
 
+
+<!-- TP -->
+
 <div>
 
 <label>
@@ -322,6 +338,9 @@ input[readonly] {
 
 </div>
 
+
+
+<!-- MRP -->
 
 <div>
 
@@ -337,6 +356,9 @@ input[readonly] {
 </div>
 
 
+
+<!-- QUANTITY -->
+
 <div>
 
 <label>
@@ -348,10 +370,14 @@ input[readonly] {
     id="quantity"
     placeholder="Enter quantity"
     min="1"
+    step="1"
     required>
 
 </div>
 
+
+
+<!-- TOTAL -->
 
 <div>
 
@@ -370,6 +396,9 @@ input[readonly] {
 </div>
 
 
+
+<!-- SUMMARY -->
+
 <div class="total-box">
 
 
@@ -386,6 +415,7 @@ input[readonly] {
 </div>
 
 
+
 <div class="total-row">
 
     <span>
@@ -397,6 +427,7 @@ input[readonly] {
     </strong>
 
 </div>
+
 
 
 <div class="total-row">
@@ -412,6 +443,7 @@ input[readonly] {
 </div>
 
 
+
 <div class="total-row">
 
     <span>
@@ -423,6 +455,7 @@ input[readonly] {
     </strong>
 
 </div>
+
 
 
 <div class="total-row grand-total">
@@ -442,6 +475,7 @@ input[readonly] {
 
 
 </div>
+
 
 
 <button
@@ -465,6 +499,7 @@ input[readonly] {
 </div>
 
 
+
 <script>
 
 
@@ -474,6 +509,7 @@ input[readonly] {
 
 const SUPABASE_URL =
     "https://ucrtujcqrpjcwepiugak.supabase.co";
+
 
 const SUPABASE_KEY =
     "sb_publishable_RnDm7gJ6ROuU49hcY_BA3g_snx27-M9";
@@ -486,91 +522,80 @@ const supabaseClient =
     );
 
 
+
 /* =====================================================
    ELEMENTS
 ===================================================== */
 
 const salesForm =
-    document.getElementById(
-        "salesForm"
-    );
+    document.getElementById("salesForm");
+
 
 const customerNameInput =
-    document.getElementById(
-        "customerName"
-    );
+    document.getElementById("customerName");
+
 
 const customerSuggestions =
     document.getElementById(
         "customerSuggestions"
     );
 
+
 const productSelect =
-    document.getElementById(
-        "product"
-    );
+    document.getElementById("product");
+
 
 const tpInput =
-    document.getElementById(
-        "tp"
-    );
+    document.getElementById("tp");
+
 
 const mrpInput =
-    document.getElementById(
-        "mrp"
-    );
+    document.getElementById("mrp");
+
 
 const quantityInput =
-    document.getElementById(
-        "quantity"
-    );
+    document.getElementById("quantity");
+
 
 const totalInput =
-    document.getElementById(
-        "total"
-    );
+    document.getElementById("total");
+
 
 const stockInfo =
-    document.getElementById(
-        "stockInfo"
-    );
+    document.getElementById("stockInfo");
+
 
 const productInfo =
-    document.getElementById(
-        "productInfo"
-    );
+    document.getElementById("productInfo");
+
 
 const saveButton =
-    document.getElementById(
-        "saveButton"
-    );
+    document.getElementById("saveButton");
+
 
 const employeeEmail =
-    document.getElementById(
-        "employeeEmail"
-    );
+    document.getElementById("employeeEmail");
+
 
 const message =
-    document.getElementById(
-        "message"
-    );
+    document.getElementById("message");
+
+
+const errorBox =
+    document.getElementById("errorBox");
+
 
 
 /* =====================================================
-   LOCAL DATA
+   DATA
 ===================================================== */
-
-let customers =
-    JSON.parse(
-        localStorage.getItem(
-            "customers"
-        )
-    ) || [];
-
 
 let products = [];
 
+let customers = [];
+
 let currentUser = null;
+
 
 
 /* =====================================================
@@ -587,7 +612,38 @@ function showMessage(
 
     message.style.color =
         color;
+
 }
+
+
+
+/* =====================================================
+   ERROR BOX
+===================================================== */
+
+function showError(
+    text
+) {
+
+    errorBox.innerText =
+        text;
+
+    errorBox.style.display =
+        "block";
+
+}
+
+
+function hideError() {
+
+    errorBox.innerText =
+        "";
+
+    errorBox.style.display =
+        "none";
+
+}
+
 
 
 /* =====================================================
@@ -600,9 +656,7 @@ async function checkLogin() {
         data,
         error
     } =
-    await supabaseClient
-        .auth
-        .getSession();
+    await supabaseClient.auth.getSession();
 
 
     if (error) {
@@ -614,17 +668,25 @@ async function checkLogin() {
         );
 
         return;
+
     }
 
 
     if (!data.session) {
+
+        employeeEmail.innerText =
+            "Not logged in";
 
         showMessage(
             "Please login first.",
             "red"
         );
 
+        saveButton.disabled =
+            true;
+
         return;
+
     }
 
 
@@ -642,6 +704,7 @@ async function checkLogin() {
 checkLogin();
 
 
+
 /* =====================================================
    DATE
 ===================================================== */
@@ -657,58 +720,6 @@ document.getElementById(
 ).value = today;
 
 
-/* =====================================================
-   CUSTOMER
-===================================================== */
-
-function loadCustomerSuggestions() {
-
-    customerSuggestions.innerHTML =
-        "";
-
-
-    customers.forEach(
-        function(customer) {
-
-            if (!customer.name) {
-                return;
-            }
-
-
-            const option =
-                document.createElement(
-                    "option"
-                );
-
-
-            option.value =
-                customer.name;
-
-
-            customerSuggestions.appendChild(
-                option
-            );
-
-        }
-    );
-}
-
-
-loadCustomerSuggestions();
-
-
-customerNameInput.addEventListener(
-    "input",
-    function() {
-
-        document.getElementById(
-            "summaryCustomer"
-        ).innerText =
-            this.value.trim() || "-";
-
-    }
-);
-
 
 /* =====================================================
    LOAD PRODUCTS FROM SUPABASE
@@ -719,7 +730,7 @@ async function loadProducts() {
     productSelect.innerHTML = `
 
         <option value="">
-            Loading products...
+            Loading Products...
         </option>
 
     `;
@@ -743,7 +754,7 @@ async function loadProducts() {
     if (error) {
 
         console.error(
-            "Product load error:",
+            "Product loading error:",
             error
         );
 
@@ -757,14 +768,14 @@ async function loadProducts() {
         `;
 
 
-        showMessage(
-            "Product loading failed: " +
-            error.message,
-            "red"
+        showError(
+            "Products load failed: " +
+            error.message
         );
 
 
         return;
+
     }
 
 
@@ -790,31 +801,41 @@ async function loadProducts() {
                 );
 
 
+            /*
+              IMPORTANT:
+              products.id is BIGINT
+            */
+
             option.value =
                 product.id;
 
 
-            let name =
+            let productText =
                 product.name || "";
 
 
-            if (
-                product.packSize ||
-                product.unit
-            ) {
-
-                name +=
-                    " - " +
-                    (product.packSize || "") +
+            const pack =
+                (
+                    (product.pack_size ||
+                     product.packSize ||
+                     "") +
                     " " +
-                    (product.unit || "");
+                    (product.unit || "")
+                ).trim();
+
+
+            if (pack) {
+
+                productText +=
+                    " - " +
+                    pack;
 
             }
 
 
             if (product.code) {
 
-                name +=
+                productText +=
                     " [" +
                     product.code +
                     "]";
@@ -823,7 +844,7 @@ async function loadProducts() {
 
 
             option.textContent =
-                name;
+                productText;
 
 
             productSelect.appendChild(
@@ -833,14 +854,126 @@ async function loadProducts() {
         }
     );
 
+
+    if (products.length === 0) {
+
+        productSelect.innerHTML = `
+
+            <option value="">
+                No products found
+            </option>
+
+        `;
+
+    }
+
 }
 
 
 loadProducts();
 
 
+
 /* =====================================================
-   FIND SELECTED PRODUCT
+   LOAD CUSTOMERS
+===================================================== */
+
+async function loadCustomers() {
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+        .from("orders")
+        .select("customer_name");
+
+
+    if (error) {
+
+        console.log(
+            "Customer loading skipped:",
+            error.message
+        );
+
+        return;
+
+    }
+
+
+    const names = [];
+
+
+    (data || []).forEach(
+        function(row) {
+
+            if (
+                row.customer_name &&
+                !names.includes(
+                    row.customer_name
+                )
+            ) {
+
+                names.push(
+                    row.customer_name
+                );
+
+            }
+
+        }
+    );
+
+
+    customerSuggestions.innerHTML =
+        "";
+
+
+    names.forEach(
+        function(name) {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value =
+                name;
+
+            customerSuggestions.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+
+loadCustomers();
+
+
+
+/* =====================================================
+   CUSTOMER CHANGE
+===================================================== */
+
+customerNameInput.addEventListener(
+    "input",
+    function() {
+
+        document.getElementById(
+            "summaryCustomer"
+        ).innerText =
+            this.value.trim() ||
+            "-";
+
+    }
+);
+
+
+
+/* =====================================================
+   GET SELECTED PRODUCT
 ===================================================== */
 
 function getSelectedProduct() {
@@ -850,20 +983,26 @@ function getSelectedProduct() {
 
 
     if (!productId) {
+
         return null;
+
     }
 
 
     return products.find(
         function(product) {
 
-            return String(product.id) ===
-                String(productId);
+            return String(
+                product.id
+            ) === String(
+                productId
+            );
 
         }
     ) || null;
 
 }
+
 
 
 /* =====================================================
@@ -873,6 +1012,9 @@ function getSelectedProduct() {
 productSelect.addEventListener(
     "change",
     function() {
+
+        hideError();
+
 
         const product =
             getSelectedProduct();
@@ -892,22 +1034,20 @@ productSelect.addEventListener(
             productInfo.innerText =
                 "Product: -";
 
-
             document.getElementById(
                 "summaryProduct"
             ).innerText =
                 "-";
-
 
             document.getElementById(
                 "summaryPack"
             ).innerText =
                 "-";
 
-
             calculateTotal();
 
             return;
+
         }
 
 
@@ -939,7 +1079,9 @@ productSelect.addEventListener(
 
         const pack =
             (
-                (product.packSize || "") +
+                (product.pack_size ||
+                 product.packSize ||
+                 "") +
                 " " +
                 (product.unit || "")
             ).trim();
@@ -947,11 +1089,11 @@ productSelect.addEventListener(
 
         productInfo.innerText =
             "Product: " +
-            (product.name || "") +
+            (product.name || "-") +
             (
                 pack
-                    ? " | Pack: " + pack
-                    : ""
+                ? " | Pack: " + pack
+                : ""
             );
 
 
@@ -960,10 +1102,17 @@ productSelect.addEventListener(
             stock;
 
 
-        stockInfo.style.color =
-            stock <= 10
-                ? "#dc2626"
-                : "#16a34a";
+        if (stock <= 10) {
+
+            stockInfo.style.color =
+                "#dc2626";
+
+        } else {
+
+            stockInfo.style.color =
+                "#16a34a";
+
+        }
 
 
         document.getElementById(
@@ -978,10 +1127,15 @@ productSelect.addEventListener(
             pack || "-";
 
 
+        quantityInput.value =
+            "";
+
+
         calculateTotal();
 
     }
 );
+
 
 
 /* =====================================================
@@ -1030,6 +1184,7 @@ function calculateTotal() {
 }
 
 
+
 /* =====================================================
    SAVE SALE
 ===================================================== */
@@ -1041,6 +1196,9 @@ salesForm.addEventListener(
         event.preventDefault();
 
 
+        hideError();
+
+
         if (!currentUser) {
 
             showMessage(
@@ -1049,6 +1207,7 @@ salesForm.addEventListener(
             );
 
             return;
+
         }
 
 
@@ -1064,21 +1223,7 @@ salesForm.addEventListener(
             );
 
             return;
-        }
 
-
-        const productId =
-            productSelect.value;
-
-
-        if (!productId) {
-
-            showMessage(
-                "Please select a product.",
-                "red"
-            );
-
-            return;
         }
 
 
@@ -1089,11 +1234,12 @@ salesForm.addEventListener(
         if (!product) {
 
             showMessage(
-                "Product not found.",
+                "Please select a product.",
                 "red"
             );
 
             return;
+
         }
 
 
@@ -1105,15 +1251,17 @@ salesForm.addEventListener(
 
         if (
             !Number.isFinite(quantity) ||
-            quantity <= 0
+            quantity <= 0 ||
+            !Number.isInteger(quantity)
         ) {
 
             showMessage(
-                "Please enter a valid quantity.",
+                "Please enter a valid whole quantity.",
                 "red"
             );
 
             return;
+
         }
 
 
@@ -1123,18 +1271,10 @@ salesForm.addEventListener(
             );
 
 
-        if (currentStock <= 0) {
-
-            showMessage(
-                "This product is out of stock.",
-                "red"
-            );
-
-            return;
-        }
-
-
-        if (quantity > currentStock) {
+        if (
+            quantity >
+            currentStock
+        ) {
 
             showMessage(
                 "Not enough stock. Available stock: " +
@@ -1143,6 +1283,7 @@ salesForm.addEventListener(
             );
 
             return;
+
         }
 
 
@@ -1152,8 +1293,15 @@ salesForm.addEventListener(
             );
 
 
+        const mrp =
+            Number(
+                product.mrp || 0
+            );
+
+
         const totalAmount =
-            quantity * unitPrice;
+            quantity *
+            unitPrice;
 
 
         saveButton.disabled =
@@ -1161,37 +1309,37 @@ salesForm.addEventListener(
 
 
         saveButton.innerText =
-            "Saving Order...";
+            "Processing...";
 
 
         try {
 
 
-            /* =========================================
-               REDUCE SHARED SUPABASE STOCK
-            ========================================= */
+            /* =====================================
+               STEP 1
+               REDUCE SUPABASE STOCK
+            ===================================== */
 
             const {
                 data: newStock,
                 error: stockError
             } =
-            await supabaseClient
-                .rpc(
-                    "reduce_product_stock",
-                    {
-                        p_product_id:
-                            Number(product.id),
+            await supabaseClient.rpc(
+                "reduce_product_stock",
+                {
+                    p_product_id:
+                        Number(product.id),
 
-                        p_quantity:
-                            quantity
-                    }
-                );
+                    p_quantity:
+                        quantity
+                }
+            );
 
 
             if (stockError) {
 
                 console.error(
-                    "Stock Error:",
+                    "Stock RPC Error:",
                     stockError
                 );
 
@@ -1204,14 +1352,18 @@ salesForm.addEventListener(
 
 
                 return;
+
             }
 
 
-            /* =========================================
-               SAVE ORDER
-            ========================================= */
+
+            /* =====================================
+               STEP 2
+               INSERT ORDER
+            ===================================== */
 
             const {
+                data: orderData,
                 error: orderError
             } =
             await supabaseClient
@@ -1222,13 +1374,17 @@ salesForm.addEventListener(
                         customerName,
 
                     employee_name:
-                        currentUser.email || "",
+                        currentUser.email ||
+                        "",
 
                     product_id:
-                        Number(product.id),
+                        Number(
+                            product.id
+                        ),
 
                     product_name:
-                        product.name || "",
+                        product.name ||
+                        "",
 
                     quantity:
                         quantity,
@@ -1239,7 +1395,9 @@ salesForm.addEventListener(
                     total_amount:
                         totalAmount
 
-                });
+                })
+                .select()
+                .single();
 
 
             if (orderError) {
@@ -1250,6 +1408,26 @@ salesForm.addEventListener(
                 );
 
 
+                /*
+                   IMPORTANT:
+                   Stock was already reduced.
+                   Try to restore it if order insert fails.
+                */
+
+                await supabaseClient
+                    .from("products")
+                    .update({
+
+                        stock:
+                            currentStock
+
+                    })
+                    .eq(
+                        "id",
+                        product.id
+                    );
+
+
                 showMessage(
                     "Order save failed: " +
                     orderError.message,
@@ -1258,172 +1436,48 @@ salesForm.addEventListener(
 
 
                 return;
+
             }
 
 
-            /* =========================================
-               UPDATE LOCAL PRODUCT
-            ========================================= */
+
+            /* =====================================
+               STEP 3
+               UPDATE LOCAL PRODUCT DISPLAY
+            ===================================== */
 
             product.stock =
                 Number(newStock);
 
 
-            localStorage.setItem(
-                "products",
-                JSON.stringify(
-                    products
-                )
-            );
-
-
-            /* =========================================
-               CUSTOMER
-            ========================================= */
-
-            let customerIndex =
-                customers.findIndex(
-                    function(customer) {
-
-                        return (
-                            customer.name &&
-                            customer.name
-                                .toLowerCase() ===
-                            customerName
-                                .toLowerCase()
-                        );
-
-                    }
-                );
-
-
-            let customer;
+            stockInfo.innerText =
+                "Available Stock: " +
+                Number(newStock);
 
 
             if (
-                customerIndex === -1
+                Number(newStock) <= 10
             ) {
 
-                customer = {
+                stockInfo.style.color =
+                    "#dc2626";
 
-                    name:
-                        customerName,
+            } else {
 
-                    phone:
-                        "",
-
-                    type:
-                        "Retailer",
-
-                    address:
-                        ""
-
-                };
-
-
-                customers.push(
-                    customer
-                );
-
-
-                localStorage.setItem(
-                    "customers",
-                    JSON.stringify(
-                        customers
-                    )
-                );
-
-            }
-            else {
-
-                customer =
-                    customers[
-                        customerIndex
-                    ];
+                stockInfo.style.color =
+                    "#16a34a";
 
             }
 
 
-            /* =========================================
-               LOCAL SALES
-            ========================================= */
 
-            const sale = {
-
-                customer:
-                    customer.name,
-
-                customerPhone:
-                    customer.phone || "",
-
-                product:
-                    product.name || "",
-
-                productCode:
-                    product.code || "",
-
-                category:
-                    product.category || "",
-
-                packSize:
-                    product.packSize || "",
-
-                unit:
-                    product.unit || "",
-
-                quantity:
-                    quantity,
-
-                tp:
-                    unitPrice,
-
-                mrp:
-                    Number(
-                        product.mrp || 0
-                    ),
-
-                total:
-                    totalAmount,
-
-                date:
-                    document.getElementById(
-                        "salesDate"
-                    ).value,
-
-                employee:
-                    currentUser.email || ""
-
-            };
-
-
-            let sales =
-                JSON.parse(
-                    localStorage.getItem(
-                        "sales"
-                    )
-                ) || [];
-
-
-            sales.push(
-                sale
-            );
-
-
-            localStorage.setItem(
-                "sales",
-                JSON.stringify(
-                    sales
-                )
-            );
-
-
-            /* =========================================
+            /* =====================================
                SUCCESS
-            ========================================= */
+            ===================================== */
 
             showMessage(
-                "✅ Order saved successfully! Stock remaining: " +
-                newStock,
+                "✅ Sale saved successfully! New stock: " +
+                Number(newStock),
                 "green"
             );
 
@@ -1440,8 +1494,10 @@ salesForm.addEventListener(
             tpInput.value =
                 "";
 
+
             mrpInput.value =
                 "";
+
 
             totalInput.value =
                 "";
@@ -1489,12 +1545,16 @@ salesForm.addEventListener(
                 "0";
 
 
-            loadCustomerSuggestions();
+            loadCustomers();
 
 
-            /* Reload latest shared stock */
+            /*
+              Reload products so every
+              latest stock value appears.
+            */
 
             await loadProducts();
+
 
         }
 
@@ -1514,6 +1574,7 @@ salesForm.addEventListener(
 
         }
 
+
         finally {
 
             saveButton.disabled =
@@ -1529,6 +1590,7 @@ salesForm.addEventListener(
 );
 
 
+
 /* =====================================================
    DASHBOARD
 ===================================================== */
@@ -1540,8 +1602,10 @@ function goDashboard() {
 
 }
 
+
 </script>
 
 </body>
 
 </html>
+```
