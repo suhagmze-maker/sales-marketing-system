@@ -61,6 +61,7 @@ h1 {
     margin-bottom: 20px;
 }
 
+
 /* ================================
    SUMMARY
 ================================ */
@@ -88,15 +89,16 @@ h1 {
     color: #2563eb;
 }
 
+
 /* ================================
-   FILTER AREA
+   FILTERS
 ================================ */
 
 .filters {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr auto;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr auto;
     gap: 12px;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .filters input,
@@ -106,6 +108,20 @@ h1 {
     border: 1px solid #ccc;
     border-radius: 7px;
     font-size: 14px;
+    background: white;
+}
+
+.filter-label {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 5px;
+    display: block;
+    font-weight: bold;
+}
+
+.filter-item {
+    display: flex;
+    flex-direction: column;
 }
 
 .clear-btn {
@@ -116,11 +132,24 @@ h1 {
     border-radius: 7px;
     cursor: pointer;
     font-weight: bold;
+    align-self: end;
 }
 
 .clear-btn:hover {
     background: #475569;
 }
+
+
+/* ================================
+   RESULT
+================================ */
+
+.result-info {
+    margin-bottom: 15px;
+    color: #555;
+    font-weight: bold;
+}
+
 
 /* ================================
    TABLE
@@ -145,11 +174,6 @@ td {
 
 th {
     background: #f1f5f9;
-}
-
-.pack {
-    font-weight: bold;
-    color: #2563eb;
 }
 
 .employee {
@@ -183,20 +207,15 @@ th {
     font-weight: bold;
 }
 
-.result-info {
-    margin-bottom: 15px;
-    color: #555;
-    font-weight: bold;
-}
 
 /* ================================
    MOBILE
 ================================ */
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
 
     .filters {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
     }
 
 }
@@ -204,6 +223,10 @@ th {
 @media (max-width: 700px) {
 
     .summary {
+        grid-template-columns: 1fr;
+    }
+
+    .filters {
         grid-template-columns: 1fr;
     }
 
@@ -307,8 +330,9 @@ th {
 </h1>
 
 
+
 <!-- ======================================
-     FILTERS
+     FILTER AREA
 ====================================== -->
 
 <div class="filters">
@@ -316,28 +340,71 @@ th {
 
     <!-- SEARCH -->
 
-    <input
-        type="text"
-        id="searchInput"
-        placeholder="Search customer or product...">
+    <div class="filter-item">
+
+        <label class="filter-label">
+            Search
+        </label>
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Customer / Product / Employee">
+
+    </div>
+
 
 
     <!-- EMPLOYEE -->
 
-    <select id="employeeFilter">
+    <div class="filter-item">
 
-        <option value="">
-            All Employees
-        </option>
+        <label class="filter-label">
+            Employee
+        </label>
 
-    </select>
+        <select id="employeeFilter">
+
+            <option value="">
+                All Employees
+            </option>
+
+        </select>
+
+    </div>
 
 
-    <!-- DATE -->
 
-    <input
-        type="date"
-        id="dateFilter">
+    <!-- FROM DATE -->
+
+    <div class="filter-item">
+
+        <label class="filter-label">
+            From Date
+        </label>
+
+        <input
+            type="date"
+            id="fromDate">
+
+    </div>
+
+
+
+    <!-- TO DATE -->
+
+    <div class="filter-item">
+
+        <label class="filter-label">
+            To Date
+        </label>
+
+        <input
+            type="date"
+            id="toDate">
+
+    </div>
+
 
 
     <!-- CLEAR -->
@@ -464,7 +531,7 @@ const supabaseClient =
 
 
 /* =====================================================
-   SALES DATA
+   DATA
 ===================================================== */
 
 let sales = [];
@@ -487,9 +554,15 @@ const employeeFilter =
     );
 
 
-const dateFilter =
+const fromDate =
     document.getElementById(
-        "dateFilter"
+        "fromDate"
+    );
+
+
+const toDate =
+    document.getElementById(
+        "toDate"
     );
 
 
@@ -501,7 +574,7 @@ const salesList =
 
 
 /* =====================================================
-   LOAD SALES
+   LOAD SALES FROM SUPABASE
 ===================================================== */
 
 async function loadSales() {
@@ -560,7 +633,9 @@ async function loadSales() {
                         class="empty">
 
                         Failed to load sales:
-                        ${error.message}
+                        ${escapeHTML(
+                            error.message
+                        )}
 
                     </td>
 
@@ -603,8 +678,7 @@ async function loadSales() {
                     colspan="8"
                     class="empty">
 
-                    Something went wrong:
-                    ${error.message}
+                    Something went wrong.
 
                 </td>
 
@@ -641,6 +715,7 @@ function loadEmployeeFilter() {
     const employees =
         [
             ...new Set(
+
                 sales
                     .map(
                         function(sale) {
@@ -656,6 +731,7 @@ function loadEmployeeFilter() {
 
                         }
                     )
+
             )
         ];
 
@@ -705,6 +781,62 @@ function loadEmployeeFilter() {
 
 
 /* =====================================================
+   GET SALE DATE
+===================================================== */
+
+function getSaleDate(sale) {
+
+
+    if (
+        !sale.created_at
+    ) {
+
+        return "";
+
+    }
+
+
+    const date =
+        new Date(
+            sale.created_at
+        );
+
+
+    const year =
+        date.getFullYear();
+
+
+    const month =
+        String(
+            date.getMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    const day =
+        String(
+            date.getDate()
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    return (
+        year +
+        "-" +
+        month +
+        "-" +
+        day
+    );
+
+}
+
+
+
+/* =====================================================
    FILTER SALES
 ===================================================== */
 
@@ -721,17 +853,43 @@ function getFilteredSales() {
         employeeFilter.value;
 
 
-    const selectedDate =
-        dateFilter.value;
+    const selectedFromDate =
+        fromDate.value;
+
+
+    const selectedToDate =
+        toDate.value;
+
+
+
+    /* ==============================================
+       CHECK DATE RANGE
+    ============================================== */
+
+    if (
+        selectedFromDate &&
+        selectedToDate &&
+        selectedFromDate > selectedToDate
+    ) {
+
+        alert(
+            "From Date cannot be after To Date."
+        );
+
+
+        return [];
+
+    }
+
 
 
     return sales.filter(
         function(sale) {
 
 
-            /* =============================
+            /* ======================================
                SEARCH
-            ============================= */
+            ====================================== */
 
             const customer =
                 String(
@@ -768,9 +926,9 @@ function getFilteredSales() {
 
 
 
-            /* =============================
+            /* ======================================
                EMPLOYEE
-            ============================= */
+            ====================================== */
 
             if (
                 employee &&
@@ -783,41 +941,35 @@ function getFilteredSales() {
 
 
 
-            /* =============================
-               DATE
-            ============================= */
+            /* ======================================
+               DATE RANGE
+            ====================================== */
+
+            const saleDate =
+                getSaleDate(
+                    sale
+                );
+
 
             if (
-                selectedDate
+                selectedFromDate &&
+                saleDate < selectedFromDate
             ) {
 
-
-                if (
-                    !sale.created_at
-                ) {
-
-                    return false;
-
-                }
-
-
-                const saleDate =
-                    new Date(
-                        sale.created_at
-                    )
-                    .toISOString()
-                    .split("T")[0];
-
-
-                if (
-                    saleDate !== selectedDate
-                ) {
-
-                    return false;
-
-                }
+                return false;
 
             }
+
+
+            if (
+                selectedToDate &&
+                saleDate > selectedToDate
+            ) {
+
+                return false;
+
+            }
+
 
 
             return true;
@@ -853,14 +1005,38 @@ function displaySales() {
        RESULT INFO
     ============================================== */
 
-    document.getElementById(
-        "resultInfo"
-    ).innerText =
+    let filterText =
         "Showing " +
         filteredSales.length +
         " of " +
         sales.length +
         " sales";
+
+
+    if (
+        fromDate.value ||
+        toDate.value
+    ) {
+
+        filterText +=
+            " | Date Range: " +
+            (
+                fromDate.value ||
+                "All"
+            ) +
+            " → " +
+            (
+                toDate.value ||
+                "All"
+            );
+
+    }
+
+
+    document.getElementById(
+        "resultInfo"
+    ).innerText =
+        filterText;
 
 
 
@@ -925,7 +1101,7 @@ function displaySales() {
 
 
             /* ======================================
-               DATE
+               DISPLAY DATE
             ====================================== */
 
             let saleDate =
@@ -935,7 +1111,6 @@ function displaySales() {
             if (
                 sale.created_at
             ) {
-
 
                 saleDate =
                     new Date(
@@ -1084,22 +1259,27 @@ function escapeHTML(value) {
 
 
     return String(value)
+
         .replace(
             /&/g,
             "&amp;"
         )
+
         .replace(
             /</g,
             "&lt;"
         )
+
         .replace(
             />/g,
             "&gt;"
         )
+
         .replace(
             /"/g,
             "&quot;"
         )
+
         .replace(
             /'/g,
             "&#039;"
@@ -1110,7 +1290,7 @@ function escapeHTML(value) {
 
 
 /* =====================================================
-   SEARCH EVENT
+   SEARCH
 ===================================================== */
 
 searchInput.addEventListener(
@@ -1125,7 +1305,7 @@ searchInput.addEventListener(
 
 
 /* =====================================================
-   EMPLOYEE EVENT
+   EMPLOYEE
 ===================================================== */
 
 employeeFilter.addEventListener(
@@ -1140,10 +1320,25 @@ employeeFilter.addEventListener(
 
 
 /* =====================================================
-   DATE EVENT
+   FROM DATE
 ===================================================== */
 
-dateFilter.addEventListener(
+fromDate.addEventListener(
+    "change",
+    function() {
+
+        displaySales();
+
+    }
+);
+
+
+
+/* =====================================================
+   TO DATE
+===================================================== */
+
+toDate.addEventListener(
     "change",
     function() {
 
@@ -1169,7 +1364,11 @@ function clearFilters() {
         "";
 
 
-    dateFilter.value =
+    fromDate.value =
+        "";
+
+
+    toDate.value =
         "";
 
 
@@ -1288,7 +1487,6 @@ loadSales();
 
 /* =====================================================
    AUTO REFRESH
-   EVERY 10 SECONDS
 ===================================================== */
 
 setInterval(
