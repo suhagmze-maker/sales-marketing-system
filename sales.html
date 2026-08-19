@@ -171,6 +171,15 @@ input[readonly] {
     display: none;
 }
 
+.success-box {
+    background: #dcfce7;
+    color: #166534;
+    padding: 12px;
+    border-radius: 7px;
+    margin-bottom: 15px;
+    display: none;
+}
+
 @media (max-width: 700px) {
 
     .form-grid {
@@ -232,6 +241,12 @@ input[readonly] {
 <div
     id="errorBox"
     class="error-box">
+</div>
+
+
+<div
+    id="successBox"
+    class="success-box">
 </div>
 
 
@@ -504,12 +519,11 @@ input[readonly] {
 
 
 /* =====================================================
-   SUPABASE
+   SUPABASE CONNECTION
 ===================================================== */
 
 const SUPABASE_URL =
     "https://ucrtujcqrpjcwepiugak.supabase.co";
-
 
 const SUPABASE_KEY =
     "sb_publishable_RnDm7gJ6ROuU49hcY_BA3g_snx27-M9";
@@ -530,59 +544,49 @@ const supabaseClient =
 const salesForm =
     document.getElementById("salesForm");
 
-
 const customerNameInput =
     document.getElementById("customerName");
-
 
 const customerSuggestions =
     document.getElementById(
         "customerSuggestions"
     );
 
-
 const productSelect =
     document.getElementById("product");
-
 
 const tpInput =
     document.getElementById("tp");
 
-
 const mrpInput =
     document.getElementById("mrp");
-
 
 const quantityInput =
     document.getElementById("quantity");
 
-
 const totalInput =
     document.getElementById("total");
-
 
 const stockInfo =
     document.getElementById("stockInfo");
 
-
 const productInfo =
     document.getElementById("productInfo");
-
 
 const saveButton =
     document.getElementById("saveButton");
 
-
 const employeeEmail =
     document.getElementById("employeeEmail");
-
 
 const message =
     document.getElementById("message");
 
-
 const errorBox =
     document.getElementById("errorBox");
+
+const successBox =
+    document.getElementById("successBox");
 
 
 
@@ -591,8 +595,6 @@ const errorBox =
 ===================================================== */
 
 let products = [];
-
-let customers = [];
 
 let currentUser = null;
 
@@ -604,7 +606,7 @@ let currentUser = null;
 
 function showMessage(
     text,
-    color
+    color = "green"
 ) {
 
     message.innerText =
@@ -618,12 +620,10 @@ function showMessage(
 
 
 /* =====================================================
-   ERROR BOX
+   ERROR
 ===================================================== */
 
-function showError(
-    text
-) {
+function showError(text) {
 
     errorBox.innerText =
         text;
@@ -647,7 +647,34 @@ function hideError() {
 
 
 /* =====================================================
-   LOGIN
+   SUCCESS
+===================================================== */
+
+function showSuccess(text) {
+
+    successBox.innerText =
+        text;
+
+    successBox.style.display =
+        "block";
+
+}
+
+
+function hideSuccess() {
+
+    successBox.innerText =
+        "";
+
+    successBox.style.display =
+        "none";
+
+}
+
+
+
+/* =====================================================
+   LOGIN CHECK
 ===================================================== */
 
 async function checkLogin() {
@@ -661,11 +688,16 @@ async function checkLogin() {
 
     if (error) {
 
-        showMessage(
+        employeeEmail.innerText =
+            "Login Error";
+
+        showError(
             "Login error: " +
-            error.message,
-            "red"
+            error.message
         );
+
+        saveButton.disabled =
+            true;
 
         return;
 
@@ -677,9 +709,8 @@ async function checkLogin() {
         employeeEmail.innerText =
             "Not logged in";
 
-        showMessage(
-            "Please login first.",
-            "red"
+        showError(
+            "Please login first."
         );
 
         saveButton.disabled =
@@ -722,7 +753,7 @@ document.getElementById(
 
 
 /* =====================================================
-   LOAD PRODUCTS FROM SUPABASE
+   LOAD PRODUCTS
 ===================================================== */
 
 async function loadProducts() {
@@ -801,11 +832,6 @@ async function loadProducts() {
                 );
 
 
-            /*
-              IMPORTANT:
-              products.id is BIGINT
-            */
-
             option.value =
                 product.id;
 
@@ -875,7 +901,7 @@ loadProducts();
 
 
 /* =====================================================
-   LOAD CUSTOMERS
+   LOAD CUSTOMER NAMES
 ===================================================== */
 
 async function loadCustomers() {
@@ -1014,6 +1040,7 @@ productSelect.addEventListener(
     function() {
 
         hideError();
+        hideSuccess();
 
 
         const product =
@@ -1097,22 +1124,7 @@ productSelect.addEventListener(
             );
 
 
-        stockInfo.innerText =
-            "Available Stock: " +
-            stock;
-
-
-        if (stock <= 10) {
-
-            stockInfo.style.color =
-                "#dc2626";
-
-        } else {
-
-            stockInfo.style.color =
-                "#16a34a";
-
-        }
+        updateStockDisplay(stock);
 
 
         document.getElementById(
@@ -1135,6 +1147,46 @@ productSelect.addEventListener(
 
     }
 );
+
+
+
+/* =====================================================
+   STOCK DISPLAY
+===================================================== */
+
+function updateStockDisplay(stock) {
+
+    stock =
+        Number(stock || 0);
+
+
+    stockInfo.innerText =
+        "Available Stock: " +
+        stock;
+
+
+    if (stock <= 0) {
+
+        stockInfo.style.color =
+            "#dc2626";
+
+    }
+
+    else if (stock <= 10) {
+
+        stockInfo.style.color =
+            "#dc2626";
+
+    }
+
+    else {
+
+        stockInfo.style.color =
+            "#16a34a";
+
+    }
+
+}
 
 
 
@@ -1197,13 +1249,13 @@ salesForm.addEventListener(
 
 
         hideError();
+        hideSuccess();
 
 
         if (!currentUser) {
 
-            showMessage(
-                "Please login first.",
-                "red"
+            showError(
+                "Please login first."
             );
 
             return;
@@ -1217,9 +1269,25 @@ salesForm.addEventListener(
 
         if (!customerName) {
 
-            showMessage(
-                "Please enter customer name.",
-                "red"
+            showError(
+                "Please enter customer name."
+            );
+
+            return;
+
+        }
+
+
+        const salesDate =
+            document.getElementById(
+                "salesDate"
+            ).value;
+
+
+        if (!salesDate) {
+
+            showError(
+                "Please select sales date."
             );
 
             return;
@@ -1233,9 +1301,8 @@ salesForm.addEventListener(
 
         if (!product) {
 
-            showMessage(
-                "Please select a product.",
-                "red"
+            showError(
+                "Please select a product."
             );
 
             return;
@@ -1255,9 +1322,8 @@ salesForm.addEventListener(
             !Number.isInteger(quantity)
         ) {
 
-            showMessage(
-                "Please enter a valid whole quantity.",
-                "red"
+            showError(
+                "Please enter a valid whole quantity."
             );
 
             return;
@@ -1276,10 +1342,9 @@ salesForm.addEventListener(
             currentStock
         ) {
 
-            showMessage(
+            showError(
                 "Not enough stock. Available stock: " +
-                currentStock,
-                "red"
+                currentStock
             );
 
             return;
@@ -1315,10 +1380,10 @@ salesForm.addEventListener(
         try {
 
 
-            /* =====================================
+            /* =========================================
                STEP 1
-               REDUCE SUPABASE STOCK
-            ===================================== */
+               ATOMIC STOCK REDUCTION
+            ========================================= */
 
             const {
                 data: newStock,
@@ -1344,10 +1409,9 @@ salesForm.addEventListener(
                 );
 
 
-                showMessage(
+                showError(
                     "Stock update failed: " +
-                    stockError.message,
-                    "red"
+                    stockError.message
                 );
 
 
@@ -1356,11 +1420,10 @@ salesForm.addEventListener(
             }
 
 
-
-            /* =====================================
+            /* =========================================
                STEP 2
-               INSERT ORDER
-            ===================================== */
+               SAVE ORDER
+            ========================================= */
 
             const {
                 data: orderData,
@@ -1409,9 +1472,9 @@ salesForm.addEventListener(
 
 
                 /*
-                   IMPORTANT:
-                   Stock was already reduced.
-                   Try to restore it if order insert fails.
+                  IMPORTANT:
+                  If order save fails,
+                  restore the stock.
                 */
 
                 await supabaseClient
@@ -1428,10 +1491,9 @@ salesForm.addEventListener(
                     );
 
 
-                showMessage(
+                showError(
                     "Order save failed: " +
-                    orderError.message,
-                    "red"
+                    orderError.message
                 );
 
 
@@ -1441,46 +1503,41 @@ salesForm.addEventListener(
 
 
 
-            /* =====================================
+            /* =========================================
                STEP 3
-               UPDATE LOCAL PRODUCT DISPLAY
-            ===================================== */
+               UPDATE CURRENT PRODUCT
+            ========================================= */
 
             product.stock =
                 Number(newStock);
 
 
-            stockInfo.innerText =
-                "Available Stock: " +
-                Number(newStock);
-
-
-            if (
-                Number(newStock) <= 10
-            ) {
-
-                stockInfo.style.color =
-                    "#dc2626";
-
-            } else {
-
-                stockInfo.style.color =
-                    "#16a34a";
-
-            }
+            updateStockDisplay(
+                Number(newStock)
+            );
 
 
 
-            /* =====================================
+            /* =========================================
                SUCCESS
-            ===================================== */
+            ========================================= */
+
+            showSuccess(
+                "Sale saved successfully! New stock: " +
+                Number(newStock)
+            );
+
 
             showMessage(
-                "✅ Sale saved successfully! New stock: " +
-                Number(newStock),
+                "Order saved successfully.",
                 "green"
             );
 
+
+
+            /* =========================================
+               RESET FORM
+            ========================================= */
 
             salesForm.reset();
 
@@ -1494,10 +1551,8 @@ salesForm.addEventListener(
             tpInput.value =
                 "";
 
-
             mrpInput.value =
                 "";
-
 
             totalInput.value =
                 "";
@@ -1545,18 +1600,21 @@ salesForm.addEventListener(
                 "0";
 
 
-            loadCustomers();
-
-
-            /*
-              Reload products so every
-              latest stock value appears.
-            */
+            /* =========================================
+               RELOAD PRODUCTS
+            ========================================= */
 
             await loadProducts();
 
 
+            /* =========================================
+               RELOAD CUSTOMERS
+            ========================================= */
+
+            await loadCustomers();
+
         }
+
 
         catch(error) {
 
@@ -1566,10 +1624,9 @@ salesForm.addEventListener(
             );
 
 
-            showMessage(
+            showError(
                 "Something went wrong: " +
-                error.message,
-                "red"
+                error.message
             );
 
         }
@@ -1601,7 +1658,6 @@ function goDashboard() {
         "dashboard.html";
 
 }
-
 
 </script>
 
