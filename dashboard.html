@@ -228,13 +228,18 @@ body{
     gap:18px;
 }
 
+
+/* =====================================================
+   ALL MENU BUTTONS
+===================================================== */
+
 .menu button{
-    display:flex;
+    display:flex !important;
     align-items:center;
     justify-content:center;
     width:100%;
-    min-height:65px;
-    padding:18px 15px;
+    min-height:70px;
+    padding:22px 15px;
     border:none;
     border-radius:14px;
     font-size:16px;
@@ -242,6 +247,9 @@ body{
     cursor:pointer;
     box-shadow:0 5px 15px rgba(0,0,0,.08);
     transition:.25s;
+    overflow:hidden;
+    visibility:visible !important;
+    opacity:1 !important;
 }
 
 .menu button:hover{
@@ -249,78 +257,44 @@ body{
     box-shadow:0 10px 20px rgba(0,0,0,.14);
 }
 
-.menu button:active{
-    transform:scale(.98);
-}
-
 
 /* =====================================================
-   SALES ENTRY
+   MENU COLOURS
 ===================================================== */
 
 .sales-entry-btn{
-    background:#dbeafe;
-    color:#1d4ed8;
+    background:#dbeafe !important;
+    color:#1d4ed8 !important;
 }
-
-
-/* =====================================================
-   SALES HISTORY
-===================================================== */
 
 .sales-history-btn{
-    background:#dcfce7;
-    color:#15803d;
+    background:#dcfce7 !important;
+    color:#15803d !important;
 }
-
-
-/* =====================================================
-   CUSTOMERS
-===================================================== */
 
 .customers-btn{
-    background:#f3e8ff;
-    color:#7e22ce;
+    background:#f3e8ff !important;
+    color:#7e22ce !important;
 }
-
-
-/* =====================================================
-   PRODUCTS
-===================================================== */
 
 .products-btn{
-    background:#fef3c7;
-    color:#b45309;
+    background:#fef3c7 !important;
+    color:#b45309 !important;
 }
-
-
-/* =====================================================
-   INVENTORY
-===================================================== */
 
 .inventory-btn{
-    background:#cffafe;
-    color:#0e7490;
+    background:#cffafe !important;
+    color:#0e7490 !important;
 }
-
-
-/* =====================================================
-   REPORTS
-===================================================== */
 
 .reports-btn{
-    background:#fce7f3;
-    color:#be185d;
+    background:#fce7f3 !important;
+    color:#be185d !important;
 }
 
-
-/* =====================================================
-   MARKETING
-===================================================== */
-
 .marketing-btn{
-    background:#ffedd5;
-    color:#c2410c;
+    background:#ffedd5 !important;
+    color:#c2410c !important;
 }
 
 
@@ -338,9 +312,7 @@ body{
 
     border:2px solid #22c55e !important;
 
-    min-height:65px;
-
-    cursor:pointer !important;
+    min-height:70px;
 }
 
 
@@ -358,9 +330,7 @@ body{
 
     border:2px solid #6366f1 !important;
 
-    min-height:65px;
-
-    cursor:pointer !important;
+    min-height:70px;
 }
 
 
@@ -412,7 +382,7 @@ body{
     }
 
     .menu button{
-        min-height:60px;
+        min-height:65px;
     }
 
 }
@@ -436,6 +406,7 @@ body{
     </h2>
 
     <button
+        type="button"
         class="logout"
         id="logoutButton">
 
@@ -473,6 +444,8 @@ body{
 <div class="cards">
 
 
+    <!-- TOTAL SALES -->
+
     <div class="card sales-card">
 
         <h3>
@@ -489,6 +462,8 @@ body{
 
     </div>
 
+
+    <!-- CUSTOMERS -->
 
     <div class="card customer-card">
 
@@ -507,6 +482,8 @@ body{
     </div>
 
 
+    <!-- PRODUCTS -->
+
     <div class="card product-card">
 
         <h3>
@@ -523,6 +500,8 @@ body{
 
     </div>
 
+
+    <!-- TODAY SALES -->
 
     <div class="card today-card">
 
@@ -564,6 +543,7 @@ body{
 <div class="refresh-box">
 
     <button
+        type="button"
         class="refresh-btn"
         id="refreshButton">
 
@@ -584,6 +564,7 @@ body{
     <!-- SALES ENTRY -->
 
     <button
+        type="button"
         class="sales-entry-btn"
         onclick="go('sales.html')">
 
@@ -595,6 +576,7 @@ body{
     <!-- SALES HISTORY -->
 
     <button
+        type="button"
         class="sales-history-btn"
         onclick="go('sales-history.html')">
 
@@ -606,6 +588,7 @@ body{
     <!-- CUSTOMERS -->
 
     <button
+        type="button"
         class="customers-btn"
         onclick="go('customers.html')">
 
@@ -617,6 +600,7 @@ body{
     <!-- PRODUCTS -->
 
     <button
+        type="button"
         class="products-btn"
         onclick="go('products.html')">
 
@@ -628,6 +612,7 @@ body{
     <!-- INVENTORY -->
 
     <button
+        type="button"
         class="inventory-btn"
         onclick="go('inventory.html')">
 
@@ -639,6 +624,7 @@ body{
     <!-- REPORTS -->
 
     <button
+        type="button"
         class="reports-btn"
         onclick="go('reports.html')">
 
@@ -650,6 +636,7 @@ body{
     <!-- MARKETING -->
 
     <button
+        type="button"
         class="marketing-btn"
         onclick="go('marketing.html')">
 
@@ -658,9 +645,7 @@ body{
     </button>
 
 
-    <!-- =================================================
-         OUTLET SURVEY
-    ================================================== -->
+    <!-- OUTLET SURVEY -->
 
     <button
         type="button"
@@ -672,9 +657,7 @@ body{
     </button>
 
 
-    <!-- =================================================
-         SETTINGS
-    ================================================== -->
+    <!-- SETTINGS -->
 
     <button
         type="button"
@@ -805,6 +788,16 @@ async function loadDashboard(){
 
     statusBox.innerText =
         "Loading live data from Supabase...";
+
+
+    statusBox.style.background =
+        "#eef4ff";
+
+    statusBox.style.color =
+        "#2563eb";
+
+    statusBox.style.borderLeftColor =
+        "#2563eb";
 
 
     try{
@@ -1159,7 +1152,7 @@ function go(page){
 
 
 // =====================================================
-// REFRESH
+// REFRESH BUTTON
 // =====================================================
 
 refreshButton.addEventListener(
