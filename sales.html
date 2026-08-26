@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,6 +30,10 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.header h2 {
+    font-size: 22px;
 }
 
 .back-btn {
@@ -204,9 +207,15 @@ input[readonly] {
 <body>
 
 
+<!-- ==========================================
+     HEADER
+========================================== -->
+
 <div class="header">
 
-    <h2>Sales Entry</h2>
+    <h2>
+        Sales Entry
+    </h2>
 
     <button
         class="back-btn"
@@ -224,8 +233,16 @@ input[readonly] {
 
 <div class="box">
 
-<h1>New Sale</h1>
 
+<h1>
+    New Sale
+</h1>
+
+
+
+<!-- ==========================================
+     EMPLOYEE
+========================================== -->
 
 <div class="employee-box">
 
@@ -238,11 +255,21 @@ input[readonly] {
 </div>
 
 
+
+<!-- ==========================================
+     ERROR
+========================================== -->
+
 <div
     id="errorBox"
     class="error-box">
 </div>
 
+
+
+<!-- ==========================================
+     SUCCESS
+========================================== -->
 
 <div
     id="successBox"
@@ -251,10 +278,15 @@ input[readonly] {
 
 
 
+<!-- ==========================================
+     SALES FORM
+========================================== -->
+
 <form id="salesForm">
 
 
 <div class="form-grid">
+
 
 
 <!-- CUSTOMER -->
@@ -412,7 +444,9 @@ input[readonly] {
 
 
 
-<!-- SUMMARY -->
+<!-- ==========================================
+     SUMMARY
+========================================== -->
 
 <div class="total-box">
 
@@ -424,6 +458,20 @@ input[readonly] {
     </span>
 
     <strong id="summaryProduct">
+        -
+    </strong>
+
+</div>
+
+
+
+<div class="total-row">
+
+    <span>
+        Product Code:
+    </span>
+
+    <strong id="summaryCode">
         -
     </strong>
 
@@ -480,10 +528,12 @@ input[readonly] {
     </span>
 
     <strong>
+
         ৳
         <span id="summaryTotal">
             0
         </span>
+
     </strong>
 
 </div>
@@ -492,6 +542,10 @@ input[readonly] {
 </div>
 
 
+
+<!-- ==========================================
+     SAVE BUTTON
+========================================== -->
 
 <button
     class="save-btn"
@@ -518,9 +572,9 @@ input[readonly] {
 <script>
 
 
-/* =====================================================
-   SUPABASE CONNECTION
-===================================================== */
+// =====================================================
+// SUPABASE CONNECTION
+// =====================================================
 
 const SUPABASE_URL =
     "https://ucrtujcqrpjcwepiugak.supabase.co";
@@ -537,15 +591,19 @@ const supabaseClient =
 
 
 
-/* =====================================================
-   ELEMENTS
-===================================================== */
+// =====================================================
+// ELEMENTS
+// =====================================================
 
 const salesForm =
-    document.getElementById("salesForm");
+    document.getElementById(
+        "salesForm"
+    );
 
 const customerNameInput =
-    document.getElementById("customerName");
+    document.getElementById(
+        "customerName"
+    );
 
 const customerSuggestions =
     document.getElementById(
@@ -553,46 +611,70 @@ const customerSuggestions =
     );
 
 const productSelect =
-    document.getElementById("product");
+    document.getElementById(
+        "product"
+    );
 
 const tpInput =
-    document.getElementById("tp");
+    document.getElementById(
+        "tp"
+    );
 
 const mrpInput =
-    document.getElementById("mrp");
+    document.getElementById(
+        "mrp"
+    );
 
 const quantityInput =
-    document.getElementById("quantity");
+    document.getElementById(
+        "quantity"
+    );
 
 const totalInput =
-    document.getElementById("total");
+    document.getElementById(
+        "total"
+    );
 
 const stockInfo =
-    document.getElementById("stockInfo");
+    document.getElementById(
+        "stockInfo"
+    );
 
 const productInfo =
-    document.getElementById("productInfo");
+    document.getElementById(
+        "productInfo"
+    );
 
 const saveButton =
-    document.getElementById("saveButton");
+    document.getElementById(
+        "saveButton"
+    );
 
 const employeeEmail =
-    document.getElementById("employeeEmail");
+    document.getElementById(
+        "employeeEmail"
+    );
 
 const message =
-    document.getElementById("message");
+    document.getElementById(
+        "message"
+    );
 
 const errorBox =
-    document.getElementById("errorBox");
+    document.getElementById(
+        "errorBox"
+    );
 
 const successBox =
-    document.getElementById("successBox");
+    document.getElementById(
+        "successBox"
+    );
 
 
 
-/* =====================================================
-   DATA
-===================================================== */
+// =====================================================
+// DATA
+// =====================================================
 
 let products = [];
 
@@ -600,9 +682,9 @@ let currentUser = null;
 
 
 
-/* =====================================================
-   MESSAGE
-===================================================== */
+// =====================================================
+// MESSAGE
+// =====================================================
 
 function showMessage(
     text,
@@ -619,9 +701,9 @@ function showMessage(
 
 
 
-/* =====================================================
-   ERROR
-===================================================== */
+// =====================================================
+// ERROR
+// =====================================================
 
 function showError(text) {
 
@@ -646,9 +728,9 @@ function hideError() {
 
 
 
-/* =====================================================
-   SUCCESS
-===================================================== */
+// =====================================================
+// SUCCESS
+// =====================================================
 
 function showSuccess(text) {
 
@@ -673,9 +755,9 @@ function hideSuccess() {
 
 
 
-/* =====================================================
-   LOGIN CHECK
-===================================================== */
+// =====================================================
+// LOGIN CHECK
+// =====================================================
 
 async function checkLogin() {
 
@@ -736,9 +818,9 @@ checkLogin();
 
 
 
-/* =====================================================
-   DATE
-===================================================== */
+// =====================================================
+// DATE
+// =====================================================
 
 const today =
     new Date()
@@ -748,15 +830,18 @@ const today =
 
 document.getElementById(
     "salesDate"
-).value = today;
+).value =
+    today;
 
 
 
-/* =====================================================
-   LOAD PRODUCTS
-===================================================== */
+// =====================================================
+// LOAD PRODUCTS
+// FROM SUPABASE
+// =====================================================
 
 async function loadProducts() {
+
 
     productSelect.innerHTML = `
 
@@ -826,6 +911,7 @@ async function loadProducts() {
     products.forEach(
         function(product) {
 
+
             const option =
                 document.createElement(
                     "option"
@@ -836,15 +922,21 @@ async function loadProducts() {
                 product.id;
 
 
+            // -----------------------------------------
+            // PRODUCT NAME
+            // -----------------------------------------
+
             let productText =
                 product.name || "";
 
 
+            // -----------------------------------------
+            // PACK SIZE + UNIT
+            // -----------------------------------------
+
             const pack =
                 (
-                    (product.pack_size ||
-                     product.packSize ||
-                     "") +
+                    (product.pack_size || "") +
                     " " +
                     (product.unit || "")
                 ).trim();
@@ -858,6 +950,10 @@ async function loadProducts() {
 
             }
 
+
+            // -----------------------------------------
+            // PRODUCT CODE
+            // -----------------------------------------
 
             if (product.code) {
 
@@ -900,11 +996,12 @@ loadProducts();
 
 
 
-/* =====================================================
-   LOAD CUSTOMER NAMES
-===================================================== */
+// =====================================================
+// LOAD CUSTOMERS
+// =====================================================
 
 async function loadCustomers() {
+
 
     const {
         data,
@@ -912,7 +1009,9 @@ async function loadCustomers() {
     } =
     await supabaseClient
         .from("orders")
-        .select("customer_name");
+        .select(
+            "customer_name"
+        );
 
 
     if (error) {
@@ -962,8 +1061,10 @@ async function loadCustomers() {
                     "option"
                 );
 
+
             option.value =
                 name;
+
 
             customerSuggestions.appendChild(
                 option
@@ -979,9 +1080,9 @@ loadCustomers();
 
 
 
-/* =====================================================
-   CUSTOMER CHANGE
-===================================================== */
+// =====================================================
+// CUSTOMER CHANGE
+// =====================================================
 
 customerNameInput.addEventListener(
     "input",
@@ -998,11 +1099,12 @@ customerNameInput.addEventListener(
 
 
 
-/* =====================================================
-   GET SELECTED PRODUCT
-===================================================== */
+// =====================================================
+// GET SELECTED PRODUCT
+// =====================================================
 
 function getSelectedProduct() {
+
 
     const productId =
         productSelect.value;
@@ -1031,15 +1133,17 @@ function getSelectedProduct() {
 
 
 
-/* =====================================================
-   PRODUCT CHANGE
-===================================================== */
+// =====================================================
+// PRODUCT CHANGE
+// =====================================================
 
 productSelect.addEventListener(
     "change",
     function() {
 
+
         hideError();
+
         hideSuccess();
 
 
@@ -1049,34 +1153,58 @@ productSelect.addEventListener(
 
         if (!product) {
 
+
             tpInput.value =
                 "";
 
             mrpInput.value =
                 "";
 
+            quantityInput.value =
+                "";
+
+            totalInput.value =
+                "";
+
+
             stockInfo.innerText =
                 "Available Stock: 0";
 
+
             productInfo.innerText =
                 "Product: -";
+
 
             document.getElementById(
                 "summaryProduct"
             ).innerText =
                 "-";
 
+
+            document.getElementById(
+                "summaryCode"
+            ).innerText =
+                "-";
+
+
             document.getElementById(
                 "summaryPack"
             ).innerText =
                 "-";
 
+
             calculateTotal();
+
 
             return;
 
         }
 
+
+
+        // ---------------------------------------------
+        // TP
+        // ---------------------------------------------
 
         const tp =
             Number(
@@ -1084,16 +1212,27 @@ productSelect.addEventListener(
             );
 
 
+
+        // ---------------------------------------------
+        // MRP
+        // ---------------------------------------------
+
         const mrp =
             Number(
                 product.mrp || 0
             );
 
 
+
+        // ---------------------------------------------
+        // STOCK
+        // ---------------------------------------------
+
         const stock =
             Number(
                 product.stock || 0
             );
+
 
 
         tpInput.value =
@@ -1104,33 +1243,68 @@ productSelect.addEventListener(
             mrp;
 
 
+
+        // ---------------------------------------------
+        // PACK SIZE
+        // ---------------------------------------------
+
         const pack =
             (
-                (product.pack_size ||
-                 product.packSize ||
-                 "") +
+                (product.pack_size || "") +
                 " " +
                 (product.unit || "")
             ).trim();
 
 
+
+        // ---------------------------------------------
+        // PRODUCT INFORMATION
+        // ---------------------------------------------
+
         productInfo.innerText =
             "Product: " +
             (product.name || "-") +
+
+            (
+                product.code
+                ? " | Code: " +
+                  product.code
+                : ""
+            ) +
+
             (
                 pack
-                ? " | Pack: " + pack
+                ? " | Pack: " +
+                  pack
                 : ""
             );
 
 
-        updateStockDisplay(stock);
 
+        // ---------------------------------------------
+        // STOCK
+        // ---------------------------------------------
+
+        updateStockDisplay(
+            stock
+        );
+
+
+
+        // ---------------------------------------------
+        // SUMMARY
+        // ---------------------------------------------
 
         document.getElementById(
             "summaryProduct"
         ).innerText =
             product.name || "-";
+
+
+        document.getElementById(
+            "summaryCode"
+        ).innerText =
+            product.code || "-";
 
 
         document.getElementById(
@@ -1150,14 +1324,19 @@ productSelect.addEventListener(
 
 
 
-/* =====================================================
-   STOCK DISPLAY
-===================================================== */
+// =====================================================
+// STOCK DISPLAY
+// =====================================================
 
-function updateStockDisplay(stock) {
+function updateStockDisplay(
+    stock
+) {
+
 
     stock =
-        Number(stock || 0);
+        Number(
+            stock || 0
+        );
 
 
     stockInfo.innerText =
@@ -1190,9 +1369,9 @@ function updateStockDisplay(stock) {
 
 
 
-/* =====================================================
-   TOTAL
-===================================================== */
+// =====================================================
+// TOTAL CALCULATION
+// =====================================================
 
 quantityInput.addEventListener(
     "input",
@@ -1201,6 +1380,7 @@ quantityInput.addEventListener(
 
 
 function calculateTotal() {
+
 
     const quantity =
         Number(
@@ -1215,7 +1395,8 @@ function calculateTotal() {
 
 
     const total =
-        quantity * tp;
+        quantity *
+        tp;
 
 
     totalInput.value =
@@ -1237,20 +1418,26 @@ function calculateTotal() {
 
 
 
-/* =====================================================
-   SAVE SALE
-===================================================== */
+// =====================================================
+// SAVE SALE
+// =====================================================
 
 salesForm.addEventListener(
     "submit",
     async function(event) {
 
+
         event.preventDefault();
 
 
         hideError();
+
         hideSuccess();
 
+
+        // ---------------------------------------------
+        // LOGIN
+        // ---------------------------------------------
 
         if (!currentUser) {
 
@@ -1262,6 +1449,11 @@ salesForm.addEventListener(
 
         }
 
+
+
+        // ---------------------------------------------
+        // CUSTOMER
+        // ---------------------------------------------
 
         const customerName =
             customerNameInput.value.trim();
@@ -1277,6 +1469,11 @@ salesForm.addEventListener(
 
         }
 
+
+
+        // ---------------------------------------------
+        // DATE
+        // ---------------------------------------------
 
         const salesDate =
             document.getElementById(
@@ -1295,6 +1492,11 @@ salesForm.addEventListener(
         }
 
 
+
+        // ---------------------------------------------
+        // PRODUCT
+        // ---------------------------------------------
+
         const product =
             getSelectedProduct();
 
@@ -1309,6 +1511,11 @@ salesForm.addEventListener(
 
         }
 
+
+
+        // ---------------------------------------------
+        // QUANTITY
+        // ---------------------------------------------
 
         const quantity =
             Number(
@@ -1331,6 +1538,11 @@ salesForm.addEventListener(
         }
 
 
+
+        // ---------------------------------------------
+        // STOCK CHECK
+        // ---------------------------------------------
+
         const currentStock =
             Number(
                 product.stock || 0
@@ -1352,6 +1564,11 @@ salesForm.addEventListener(
         }
 
 
+
+        // ---------------------------------------------
+        // PRICE
+        // ---------------------------------------------
+
         const unitPrice =
             Number(
                 product.tp || 0
@@ -1369,6 +1586,7 @@ salesForm.addEventListener(
             unitPrice;
 
 
+
         saveButton.disabled =
             true;
 
@@ -1377,13 +1595,14 @@ salesForm.addEventListener(
             "Processing...";
 
 
+
         try {
 
 
-            /* =========================================
-               STEP 1
-               ATOMIC STOCK REDUCTION
-            ========================================= */
+            // =========================================
+            // STEP 1
+            // REDUCE STOCK
+            // =========================================
 
             const {
                 data: newStock,
@@ -1393,7 +1612,9 @@ salesForm.addEventListener(
                 "reduce_product_stock",
                 {
                     p_product_id:
-                        Number(product.id),
+                        Number(
+                            product.id
+                        ),
 
                     p_quantity:
                         quantity
@@ -1420,10 +1641,11 @@ salesForm.addEventListener(
             }
 
 
-            /* =========================================
-               STEP 2
-               SAVE ORDER
-            ========================================= */
+
+            // =========================================
+            // STEP 2
+            // SAVE ORDER
+            // =========================================
 
             const {
                 data: orderData,
@@ -1449,21 +1671,41 @@ salesForm.addEventListener(
                         product.name ||
                         "",
 
+                    product_code:
+                        product.code ||
+                        "",
+
+                    pack_size:
+                        product.pack_size ||
+                        "",
+
+                    unit:
+                        product.unit ||
+                        "",
+
                     quantity:
                         quantity,
 
                     unit_price:
                         unitPrice,
 
+                    mrp:
+                        mrp,
+
                     total_amount:
-                        totalAmount
+                        totalAmount,
+
+                    sales_date:
+                        salesDate
 
                 })
                 .select()
                 .single();
 
 
+
             if (orderError) {
+
 
                 console.error(
                     "Order Error:",
@@ -1471,11 +1713,10 @@ salesForm.addEventListener(
                 );
 
 
-                /*
-                  IMPORTANT:
-                  If order save fails,
-                  restore the stock.
-                */
+
+                // -------------------------------------
+                // RESTORE STOCK
+                // -------------------------------------
 
                 await supabaseClient
                     .from("products")
@@ -1491,6 +1732,7 @@ salesForm.addEventListener(
                     );
 
 
+
                 showError(
                     "Order save failed: " +
                     orderError.message
@@ -1503,28 +1745,33 @@ salesForm.addEventListener(
 
 
 
-            /* =========================================
-               STEP 3
-               UPDATE CURRENT PRODUCT
-            ========================================= */
+            // =========================================
+            // UPDATE LOCAL PRODUCT STOCK
+            // =========================================
 
             product.stock =
-                Number(newStock);
+                Number(
+                    newStock
+                );
 
 
             updateStockDisplay(
-                Number(newStock)
+                Number(
+                    newStock
+                )
             );
 
 
 
-            /* =========================================
-               SUCCESS
-            ========================================= */
+            // =========================================
+            // SUCCESS
+            // =========================================
 
             showSuccess(
                 "Sale saved successfully! New stock: " +
-                Number(newStock)
+                Number(
+                    newStock
+                )
             );
 
 
@@ -1535,9 +1782,9 @@ salesForm.addEventListener(
 
 
 
-            /* =========================================
-               RESET FORM
-            ========================================= */
+            // =========================================
+            // RESET FORM
+            // =========================================
 
             salesForm.reset();
 
@@ -1551,8 +1798,10 @@ salesForm.addEventListener(
             tpInput.value =
                 "";
 
+
             mrpInput.value =
                 "";
+
 
             totalInput.value =
                 "";
@@ -1572,6 +1821,12 @@ salesForm.addEventListener(
 
             document.getElementById(
                 "summaryProduct"
+            ).innerText =
+                "-";
+
+
+            document.getElementById(
+                "summaryCode"
             ).innerText =
                 "-";
 
@@ -1600,16 +1855,18 @@ salesForm.addEventListener(
                 "0";
 
 
-            /* =========================================
-               RELOAD PRODUCTS
-            ========================================= */
+
+            // =========================================
+            // RELOAD PRODUCTS
+            // =========================================
 
             await loadProducts();
 
 
-            /* =========================================
-               RELOAD CUSTOMERS
-            ========================================= */
+
+            // =========================================
+            // RELOAD CUSTOMERS
+            // =========================================
 
             await loadCustomers();
 
@@ -1617,6 +1874,7 @@ salesForm.addEventListener(
 
 
         catch(error) {
+
 
             console.error(
                 "Unexpected error:",
@@ -1634,6 +1892,7 @@ salesForm.addEventListener(
 
         finally {
 
+
             saveButton.disabled =
                 false;
 
@@ -1648,9 +1907,9 @@ salesForm.addEventListener(
 
 
 
-/* =====================================================
-   DASHBOARD
-===================================================== */
+// =====================================================
+// DASHBOARD
+// =====================================================
 
 function goDashboard() {
 
@@ -1661,7 +1920,7 @@ function goDashboard() {
 
 </script>
 
+
 </body>
 
 </html>
-```
