@@ -1,10 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sales Entry</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+}
+
+.header{
+    background:#2563eb;
+    color:white;
+    padding:18px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.header h2{
+    font-size:22px;
+}
+
+.back-btn{
+    background:white;
+    color:#2563eb;
+    border:none;
+    padding:9px 15px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.container{
+    max-width:900px;
+    margin:35px auto;
+    padding:20px;
+}
+
+.box{
+    background:white;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 3px 15px rgba(0,0,0,.08);
+}
+
+h1{
+    margin-bottom:25px;
+    color:#222;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+}
+
+.full{
+    grid-column:1/-1;
+}
+
+label{
+    display:block;
+    margin-bottom:7px;
+    font-weight:bold;
+}
+
+input,
+select{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:7px;
+    font-size:15px;
+}
+
+input[readonly]{
+    background:#f1f5f9;
+}
+
+.info{
+    color:#666;
+    font-size:13px;
+    margin-top:6px;
+}
+
+.stock-info{
+    margin-top:8px;
+    font-size:15px;
+    font-weight:bold;
+}
+
+.total-box{
+    background:#f1f5f9;
+    padding:18px;
+    border-radius:8px;
+    margin-top:20px;
+}
+
+.total-row{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+    font-size:16px;
+}
+
+.grand-total{
+    font-size:24px;
+    font-weight:bold;
+    color:#2563eb;
+    border-top:1px solid #ddd;
+    padding-top:12px;
+}
+
+.save-btn{
+    width:100%;
+    padding:14px;
+    margin-top:20px;
+    border:none;
+    border-radius:7px;
+    background:#2563eb;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.save-btn:hover{
+    background:#1d4ed8;
+}
+
+.save-btn:disabled{
+    background:#93c5fd;
+    cursor:not-allowed;
+}
+
+.employee-box{
+    background:#eef4ff;
+    padding:12px;
+    border-radius:7px;
+    margin-bottom:20px;
+    color:#1d4ed8;
+    font-weight:bold;
+}
+
+.error-box{
+    background:#fee2e2;
+    color:#b91c1c;
+    padding:12px;
+    border-radius:7px;
+    margin-bottom:15px;
+    display:none;
+}
+
+.success-box{
+    background:#dcfce7;
+    color:#166534;
+    padding:12px;
+    border-radius:7px;
+    margin-bottom:15px;
+    display:none;
+}
+
+#message{
+    text-align:center;
+    margin-top:15px;
+    font-weight:bold;
+    min-height:20px;
+}
+
+@media(max-width:700px){
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .full{
+        grid-column:auto;
+    }
+
+    .container{
+        padding:10px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+
+    <h2>Sales Entry</h2>
+
+    <button
+        class="back-btn"
+        onclick="goDashboard()">
+        Dashboard
+    </button>
+
+</div>
+
+<div class="container">
+
+<div class="box">
+
+<h1>New Sale</h1>
+
+<div class="employee-box">
+    Logged in:
+    <span id="employeeEmail">
+        Checking login...
+    </span>
+</div>
+
+<div id="errorBox" class="error-box"></div>
+
+<div id="successBox" class="success-box"></div>
+
+<form id="salesForm">
+
+<div class="form-grid">
+
+<!-- CUSTOMER -->
+
+<div>
+
+<label>Customer Name</label>
+
+<input
+    type="text"
+    id="customerName"
+    placeholder="Type customer name"
+    autocomplete="off"
+    required>
+
+</div>
+
+
+<!-- PHONE -->
+
+<div>
+
+<label>Customer Phone</label>
+
+<input
+    type="text"
+    id="customerPhone"
+    placeholder="Enter customer phone">
+
+</div>
+
+
+<!-- DATE -->
+
+<div>
+
+<label>Sales Date</label>
+
+<input
+    type="date"
+    id="salesDate"
+    required>
+
+</div>
+
+
+<!-- PRODUCT -->
+
+<div class="full">
+
+<label>Product</label>
+
+<select id="product" required>
+
+<option value="">
+Loading Products...
+</option>
+
+</select>
+
+<div id="productInfo" class="info">
+Product: -
+</div>
+
+<div id="stockInfo" class="stock-info">
+Available Stock: 0
+</div>
+
+</div>
+
+
+<!-- TP -->
+
+<div>
+
+<label>TP</label>
+
+<input
+    type="number"
+    id="tp"
+    readonly>
+
+</div>
+
+
+<!-- MRP -->
+
+<div>
+
+<label>MRP</label>
+
+<input
+    type="number"
+    id="mrp"
+    readonly>
+
+</div>
+
+
+<!-- QUANTITY -->
+
+<div>
+
+<label>Quantity</label>
+
+<input
+    type="number"
+    id="quantity"
+    placeholder="Enter quantity"
+    min="1"
+    step="1"
+    required>
+
+</div>
+
+
+<!-- TOTAL -->
+
+<div>
+
+<label>Total Amount</label>
+
+<input
+    type="number"
+    id="total"
+    readonly>
+
+</div>
+
+</div>
+
+
+<!-- SUMMARY -->
+
+<div class="total-box">
+
+<div class="total-row">
+<span>Product:</span>
+<strong id="summaryProduct">-</strong>
+</div>
+
+<div class="total-row">
+<span>Product Code:</span>
+<strong id="summaryCode">-</strong>
+</div>
+
+<div class="total-row">
+<span>Category:</span>
+<strong id="summaryCategory">-</strong>
+</div>
+
+<div class="total-row">
+<span>Pack Size:</span>
+<strong id="summaryPack">-</strong>
+</div>
+
+<div class="total-row">
+<span>Customer:</span>
+<strong id="summaryCustomer">-</strong>
+</div>
+
+<div class="total-row">
+<span>Quantity:</span>
+<strong id="summaryQuantity">0</strong>
+</div>
+
+<div class="total-row grand-total">
+
+<span>Total:</span>
+
+<strong>
+৳ <span id="summaryTotal">0</span>
+</strong>
+
+</div>
+
+</div>
+
+
+<button
+    class="save-btn"
+    id="saveButton"
+    type="submit">
+
+    Save Sale
+
+</button>
+
+</form>
+
+<p id="message"></p>
+
+</div>
+</div>
+
+
+<script>
+
+/* =====================================================
+   SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+"https://ucrtujcqrpjcwepiugak.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_RnDm7gJ6ROuU49hcY_BA3g_snx27-M9";
+
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const salesForm =
+document.getElementById("salesForm");
+
+const customerNameInput =
+document.getElementById("customerName");
+
+const customerPhoneInput =
+document.getElementById("customerPhone");
+
+const salesDateInput =
+document.getElementById("salesDate");
+
+const productSelect =
+document.getElementById("product");
+
+const tpInput =
+document.getElementById("tp");
+
+const mrpInput =
+document.getElementById("mrp");
+
+const quantityInput =
+document.getElementById("quantity");
+
+const totalInput =
+document.getElementById("total");
+
+const stockInfo =
+document.getElementById("stockInfo");
+
+const productInfo =
+document.getElementById("productInfo");
+
+const saveButton =
+document.getElementById("saveButton");
+
+const employeeEmail =
+document.getElementById("employeeEmail");
+
+const errorBox =
+document.getElementById("errorBox");
+
+const successBox =
+document.getElementById("successBox");
+
+const message =
+document.getElementById("message");
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let products = [];
+
+let currentUser = null;
+
+
+/* =====================================================
+   MESSAGES
+===================================================== */
+
+function showError(text){
+
+    errorBox.innerText = text;
+
+    errorBox.style.display = "block";
+}
+
+function hideError(){
+
+    errorBox.innerText = "";
+
+    errorBox.style.display = "none";
+}
+
+function showSuccess(text){
+
+    successBox.innerText = text;
+
+    successBox.style.display = "block";
+}
+
+function hideSuccess(){
+
+    successBox.innerText = "";
+
+    successBox.style.display = "none";
+}
+
+function showMessage(text,color="green"){
+
+    message.innerText = text;
+
+    message.style.color = color;
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+async function checkLogin(){
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient.auth.getSession();
+
+
+    if(error){
+
+        employeeEmail.innerText =
+        "Login Error";
+
+        showError(
+            "Login error: " +
+            error.message
+        );
+
+        saveButton.disabled = true;
+
+        return;
+    }
+
+
+    if(!data.session){
+
+        employeeEmail.innerText =
+        "Not logged in";
+
+        showError(
+            "Please login first."
+        );
+
+        saveButton.disabled = true;
+
+        return;
+    }
+
+
+    currentUser =
+    data.session.user;
+
+
+    employeeEmail.innerText =
+    currentUser.email ||
+    "Employee";
+
+}
+
+
+checkLogin();
+
+
+/* =====================================================
+   DATE
+===================================================== */
+
+const today =
+new Date()
+.toISOString()
+.split("T")[0];
+
+salesDateInput.value =
+today;
+
+
+/* =====================================================
+   LOAD PRODUCTS
+===================================================== */
+
+async function loadProducts(){
+
+    productSelect.innerHTML = `
+        <option value="">
+            Loading Products...
+        </option>
+    `;
+
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+        .from("products")
+        .select(
+            "id,name,code,category,pack_size,unit,tp,mrp,stock"
+        )
+        .order(
+            "name",
+            {ascending:true}
+        );
+
+
+    if(error){
+
+        console.error(
+            "Product Error:",
+            error
+        );
+
+        productSelect.innerHTML = `
+            <option value="">
+                Failed to load products
+            </option>
+        `;
+
+        showError(
+            "Products load failed: " +
+            error.message
+        );
+
+        return;
+    }
+
+
+    products =
+    data || [];
+
+
+    productSelect.innerHTML = `
+        <option value="">
+            Select Product
+        </option>
+    `;
+
+
+    products.forEach(function(product){
+
+        const option =
+        document.createElement("option");
+
+
+        option.value =
+        product.id;
+
+
+        let text =
+        product.name || "";
+
+
+        const pack =
+        (
+            (product.pack_size || "") +
+            " " +
+            (product.unit || "")
+        ).trim();
+
+
+        if(pack){
+
+            text +=
+            " - " +
+            pack;
+        }
+
+
+        if(product.code){
+
+            text +=
+            " [" +
+            product.code +
+            "]";
+        }
+
+
+        option.textContent =
+        text;
+
+
+        productSelect.appendChild(
+            option
+        );
+
+    });
+
+
+    if(products.length === 0){
+
+        productSelect.innerHTML = `
+            <option value="">
+                No products found
+            </option>
+        `;
+    }
+}
+
+
+loadProducts();
+
+
+/* =====================================================
+   GET SELECTED PRODUCT
+===================================================== */
+
+function getSelectedProduct(){
+
+    const productId =
+    productSelect.value;
+
+
+    if(!productId){
+
+        return null;
+    }
+
+
+    return products.find(
+        function(product){
+
+            return String(product.id) ===
+            String(productId);
+
+        }
+    ) || null;
+}
+
+
+/* =====================================================
+   PRODUCT CHANGE
+===================================================== */
+
+productSelect.addEventListener(
+"change",
+function(){
+
+    hideError();
+    hideSuccess();
+
+
+    const product =
+    getSelectedProduct();
+
+
+    if(!product){
+
+        tpInput.value = "";
+
+        mrpInput.value = "";
+
+        quantityInput.value = "";
+
+        totalInput.value = "";
+
+        stockInfo.innerText =
+        "Available Stock: 0";
+
+        productInfo.innerText =
+        "Product: -";
+
+        document.getElementById(
+            "summaryProduct"
+        ).innerText = "-";
+
+        document.getElementById(
+            "summaryCode"
+        ).innerText = "-";
+
+        document.getElementById(
+            "summaryCategory"
+        ).innerText = "-";
+
+        document.getElementById(
+            "summaryPack"
+        ).innerText = "-";
+
+        calculateTotal();
+
+        return;
+    }
+
+
+    const tp =
+    Number(product.tp || 0);
+
+    const mrp =
+    Number(product.mrp || 0);
+
+    const stock =
+    Number(product.stock || 0);
+
+
+    tpInput.value =
+    tp;
+
+    mrpInput.value =
+    mrp;
+
+
+    const pack =
+    (
+        (product.pack_size || "") +
+        " " +
+        (product.unit || "")
+    ).trim();
+
+
+    productInfo.innerText =
+    "Product: " +
+    (product.name || "-") +
+
+    (
+        product.code
+        ? " | Code: " +
+        product.code
+        : ""
+    ) +
+
+    (
+        pack
+        ? " | Pack: " +
+        pack
+        : ""
+    );
+
+
+    updateStockDisplay(stock);
+
+
+    document.getElementById(
+        "summaryProduct"
+    ).innerText =
+    product.name || "-";
+
+
+    document.getElementById(
+        "summaryCode"
+    ).innerText =
+    product.code || "-";
+
+
+    document.getElementById(
+        "summaryCategory"
+    ).innerText =
+    product.category || "-";
+
+
+    document.getElementById(
+        "summaryPack"
+    ).innerText =
+    pack || "-";
+
+
+    quantityInput.value = "";
+
+    calculateTotal();
+
+});
+
+
+/* =====================================================
+   STOCK DISPLAY
+===================================================== */
+
+function updateStockDisplay(stock){
+
+    stock =
+    Number(stock || 0);
+
+
+    stockInfo.innerText =
+    "Available Stock: " +
+    stock;
+
+
+    if(stock <= 10){
+
+        stockInfo.style.color =
+        "#dc2626";
+
+    }
+    else{
+
+        stockInfo.style.color =
+        "#16a34a";
+    }
+}
+
+
+/* =====================================================
+   CUSTOMER SUMMARY
+===================================================== */
+
+customerNameInput.addEventListener(
+"input",
+function(){
+
+    document.getElementById(
+        "summaryCustomer"
+    ).innerText =
+    this.value.trim() || "-";
+
+});
+
+
+/* =====================================================
+   TOTAL
+===================================================== */
+
+quantityInput.addEventListener(
+"input",
+calculateTotal
+);
+
+
+function calculateTotal(){
+
+    const quantity =
+    Number(
+        quantityInput.value || 0
+    );
+
+
+    const tp =
+    Number(
+        tpInput.value || 0
+    );
+
+
+    const total =
+    quantity * tp;
+
+
+    totalInput.value =
+    total;
+
+
+    document.getElementById(
+        "summaryQuantity"
+    ).innerText =
+    quantity;
+
+
+    document.getElementById(
+        "summaryTotal"
+    ).innerText =
+    total.toLocaleString();
+}
+
+
+/* =====================================================
+   GET OR CREATE CUSTOMER
+===================================================== */
+
 async function getOrCreateCustomer(){
 
     const customerName =
-        customerNameInput.value.trim();
+    customerNameInput.value.trim();
 
     const customerPhone =
-        customerPhoneInput.value.trim();
+    customerPhoneInput.value.trim();
 
 
     if(!customerName){
@@ -12,13 +1010,10 @@ async function getOrCreateCustomer(){
         throw new Error(
             "Please enter customer name."
         );
-
     }
 
 
-    // ==========================================
-    // CHECK CURRENT LOGIN SESSION
-    // ==========================================
+    /* CHECK LOGIN */
 
     const {
         data:sessionData,
@@ -33,47 +1028,36 @@ async function getOrCreateCustomer(){
             "Login session error: " +
             sessionError.message
         );
-
     }
 
 
     if(!sessionData.session){
 
         throw new Error(
-            "Login session পাওয়া যায়নি। Logout করে আবার Login করুন."
+            "Please logout and login again."
         );
-
     }
 
 
-    console.log(
-        "Authenticated user:",
-        sessionData.session.user.email
-    );
+    /* FIND CUSTOMER */
 
-
-    // ==========================================
-    // FIND EXISTING CUSTOMER
-    // ==========================================
-
-    let customerQuery =
-        supabaseClient
-            .from("customers")
-            .select("id,name,phone")
-            .eq(
-                "name",
-                customerName
-            );
+    let query =
+    supabaseClient
+        .from("customers")
+        .select("id,name,phone")
+        .eq(
+            "name",
+            customerName
+        );
 
 
     if(customerPhone){
 
-        customerQuery =
-            customerQuery.eq(
-                "phone",
-                customerPhone
-            );
-
+        query =
+        query.eq(
+            "phone",
+            customerPhone
+        );
     }
 
 
@@ -81,8 +1065,7 @@ async function getOrCreateCustomer(){
         data:existingCustomer,
         error:findError
     } =
-    await customerQuery
-        .limit(1);
+    await query.limit(1);
 
 
     if(findError){
@@ -91,32 +1074,21 @@ async function getOrCreateCustomer(){
             "Customer search failed: " +
             findError.message
         );
-
     }
 
 
-    // ==========================================
-    // CUSTOMER ALREADY EXISTS
-    // ==========================================
+    /* EXISTING */
 
     if(
         existingCustomer &&
         existingCustomer.length > 0
     ){
 
-        console.log(
-            "Existing Customer:",
-            existingCustomer[0]
-        );
-
         return existingCustomer[0].id;
-
     }
 
 
-    // ==========================================
-    // CREATE NEW CUSTOMER
-    // ==========================================
+    /* CREATE */
 
     const {
         data:newCustomer,
@@ -125,8 +1097,8 @@ async function getOrCreateCustomer(){
     await supabaseClient
         .from("customers")
         .insert({
-            name: customerName,
-            phone: customerPhone
+            name:customerName,
+            phone:customerPhone
         })
         .select("id")
         .single();
@@ -135,7 +1107,7 @@ async function getOrCreateCustomer(){
     if(createError){
 
         console.error(
-            "CUSTOMER CREATE ERROR:",
+            "Customer Create Error:",
             createError
         );
 
@@ -143,7 +1115,6 @@ async function getOrCreateCustomer(){
             "Customer create failed: " +
             createError.message
         );
-
     }
 
 
@@ -155,16 +1126,398 @@ async function getOrCreateCustomer(){
         throw new Error(
             "Customer ID পাওয়া যায়নি."
         );
-
     }
 
 
-    console.log(
-        "New Customer ID:",
-        newCustomer.id
+    return newCustomer.id;
+}
+
+
+/* =====================================================
+   SAVE SALE
+===================================================== */
+
+salesForm.addEventListener(
+"submit",
+async function(event){
+
+    event.preventDefault();
+
+
+    hideError();
+    hideSuccess();
+    showMessage("");
+
+
+    /* LOGIN */
+
+    if(!currentUser){
+
+        showError(
+            "Please login first."
+        );
+
+        return;
+    }
+
+
+    /* CUSTOMER */
+
+    const customer =
+    customerNameInput.value.trim();
+
+
+    const phone =
+    customerPhoneInput.value.trim();
+
+
+    if(!customer){
+
+        showError(
+            "Please enter customer name."
+        );
+
+        return;
+    }
+
+
+    /* DATE */
+
+    const saleDate =
+    salesDateInput.value;
+
+
+    if(!saleDate){
+
+        showError(
+            "Please select sales date."
+        );
+
+        return;
+    }
+
+
+    /* PRODUCT */
+
+    const product =
+    getSelectedProduct();
+
+
+    if(!product){
+
+        showError(
+            "Please select a product."
+        );
+
+        return;
+    }
+
+
+    /* QUANTITY */
+
+    const quantity =
+    Number(
+        quantityInput.value
     );
 
 
-    return newCustomer.id;
+    if(
+        !Number.isFinite(quantity) ||
+        quantity <= 0 ||
+        !Number.isInteger(quantity)
+    ){
 
+        showError(
+            "Please enter a valid whole quantity."
+        );
+
+        return;
+    }
+
+
+    /* STOCK */
+
+    const currentStock =
+    Number(product.stock || 0);
+
+
+    if(quantity > currentStock){
+
+        showError(
+            "Not enough stock. Available stock: " +
+            currentStock
+        );
+
+        return;
+    }
+
+
+    /* PRICE */
+
+    const tp =
+    Number(product.tp || 0);
+
+    const mrp =
+    Number(product.mrp || 0);
+
+    const total =
+    quantity * tp;
+
+
+    saveButton.disabled =
+    true;
+
+    saveButton.innerText =
+    "Processing...";
+
+
+    try{
+
+        /* ==========================================
+           STEP 1
+           CUSTOMER
+        ========================================== */
+
+        const customerId =
+        await getOrCreateCustomer();
+
+
+        /* ==========================================
+           STEP 2
+           REDUCE STOCK
+        ========================================== */
+
+        const {
+            data:newStock,
+            error:stockError
+        } =
+        await supabaseClient.rpc(
+            "reduce_product_stock",
+            {
+                p_product_id:
+                product.id,
+
+                p_quantity:
+                quantity
+            }
+        );
+
+
+        if(stockError){
+
+            throw new Error(
+                "Stock update failed: " +
+                stockError.message
+            );
+        }
+
+
+        /* ==========================================
+           STEP 3
+           SAVE SALES
+        ========================================== */
+
+        const saleData = {
+
+            customer_id:
+            customerId,
+
+            customer_name:
+            customer,
+
+            customer_phone:
+            phone,
+
+            product_id:
+            product.id,
+
+            product_name:
+            product.name || "",
+
+            product_code:
+            product.code || "",
+
+            category:
+            product.category || "",
+
+            pack_size:
+            product.pack_size || "",
+
+            unit:
+            product.unit || "",
+
+            quantity:
+            quantity,
+
+            tp:
+            tp,
+
+            mrp:
+            mrp,
+
+            total:
+            total,
+
+            sale_date:
+            saleDate
+        };
+
+
+        console.log(
+            "Saving sale:",
+            saleData
+        );
+
+
+        const {
+            data:saleResult,
+            error:saleError
+        } =
+        await supabaseClient
+            .from("sales")
+            .insert(saleData)
+            .select()
+            .single();
+
+
+        if(saleError){
+
+            console.error(
+                "Sales Insert Error:",
+                saleError
+            );
+
+            throw new Error(
+                "Sales save failed: " +
+                saleError.message
+            );
+        }
+
+
+        /* ==========================================
+           SUCCESS
+        ========================================== */
+
+        const finalStock =
+        newStock !== null &&
+        newStock !== undefined
+        ? Number(newStock)
+        : currentStock - quantity;
+
+
+        showSuccess(
+            "Sale saved successfully! " +
+            "New Stock: " +
+            finalStock
+        );
+
+
+        showMessage(
+            "Sale saved successfully.",
+            "green"
+        );
+
+
+        /* UPDATE LOCAL PRODUCT */
+
+        product.stock =
+        finalStock;
+
+
+        /* RESET */
+
+        salesForm.reset();
+
+        salesDateInput.value =
+        today;
+
+        tpInput.value = "";
+
+        mrpInput.value = "";
+
+        totalInput.value = "";
+
+        productInfo.innerText =
+        "Product: -";
+
+        stockInfo.innerText =
+        "Available Stock: 0";
+
+        stockInfo.style.color =
+        "#16a34a";
+
+
+        document.getElementById(
+            "summaryProduct"
+        ).innerText = "-";
+
+        document.getElementById(
+            "summaryCode"
+        ).innerText = "-";
+
+        document.getElementById(
+            "summaryCategory"
+        ).innerText = "-";
+
+        document.getElementById(
+            "summaryPack"
+        ).innerText = "-";
+
+        document.getElementById(
+            "summaryCustomer"
+        ).innerText = "-";
+
+        document.getElementById(
+            "summaryQuantity"
+        ).innerText = "0";
+
+        document.getElementById(
+            "summaryTotal"
+        ).innerText = "0";
+
+
+        /* RELOAD */
+
+        await loadProducts();
+
+    }
+
+    catch(error){
+
+        console.error(
+            "SAVE SALE ERROR:",
+            error
+        );
+
+        showError(
+            error.message
+        );
+
+    }
+
+    finally{
+
+        saveButton.disabled =
+        false;
+
+        saveButton.innerText =
+        "Save Sale";
+    }
+
+});
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+function goDashboard(){
+
+    window.location.href =
+    "dashboard.html";
 }
+
+</script>
+
+</body>
+</html>
