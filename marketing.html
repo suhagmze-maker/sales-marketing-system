@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,198 +9,208 @@
 
 <title>Marketing Management</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
 }
 
-body {
-    background: #f4f6f9;
+body{
+    background:#f4f6f9;
 }
 
-.header {
-    background: #2563eb;
-    color: white;
-    padding: 18px 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.header{
+    background:#2563eb;
+    color:white;
+    padding:18px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
-.back-btn {
-    background: white;
-    color: #2563eb;
-    border: none;
-    padding: 9px 15px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
+.back-btn{
+    background:white;
+    color:#2563eb;
+    border:none;
+    padding:9px 15px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 30px auto;
-    padding: 20px;
+.container{
+    max-width:1200px;
+    margin:30px auto;
+    padding:20px;
 }
 
-.box {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
-    margin-bottom: 25px;
+.box{
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 3px 15px rgba(0,0,0,.08);
+    margin-bottom:25px;
 }
 
-h1 {
-    color: #222;
-    margin-bottom: 20px;
+h1{
+    color:#222;
+    margin-bottom:20px;
 }
 
-.form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:16px;
 }
 
-.full {
-    grid-column: 1 / -1;
+.full{
+    grid-column:1/-1;
 }
 
-label {
-    display: block;
-    margin-bottom: 7px;
-    font-weight: bold;
+label{
+    display:block;
+    margin-bottom:7px;
+    font-weight:bold;
 }
 
 input,
 select,
-textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 7px;
-    font-size: 15px;
+textarea{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:7px;
+    font-size:15px;
 }
 
-textarea {
-    min-height: 100px;
-    resize: vertical;
+textarea{
+    min-height:100px;
+    resize:vertical;
 }
 
-.save-btn {
-    margin-top: 20px;
-    width: 100%;
-    padding: 13px;
-    border: none;
-    border-radius: 7px;
-    background: #2563eb;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
+.save-btn{
+    margin-top:20px;
+    width:100%;
+    padding:13px;
+    border:none;
+    border-radius:7px;
+    background:#2563eb;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
 }
 
-.cancel-btn {
-    margin-top: 10px;
-    width: 100%;
-    padding: 11px;
-    border: none;
-    border-radius: 7px;
-    background: #64748b;
-    color: white;
-    font-size: 15px;
-    cursor: pointer;
-    display: none;
+.save-btn:disabled{
+    opacity:.7;
+    cursor:not-allowed;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
+.cancel-btn{
+    margin-top:10px;
+    width:100%;
+    padding:11px;
+    border:none;
+    border-radius:7px;
+    background:#64748b;
+    color:white;
+    font-size:15px;
+    cursor:pointer;
+    display:none;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:1100px;
 }
 
 th,
-td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
+td{
+    padding:12px;
+    border-bottom:1px solid #ddd;
+    text-align:left;
 }
 
-th {
-    background: #f1f5f9;
+th{
+    background:#f1f5f9;
 }
 
-.edit-btn {
-    background: #16a34a;
-    color: white;
-    border: none;
-    padding: 7px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-right: 5px;
+.edit-btn{
+    background:#16a34a;
+    color:white;
+    border:none;
+    padding:7px 10px;
+    border-radius:5px;
+    cursor:pointer;
+    margin-right:5px;
 }
 
-.delete-btn {
-    background: #dc2626;
-    color: white;
-    border: none;
-    padding: 7px 10px;
-    border-radius: 5px;
-    cursor: pointer;
+.delete-btn{
+    background:#dc2626;
+    color:white;
+    border:none;
+    padding:7px 10px;
+    border-radius:5px;
+    cursor:pointer;
 }
 
-.status {
-    padding: 5px 9px;
-    border-radius: 5px;
-    font-size: 13px;
-    font-weight: bold;
+.status{
+    padding:5px 9px;
+    border-radius:5px;
+    font-size:13px;
+    font-weight:bold;
 }
 
-.active {
-    background: #dcfce7;
-    color: #166534;
+.active{
+    background:#dcfce7;
+    color:#166534;
 }
 
-.pending {
-    background: #fef3c7;
-    color: #92400e;
+.pending{
+    background:#fef3c7;
+    color:#92400e;
 }
 
-.completed {
-    background: #e0e7ff;
-    color: #3730a3;
+.completed{
+    background:#e0e7ff;
+    color:#3730a3;
 }
 
-#message {
-    text-align: center;
-    margin-top: 15px;
-    font-weight: bold;
+#message{
+    text-align:center;
+    margin-top:15px;
+    font-weight:bold;
 }
 
-.empty {
-    text-align: center;
-    color: #777;
-    padding: 25px;
+.empty,
+.loading{
+    text-align:center;
+    color:#777;
+    padding:25px;
 }
 
-@media (max-width: 700px) {
+.loading{
+    color:#2563eb;
+    font-weight:bold;
+}
 
-    .form-grid {
-        grid-template-columns: 1fr;
+@media(max-width:700px){
+
+    .form-grid{
+        grid-template-columns:1fr;
     }
 
-    .full {
-        grid-column: auto;
+    .full{
+        grid-column:auto;
     }
 
-    .box {
-        overflow-x: auto;
-    }
-
-    table {
-        min-width: 1100px;
+    .box{
+        overflow-x:auto;
     }
 
 }
@@ -209,6 +220,7 @@ th {
 </head>
 
 <body>
+
 
 <div class="header">
 
@@ -230,7 +242,9 @@ th {
 <div class="container">
 
 
-<!-- CAMPAIGN FORM -->
+<!-- ==========================================
+     CAMPAIGN FORM
+========================================== -->
 
 <div class="box">
 
@@ -238,9 +252,7 @@ th {
         Add Marketing Campaign
     </h1>
 
-
     <form id="marketingForm">
-
 
         <div class="form-grid">
 
@@ -394,7 +406,7 @@ th {
                 </label>
 
                 <select
-                    id="status"
+                    id="campaignStatus"
                     required>
 
                     <option value="Pending">
@@ -426,7 +438,6 @@ th {
 
             </div>
 
-
         </div>
 
 
@@ -450,7 +461,6 @@ th {
 
         </button>
 
-
     </form>
 
 
@@ -459,14 +469,16 @@ th {
 </div>
 
 
-<!-- CAMPAIGN LIST -->
+
+<!-- ==========================================
+     CAMPAIGN HISTORY
+========================================== -->
 
 <div class="box">
 
     <h1>
         Campaign History
     </h1>
-
 
     <table>
 
@@ -488,8 +500,21 @@ th {
 
         </thead>
 
+        <tbody id="campaignList">
 
-        <tbody id="campaignList"></tbody>
+            <tr>
+
+                <td
+                    colspan="9"
+                    class="loading">
+
+                    Loading campaigns...
+
+                </td>
+
+            </tr>
+
+        </tbody>
 
     </table>
 
@@ -502,37 +527,263 @@ th {
 <script>
 
 
-/* ==========================================
-   LOAD CAMPAIGNS
-========================================== */
+// =====================================================
+// SUPABASE
+// =====================================================
 
-let campaigns =
-    JSON.parse(
-        localStorage.getItem("campaigns")
-    ) || [];
+const SUPABASE_URL =
+    "https://ucrtujcqrpjcwepiugak.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_RnDm7gJ6ROuU49hcY_BA3g_snx27-M9";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
 
-let editIndex = -1;
+// =====================================================
+// DATA
+// =====================================================
+
+let campaigns = [];
+
+let editId = null;
 
 
-/* ==========================================
-   DISPLAY CAMPAIGNS
-========================================== */
+// =====================================================
+// ELEMENTS
+// =====================================================
 
-function displayCampaigns() {
+const form =
+    document.getElementById(
+        "marketingForm"
+    );
 
-    const list =
-        document.getElementById(
-            "campaignList"
+const campaignList =
+    document.getElementById(
+        "campaignList"
+    );
+
+const saveBtn =
+    document.getElementById(
+        "saveBtn"
+    );
+
+const cancelBtn =
+    document.getElementById(
+        "cancelBtn"
+    );
+
+const formTitle =
+    document.getElementById(
+        "formTitle"
+    );
+
+const message =
+    document.getElementById(
+        "message"
+    );
+
+
+// =====================================================
+// ESCAPE HTML
+// =====================================================
+
+function escapeHTML(value){
+
+    if(
+        value === null ||
+        value === undefined
+    ){
+
+        return "";
+
+    }
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+
+// =====================================================
+// SESSION CHECK
+// =====================================================
+
+async function checkSession(){
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient.auth.getSession();
+
+    if(error){
+
+        throw new Error(
+            "Session error: " +
+            error.message
         );
 
+    }
 
-    list.innerHTML = "";
+    if(!data.session){
+
+        window.location.href =
+            "index.html";
+
+        return false;
+
+    }
+
+    console.log(
+        "Logged in:",
+        data.session.user.email
+    );
+
+    return true;
+
+}
 
 
-    if (campaigns.length === 0) {
+// =====================================================
+// LOAD CAMPAIGNS
+// =====================================================
 
-        list.innerHTML = `
+async function loadCampaigns(){
+
+    campaignList.innerHTML = `
+
+        <tr>
+
+            <td
+                colspan="9"
+                class="loading">
+
+                Loading campaigns...
+
+            </td>
+
+        </tr>
+
+    `;
+
+
+    try{
+
+        const sessionOK =
+            await checkSession();
+
+
+        if(!sessionOK){
+
+            return;
+
+        }
+
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient
+            .from("marketing_campaigns")
+            .select("*")
+            .order(
+                "created_at",
+                {
+                    ascending:false
+                }
+            );
+
+
+        if(error){
+
+            console.error(
+                "Load campaign error:",
+                error
+            );
+
+            campaignList.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="9"
+                        class="empty">
+
+                        Failed to load campaigns:
+                        ${escapeHTML(
+                            error.message
+                        )}
+
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+
+        }
+
+
+        campaigns =
+            data || [];
+
+
+        displayCampaigns();
+
+    }
+
+    catch(error){
+
+        console.error(
+            error
+        );
+
+        campaignList.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="9"
+                    class="empty">
+
+                    ${escapeHTML(
+                        error.message
+                    )}
+
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+
+}
+
+
+// =====================================================
+// DISPLAY
+// =====================================================
+
+function displayCampaigns(){
+
+    campaignList.innerHTML = "";
+
+
+    if(campaigns.length === 0){
+
+        campaignList.innerHTML = `
 
             <tr>
 
@@ -554,50 +805,64 @@ function displayCampaigns() {
 
 
     campaigns.forEach(
-        function(campaign, index) {
-
-            const row =
-                document.createElement("tr");
-
+        function(campaign){
 
             let statusClass =
                 "pending";
 
 
-            if (
-                campaign.status === "Active"
-            ) {
+            if(
+                campaign.status ===
+                "Active"
+            ){
 
-                statusClass = "active";
+                statusClass =
+                    "active";
+
+            }
+
+
+            if(
+                campaign.status ===
+                "Completed"
+            ){
+
+                statusClass =
+                    "completed";
 
             }
 
 
-            if (
-                campaign.status === "Completed"
-            ) {
-
-                statusClass = "completed";
-
-            }
+            const row =
+                document.createElement(
+                    "tr"
+                );
 
 
             row.innerHTML = `
 
                 <td>
-                    ${campaign.name}
+                    ${escapeHTML(
+                        campaign.name
+                    )}
                 </td>
 
                 <td>
-                    ${campaign.type}
+                    ${escapeHTML(
+                        campaign.type
+                    )}
                 </td>
 
                 <td>
-                    ${campaign.startDate}
+                    ${escapeHTML(
+                        campaign.start_date
+                    )}
                 </td>
 
                 <td>
-                    ${campaign.endDate}
+                    ${escapeHTML(
+                        campaign.end_date
+                    )}
                 </td>
 
                 <td>
@@ -607,7 +872,9 @@ function displayCampaigns() {
                 </td>
 
                 <td>
-                    ${campaign.target}
+                    ${escapeHTML(
+                        campaign.target
+                    )}
                 </td>
 
                 <td>
@@ -615,21 +882,25 @@ function displayCampaigns() {
                     <span
                         class="status ${statusClass}">
 
-                        ${campaign.status}
+                        ${escapeHTML(
+                            campaign.status
+                        )}
 
                     </span>
 
                 </td>
 
                 <td>
-                    ${campaign.details || "-"}
+                    ${escapeHTML(
+                        campaign.details || "-"
+                    )}
                 </td>
 
                 <td>
 
                     <button
                         class="edit-btn"
-                        onclick="editCampaign(${index})">
+                        onclick="editCampaign('${campaign.id}')">
 
                         Edit
 
@@ -637,7 +908,7 @@ function displayCampaigns() {
 
                     <button
                         class="delete-btn"
-                        onclick="deleteCampaign(${index})">
+                        onclick="deleteCampaign('${campaign.id}')">
 
                         Delete
 
@@ -648,7 +919,9 @@ function displayCampaigns() {
             `;
 
 
-            list.appendChild(row);
+            campaignList.appendChild(
+                row
+            );
 
         }
     );
@@ -656,302 +929,455 @@ function displayCampaigns() {
 }
 
 
-/* ==========================================
-   SAVE CAMPAIGN
-========================================== */
+// =====================================================
+// SAVE / UPDATE
+// =====================================================
 
-document
-.getElementById("marketingForm")
-.addEventListener(
+form.addEventListener(
     "submit",
-    function(event) {
+    async function(event){
 
         event.preventDefault();
 
 
-        const campaign = {
+        saveBtn.disabled =
+            true;
 
-            name:
-                document.getElementById(
-                    "campaignName"
-                ).value.trim(),
 
-            type:
-                document.getElementById(
-                    "campaignType"
-                ).value,
+        saveBtn.innerText =
+            editId === null
+            ? "Saving..."
+            : "Updating...";
 
-            startDate:
-                document.getElementById(
-                    "startDate"
-                ).value,
 
-            endDate:
-                document.getElementById(
-                    "endDate"
-                ).value,
+        try{
 
-            budget:
-                Number(
+            const sessionOK =
+                await checkSession();
+
+
+            if(!sessionOK){
+
+                return;
+
+            }
+
+
+            const campaignData = {
+
+                name:
                     document.getElementById(
-                        "budget"
-                    ).value
-                ),
+                        "campaignName"
+                    ).value.trim(),
 
-            target:
-                document.getElementById(
-                    "targetCustomer"
-                ).value,
+                type:
+                    document.getElementById(
+                        "campaignType"
+                    ).value,
 
-            status:
-                document.getElementById(
-                    "status"
-                ).value,
+                start_date:
+                    document.getElementById(
+                        "startDate"
+                    ).value,
 
-            details:
-                document.getElementById(
-                    "details"
-                ).value.trim()
+                end_date:
+                    document.getElementById(
+                        "endDate"
+                    ).value,
 
-        };
+                budget:
+                    Number(
+                        document.getElementById(
+                            "budget"
+                        ).value
+                    ) || 0,
 
+                target:
+                    document.getElementById(
+                        "targetCustomer"
+                    ).value,
 
-        if (editIndex === -1) {
+                status:
+                    document.getElementById(
+                        "campaignStatus"
+                    ).value,
 
-            campaigns.push(campaign);
+                details:
+                    document.getElementById(
+                        "details"
+                    ).value.trim()
 
-
-            showMessage(
-                "Campaign saved successfully!",
-                "green"
-            );
-
-        } else {
-
-            campaigns[editIndex] =
-                campaign;
-
-
-            editIndex = -1;
-
-
-            showMessage(
-                "Campaign updated successfully!",
-                "green"
-            );
+            };
 
 
-            document.getElementById(
-                "formTitle"
-            ).innerText =
+            if(
+                campaignData.end_date <
+                campaignData.start_date
+            ){
+
+                throw new Error(
+                    "End Date cannot be before Start Date."
+                );
+
+            }
+
+
+            // =========================================
+            // UPDATE
+            // =========================================
+
+            if(editId !== null){
+
+                const {
+                    error
+                } =
+                await supabaseClient
+                    .from(
+                        "marketing_campaigns"
+                    )
+                    .update(
+                        campaignData
+                    )
+                    .eq(
+                        "id",
+                        editId
+                    );
+
+
+                if(error){
+
+                    throw new Error(
+                        "Campaign update failed: " +
+                        error.message
+                    );
+
+                }
+
+
+                showMessage(
+                    "Campaign updated successfully!",
+                    "green"
+                );
+
+            }
+
+            // =========================================
+            // INSERT
+            // =========================================
+
+            else{
+
+                const {
+                    error
+                } =
+                await supabaseClient
+                    .from(
+                        "marketing_campaigns"
+                    )
+                    .insert(
+                        campaignData
+                    );
+
+
+                if(error){
+
+                    throw new Error(
+                        "Campaign save failed: " +
+                        error.message
+                    );
+
+                }
+
+
+                showMessage(
+                    "Campaign saved successfully!",
+                    "green"
+                );
+
+            }
+
+
+            editId =
+                null;
+
+
+            form.reset();
+
+
+            formTitle.innerText =
                 "Add Marketing Campaign";
 
 
-            document.getElementById(
-                "saveBtn"
-            ).innerText =
+            saveBtn.innerText =
                 "Save Campaign";
 
 
-            document.getElementById(
-                "cancelBtn"
-            ).style.display =
+            cancelBtn.style.display =
                 "none";
+
+
+            await loadCampaigns();
 
         }
 
+        catch(error){
 
-        localStorage.setItem(
-            "campaigns",
-            JSON.stringify(campaigns)
-        );
-
-
-        document
-        .getElementById(
-            "marketingForm"
-        )
-        .reset();
+            console.error(
+                "Campaign error:",
+                error
+            );
 
 
-        displayCampaigns();
+            showMessage(
+                error.message,
+                "red"
+            );
+
+        }
+
+        finally{
+
+            saveBtn.disabled =
+                false;
+
+
+            if(editId === null){
+
+                saveBtn.innerText =
+                    "Save Campaign";
+
+            }
+
+        }
 
     }
 );
 
 
-/* ==========================================
-   EDIT CAMPAIGN
-========================================== */
+// =====================================================
+// EDIT
+// =====================================================
 
-function editCampaign(index) {
+function editCampaign(id){
 
     const campaign =
-        campaigns[index];
+        campaigns.find(
+            function(item){
+
+                return String(item.id) ===
+                       String(id);
+
+            }
+        );
 
 
-    editIndex = index;
+    if(!campaign){
+
+        alert(
+            "Campaign not found."
+        );
+
+        return;
+
+    }
+
+
+    editId =
+        campaign.id;
 
 
     document.getElementById(
         "campaignName"
     ).value =
-        campaign.name;
+        campaign.name || "";
 
 
     document.getElementById(
         "campaignType"
     ).value =
-        campaign.type;
+        campaign.type || "";
 
 
     document.getElementById(
         "startDate"
     ).value =
-        campaign.startDate;
+        campaign.start_date || "";
 
 
     document.getElementById(
         "endDate"
     ).value =
-        campaign.endDate;
+        campaign.end_date || "";
 
 
     document.getElementById(
         "budget"
     ).value =
-        campaign.budget;
+        campaign.budget || 0;
 
 
     document.getElementById(
         "targetCustomer"
     ).value =
-        campaign.target;
+        campaign.target || "";
 
 
     document.getElementById(
-        "status"
+        "campaignStatus"
     ).value =
-        campaign.status;
+        campaign.status || "Pending";
 
 
     document.getElementById(
         "details"
     ).value =
-        campaign.details;
+        campaign.details || "";
 
 
-    document.getElementById(
-        "formTitle"
-    ).innerText =
+    formTitle.innerText =
         "Edit Marketing Campaign";
 
 
-    document.getElementById(
-        "saveBtn"
-    ).innerText =
+    saveBtn.innerText =
         "Update Campaign";
 
 
-    document.getElementById(
-        "cancelBtn"
-    ).style.display =
+    cancelBtn.style.display =
         "block";
 
 
     window.scrollTo({
-        top: 0,
-        behavior: "smooth"
+        top:0,
+        behavior:"smooth"
     });
 
 }
 
 
-/* ==========================================
-   CANCEL EDIT
-========================================== */
+// =====================================================
+// CANCEL EDIT
+// =====================================================
 
-function cancelEdit() {
+function cancelEdit(){
 
-    editIndex = -1;
-
-
-    document
-    .getElementById(
-        "marketingForm"
-    )
-    .reset();
+    editId =
+        null;
 
 
-    document.getElementById(
-        "formTitle"
-    ).innerText =
+    form.reset();
+
+
+    formTitle.innerText =
         "Add Marketing Campaign";
 
 
-    document.getElementById(
-        "saveBtn"
-    ).innerText =
+    saveBtn.innerText =
         "Save Campaign";
 
 
-    document.getElementById(
-        "cancelBtn"
-    ).style.display =
+    cancelBtn.style.display =
         "none";
+
+
+    message.innerText =
+        "";
 
 }
 
 
-/* ==========================================
-   DELETE
-========================================== */
+// =====================================================
+// DELETE
+// =====================================================
 
-function deleteCampaign(index) {
+async function deleteCampaign(id){
 
-    if (
-        confirm(
+    if(
+        !confirm(
             "Are you sure you want to delete this campaign?"
         )
-    ) {
+    ){
 
-        campaigns.splice(
-            index,
-            1
+        return;
+
+    }
+
+
+    try{
+
+        const sessionOK =
+            await checkSession();
+
+
+        if(!sessionOK){
+
+            return;
+
+        }
+
+
+        const {
+            error
+        } =
+        await supabaseClient
+            .from(
+                "marketing_campaigns"
+            )
+            .delete()
+            .eq(
+                "id",
+                id
+            );
+
+
+        if(error){
+
+            throw new Error(
+                "Campaign delete failed: " +
+                error.message
+            );
+
+        }
+
+
+        showMessage(
+            "Campaign deleted successfully!",
+            "green"
         );
 
 
-        localStorage.setItem(
-            "campaigns",
-            JSON.stringify(campaigns)
+        await loadCampaigns();
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Delete error:",
+            error
         );
 
 
-        displayCampaigns();
+        showMessage(
+            error.message,
+            "red"
+        );
 
     }
 
 }
 
 
-/* ==========================================
-   MESSAGE
-========================================== */
+// =====================================================
+// MESSAGE
+// =====================================================
 
 function showMessage(
     text,
     color
-) {
-
-    const message =
-        document.getElementById(
-            "message"
-        );
-
+){
 
     message.innerText =
         text;
-
 
     message.style.color =
         color;
@@ -959,11 +1385,11 @@ function showMessage(
 }
 
 
-/* ==========================================
-   DASHBOARD
-========================================== */
+// =====================================================
+// DASHBOARD
+// =====================================================
 
-function goDashboard() {
+function goDashboard(){
 
     window.location.href =
         "dashboard.html";
@@ -971,14 +1397,25 @@ function goDashboard() {
 }
 
 
-/* ==========================================
-   INITIAL LOAD
-========================================== */
+// =====================================================
+// INITIAL LOAD
+// =====================================================
 
-displayCampaigns();
+loadCampaigns();
+
+
+// =====================================================
+// AUTO REFRESH
+// =====================================================
+
+setInterval(
+    loadCampaigns,
+    10000
+);
 
 </script>
 
 </body>
 
 </html>
+```
