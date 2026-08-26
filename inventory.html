@@ -210,7 +210,9 @@ th{
 <body>
 
 
-<!-- HEADER -->
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
 <div class="header">
 
@@ -230,7 +232,9 @@ th{
 <div class="container">
 
 
-<!-- MESSAGE -->
+<!-- =====================================================
+     MESSAGE
+===================================================== -->
 
 <div
     id="message"
@@ -238,7 +242,9 @@ th{
 </div>
 
 
-<!-- SUMMARY -->
+<!-- =====================================================
+     SUMMARY
+===================================================== -->
 
 <div class="cards">
 
@@ -280,7 +286,9 @@ th{
 </div>
 
 
-<!-- STOCK IN -->
+<!-- =====================================================
+     STOCK IN
+===================================================== -->
 
 <div class="box">
 
@@ -319,7 +327,9 @@ th{
 </div>
 
 
-<!-- INVENTORY -->
+<!-- =====================================================
+     CURRENT INVENTORY
+===================================================== -->
 
 <div class="box">
 
@@ -334,10 +344,6 @@ th{
                 <th>Product</th>
 
                 <th>Code</th>
-
-                <th>Pack Size</th>
-
-                <th>Unit</th>
 
                 <th>TP</th>
 
@@ -362,7 +368,9 @@ th{
 </div>
 
 
-<!-- STOCK MOVEMENT -->
+<!-- =====================================================
+     STOCK MOVEMENT
+===================================================== -->
 
 <div class="box">
 
@@ -377,8 +385,6 @@ th{
                 <th>Date</th>
 
                 <th>Product</th>
-
-                <th>Code</th>
 
                 <th>Type</th>
 
@@ -667,7 +673,7 @@ function displayInventory(){
             <tr>
 
                 <td
-                    colspan="9"
+                    colspan="7"
                     class="empty">
 
                     No products found.
@@ -738,14 +744,6 @@ function displayInventory(){
 
             <td>
                 ${escapeHtml(product.code || "")}
-            </td>
-
-            <td>
-                ${escapeHtml(product.pack_size || "")}
-            </td>
-
-            <td>
-                ${escapeHtml(product.unit || "")}
             </td>
 
             <td>
@@ -821,6 +819,10 @@ async function addStock(){
         quantityInput.value
     );
 
+
+    // -------------------------------------------------
+    // VALIDATION
+    // -------------------------------------------------
 
     if(!productId){
 
@@ -904,7 +906,10 @@ async function addStock(){
         await supabaseClient
             .from("products")
             .update({
-                stock:newStock
+
+                stock:
+                newStock
+
             })
             .eq(
                 "id",
@@ -924,13 +929,19 @@ async function addStock(){
 
         // =============================================
         // STOCK MOVEMENT
+        //
         // IMPORTANT:
-        // Only basic columns are inserted.
-        // No Created_at
-        // No Customer _name
-        // No Movement _date
-        // No purchase_price
-        // No type
+        // এখানে শুধুমাত্র নিশ্চিত column ব্যবহার করা হয়েছে:
+        //
+        // product_id
+        // product_name
+        // product_code
+        // quantity
+        //
+        // Created_at ব্যবহার করা হয়নি
+        // Customer _name ব্যবহার করা হয়নি
+        // Movement _date ব্যবহার করা হয়নি
+        // purchase_price ব্যবহার করা হয়নি
         // =============================================
 
         const movementData = {
@@ -960,6 +971,10 @@ async function addStock(){
             );
 
 
+        // =============================================
+        // MOVEMENT ERROR
+        // =============================================
+
         if(movementError){
 
             // Restore old stock
@@ -967,7 +982,10 @@ async function addStock(){
             await supabaseClient
                 .from("products")
                 .update({
-                    stock:oldStock
+
+                    stock:
+                    oldStock
+
                 })
                 .eq(
                     "id",
@@ -1015,6 +1033,10 @@ async function addStock(){
         );
 
 
+        // =============================================
+        // RELOAD MOVEMENTS
+        // =============================================
+
         await loadMovements();
 
     }
@@ -1022,10 +1044,15 @@ async function addStock(){
 
     catch(error){
 
-        console.error(error);
+        console.error(
+            "ADD STOCK ERROR:",
+            error
+        );
+
 
         showMessage(
-            error.message,
+            error.message ||
+            "Something went wrong.",
             "error"
         );
 
@@ -1055,7 +1082,7 @@ async function loadMovements(){
         <tr>
 
             <td
-                colspan="5"
+                colspan="4"
                 class="empty">
 
                 Loading...
@@ -1068,8 +1095,8 @@ async function loadMovements(){
 
 
     // IMPORTANT:
-    // No .order("Created_at")
-    // because Created_at column does not exist.
+    // কোনো নির্দিষ্ট date column দিয়ে order করা হচ্ছে না।
+    // কারণ table-এর column name নিয়ে schema-cache সমস্যা হচ্ছে।
 
     const {
         data,
@@ -1089,7 +1116,7 @@ async function loadMovements(){
             <tr>
 
                 <td
-                    colspan="5"
+                    colspan="4"
                     class="empty">
 
                     Stock movement load failed:
@@ -1116,7 +1143,7 @@ async function loadMovements(){
             <tr>
 
                 <td
-                    colspan="5"
+                    colspan="4"
                     class="empty">
 
                     No stock movement found.
@@ -1132,13 +1159,29 @@ async function loadMovements(){
     }
 
 
-    // Newest records first if ID is numeric
+    // =================================================
+    // SORT IN JAVASCRIPT
+    // কোনো database column-এর উপর depend করছে না
+    // =================================================
 
-    const sortedData =
-    [...data].reverse();
+    data.sort(function(a,b){
+
+        const dateA =
+            getMovementDate(a);
+
+        const dateB =
+            getMovementDate(b);
 
 
-    sortedData.forEach(function(item){
+        return (
+            new Date(dateB || 0) -
+            new Date(dateA || 0)
+        );
+
+    });
+
+
+    data.forEach(function(item){
 
         const row =
         document.createElement("tr");
@@ -1149,8 +1192,8 @@ async function loadMovements(){
         // =============================================
 
         const type =
-            item.movement_type ||
             item["Movement _type"] ||
+            item["movement type"] ||
             item.type ||
             "Stock In";
 
@@ -1169,86 +1212,53 @@ async function loadMovements(){
         // DATE
         // =============================================
 
+        const rawDate =
+            getMovementDate(item);
+
+
         let date = "";
 
 
-        if(item.date){
+        if(rawDate){
 
-            date =
-            formatDate(item.date);
+            const parsedDate =
+                new Date(rawDate);
 
-        }
 
-        else if(item.movement_date){
+            if(!isNaN(parsedDate.getTime())){
 
-            date =
-            formatDate(item.movement_date);
+                date =
+                parsedDate.toLocaleDateString();
 
-        }
+            }
 
-        else if(item["Movement _date"]){
+            else{
 
-            date =
-            formatDate(
-                item["Movement _date"]
-            );
+                date =
+                String(rawDate);
 
-        }
-
-        else if(item.created_at){
-
-            date =
-            formatDate(
-                item.created_at
-            );
-
-        }
-
-        else if(item["Created_at"]){
-
-            date =
-            formatDate(
-                item["Created_at"]
-            );
-
-        }
-
-        else{
-
-            date =
-            new Date()
-                .toLocaleDateString();
+            }
 
         }
 
 
         // =============================================
-        // PRODUCT
+        // PRODUCT NAME
         // =============================================
 
         const productName =
-        item.product_name ||
-        item.product ||
-        "";
-
-
-        // =============================================
-        // CODE
-        // =============================================
-
-        const productCode =
-        item.product_code ||
-        "";
+            item.product_name ||
+            "";
 
 
         // =============================================
         // QUANTITY
         // =============================================
 
-        const qty =
-        Number(
-            item.quantity || 0
-        );
+        const movementQuantity =
+            Number(
+                item.quantity || 0
+            );
 
 
         // =============================================
@@ -1265,16 +1275,12 @@ async function loadMovements(){
                 ${escapeHtml(productName)}
             </td>
 
-            <td>
-                ${escapeHtml(productCode)}
-            </td>
-
             <td class="${typeClass}">
                 ${escapeHtml(type)}
             </td>
 
             <td>
-                ${qty.toLocaleString()}
+                ${movementQuantity.toLocaleString()}
             </td>
 
         `;
@@ -1288,30 +1294,28 @@ async function loadMovements(){
 
 
 // =====================================================
-// FORMAT DATE
+// GET MOVEMENT DATE
 // =====================================================
+//
+// কোনো নির্দিষ্ট column বাধ্যতামূলক করা হয়নি।
+// Table-এ যেটা থাকবে সেটা ব্যবহার করবে।
+//
 
-function formatDate(value){
+function getMovementDate(item){
 
-    if(!value){
+    return (
 
-        return "";
+        item.date ||
 
-    }
+        item["Movement _date"] ||
 
+        item["Created_at"] ||
 
-    const d =
-    new Date(value);
+        item.created_at ||
 
+        null
 
-    if(isNaN(d.getTime())){
-
-        return String(value);
-
-    }
-
-
-    return d.toLocaleDateString();
+    );
 
 }
 
@@ -1324,15 +1328,30 @@ function escapeHtml(value){
 
     return String(value)
 
-        .replace(/&/g,"&amp;")
+        .replace(
+            /&/g,
+            "&amp;"
+        )
 
-        .replace(/</g,"&lt;")
+        .replace(
+            /</g,
+            "&lt;"
+        )
 
-        .replace(/>/g,"&gt;")
+        .replace(
+            />/g,
+            "&gt;"
+        )
 
-        .replace(/"/g,"&quot;")
+        .replace(
+            /"/g,
+            "&quot;"
+        )
 
-        .replace(/'/g,"&#039;");
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
 }
 
