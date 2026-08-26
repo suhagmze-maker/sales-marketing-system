@@ -4,9 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Inventory Management</title>
 
@@ -14,205 +12,193 @@ content="width=device-width, initial-scale=1.0">
 
 <style>
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
 }
 
-body {
-    background: #f4f6f9;
+body{
+    background:#f4f6f9;
 }
 
-.header {
-    background: #2563eb;
-    color: white;
-    padding: 18px 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.header{
+    background:#2563eb;
+    color:white;
+    padding:18px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
-.header h2 {
-    font-size: 22px;
+.back-btn{
+    background:white;
+    color:#2563eb;
+    border:none;
+    padding:9px 15px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
 }
 
-.back-btn {
-    background: white;
-    color: #2563eb;
-    border: none;
-    padding: 9px 15px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
+.container{
+    max-width:1200px;
+    margin:30px auto;
+    padding:20px;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 30px auto;
-    padding: 20px;
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:25px;
 }
 
-.cards {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-    margin-bottom: 25px;
+.card{
+    background:white;
+    padding:22px;
+    border-radius:10px;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
 }
 
-.card {
-    background: white;
-    padding: 22px;
-    border-radius: 10px;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+.card p{
+    color:#666;
+    margin-bottom:10px;
 }
 
-.card p {
-    color: #666;
-    margin-bottom: 10px;
+.card h2{
+    color:#2563eb;
 }
 
-.card h2 {
-    color: #2563eb;
+.box{
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 3px 15px rgba(0,0,0,.08);
+    margin-bottom:25px;
 }
 
-.box {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
-    margin-bottom: 25px;
+h1{
+    margin-bottom:20px;
+    color:#222;
 }
 
-h1 {
-    margin-bottom: 20px;
-    color: #222;
-}
-
-.form {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-bottom: 20px;
+.form{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
 }
 
 input,
-select {
-    padding: 11px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    width: 100%;
+select{
+    padding:11px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    width:100%;
 }
 
-.add-btn {
-    background: #16a34a;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
+.add-btn{
+    background:#16a34a;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
 }
 
-.add-btn:disabled {
-    background: #94a3b8;
-    cursor: not-allowed;
+.add-btn:disabled{
+    background:#94a3b8;
+    cursor:not-allowed;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
+table{
+    width:100%;
+    border-collapse:collapse;
 }
 
 th,
-td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
+td{
+    padding:12px;
+    border-bottom:1px solid #ddd;
+    text-align:left;
 }
 
-th {
-    background: #f1f5f9;
+th{
+    background:#f1f5f9;
 }
 
-.low {
-    color: #dc2626;
-    font-weight: bold;
+.low{
+    color:#dc2626;
+    font-weight:bold;
 }
 
-.good {
-    color: #16a34a;
-    font-weight: bold;
+.good{
+    color:#16a34a;
+    font-weight:bold;
 }
 
-.stock-in {
-    color: #16a34a;
-    font-weight: bold;
+.stock-in{
+    color:#16a34a;
+    font-weight:bold;
 }
 
-.stock-out {
-    color: #dc2626;
-    font-weight: bold;
+.stock-out{
+    color:#dc2626;
+    font-weight:bold;
 }
 
-.empty {
-    text-align: center;
-    padding: 25px;
-    color: #777;
+.empty{
+    text-align:center;
+    padding:25px;
+    color:#777;
 }
 
-.loading {
-    text-align: center;
-    padding: 20px;
-    color: #666;
+.message{
+    padding:12px;
+    border-radius:7px;
+    margin-bottom:20px;
+    display:none;
 }
 
-.error-box {
-    background: #fee2e2;
-    color: #b91c1c;
-    padding: 12px;
-    border-radius: 7px;
-    margin-bottom: 15px;
-    display: none;
+.error{
+    background:#fee2e2;
+    color:#b91c1c;
 }
 
-.success-box {
-    background: #dcfce7;
-    color: #166534;
-    padding: 12px;
-    border-radius: 7px;
-    margin-bottom: 15px;
-    display: none;
+.success{
+    background:#dcfce7;
+    color:#166534;
 }
 
-@media(max-width:900px) {
+@media(max-width:900px){
 
-    .cards {
-        grid-template-columns: repeat(2,1fr);
+    .cards{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    .form {
-        grid-template-columns: repeat(2,1fr);
+    .form{
+        grid-template-columns:repeat(2,1fr);
     }
 
 }
 
-@media(max-width:600px) {
+@media(max-width:600px){
 
-    .cards {
-        grid-template-columns: 1fr;
+    .cards{
+        grid-template-columns:1fr;
     }
 
-    .form {
-        grid-template-columns: 1fr;
+    .form{
+        grid-template-columns:1fr;
     }
 
-    .box {
-        overflow-x: auto;
+    .box{
+        overflow-x:auto;
     }
 
-    table {
-        min-width: 900px;
+    table{
+        min-width:900px;
     }
 
 }
@@ -221,7 +207,6 @@ th {
 
 </head>
 
-
 <body>
 
 
@@ -229,13 +214,11 @@ th {
 
 <div class="header">
 
-    <h2>
-        Inventory Management
-    </h2>
+    <h2>Inventory Management</h2>
 
     <button
-    class="back-btn"
-    onclick="goDashboard()">
+        class="back-btn"
+        onclick="goDashboard()">
 
         Dashboard
 
@@ -244,99 +227,66 @@ th {
 </div>
 
 
-
 <div class="container">
 
 
-<!-- ERROR -->
+<!-- MESSAGE -->
 
 <div
-id="errorBox"
-class="error-box">
+    id="message"
+    class="message">
 </div>
-
-
-<!-- SUCCESS -->
-
-<div
-id="successBox"
-class="success-box">
-</div>
-
 
 
 <!-- SUMMARY -->
 
 <div class="cards">
 
-
     <div class="card">
 
-        <p>
-            Total Products
-        </p>
+        <p>Total Products</p>
 
-        <h2 id="totalProducts">
-            0
-        </h2>
+        <h2 id="totalProducts">0</h2>
 
     </div>
 
 
     <div class="card">
 
-        <p>
-            Total Stock
-        </p>
+        <p>Total Stock</p>
 
-        <h2 id="totalStock">
-            0
-        </h2>
+        <h2 id="totalStock">0</h2>
 
     </div>
 
 
     <div class="card">
 
-        <p>
-            Stock Value
-        </p>
+        <p>Stock Value</p>
 
-        <h2 id="stockValue">
-            ৳ 0
-        </h2>
+        <h2 id="stockValue">৳ 0</h2>
 
     </div>
 
 
     <div class="card">
 
-        <p>
-            Low Stock
-        </p>
+        <p>Low Stock</p>
 
-        <h2 id="lowStock">
-            0
-        </h2>
+        <h2 id="lowStock">0</h2>
 
     </div>
-
 
 </div>
-
 
 
 <!-- STOCK IN -->
 
 <div class="box">
 
-    <h1>
-        Stock In / Purchase
-    </h1>
-
+    <h1>Stock In / Purchase</h1>
 
     <div class="form">
-
 
         <select id="productSelect">
 
@@ -348,45 +298,40 @@ class="success-box">
 
 
         <input
-        type="number"
-        id="quantity"
-        placeholder="Quantity"
-        min="1"
-        step="1">
+            type="number"
+            id="quantity"
+            placeholder="Quantity"
+            min="1"
+            step="1">
 
 
         <input
-        type="number"
-        id="purchasePrice"
-        placeholder="Purchase Price"
-        min="0"
-        step="0.01">
+            type="number"
+            id="purchasePrice"
+            placeholder="Purchase Price"
+            min="0"
+            step="0.01">
 
 
         <button
-        class="add-btn"
-        id="addStockButton"
-        onclick="addStock()">
+            id="addButton"
+            class="add-btn"
+            onclick="addStock()">
 
             + Add Stock
 
         </button>
-
 
     </div>
 
 </div>
 
 
-
 <!-- INVENTORY -->
 
 <div class="box">
 
-    <h1>
-        Current Inventory
-    </h1>
-
+    <h1>Current Inventory</h1>
 
     <table>
 
@@ -394,69 +339,38 @@ class="success-box">
 
             <tr>
 
-                <th>
-                    Product
-                </th>
+                <th>Product</th>
 
-                <th>
-                    Code
-                </th>
+                <th>Code</th>
 
-                <th>
-                    TP
-                </th>
+                <th>TP</th>
 
-                <th>
-                    MRP
-                </th>
+                <th>MRP</th>
 
-                <th>
-                    Current Stock
-                </th>
+                <th>Current Stock</th>
 
-                <th>
-                    Stock Value
-                </th>
+                <th>Stock Value</th>
 
-                <th>
-                    Status
-                </th>
+                <th>Status</th>
 
             </tr>
 
         </thead>
 
-
         <tbody id="inventoryTable">
-
-            <tr>
-
-                <td
-                colspan="7"
-                class="loading">
-
-                    Loading inventory...
-
-                </td>
-
-            </tr>
 
         </tbody>
 
     </table>
 
 </div>
-
 
 
 <!-- STOCK MOVEMENT -->
 
 <div class="box">
 
-    <h1>
-        Stock Movement
-    </h1>
-
+    <h1>Stock Movement</h1>
 
     <table>
 
@@ -464,44 +378,19 @@ class="success-box">
 
             <tr>
 
-                <th>
-                    Date
-                </th>
+                <th>Date</th>
 
-                <th>
-                    Product
-                </th>
+                <th>Product</th>
 
-                <th>
-                    Code
-                </th>
+                <th>Type</th>
 
-                <th>
-                    Type
-                </th>
-
-                <th>
-                    Quantity
-                </th>
+                <th>Quantity</th>
 
             </tr>
 
         </thead>
 
-
         <tbody id="movementTable">
-
-            <tr>
-
-                <td
-                colspan="5"
-                class="loading">
-
-                    Loading movements...
-
-                </td>
-
-            </tr>
 
         </tbody>
 
@@ -513,38 +402,33 @@ class="success-box">
 </div>
 
 
-
 <script>
 
 
 // =====================================================
-// SUPABASE CONNECTION
+// SUPABASE
 // =====================================================
 
 const SUPABASE_URL =
-    "https://ucrtujcqrpjcwepiugak.supabase.co";
-
+"https://ucrtujcqrpjcwepiugak.supabase.co";
 
 const SUPABASE_KEY =
-    "sb_publishable_RnDm7gJ6ROuU49hcY_BA3g_snx27-M9";
-
+"sb_publishable_RnDm7gJ6ROuU49hcY_BA3g_snx27-M9";
 
 const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
-
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
 
 // =====================================================
-// DATA
+// VARIABLES
 // =====================================================
 
 let products = [];
 
-let movements = [];
-
+let currentUser = null;
 
 
 // =====================================================
@@ -552,113 +436,111 @@ let movements = [];
 // =====================================================
 
 const productSelect =
-    document.getElementById(
-        "productSelect"
-    );
-
+document.getElementById("productSelect");
 
 const quantityInput =
-    document.getElementById(
-        "quantity"
-    );
-
+document.getElementById("quantity");
 
 const purchasePriceInput =
-    document.getElementById(
-        "purchasePrice"
-    );
+document.getElementById("purchasePrice");
 
-
-const addStockButton =
-    document.getElementById(
-        "addStockButton"
-    );
-
+const addButton =
+document.getElementById("addButton");
 
 const inventoryTable =
-    document.getElementById(
-        "inventoryTable"
-    );
-
+document.getElementById("inventoryTable");
 
 const movementTable =
-    document.getElementById(
-        "movementTable"
-    );
-
-
-const errorBox =
-    document.getElementById(
-        "errorBox"
-    );
-
-
-const successBox =
-    document.getElementById(
-        "successBox"
-    );
-
+document.getElementById("movementTable");
 
 
 // =====================================================
 // MESSAGE
 // =====================================================
 
-function showError(text) {
+function showMessage(text,type){
 
-    errorBox.innerText =
-        text;
+    const box =
+    document.getElementById("message");
 
-    errorBox.style.display =
-        "block";
+    box.innerText = text;
 
-    successBox.style.display =
-        "none";
+    box.className =
+    "message " + type;
+
+    box.style.display = "block";
+
 }
 
 
-function showSuccess(text) {
+function hideMessage(){
 
-    successBox.innerText =
-        text;
+    const box =
+    document.getElementById("message");
 
-    successBox.style.display =
-        "block";
+    box.style.display = "none";
 
-    errorBox.style.display =
-        "none";
 }
 
 
-function hideMessages() {
+// =====================================================
+// LOGIN CHECK
+// =====================================================
 
-    errorBox.innerText =
-        "";
+async function checkLogin(){
 
-    successBox.innerText =
-        "";
+    const {
+        data,
+        error
+    } =
+    await supabaseClient.auth.getSession();
 
-    errorBox.style.display =
-        "none";
 
-    successBox.style.display =
-        "none";
+    if(error){
+
+        showMessage(
+            "Login check failed: " +
+            error.message,
+            "error"
+        );
+
+        return false;
+
+    }
+
+
+    if(!data.session){
+
+        showMessage(
+            "Please login first.",
+            "error"
+        );
+
+        addButton.disabled = true;
+
+        return false;
+
+    }
+
+
+    currentUser =
+    data.session.user;
+
+    return true;
+
 }
-
 
 
 // =====================================================
 // LOAD PRODUCTS FROM SUPABASE
 // =====================================================
 
-async function loadProducts() {
+async function loadProducts(){
 
     productSelect.innerHTML = `
-
         <option value="">
             Loading Products...
         </option>
-
     `;
 
 
@@ -669,36 +551,24 @@ async function loadProducts() {
     await supabaseClient
         .from("products")
         .select("*")
-        .order(
-            "name",
-            {
-                ascending: true
-            }
-        );
+        .order("name",{ascending:true});
 
 
-    if (error) {
+    if(error){
 
-        console.error(
-            "Products error:",
-            error
-        );
-
+        console.error(error);
 
         productSelect.innerHTML = `
-
             <option value="">
                 Failed to load products
             </option>
-
         `;
 
-
-        showError(
+        showMessage(
             "Products load failed: " +
-            error.message
+            error.message,
+            "error"
         );
-
 
         return;
 
@@ -706,79 +576,67 @@ async function loadProducts() {
 
 
     products =
-        data || [];
+    data || [];
 
 
     productSelect.innerHTML = `
-
         <option value="">
             Select Product
         </option>
-
     `;
 
 
-    products.forEach(
-        function(product) {
+    products.forEach(function(product){
 
-            const option =
-                document.createElement(
-                    "option"
-                );
+        const option =
+        document.createElement("option");
 
 
-            option.value =
-                product.id;
+        option.value =
+        product.id;
 
 
-            const code =
-                product.code ||
-                product.product_code ||
-                product.productCode ||
-                "";
+        let text =
+        product.name || "";
 
 
-            const pack =
-                (
-                    (product.pack_size || "") +
-                    " " +
-                    (product.unit || "")
-                ).trim();
+        if(product.code){
 
-
-            let text =
-                product.name || "";
-
-
-            if (pack) {
-
-                text +=
-                    " - " +
-                    pack;
-
-            }
-
-
-            if (code) {
-
-                text +=
-                    " [" +
-                    code +
-                    "]";
-
-            }
-
-
-            option.textContent =
-                text;
-
-
-            productSelect.appendChild(
-                option
-            );
+            text +=
+            " [" +
+            product.code +
+            "]";
 
         }
-    );
+
+
+        if(product.pack_size){
+
+            text +=
+            " - " +
+            product.pack_size;
+
+        }
+
+
+        if(product.unit){
+
+            text +=
+            " " +
+            product.unit;
+
+        }
+
+
+        option.textContent =
+        text;
+
+
+        productSelect.appendChild(
+            option
+        );
+
+    });
 
 
     displayInventory();
@@ -786,40 +644,31 @@ async function loadProducts() {
 }
 
 
-
 // =====================================================
 // DISPLAY INVENTORY
 // =====================================================
 
-function displayInventory() {
+function displayInventory(){
 
-    inventoryTable.innerHTML =
-        "";
-
-
-    let totalStock =
-        0;
+    inventoryTable.innerHTML = "";
 
 
-    let stockValue =
-        0;
+    let totalStock = 0;
+
+    let stockValue = 0;
+
+    let lowStock = 0;
 
 
-    let lowStock =
-        0;
-
-
-    if (
-        products.length === 0
-    ) {
+    if(products.length === 0){
 
         inventoryTable.innerHTML = `
 
             <tr>
 
                 <td
-                colspan="7"
-                class="empty">
+                    colspan="7"
+                    class="empty">
 
                     No products found.
 
@@ -832,180 +681,150 @@ function displayInventory() {
     }
 
 
-    products.forEach(
-        function(product) {
+    products.forEach(function(product){
+
+        const stock =
+        Number(product.stock || 0);
 
 
-            const stock =
-                Number(
-                    product.stock || 0
-                );
+        const tp =
+        Number(product.tp || 0);
 
 
-            const tp =
-                Number(
-                    product.tp || 0
-                );
+        const mrp =
+        Number(product.mrp || 0);
 
 
-            const mrp =
-                Number(
-                    product.mrp || 0
-                );
+        const value =
+        stock * tp;
 
 
-            const value =
-                stock * tp;
+        totalStock +=
+        stock;
 
 
-            totalStock +=
-                stock;
+        stockValue +=
+        value;
 
 
-            stockValue +=
-                value;
+        if(stock <= 10){
 
-
-            if (
-                stock <= 10
-            ) {
-
-                lowStock++;
-
-            }
-
-
-            const status =
-                stock <= 10
-
-                ? `
-                    <span class="low">
-                        Low Stock
-                    </span>
-                  `
-
-                : `
-                    <span class="good">
-                        Good
-                    </span>
-                  `;
-
-
-            const code =
-                product.code ||
-                product.product_code ||
-                product.productCode ||
-                "";
-
-
-            const row =
-                document.createElement(
-                    "tr"
-                );
-
-
-            row.innerHTML = `
-
-                <td>
-                    ${escapeHtml(
-                        product.name || ""
-                    )}
-                </td>
-
-                <td>
-                    ${escapeHtml(
-                        code
-                    )}
-                </td>
-
-                <td>
-                    ৳ ${tp.toLocaleString()}
-                </td>
-
-                <td>
-                    ৳ ${mrp.toLocaleString()}
-                </td>
-
-                <td>
-                    ${stock.toLocaleString()}
-                </td>
-
-                <td>
-                    ৳ ${value.toLocaleString()}
-                </td>
-
-                <td>
-                    ${status}
-                </td>
-
-            `;
-
-
-            inventoryTable.appendChild(
-                row
-            );
+            lowStock++;
 
         }
-    );
+
+
+        const status =
+        stock <= 10
+
+        ? `<span class="low">
+            Low Stock
+          </span>`
+
+        : `<span class="good">
+            Good
+          </span>`;
+
+
+        const row =
+        document.createElement("tr");
+
+
+        row.innerHTML = `
+
+            <td>
+                ${escapeHtml(product.name || "")}
+            </td>
+
+            <td>
+                ${escapeHtml(product.code || "")}
+            </td>
+
+            <td>
+                ৳ ${tp.toLocaleString()}
+            </td>
+
+            <td>
+                ৳ ${mrp.toLocaleString()}
+            </td>
+
+            <td>
+                ${stock.toLocaleString()}
+            </td>
+
+            <td>
+                ৳ ${value.toLocaleString()}
+            </td>
+
+            <td>
+                ${status}
+            </td>
+
+        `;
+
+
+        inventoryTable.appendChild(row);
+
+    });
 
 
     document.getElementById(
         "totalProducts"
     ).innerText =
-        products.length;
+    products.length;
 
 
     document.getElementById(
         "totalStock"
     ).innerText =
-        totalStock.toLocaleString();
+    totalStock.toLocaleString();
 
 
     document.getElementById(
         "stockValue"
     ).innerText =
-        "৳ " +
-        stockValue.toLocaleString();
+    "৳ " +
+    stockValue.toLocaleString();
 
 
     document.getElementById(
         "lowStock"
     ).innerText =
-        lowStock;
+    lowStock;
 
 }
-
 
 
 // =====================================================
 // ADD STOCK
 // =====================================================
 
-async function addStock() {
+async function addStock(){
 
-    hideMessages();
+    hideMessage();
 
 
     const productId =
-        productSelect.value;
+    productSelect.value;
 
 
     const quantity =
-        Number(
-            quantityInput.value
-        );
+    Number(
+        quantityInput.value
+    );
 
 
     const purchasePrice =
-        Number(
-            purchasePriceInput.value || 0
-        );
+    Number(
+        purchasePriceInput.value || 0
+    );
 
 
-    if (!productId) {
+    if(!productId){
 
-        showError(
-            "Please select a product."
+        showMessage(
+            "Please select a product.",
+            "error"
         );
 
         return;
@@ -1013,13 +832,14 @@ async function addStock() {
     }
 
 
-    if (
+    if(
         !Number.isInteger(quantity) ||
         quantity <= 0
-    ) {
+    ){
 
-        showError(
-            "Please enter a valid whole quantity."
+        showMessage(
+            "Please enter a valid whole quantity.",
+            "error"
         );
 
         return;
@@ -1028,23 +848,19 @@ async function addStock() {
 
 
     const product =
-        products.find(
-            function(item) {
+    products.find(function(item){
 
-                return String(
-                    item.id
-                ) === String(
-                    productId
-                );
+        return String(item.id) ===
+        String(productId);
 
-            }
-        );
+    });
 
 
-    if (!product) {
+    if(!product){
 
-        showError(
-            "Product not found."
+        showMessage(
+            "Product not found.",
+            "error"
         );
 
         return;
@@ -1052,32 +868,29 @@ async function addStock() {
     }
 
 
-    const oldStock =
-        Number(
-            product.stock || 0
-        );
+    addButton.disabled = true;
+
+    addButton.innerText =
+    "Saving...";
 
 
-    const newStock =
-        oldStock +
-        quantity;
+    try{
+
+        // =============================================
+        // CURRENT STOCK
+        // =============================================
+
+        const oldStock =
+        Number(product.stock || 0);
 
 
-    addStockButton.disabled =
-        true;
+        const newStock =
+        oldStock + quantity;
 
 
-    addStockButton.innerText =
-        "Saving...";
-
-
-    try {
-
-
-        // =================================================
-        // STEP 1
+        // =============================================
         // UPDATE PRODUCT STOCK
-        // =================================================
+        // =============================================
 
         const {
             error: updateError
@@ -1085,10 +898,7 @@ async function addStock() {
         await supabaseClient
             .from("products")
             .update({
-
-                stock:
-                    newStock
-
+                stock:newStock
             })
             .eq(
                 "id",
@@ -1096,13 +906,7 @@ async function addStock() {
             );
 
 
-        if (updateError) {
-
-            console.error(
-                "Stock update error:",
-                updateError
-            );
-
+        if(updateError){
 
             throw new Error(
                 "Stock update failed: " +
@@ -1112,24 +916,18 @@ async function addStock() {
         }
 
 
-
-        // =================================================
-        // STEP 2
-        // GET PRODUCT CODE
-        // =================================================
-
-        const productCode =
-            product.code ||
-            product.product_code ||
-            product.productCode ||
-            "";
-
-
-
-        // =================================================
-        // STEP 3
-        // SAVE STOCK MOVEMENT
-        // =================================================
+        // =============================================
+        // STOCK MOVEMENT
+        // =============================================
+        //
+        // These are the common columns used here:
+        // product_id
+        // product_name
+        // type
+        // quantity
+        // purchase_price
+        //
+        // =============================================
 
         const {
             error: movementError
@@ -1139,40 +937,30 @@ async function addStock() {
             .insert({
 
                 product_id:
-                    product.id,
+                product.id,
 
                 product_name:
-                    product.name || "",
-
-                product_code:
-                    productCode,
+                product.name || "",
 
                 type:
-                    "Stock In",
+                "Stock In",
 
                 quantity:
-                    quantity
+                quantity,
+
+                purchase_price:
+                purchasePrice
 
             });
 
 
-        if (movementError) {
+        if(movementError){
 
-            console.error(
-                "Movement error:",
-                movementError
-            );
-
-
-            // Restore stock if movement failed
-
+            // Try to restore product stock
             await supabaseClient
                 .from("products")
                 .update({
-
-                    stock:
-                        oldStock
-
+                    stock:oldStock
                 })
                 .eq(
                     "id",
@@ -1188,82 +976,81 @@ async function addStock() {
         }
 
 
+        // =============================================
+        // UPDATE LOCAL MEMORY
+        // =============================================
 
-        // =================================================
-        // SUCCESS
-        // =================================================
-
-        showSuccess(
-            "Stock added successfully!"
-        );
+        product.stock =
+        newStock;
 
 
-        quantityInput.value =
-            "";
+        displayInventory();
 
 
-        purchasePriceInput.value =
-            "";
-
+        // =============================================
+        // RESET
+        // =============================================
 
         productSelect.value =
-            "";
+        "";
+
+        quantityInput.value =
+        "";
+
+        purchasePriceInput.value =
+        "";
 
 
-        // Reload everything
+        showMessage(
+            "Stock added successfully!",
+            "success"
+        );
 
-        await loadProducts();
 
         await loadMovements();
 
     }
 
 
-    catch(error) {
+    catch(error){
 
-        console.error(
-            "Add stock error:",
-            error
-        );
+        console.error(error);
 
-
-        showError(
-            error.message
+        showMessage(
+            error.message,
+            "error"
         );
 
     }
 
 
-    finally {
+    finally{
 
-        addStockButton.disabled =
-            false;
+        addButton.disabled = false;
 
-
-        addStockButton.innerText =
-            "+ Add Stock";
+        addButton.innerText =
+        "+ Add Stock";
 
     }
 
 }
 
 
-
 // =====================================================
 // LOAD STOCK MOVEMENTS FROM SUPABASE
 // =====================================================
 
-async function loadMovements() {
+async function loadMovements(){
 
     movementTable.innerHTML = `
 
         <tr>
 
             <td
-            colspan="5"
-            class="loading">
+                colspan="4"
+                class="empty">
 
-                Loading movements...
+                Loading...
 
             </td>
 
@@ -1282,29 +1069,25 @@ async function loadMovements() {
         .order(
             "created_at",
             {
-                ascending: false
+                ascending:false
             }
-        )
-        .limit(200);
-
-
-    if (error) {
-
-        console.error(
-            "Movement loading error:",
-            error
         );
 
+
+    if(error){
+
+        console.error(error);
 
         movementTable.innerHTML = `
 
             <tr>
 
                 <td
-                colspan="5"
-                class="empty">
+                    colspan="4"
+                    class="empty">
 
-                    Failed to load stock movements.
+                    Stock movement load failed:
+                    ${escapeHtml(error.message)}
 
                 </td>
 
@@ -1312,49 +1095,23 @@ async function loadMovements() {
 
         `;
 
-
-        showError(
-            "Stock movement load failed: " +
-            error.message
-        );
-
-
         return;
 
     }
 
 
-    movements =
-        data || [];
+    movementTable.innerHTML = "";
 
 
-    displayMovements();
-
-}
-
-
-
-// =====================================================
-// DISPLAY MOVEMENTS
-// =====================================================
-
-function displayMovements() {
-
-    movementTable.innerHTML =
-        "";
-
-
-    if (
-        movements.length === 0
-    ) {
+    if(!data || data.length === 0){
 
         movementTable.innerHTML = `
 
             <tr>
 
                 <td
-                colspan="5"
-                class="empty">
+                    colspan="4"
+                    class="empty">
 
                     No stock movement found.
 
@@ -1369,166 +1126,128 @@ function displayMovements() {
     }
 
 
-    movements.forEach(
-        function(item) {
+    data.forEach(function(item){
+
+        const row =
+        document.createElement("tr");
 
 
-            const row =
-                document.createElement(
-                    "tr"
-                );
+        const type =
+        item.type || "";
 
 
-            const type =
-                item.type ||
-                "Stock In";
+        const typeClass =
+        type.toLowerCase().includes("in")
+
+        ? "stock-in"
+
+        : "stock-out";
 
 
-            const typeClass =
-                type.toLowerCase()
-                    .includes("out")
-
-                ? "stock-out"
-
-                : "stock-in";
+        let date = "";
 
 
-            let date =
-                "";
+        if(item.created_at){
 
-
-            if (
+            date =
+            new Date(
                 item.created_at
-            ) {
-
-                date =
-                    new Date(
-                        item.created_at
-                    ).toLocaleString();
-
-            }
-
-
-            else if (
-                item.date
-            ) {
-
-                date =
-                    item.date;
-
-            }
-
-
-            const productName =
-                item.product_name ||
-                "";
-
-
-            const productCode =
-                item.product_code ||
-                "";
-
-
-            const quantity =
-                Number(
-                    item.quantity || 0
-                );
-
-
-            row.innerHTML = `
-
-                <td>
-                    ${escapeHtml(
-                        date
-                    )}
-                </td>
-
-                <td>
-                    ${escapeHtml(
-                        productName
-                    )}
-                </td>
-
-                <td>
-                    ${escapeHtml(
-                        productCode
-                    )}
-                </td>
-
-                <td class="${typeClass}">
-                    ${escapeHtml(
-                        type
-                    )}
-                </td>
-
-                <td>
-                    ${quantity.toLocaleString()}
-                </td>
-
-            `;
-
-
-            movementTable.appendChild(
-                row
-            );
+            ).toLocaleDateString();
 
         }
-    );
+
+
+        else if(item.date){
+
+            date =
+            item.date;
+
+        }
+
+
+        row.innerHTML = `
+
+            <td>
+                ${escapeHtml(date)}
+            </td>
+
+            <td>
+                ${escapeHtml(
+                    item.product_name ||
+                    item.product ||
+                    ""
+                )}
+            </td>
+
+            <td class="${typeClass}">
+                ${escapeHtml(type)}
+            </td>
+
+            <td>
+                ${Number(
+                    item.quantity || 0
+                ).toLocaleString()}
+            </td>
+
+        `;
+
+
+        movementTable.appendChild(row);
+
+    });
 
 }
-
 
 
 // =====================================================
 // HTML ESCAPE
 // =====================================================
 
-function escapeHtml(value) {
+function escapeHtml(value){
 
     return String(value)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+
+        .replace(/&/g,"&amp;")
+
+        .replace(/</g,"&lt;")
+
+        .replace(/>/g,"&gt;")
+
+        .replace(/"/g,"&quot;")
+
+        .replace(/'/g,"&#039;");
 
 }
-
 
 
 // =====================================================
 // DASHBOARD
 // =====================================================
 
-function goDashboard() {
+function goDashboard(){
 
     window.location.href =
-        "dashboard.html";
+    "dashboard.html";
 
 }
-
 
 
 // =====================================================
 // START
 // =====================================================
 
-async function init() {
+async function start(){
+
+    const loggedIn =
+    await checkLogin();
+
+
+    if(!loggedIn){
+
+        return;
+
+    }
+
 
     await loadProducts();
 
@@ -1537,10 +1256,9 @@ async function init() {
 }
 
 
-init();
+start();
 
 </script>
-
 
 </body>
 
