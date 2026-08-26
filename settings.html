@@ -11,7 +11,6 @@ content="width=device-width, initial-scale=1.0">
 
 <title>Settings - Sales & Marketing System</title>
 
-<!-- SUPABASE -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
@@ -26,7 +25,10 @@ content="width=device-width, initial-scale=1.0">
 body {
     background: #f4f6f9;
     color: #222;
+    transition: background 0.25s ease, color 0.25s ease;
 }
+
+/* HEADER */
 
 .header {
     background: #2563eb;
@@ -51,11 +53,15 @@ body {
     font-weight: bold;
 }
 
+/* CONTAINER */
+
 .container {
     max-width: 1000px;
     margin: 30px auto;
     padding: 20px;
 }
+
+/* BOX */
 
 .box {
     background: white;
@@ -63,6 +69,7 @@ body {
     border-radius: 12px;
     box-shadow: 0 3px 15px rgba(0,0,0,0.08);
     margin-bottom: 25px;
+    transition: background 0.25s ease, color 0.25s ease;
 }
 
 .box h1 {
@@ -75,6 +82,8 @@ body {
     color: #666;
     margin-bottom: 20px;
 }
+
+/* FORM */
 
 .form-grid {
     display: grid;
@@ -99,6 +108,8 @@ select {
     border: 1px solid #ccc;
     border-radius: 7px;
     font-size: 15px;
+    background: white;
+    color: #222;
 }
 
 input:focus,
@@ -106,6 +117,8 @@ select:focus {
     outline: none;
     border-color: #2563eb;
 }
+
+/* BUTTON */
 
 .save-btn {
     width: 100%;
@@ -135,6 +148,8 @@ select:focus {
     font-weight: bold;
 }
 
+/* SETTING ROW */
+
 .setting-row {
     display: flex;
     justify-content: space-between;
@@ -157,10 +172,13 @@ select:focus {
     margin-top: 5px;
 }
 
+/* SWITCH */
+
 .switch {
     position: relative;
     width: 50px;
     height: 26px;
+    flex-shrink: 0;
 }
 
 .switch input {
@@ -196,43 +214,69 @@ select:focus {
     transform: translateX(24px);
 }
 
+/* MESSAGE */
+
 #message {
     text-align: center;
     margin-top: 15px;
     font-weight: bold;
 }
 
+/* ============================= */
+/* DARK MODE */
+/* ============================= */
+
 body.dark {
     background: #111827;
-    color: white;
+    color: #f9fafb;
+}
+
+body.dark .header {
+    background: #1d4ed8;
 }
 
 body.dark .box {
     background: #1f2937;
+    color: #f9fafb;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.25);
 }
 
 body.dark .box h1 {
-    color: white;
+    color: #ffffff;
 }
 
 body.dark .box p {
     color: #cbd5e1;
 }
 
+body.dark label {
+    color: #f9fafb;
+}
+
 body.dark input,
 body.dark select {
     background: #374151;
-    color: white;
+    color: #ffffff;
     border-color: #4b5563;
+}
+
+body.dark input::placeholder {
+    color: #9ca3af;
 }
 
 body.dark .setting-row {
     border-color: #374151;
 }
 
+body.dark .setting-title {
+    color: #ffffff;
+}
+
 body.dark .setting-description {
     color: #9ca3af;
 }
+
+/* MOBILE */
 
 @media (max-width: 700px) {
 
@@ -246,6 +290,11 @@ body.dark .setting-description {
 
     .container {
         padding: 10px;
+        margin-top: 15px;
+    }
+
+    .header {
+        padding: 15px;
     }
 
     .header h2 {
@@ -260,9 +309,14 @@ body.dark .setting-description {
 
 <body>
 
+
+<!-- HEADER -->
+
 <div class="header">
 
-    <h2>⚙️ Settings</h2>
+    <h2>
+        ⚙️ Settings
+    </h2>
 
     <button
         class="back-btn"
@@ -278,23 +332,31 @@ body.dark .setting-description {
 <div class="container">
 
 
+<!-- ============================= -->
 <!-- COMPANY INFORMATION -->
+<!-- ============================= -->
 
 <div class="box">
 
-    <h1>🏢 Company Information</h1>
+    <h1>
+        🏢 Company Information
+    </h1>
 
     <p>
         Update your company information.
     </p>
 
+
     <form id="companyForm">
 
         <div class="form-grid">
 
+
             <div>
 
-                <label>Company Name</label>
+                <label>
+                    Company Name
+                </label>
 
                 <input
                     type="text"
@@ -306,7 +368,9 @@ body.dark .setting-description {
 
             <div>
 
-                <label>Phone Number</label>
+                <label>
+                    Phone Number
+                </label>
 
                 <input
                     type="text"
@@ -318,7 +382,9 @@ body.dark .setting-description {
 
             <div>
 
-                <label>Email</label>
+                <label>
+                    Email
+                </label>
 
                 <input
                     type="email"
@@ -330,7 +396,9 @@ body.dark .setting-description {
 
             <div>
 
-                <label>Currency</label>
+                <label>
+                    Currency
+                </label>
 
                 <select id="currency">
 
@@ -353,7 +421,9 @@ body.dark .setting-description {
 
             <div class="full">
 
-                <label>Company Address</label>
+                <label>
+                    Company Address
+                </label>
 
                 <input
                     type="text"
@@ -361,6 +431,7 @@ body.dark .setting-description {
                     placeholder="Enter company address">
 
             </div>
+
 
         </div>
 
@@ -375,22 +446,31 @@ body.dark .setting-description {
 
     </form>
 
+
     <p id="message"></p>
 
 </div>
 
 
+<!-- ============================= -->
 <!-- USER INFORMATION -->
+<!-- ============================= -->
 
 <div class="box">
 
-    <h1>👤 User Information</h1>
+    <h1>
+        👤 User Information
+    </h1>
+
 
     <div class="form-grid">
 
+
         <div>
 
-            <label>User Name</label>
+            <label>
+                User Name
+            </label>
 
             <input
                 type="text"
@@ -402,7 +482,9 @@ body.dark .setting-description {
 
         <div>
 
-            <label>User Email</label>
+            <label>
+                User Email
+            </label>
 
             <input
                 type="email"
@@ -410,6 +492,7 @@ body.dark .setting-description {
                 placeholder="Enter user email">
 
         </div>
+
 
     </div>
 
@@ -425,11 +508,15 @@ body.dark .setting-description {
 </div>
 
 
-<!-- NOTIFICATION -->
+<!-- ============================= -->
+<!-- NOTIFICATIONS -->
+<!-- ============================= -->
 
 <div class="box">
 
-    <h1>🔔 Notifications</h1>
+    <h1>
+        🔔 Notifications
+    </h1>
 
 
     <div class="setting-row">
@@ -492,11 +579,15 @@ body.dark .setting-description {
 </div>
 
 
+<!-- ============================= -->
 <!-- APPEARANCE -->
+<!-- ============================= -->
 
 <div class="box">
 
-    <h1>🎨 Appearance</h1>
+    <h1>
+        🎨 Appearance
+    </h1>
 
 
     <div class="setting-row">
@@ -530,11 +621,15 @@ body.dark .setting-description {
 </div>
 
 
-<!-- PASSWORD -->
+<!-- ============================= -->
+<!-- SECURITY -->
+<!-- ============================= -->
 
 <div class="box">
 
-    <h1>🔐 Security</h1>
+    <h1>
+        🔐 Security
+    </h1>
 
     <p>
         Change your account password.
@@ -543,9 +638,12 @@ body.dark .setting-description {
 
     <div class="form-grid">
 
+
         <div>
 
-            <label>Current Password</label>
+            <label>
+                Current Password
+            </label>
 
             <input
                 type="password"
@@ -557,7 +655,9 @@ body.dark .setting-description {
 
         <div>
 
-            <label>New Password</label>
+            <label>
+                New Password
+            </label>
 
             <input
                 type="password"
@@ -565,6 +665,7 @@ body.dark .setting-description {
                 placeholder="New password">
 
         </div>
+
 
     </div>
 
@@ -585,33 +686,34 @@ body.dark .setting-description {
 
 <script>
 
-// =====================================================
-// SUPABASE CONNECTION
-// =====================================================
+/* ================================================= */
+/* SUPABASE CONNECTION */
+/* ================================================= */
 
-// তোমার existing Supabase project-এর একই URL ও KEY এখানে দাও
+const SUPABASE_URL =
+    "YOUR_SUPABASE_URL";
 
-const SUPABASE_URL = "YOUR_SUPABASE_URL";
+const SUPABASE_ANON_KEY =
+    "YOUR_SUPABASE_ANON_KEY";
 
-const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
 
 const supabaseClient =
-    supabase.createClient(
+    window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_ANON_KEY
     );
 
 
-// =====================================================
-// CURRENT USER
-// =====================================================
+/* ================================================= */
+/* CURRENT USER */
+/* ================================================= */
 
 let currentUser = null;
 
 
-// =====================================================
-// LOAD SETTINGS
-// =====================================================
+/* ================================================= */
+/* LOAD SETTINGS */
+/* ================================================= */
 
 async function loadSettings() {
 
@@ -630,7 +732,8 @@ async function loadSettings() {
 
             alert("Please login first.");
 
-            window.location.href = "index.html";
+            window.location.href =
+                "index.html";
 
             return;
 
@@ -653,7 +756,10 @@ async function loadSettings() {
 
         if (error) {
 
-            console.error(error);
+            console.error(
+                "Settings load error:",
+                error
+            );
 
             alert(
                 "Could not load settings: " +
@@ -665,7 +771,10 @@ async function loadSettings() {
         }
 
 
-        // যদি প্রথমবার settings না থাকে
+        /* ========================================= */
+        /* FIRST TIME USER */
+        /* ========================================= */
+
         if (!data) {
 
             await createDefaultSettings(user);
@@ -675,7 +784,9 @@ async function loadSettings() {
         }
 
 
-        // COMPANY
+        /* ========================================= */
+        /* COMPANY */
+        /* ========================================= */
 
         document.getElementById(
             "companyName"
@@ -707,7 +818,9 @@ async function loadSettings() {
             data.currency || "BDT";
 
 
-        // USER
+        /* ========================================= */
+        /* USER */
+        /* ========================================= */
 
         document.getElementById(
             "userName"
@@ -723,7 +836,9 @@ async function loadSettings() {
             "";
 
 
-        // NOTIFICATIONS
+        /* ========================================= */
+        /* NOTIFICATIONS */
+        /* ========================================= */
 
         document.getElementById(
             "lowStock"
@@ -737,22 +852,32 @@ async function loadSettings() {
             data.sales_notification !== false;
 
 
-        // DARK MODE
+        /* ========================================= */
+        /* DARK MODE */
+        /* ========================================= */
+
+        const darkEnabled =
+            data.dark_mode === true;
+
 
         document.getElementById(
             "darkMode"
         ).checked =
-            data.dark_mode === true;
+            darkEnabled;
 
 
         applyDarkMode(
-            data.dark_mode === true
+            darkEnabled
         );
 
+    }
 
-    } catch (error) {
+    catch (error) {
 
-        console.error(error);
+        console.error(
+            "Settings error:",
+            error
+        );
 
         alert(
             "Settings loading failed."
@@ -763,14 +888,13 @@ async function loadSettings() {
 }
 
 
-// =====================================================
-// CREATE DEFAULT SETTINGS
-// =====================================================
+/* ================================================= */
+/* CREATE DEFAULT SETTINGS */
+/* ================================================= */
 
 async function createDefaultSettings(user) {
 
     const {
-        data,
         error
     } =
     await supabaseClient
@@ -788,14 +912,15 @@ async function createDefaultSettings(user) {
 
             dark_mode: false
 
-        })
-        .select()
-        .single();
+        });
 
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            "Default settings error:",
+            error
+        );
 
         alert(
             "Could not create settings: " +
@@ -827,12 +952,15 @@ async function createDefaultSettings(user) {
         "darkMode"
     ).checked = false;
 
+
+    applyDarkMode(false);
+
 }
 
 
-// =====================================================
-// SAVE COMPANY INFORMATION
-// =====================================================
+/* ================================================= */
+/* SAVE COMPANY */
+/* ================================================= */
 
 document
 .getElementById("companyForm")
@@ -852,9 +980,10 @@ async function(event) {
     }
 
 
-    const updates = {
+    const companyData = {
 
-        id: currentUser.id,
+        id:
+            currentUser.id,
 
         company_name:
             document.getElementById(
@@ -893,7 +1022,7 @@ async function(event) {
     await supabaseClient
         .from("settings")
         .upsert(
-            updates,
+            companyData,
             {
                 onConflict: "id"
             }
@@ -902,7 +1031,10 @@ async function(event) {
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            "Company save error:",
+            error
+        );
 
         showMessage(
             "Save failed: " +
@@ -923,9 +1055,9 @@ async function(event) {
 });
 
 
-// =====================================================
-// SAVE USER INFORMATION
-// =====================================================
+/* ================================================= */
+/* SAVE USER */
+/* ================================================= */
 
 async function saveUser() {
 
@@ -957,11 +1089,14 @@ async function saveUser() {
         .from("settings")
         .upsert({
 
-            id: currentUser.id,
+            id:
+                currentUser.id,
 
-            user_name: userName,
+            user_name:
+                userName,
 
-            user_email: userEmail,
+            user_email:
+                userEmail,
 
             updated_at:
                 new Date().toISOString()
@@ -974,7 +1109,10 @@ async function saveUser() {
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            "User save error:",
+            error
+        );
 
         showMessage(
             "Save failed: " +
@@ -995,13 +1133,17 @@ async function saveUser() {
 }
 
 
-// =====================================================
-// SAVE NOTIFICATIONS
-// =====================================================
+/* ================================================= */
+/* SAVE NOTIFICATIONS */
+/* ================================================= */
 
 async function saveNotifications() {
 
-    if (!currentUser) return;
+    if (!currentUser) {
+
+        return;
+
+    }
 
 
     const lowStock =
@@ -1023,9 +1165,11 @@ async function saveNotifications() {
         .from("settings")
         .upsert({
 
-            id: currentUser.id,
+            id:
+                currentUser.id,
 
-            low_stock: lowStock,
+            low_stock:
+                lowStock,
 
             sales_notification:
                 salesNotification,
@@ -1041,11 +1185,13 @@ async function saveNotifications() {
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            "Notification save error:",
+            error
+        );
 
         showMessage(
-            "Notification setting save failed: " +
-            error.message,
+            "Notification save failed!",
             "red"
         );
 
@@ -1062,14 +1208,11 @@ async function saveNotifications() {
 }
 
 
-// =====================================================
-// DARK MODE
-// =====================================================
+/* ================================================= */
+/* DARK MODE */
+/* ================================================= */
 
 async function toggleDarkMode() {
-
-    if (!currentUser) return;
-
 
     const enabled =
         document.getElementById(
@@ -1077,7 +1220,22 @@ async function toggleDarkMode() {
         ).checked;
 
 
+    /* --------------------------------------------- */
+    /* APPLY IMMEDIATELY */
+    /* --------------------------------------------- */
+
     applyDarkMode(enabled);
+
+
+    /* --------------------------------------------- */
+    /* SAVE TO SUPABASE */
+    /* --------------------------------------------- */
+
+    if (!currentUser) {
+
+        return;
+
+    }
 
 
     const {
@@ -1087,9 +1245,11 @@ async function toggleDarkMode() {
         .from("settings")
         .upsert({
 
-            id: currentUser.id,
+            id:
+                currentUser.id,
 
-            dark_mode: enabled,
+            dark_mode:
+                enabled,
 
             updated_at:
                 new Date().toISOString()
@@ -1102,10 +1262,13 @@ async function toggleDarkMode() {
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            "Dark mode save error:",
+            error
+        );
 
         showMessage(
-            "Dark mode setting save failed.",
+            "Dark mode save failed!",
             "red"
         );
 
@@ -1115,30 +1278,41 @@ async function toggleDarkMode() {
 
 
     showMessage(
-        "Appearance saved!",
+        enabled
+            ? "Dark Mode ON"
+            : "Dark Mode OFF",
         "green"
     );
 
 }
 
 
-// =====================================================
-// APPLY DARK MODE
-// =====================================================
+/* ================================================= */
+/* APPLY DARK MODE */
+/* ================================================= */
 
 function applyDarkMode(enabled) {
 
-    document.body.classList.toggle(
-        "dark",
-        enabled
-    );
+    if (enabled) {
+
+        document.body.classList.add(
+            "dark"
+        );
+
+    } else {
+
+        document.body.classList.remove(
+            "dark"
+        );
+
+    }
 
 }
 
 
-// =====================================================
-// CHANGE PASSWORD
-// =====================================================
+/* ================================================= */
+/* CHANGE PASSWORD */
+/* ================================================= */
 
 async function changePassword() {
 
@@ -1191,20 +1365,21 @@ async function changePassword() {
 
     try {
 
-        // -------------------------------------------------
-        // STEP 1: VERIFY CURRENT PASSWORD
-        // -------------------------------------------------
+        /* VERIFY CURRENT PASSWORD */
 
         const {
             error: loginError
         } =
-        await supabaseClient.auth.signInWithPassword({
+        await supabaseClient.auth
+            .signInWithPassword({
 
-            email: currentUser.email,
+                email:
+                    currentUser.email,
 
-            password: currentPassword
+                password:
+                    currentPassword
 
-        });
+            });
 
 
         if (loginError) {
@@ -1218,18 +1393,18 @@ async function changePassword() {
         }
 
 
-        // -------------------------------------------------
-        // STEP 2: UPDATE PASSWORD
-        // -------------------------------------------------
+        /* UPDATE PASSWORD */
 
         const {
             error: updateError
         } =
-        await supabaseClient.auth.updateUser({
+        await supabaseClient.auth
+            .updateUser({
 
-            password: newPassword
+                password:
+                    newPassword
 
-        });
+            });
 
 
         if (updateError) {
@@ -1258,10 +1433,14 @@ async function changePassword() {
             "newPassword"
         ).value = "";
 
+    }
 
-    } catch (error) {
+    catch (error) {
 
-        console.error(error);
+        console.error(
+            "Password error:",
+            error
+        );
 
         alert(
             "Password change failed."
@@ -1272,9 +1451,9 @@ async function changePassword() {
 }
 
 
-// =====================================================
-// MESSAGE
-// =====================================================
+/* ================================================= */
+/* MESSAGE */
+/* ================================================= */
 
 function showMessage(
     text,
@@ -1307,9 +1486,9 @@ function showMessage(
 }
 
 
-// =====================================================
-// DASHBOARD
-// =====================================================
+/* ================================================= */
+/* DASHBOARD */
+/* ================================================= */
 
 function goDashboard() {
 
@@ -1319,9 +1498,9 @@ function goDashboard() {
 }
 
 
-// =====================================================
-// PAGE LOAD
-// =====================================================
+/* ================================================= */
+/* START */
+/* ================================================= */
 
 loadSettings();
 
