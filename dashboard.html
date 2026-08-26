@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -24,10 +23,7 @@ body{
     min-height:100vh;
 }
 
-
-/* =====================================================
-   HEADER
-===================================================== */
+/* ================= HEADER ================= */
 
 .header{
     background:linear-gradient(135deg,#1d4ed8,#4f46e5);
@@ -51,12 +47,10 @@ body{
     border-radius:8px;
     cursor:pointer;
     font-weight:bold;
-    transition:.2s;
 }
 
 .logout:hover{
     transform:translateY(-2px);
-    box-shadow:0 4px 10px rgba(0,0,0,.15);
 }
 
 .logout:disabled{
@@ -64,10 +58,7 @@ body{
     cursor:not-allowed;
 }
 
-
-/* =====================================================
-   CONTAINER
-===================================================== */
+/* ================= CONTAINER ================= */
 
 .container{
     padding:30px;
@@ -75,10 +66,7 @@ body{
     margin:auto;
 }
 
-
-/* =====================================================
-   WELCOME
-===================================================== */
+/* ================= WELCOME ================= */
 
 .welcome{
     margin-bottom:25px;
@@ -94,10 +82,7 @@ body{
     color:#64748b;
 }
 
-
-/* =====================================================
-   DASHBOARD CARDS
-===================================================== */
+/* ================= CARDS ================= */
 
 .cards{
     display:grid;
@@ -118,13 +103,11 @@ body{
 
 .card:hover{
     transform:translateY(-5px);
-    box-shadow:0 12px 25px rgba(0,0,0,.18);
 }
 
 .card h3{
     font-size:16px;
     margin-bottom:15px;
-    opacity:.95;
 }
 
 .number{
@@ -148,32 +131,7 @@ body{
     background:linear-gradient(135deg,#ea580c,#f97316);
 }
 
-.card::after{
-    content:"";
-    position:absolute;
-    width:100px;
-    height:100px;
-    right:-30px;
-    bottom:-35px;
-    background:rgba(255,255,255,.15);
-    border-radius:50%;
-}
-
-.card::before{
-    content:"";
-    position:absolute;
-    width:55px;
-    height:55px;
-    right:45px;
-    top:-20px;
-    background:rgba(255,255,255,.08);
-    border-radius:50%;
-}
-
-
-/* =====================================================
-   STATUS
-===================================================== */
+/* ================= STATUS ================= */
 
 .status{
     margin-top:25px;
@@ -185,10 +143,7 @@ body{
     border-left:5px solid #2563eb;
 }
 
-
-/* =====================================================
-   REFRESH
-===================================================== */
+/* ================= REFRESH ================= */
 
 .refresh-box{
     margin-top:20px;
@@ -203,12 +158,6 @@ body{
     color:white;
     cursor:pointer;
     font-weight:bold;
-    box-shadow:0 4px 10px rgba(16,185,129,.25);
-    transition:.2s;
-}
-
-.refresh-btn:hover{
-    transform:translateY(-2px);
 }
 
 .refresh-btn:disabled{
@@ -216,10 +165,7 @@ body{
     cursor:not-allowed;
 }
 
-
-/* =====================================================
-   MENU
-===================================================== */
+/* ================= MENU ================= */
 
 .menu{
     margin-top:25px;
@@ -228,115 +174,85 @@ body{
     gap:18px;
 }
 
-
-/* =====================================================
-   ALL MENU BUTTONS
-===================================================== */
-
-.menu button{
+.menu-button{
     display:flex !important;
     align-items:center;
     justify-content:center;
     width:100%;
     min-height:70px;
-    padding:22px 15px;
+    padding:20px 15px;
+
     border:none;
     border-radius:14px;
+
     font-size:16px;
     font-weight:bold;
+
     cursor:pointer;
+
     box-shadow:0 5px 15px rgba(0,0,0,.08);
+
     transition:.25s;
-    overflow:hidden;
+
     visibility:visible !important;
     opacity:1 !important;
 }
 
-.menu button:hover{
+.menu-button:hover{
     transform:translateY(-4px);
     box-shadow:0 10px 20px rgba(0,0,0,.14);
 }
 
+/* ================= BUTTON COLORS ================= */
 
-/* =====================================================
-   MENU COLOURS
-===================================================== */
-
-.sales-entry-btn{
+.sales-entry{
     background:#dbeafe !important;
     color:#1d4ed8 !important;
 }
 
-.sales-history-btn{
+.sales-history{
     background:#dcfce7 !important;
     color:#15803d !important;
 }
 
-.customers-btn{
+.customers{
     background:#f3e8ff !important;
     color:#7e22ce !important;
 }
 
-.products-btn{
+.products{
     background:#fef3c7 !important;
     color:#b45309 !important;
 }
 
-.inventory-btn{
+.inventory{
     background:#cffafe !important;
     color:#0e7490 !important;
 }
 
-.reports-btn{
+.reports{
     background:#fce7f3 !important;
     color:#be185d !important;
 }
 
-.marketing-btn{
+.marketing{
     background:#ffedd5 !important;
     color:#c2410c !important;
 }
 
-
-/* =====================================================
-   OUTLET SURVEY
-===================================================== */
-
-.outlet-survey-btn{
-    display:flex !important;
-    visibility:visible !important;
-    opacity:1 !important;
-
+.outlet-survey{
     background:#dcfce7 !important;
     color:#166534 !important;
-
     border:2px solid #22c55e !important;
-
-    min-height:70px;
 }
 
-
-/* =====================================================
-   SETTINGS
-===================================================== */
-
-.settings-btn{
-    display:flex !important;
-    visibility:visible !important;
-    opacity:1 !important;
-
+.settings{
     background:#e0e7ff !important;
     color:#4338ca !important;
-
     border:2px solid #6366f1 !important;
-
-    min-height:70px;
 }
 
-
-/* =====================================================
-   MOBILE
-===================================================== */
+/* ================= MOBILE ================= */
 
 @media(max-width:1000px){
 
@@ -347,9 +263,7 @@ body{
     .menu{
         grid-template-columns:repeat(2,1fr);
     }
-
 }
-
 
 @media(max-width:600px){
 
@@ -381,23 +295,15 @@ body{
         min-height:135px;
     }
 
-    .menu button{
-        min-height:65px;
-    }
-
 }
 
 </style>
 
 </head>
 
-
 <body>
 
-
-<!-- =====================================================
-     HEADER
-===================================================== -->
+<!-- ================= HEADER ================= -->
 
 <div class="header">
 
@@ -406,7 +312,6 @@ body{
     </h2>
 
     <button
-        type="button"
         class="logout"
         id="logoutButton">
 
@@ -419,10 +324,7 @@ body{
 
 <div class="container">
 
-
-<!-- =====================================================
-     WELCOME
-===================================================== -->
+<!-- ================= WELCOME ================= -->
 
 <div class="welcome">
 
@@ -437,14 +339,9 @@ body{
 </div>
 
 
-<!-- =====================================================
-     DASHBOARD CARDS
-===================================================== -->
+<!-- ================= DASHBOARD CARDS ================= -->
 
 <div class="cards">
-
-
-    <!-- TOTAL SALES -->
 
     <div class="card sales-card">
 
@@ -463,8 +360,6 @@ body{
     </div>
 
 
-    <!-- CUSTOMERS -->
-
     <div class="card customer-card">
 
         <h3>
@@ -481,8 +376,6 @@ body{
 
     </div>
 
-
-    <!-- PRODUCTS -->
 
     <div class="card product-card">
 
@@ -501,8 +394,6 @@ body{
     </div>
 
 
-    <!-- TODAY SALES -->
-
     <div class="card today-card">
 
         <h3>
@@ -519,13 +410,10 @@ body{
 
     </div>
 
-
 </div>
 
 
-<!-- =====================================================
-     STATUS
-===================================================== -->
+<!-- ================= STATUS ================= -->
 
 <div
     id="status"
@@ -536,14 +424,11 @@ body{
 </div>
 
 
-<!-- =====================================================
-     REFRESH
-===================================================== -->
+<!-- ================= REFRESH ================= -->
 
 <div class="refresh-box">
 
     <button
-        type="button"
         class="refresh-btn"
         id="refreshButton">
 
@@ -554,18 +439,12 @@ body{
 </div>
 
 
-<!-- =====================================================
-     MENU
-===================================================== -->
+<!-- ================= MENU ================= -->
 
 <div class="menu">
 
-
-    <!-- SALES ENTRY -->
-
     <button
-        type="button"
-        class="sales-entry-btn"
+        class="menu-button sales-entry"
         onclick="go('sales.html')">
 
         📊 Sales Entry
@@ -573,11 +452,8 @@ body{
     </button>
 
 
-    <!-- SALES HISTORY -->
-
     <button
-        type="button"
-        class="sales-history-btn"
+        class="menu-button sales-history"
         onclick="go('sales-history.html')">
 
         📋 Sales History
@@ -585,11 +461,8 @@ body{
     </button>
 
 
-    <!-- CUSTOMERS -->
-
     <button
-        type="button"
-        class="customers-btn"
+        class="menu-button customers"
         onclick="go('customers.html')">
 
         👥 Customers
@@ -597,11 +470,8 @@ body{
     </button>
 
 
-    <!-- PRODUCTS -->
-
     <button
-        type="button"
-        class="products-btn"
+        class="menu-button products"
         onclick="go('products.html')">
 
         📦 Products
@@ -609,11 +479,8 @@ body{
     </button>
 
 
-    <!-- INVENTORY -->
-
     <button
-        type="button"
-        class="inventory-btn"
+        class="menu-button inventory"
         onclick="go('inventory.html')">
 
         📋 Inventory
@@ -621,11 +488,8 @@ body{
     </button>
 
 
-    <!-- REPORTS -->
-
     <button
-        type="button"
-        class="reports-btn"
+        class="menu-button reports"
         onclick="go('reports.html')">
 
         📈 Reports
@@ -633,11 +497,8 @@ body{
     </button>
 
 
-    <!-- MARKETING -->
-
     <button
-        type="button"
-        class="marketing-btn"
+        class="menu-button marketing"
         onclick="go('marketing.html')">
 
         📢 Marketing
@@ -645,11 +506,8 @@ body{
     </button>
 
 
-    <!-- OUTLET SURVEY -->
-
     <button
-        type="button"
-        class="outlet-survey-btn"
+        class="menu-button outlet-survey"
         onclick="go('outlet-survey.html')">
 
         🏪 Outlet Survey
@@ -657,30 +515,24 @@ body{
     </button>
 
 
-    <!-- SETTINGS -->
-
     <button
-        type="button"
-        class="settings-btn"
+        class="menu-button settings"
         onclick="go('settings.html')">
 
         ⚙️ Settings
 
     </button>
 
-
 </div>
-
 
 </div>
 
 
 <script>
 
-
-// =====================================================
-// SUPABASE
-// =====================================================
+/* =====================================================
+   SUPABASE
+===================================================== */
 
 const SUPABASE_URL =
     "https://ucrtujcqrpjcwepiugak.supabase.co";
@@ -695,42 +547,33 @@ const supabaseClient =
     );
 
 
-// =====================================================
-// ELEMENTS
-// =====================================================
+/* =====================================================
+   ELEMENTS
+===================================================== */
 
 const logoutButton =
-    document.getElementById(
-        "logoutButton"
-    );
+    document.getElementById("logoutButton");
 
 const refreshButton =
-    document.getElementById(
-        "refreshButton"
-    );
+    document.getElementById("refreshButton");
 
 const welcomeText =
-    document.getElementById(
-        "welcomeText"
-    );
+    document.getElementById("welcomeText");
 
 const statusBox =
-    document.getElementById(
-        "status"
-    );
+    document.getElementById("status");
 
 
-// =====================================================
-// CHECK LOGIN
-// =====================================================
+/* =====================================================
+   CHECK LOGIN
+===================================================== */
 
 async function checkLogin(){
 
     const {
         data,
         error
-    } =
-    await supabaseClient.auth.getSession();
+    } = await supabaseClient.auth.getSession();
 
 
     if(error){
@@ -740,21 +583,17 @@ async function checkLogin(){
             error
         );
 
-        window.location.href =
-            "index.html";
+        window.location.replace("index.html");
 
         return null;
-
     }
 
 
     if(!data.session){
 
-        window.location.href =
-            "index.html";
+        window.location.replace("index.html");
 
         return null;
-
     }
 
 
@@ -762,10 +601,7 @@ async function checkLogin(){
         data.session.user;
 
 
-    if(
-        user &&
-        user.email
-    ){
+    if(user && user.email){
 
         welcomeText.innerText =
             "Welcome, " +
@@ -780,15 +616,14 @@ async function checkLogin(){
 }
 
 
-// =====================================================
-// LOAD DASHBOARD
-// =====================================================
+/* =====================================================
+   LOAD DASHBOARD
+===================================================== */
 
 async function loadDashboard(){
 
     statusBox.innerText =
         "Loading live data from Supabase...";
-
 
     statusBox.style.background =
         "#eef4ff";
@@ -813,9 +648,7 @@ async function loadDashboard(){
         }
 
 
-        // =============================================
-        // CUSTOMERS
-        // =============================================
+        /* ================= CUSTOMERS ================= */
 
         const customersResult =
             await supabaseClient
@@ -829,9 +662,7 @@ async function loadDashboard(){
                 );
 
 
-        if(
-            customersResult.error
-        ){
+        if(customersResult.error){
 
             throw new Error(
                 "Customers: " +
@@ -849,9 +680,7 @@ async function loadDashboard(){
             ).toLocaleString();
 
 
-        // =============================================
-        // PRODUCTS
-        // =============================================
+        /* ================= PRODUCTS ================= */
 
         const productsResult =
             await supabaseClient
@@ -865,9 +694,7 @@ async function loadDashboard(){
                 );
 
 
-        if(
-            productsResult.error
-        ){
+        if(productsResult.error){
 
             throw new Error(
                 "Products: " +
@@ -885,9 +712,7 @@ async function loadDashboard(){
             ).toLocaleString();
 
 
-        // =============================================
-        // SALES
-        // =============================================
+        /* ================= SALES ================= */
 
         const salesResult =
             await supabaseClient
@@ -897,9 +722,7 @@ async function loadDashboard(){
                 );
 
 
-        if(
-            salesResult.error
-        ){
+        if(salesResult.error){
 
             throw new Error(
                 "Sales: " +
@@ -913,23 +736,19 @@ async function loadDashboard(){
             salesResult.data || [];
 
 
-        // =============================================
-        // TOTAL SALES
-        // =============================================
+        /* ================= TOTAL SALES ================= */
 
         let totalSales = 0;
 
 
-        sales.forEach(
-            function(sale){
+        sales.forEach(function(sale){
 
-                totalSales +=
-                    Number(
-                        sale.total_amount || 0
-                    );
+            totalSales +=
+                Number(
+                    sale.total_amount || 0
+                );
 
-            }
-        );
+        });
 
 
         document.getElementById(
@@ -939,9 +758,7 @@ async function loadDashboard(){
             totalSales.toLocaleString();
 
 
-        // =============================================
-        // TODAY SALES
-        // =============================================
+        /* ================= TODAY SALES ================= */
 
         const now =
             new Date();
@@ -962,49 +779,43 @@ async function loadDashboard(){
         let todaySales = 0;
 
 
-        sales.forEach(
-            function(sale){
+        sales.forEach(function(sale){
 
-                if(
-                    !sale.created_at
-                ){
+            if(!sale.created_at){
 
-                    return;
-
-                }
-
-
-                const date =
-                    new Date(
-                        sale.created_at
-                    );
-
-
-                const saleDate =
-                    date.getFullYear() +
-                    "-" +
-                    String(
-                        date.getMonth() + 1
-                    ).padStart(2,"0") +
-                    "-" +
-                    String(
-                        date.getDate()
-                    ).padStart(2,"0");
-
-
-                if(
-                    saleDate === today
-                ){
-
-                    todaySales +=
-                        Number(
-                            sale.total_amount || 0
-                        );
-
-                }
+                return;
 
             }
-        );
+
+
+            const date =
+                new Date(
+                    sale.created_at
+                );
+
+
+            const saleDate =
+                date.getFullYear() +
+                "-" +
+                String(
+                    date.getMonth() + 1
+                ).padStart(2,"0") +
+                "-" +
+                String(
+                    date.getDate()
+                ).padStart(2,"0");
+
+
+            if(saleDate === today){
+
+                todaySales +=
+                    Number(
+                        sale.total_amount || 0
+                    );
+
+            }
+
+        });
 
 
         document.getElementById(
@@ -1014,9 +825,7 @@ async function loadDashboard(){
             todaySales.toLocaleString();
 
 
-        // =============================================
-        // SUCCESS
-        // =============================================
+        /* ================= SUCCESS ================= */
 
         statusBox.innerText =
             "✓ Live Supabase data loaded successfully.";
@@ -1029,7 +838,6 @@ async function loadDashboard(){
 
         statusBox.style.borderLeftColor =
             "#16a34a";
-
 
     }
 
@@ -1045,7 +853,6 @@ async function loadDashboard(){
             "Dashboard load failed: " +
             error.message;
 
-
         statusBox.style.background =
             "#fee2e2";
 
@@ -1060,14 +867,13 @@ async function loadDashboard(){
 }
 
 
-// =====================================================
-// LOGOUT
-// =====================================================
+/* =====================================================
+   LOGOUT
+===================================================== */
 
 async function logout(){
 
-    logoutButton.disabled =
-        true;
+    logoutButton.disabled = true;
 
     logoutButton.innerText =
         "Logging out...";
@@ -1088,7 +894,6 @@ async function logout(){
                 error.message
             );
 
-
             logoutButton.disabled =
                 false;
 
@@ -1108,15 +913,11 @@ async function logout(){
 
     catch(error){
 
-        console.error(
-            error
-        );
-
+        console.error(error);
 
         alert(
             "Something went wrong."
         );
-
 
         logoutButton.disabled =
             false;
@@ -1129,9 +930,9 @@ async function logout(){
 }
 
 
-// =====================================================
-// LOGOUT BUTTON
-// =====================================================
+/* =====================================================
+   LOGOUT BUTTON
+===================================================== */
 
 logoutButton.addEventListener(
     "click",
@@ -1139,11 +940,16 @@ logoutButton.addEventListener(
 );
 
 
-// =====================================================
-// NAVIGATION
-// =====================================================
+/* =====================================================
+   NAVIGATION
+===================================================== */
 
 function go(page){
+
+    console.log(
+        "Opening:",
+        page
+    );
 
     window.location.href =
         page;
@@ -1151,9 +957,9 @@ function go(page){
 }
 
 
-// =====================================================
-// REFRESH BUTTON
-// =====================================================
+/* =====================================================
+   REFRESH BUTTON
+===================================================== */
 
 refreshButton.addEventListener(
     "click",
@@ -1179,16 +985,16 @@ refreshButton.addEventListener(
 );
 
 
-// =====================================================
-// INITIAL LOAD
-// =====================================================
+/* =====================================================
+   INITIAL LOAD
+===================================================== */
 
 loadDashboard();
 
 
-// =====================================================
-// AUTO REFRESH
-// =====================================================
+/* =====================================================
+   AUTO REFRESH
+===================================================== */
 
 setInterval(
     loadDashboard,
