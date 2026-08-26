@@ -26,6 +26,11 @@ body{
     color:#1e293b;
 }
 
+
+/* =====================================================
+   HEADER
+===================================================== */
+
 .header{
     background:linear-gradient(135deg,#1d4ed8,#4f46e5);
     color:white;
@@ -50,11 +55,21 @@ body{
     cursor:pointer;
 }
 
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
 .container{
-    max-width:1200px;
+    max-width:1250px;
     margin:auto;
     padding:25px;
 }
+
+
+/* =====================================================
+   TITLE
+===================================================== */
 
 .title{
     margin-bottom:20px;
@@ -68,6 +83,26 @@ body{
 .title p{
     color:#64748b;
 }
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.status{
+    margin-bottom:20px;
+    padding:13px 16px;
+    border-radius:8px;
+    background:#eef4ff;
+    color:#2563eb;
+    font-weight:bold;
+    border-left:5px solid #2563eb;
+}
+
+
+/* =====================================================
+   FORM CARD
+===================================================== */
 
 .form-card,
 .table-card{
@@ -83,6 +118,11 @@ body{
     margin-bottom:20px;
     color:#1e293b;
 }
+
+
+/* =====================================================
+   FORM GRID
+===================================================== */
 
 .grid{
     display:grid;
@@ -126,29 +166,44 @@ textarea{
     resize:vertical;
 }
 
+
+/* =====================================================
+   GPS BOX
+===================================================== */
+
 .location-box{
-    margin-top:18px;
-    padding:15px;
-    border-radius:10px;
+    margin-top:20px;
+    padding:18px;
+    border-radius:12px;
     background:#eff6ff;
-    border-left:5px solid #2563eb;
+    border:1px solid #bfdbfe;
+}
+
+.location-title{
+    font-size:18px;
+    font-weight:bold;
+    color:#1e40af;
+    margin-bottom:10px;
 }
 
 .location-status{
     font-weight:bold;
-    color:#1d4ed8;
-    margin-bottom:8px;
+    color:#2563eb;
+    margin-bottom:10px;
 }
 
 .location-values{
-    font-size:14px;
+    background:white;
+    padding:12px;
+    border-radius:8px;
+    line-height:1.8;
     color:#475569;
-    line-height:1.7;
+    font-size:14px;
 }
 
 .location-btn{
-    margin-top:10px;
-    padding:10px 15px;
+    margin-top:12px;
+    padding:10px 16px;
     border:none;
     border-radius:8px;
     background:#2563eb;
@@ -160,6 +215,11 @@ textarea{
 .location-btn:hover{
     background:#1d4ed8;
 }
+
+
+/* =====================================================
+   FORM ACTIONS
+===================================================== */
 
 .actions{
     margin-top:20px;
@@ -178,6 +238,15 @@ textarea{
     cursor:pointer;
 }
 
+.save-btn:hover{
+    transform:translateY(-1px);
+}
+
+.save-btn:disabled{
+    opacity:.7;
+    cursor:not-allowed;
+}
+
 .clear-btn{
     padding:12px 25px;
     border:none;
@@ -188,20 +257,10 @@ textarea{
     cursor:pointer;
 }
 
-.save-btn:disabled{
-    opacity:.7;
-    cursor:not-allowed;
-}
 
-.status{
-    margin-bottom:20px;
-    padding:13px 16px;
-    border-radius:8px;
-    background:#eef4ff;
-    color:#2563eb;
-    font-weight:bold;
-    border-left:5px solid #2563eb;
-}
+/* =====================================================
+   TABLE
+===================================================== */
 
 .table-wrap{
     overflow-x:auto;
@@ -210,7 +269,7 @@ textarea{
 table{
     width:100%;
     border-collapse:collapse;
-    min-width:850px;
+    min-width:1050px;
 }
 
 th{
@@ -218,16 +277,56 @@ th{
     color:white;
     padding:12px;
     text-align:left;
+    white-space:nowrap;
 }
 
 td{
     padding:11px;
     border-bottom:1px solid #e2e8f0;
+    vertical-align:middle;
 }
 
 tr:hover{
     background:#f8fafc;
 }
+
+
+/* =====================================================
+   MAP BUTTON
+===================================================== */
+
+.map-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    background:#2563eb;
+    color:white;
+    text-decoration:none;
+    padding:8px 12px;
+    border-radius:7px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.map-btn:hover{
+    background:#1d4ed8;
+}
+
+
+/* =====================================================
+   COORDINATES
+===================================================== */
+
+.coordinates{
+    font-size:12px;
+    color:#64748b;
+    line-height:1.6;
+}
+
+
+/* =====================================================
+   ACTION BUTTONS
+===================================================== */
 
 .edit-btn{
     background:#f59e0b;
@@ -237,6 +336,7 @@ tr:hover{
     border-radius:6px;
     cursor:pointer;
     margin-right:5px;
+    font-weight:bold;
 }
 
 .delete-btn{
@@ -246,23 +346,32 @@ tr:hover{
     padding:7px 12px;
     border-radius:6px;
     cursor:pointer;
+    font-weight:bold;
 }
 
-.map-btn{
-    display:inline-block;
-    background:#2563eb;
-    color:white;
-    text-decoration:none;
-    padding:7px 12px;
-    border-radius:6px;
-    font-size:13px;
+.edit-btn:hover{
+    background:#d97706;
 }
+
+.delete-btn:hover{
+    background:#b91c1c;
+}
+
+
+/* =====================================================
+   EMPTY
+===================================================== */
 
 .empty{
     text-align:center;
     padding:25px;
     color:#64748b;
 }
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
 
 @media(max-width:700px){
 
@@ -276,6 +385,10 @@ tr:hover{
 
     .field.full{
         grid-column:auto;
+    }
+
+    .header{
+        padding:15px 18px;
     }
 
     .header h2{
@@ -293,11 +406,19 @@ tr:hover{
 
 </head>
 
+
 <body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
 <div class="header">
 
-    <h2>🏪 Outlet Survey</h2>
+    <h2>
+        🏪 Outlet Survey
+    </h2>
 
     <button
         class="back-btn"
@@ -312,258 +433,309 @@ tr:hover{
 
 <div class="container">
 
-    <div class="title">
 
-        <h1>Outlet Survey</h1>
+<!-- =====================================================
+     TITLE
+===================================================== -->
 
-        <p>
-            Create and manage outlet survey information
-        </p>
+<div class="title">
+
+    <h1>
+        Outlet Survey
+    </h1>
+
+    <p>
+        Record outlet information with GPS location
+    </p>
+
+</div>
+
+
+<!-- =====================================================
+     STATUS
+===================================================== -->
+
+<div
+    id="status"
+    class="status">
+
+    Loading...
+
+</div>
+
+
+<!-- =====================================================
+     FORM
+===================================================== -->
+
+<div class="form-card">
+
+    <h2 id="formTitle">
+        Add New Outlet Survey
+    </h2>
+
+
+    <input
+        type="hidden"
+        id="editId">
+
+
+    <div class="grid">
+
+
+        <!-- OUTLET CODE -->
+
+        <div class="field">
+
+            <label>
+                Outlet Code
+            </label>
+
+            <input
+                type="text"
+                id="outletCode"
+                placeholder="Example: D15-1010">
+
+        </div>
+
+
+        <!-- OUTLET NAME -->
+
+        <div class="field">
+
+            <label>
+                Outlet Name *
+
+            </label>
+
+            <input
+                type="text"
+                id="outletName"
+                placeholder="Enter outlet name">
+
+        </div>
+
+
+        <!-- ROUTE -->
+
+        <div class="field">
+
+            <label>
+                Route Name
+            </label>
+
+            <input
+                type="text"
+                id="routeName"
+                placeholder="Enter route name">
+
+        </div>
+
+
+        <!-- FRONT IMAGE -->
+
+        <div class="field">
+
+            <label>
+                Front Image URL
+            </label>
+
+            <input
+                type="text"
+                id="frontImageUrl"
+                placeholder="Paste image URL">
+
+        </div>
+
+
+        <!-- SHELF IMAGE 1 -->
+
+        <div class="field">
+
+            <label>
+                Shelf Image 1 URL
+            </label>
+
+            <input
+                type="text"
+                id="shelfImage1Url"
+                placeholder="Paste image URL">
+
+        </div>
+
+
+        <!-- SHELF IMAGE 2 -->
+
+        <div class="field">
+
+            <label>
+                Shelf Image 2 URL
+            </label>
+
+            <input
+                type="text"
+                id="shelfImage2Url"
+                placeholder="Paste image URL">
+
+        </div>
+
+
+        <!-- REMARKS -->
+
+        <div class="field full">
+
+            <label>
+                Remarks
+            </label>
+
+            <textarea
+                id="remarks"
+                placeholder="Write remarks..."></textarea>
+
+        </div>
+
 
     </div>
 
 
-    <div
-        id="status"
-        class="status">
+    <!-- =================================================
+         GPS
+    ================================================== -->
 
-        Loading...
+    <div class="location-box">
+
+        <div class="location-title">
+            📍 Outlet GPS Location
+        </div>
+
+
+        <div
+            id="locationStatus"
+            class="location-status">
+
+            📍 Detecting device location...
+
+        </div>
+
+
+        <div
+            id="locationValues"
+            class="location-values">
+
+            Waiting for GPS...
+
+        </div>
+
+
+        <button
+            type="button"
+            class="location-btn"
+            onclick="getLocation()">
+
+            📍 Get Current Location
+
+        </button>
 
     </div>
 
 
-    <!-- FORM -->
+    <!-- =================================================
+         ACTIONS
+    ================================================== -->
 
-    <div class="form-card">
+    <div class="actions">
 
-        <h2 id="formTitle">
-            Add New Outlet Survey
-        </h2>
+        <button
+            id="saveButton"
+            class="save-btn"
+            onclick="saveSurvey()">
 
+            💾 Save Survey
 
-        <input
-            type="hidden"
-            id="editId">
+        </button>
 
 
-        <div class="grid">
+        <button
+            class="clear-btn"
+            onclick="clearForm()">
 
+            Clear
 
-            <div class="field">
-
-                <label>
-                    Outlet Code
-                </label>
-
-                <input
-                    type="text"
-                    id="outletCode"
-                    placeholder="Example: D15-1010">
-
-            </div>
-
-
-            <div class="field">
-
-                <label>
-                    Outlet Name *
-                </label>
-
-                <input
-                    type="text"
-                    id="outletName"
-                    placeholder="Outlet name">
-
-            </div>
-
-
-            <div class="field">
-
-                <label>
-                    Route Name
-                </label>
-
-                <input
-                    type="text"
-                    id="routeName"
-                    placeholder="Route name">
-
-            </div>
-
-
-            <div class="field">
-
-                <label>
-                    Front Image URL
-                </label>
-
-                <input
-                    type="text"
-                    id="frontImageUrl"
-                    placeholder="Image URL">
-
-            </div>
-
-
-            <div class="field">
-
-                <label>
-                    Shelf Image 1 URL
-                </label>
-
-                <input
-                    type="text"
-                    id="shelfImage1Url"
-                    placeholder="Image URL">
-
-            </div>
-
-
-            <div class="field">
-
-                <label>
-                    Shelf Image 2 URL
-                </label>
-
-                <input
-                    type="text"
-                    id="shelfImage2Url"
-                    placeholder="Image URL">
-
-            </div>
-
-
-            <div class="field full">
-
-                <label>
-                    Remarks
-                </label>
-
-                <textarea
-                    id="remarks"
-                    placeholder="Write remarks..."></textarea>
-
-            </div>
-
-
-        </div>
-
-
-        <!-- GPS -->
-
-        <div class="location-box">
-
-            <div
-                id="locationStatus"
-                class="location-status">
-
-                📍 Getting device location...
-
-            </div>
-
-
-            <div
-                id="locationValues"
-                class="location-values">
-
-                Please allow location permission on your device.
-
-            </div>
-
-
-            <button
-                type="button"
-                class="location-btn"
-                onclick="getLocation()">
-
-                📍 Get Current Location
-
-            </button>
-
-        </div>
-
-
-        <div class="actions">
-
-            <button
-                class="save-btn"
-                id="saveButton"
-                onclick="saveSurvey()">
-
-                💾 Save Survey
-
-            </button>
-
-
-            <button
-                class="clear-btn"
-                onclick="clearForm()">
-
-                Clear
-
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- TABLE -->
-
-    <div class="table-card">
-
-        <h2>
-            Survey Records
-        </h2>
-
-        <div class="table-wrap">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-
-                        <th>ID</th>
-                        <th>Outlet Code</th>
-                        <th>Outlet Name</th>
-                        <th>Route</th>
-                        <th>Remarks</th>
-                        <th>Location</th>
-                        <th>Created</th>
-                        <th>Action</th>
-
-                    </tr>
-
-                </thead>
-
-
-                <tbody id="surveyTableBody">
-
-                    <tr>
-
-                        <td
-                            colspan="8"
-                            class="empty">
-
-                            Loading...
-
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </div>
+        </button>
 
     </div>
 
 </div>
 
 
+<!-- =====================================================
+     TABLE
+===================================================== -->
+
+<div class="table-card">
+
+    <h2>
+        Survey Records
+    </h2>
+
+
+    <div class="table-wrap">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Outlet Code</th>
+
+                    <th>Outlet Name</th>
+
+                    <th>Route</th>
+
+                    <th>Remarks</th>
+
+                    <th>GPS Location</th>
+
+                    <th>Created</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="surveyTableBody">
+
+                <tr>
+
+                    <td
+                        colspan="8"
+                        class="empty">
+
+                        Loading survey records...
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+</div>
+
+
 <script>
+
 
 // =====================================================
 // SUPABASE
@@ -587,7 +759,10 @@ const supabaseClient =
 // =====================================================
 
 let currentLatitude = null;
+
 let currentLongitude = null;
+
+let currentAccuracy = null;
 
 
 // =====================================================
@@ -595,17 +770,23 @@ let currentLongitude = null;
 // =====================================================
 
 const statusBox =
-    document.getElementById("status");
+    document.getElementById(
+        "status"
+    );
 
 const locationStatus =
-    document.getElementById("locationStatus");
+    document.getElementById(
+        "locationStatus"
+    );
 
 const locationValues =
-    document.getElementById("locationValues");
+    document.getElementById(
+        "locationValues"
+    );
 
 
 // =====================================================
-// LOGIN CHECK
+// LOGIN
 // =====================================================
 
 async function checkLogin(){
@@ -619,7 +800,10 @@ async function checkLogin(){
 
     if(error){
 
-        console.error(error);
+        console.error(
+            "Session error:",
+            error
+        );
 
         window.location.href =
             "index.html";
@@ -645,7 +829,7 @@ async function checkLogin(){
 
 
 // =====================================================
-// GPS
+// GET GPS LOCATION
 // =====================================================
 
 function getLocation(){
@@ -658,20 +842,23 @@ function getLocation(){
         locationStatus.style.color =
             "#dc2626";
 
+        locationValues.innerText =
+            "Your device/browser does not support GPS.";
+
         return;
 
     }
 
 
     locationStatus.innerText =
-        "📍 Getting your current location...";
+        "📍 Getting current location...";
 
     locationStatus.style.color =
         "#2563eb";
 
 
     locationValues.innerText =
-        "Please wait...";
+        "Please wait while GPS is detecting your position...";
 
 
     navigator.geolocation.getCurrentPosition(
@@ -684,9 +871,12 @@ function getLocation(){
             currentLongitude =
                 position.coords.longitude;
 
+            currentAccuracy =
+                position.coords.accuracy;
+
 
             locationStatus.innerText =
-                "✅ Location detected successfully";
+                "✅ GPS location detected";
 
             locationStatus.style.color =
                 "#15803d";
@@ -702,13 +892,15 @@ function getLocation(){
                 currentLongitude.toFixed(6) +
                 "</b><br>" +
 
-                "Accuracy: <b>" +
+                "GPS Accuracy: <b>" +
                 Math.round(
-                    position.coords.accuracy
+                    currentAccuracy
                 ) +
                 " meters</b>";
 
+
         },
+
 
         function(error){
 
@@ -719,31 +911,34 @@ function getLocation(){
 
 
             currentLatitude = null;
+
             currentLongitude = null;
+
+            currentAccuracy = null;
 
 
             let message =
-                "❌ Could not get location.";
+                "❌ Unable to get GPS location.";
 
 
             if(error.code === 1){
 
                 message =
-                    "❌ Location permission denied. Please allow location access.";
+                    "❌ Location permission denied.";
 
             }
 
             else if(error.code === 2){
 
                 message =
-                    "❌ Location unavailable. Please turn on GPS.";
+                    "❌ Location unavailable.";
 
             }
 
             else if(error.code === 3){
 
                 message =
-                    "❌ Location request timed out. Try again.";
+                    "❌ GPS request timed out.";
 
             }
 
@@ -756,14 +951,19 @@ function getLocation(){
 
 
             locationValues.innerText =
-                "Click 'Get Current Location' and try again.";
+                "Turn on device location and try again.";
 
         },
 
+
         {
+
             enableHighAccuracy:true,
-            timeout:15000,
+
+            timeout:20000,
+
             maximumAge:0
+
         }
 
     );
@@ -788,10 +988,6 @@ async function loadSurveys(){
             return;
 
         }
-
-
-        statusBox.innerText =
-            "Loading survey records...";
 
 
         const {
@@ -851,7 +1047,9 @@ async function loadSurveys(){
                 function(row){
 
                     const tr =
-                        document.createElement("tr");
+                        document.createElement(
+                            "tr"
+                        );
 
 
                     let locationHTML =
@@ -863,21 +1061,47 @@ async function loadSurveys(){
                         row.longitude !== null
                     ){
 
+                        const latitude =
+                            Number(
+                                row.latitude
+                            );
+
+                        const longitude =
+                            Number(
+                                row.longitude
+                            );
+
+
                         const mapUrl =
                             "https://www.google.com/maps?q=" +
-                            row.latitude +
+                            latitude +
                             "," +
-                            row.longitude;
+                            longitude;
 
 
                         locationHTML = `
 
+                            <div class="coordinates">
+
+                                <b>Lat:</b>
+                                ${latitude.toFixed(6)}
+
+                                <br>
+
+                                <b>Lng:</b>
+                                ${longitude.toFixed(6)}
+
+                            </div>
+
+                            <br>
+
                             <a
                                 class="map-btn"
                                 href="${mapUrl}"
-                                target="_blank">
+                                target="_blank"
+                                rel="noopener">
 
-                                🗺️ View
+                                🗺️ View Map
 
                             </a>
 
@@ -898,7 +1122,10 @@ async function loadSurveys(){
 
                     tr.innerHTML = `
 
-                        <td>${row.id}</td>
+                        <td>
+                            ${row.id}
+                        </td>
+
 
                         <td>
                             ${escapeHTML(
@@ -906,13 +1133,15 @@ async function loadSurveys(){
                             )}
                         </td>
 
+
                         <td>
                             <b>
-                            ${escapeHTML(
-                                row.outlet_name || ""
-                            )}
+                                ${escapeHTML(
+                                    row.outlet_name || ""
+                                )}
                             </b>
                         </td>
+
 
                         <td>
                             ${escapeHTML(
@@ -920,19 +1149,23 @@ async function loadSurveys(){
                             )}
                         </td>
 
+
                         <td>
                             ${escapeHTML(
                                 row.remarks || ""
                             )}
                         </td>
 
+
                         <td>
                             ${locationHTML}
                         </td>
 
+
                         <td>
                             ${created}
                         </td>
+
 
                         <td>
 
@@ -943,6 +1176,7 @@ async function loadSurveys(){
                                 Edit
 
                             </button>
+
 
                             <button
                                 class="delete-btn"
@@ -1006,7 +1240,7 @@ async function loadSurveys(){
 
 
 // =====================================================
-// SAVE / UPDATE
+// SAVE SURVEY
 // =====================================================
 
 async function saveSurvey(){
@@ -1081,25 +1315,27 @@ async function saveSurvey(){
         currentLongitude === null
     ){
 
-        const confirmLocation =
+        const retry =
             confirm(
-                "GPS location has not been detected.\n\nDo you want to save without GPS?"
+                "GPS location has not been detected.\n\nDo you want to get your current location now?"
             );
 
 
-        if(!confirmLocation){
+        if(retry){
 
             getLocation();
 
-            return;
-
         }
+
+
+        return;
 
     }
 
 
     saveButton.disabled =
         true;
+
 
     saveButton.innerText =
         editId
@@ -1205,6 +1441,7 @@ async function saveSurvey(){
             :
             "✓ Survey saved successfully.";
 
+
         statusBox.style.background =
             "#dcfce7";
 
@@ -1217,6 +1454,7 @@ async function saveSurvey(){
 
         clearForm();
 
+
         await loadSurveys();
 
     }
@@ -1224,7 +1462,7 @@ async function saveSurvey(){
     catch(error){
 
         console.error(
-            "Save survey error:",
+            "Save error:",
             error
         );
 
@@ -1250,7 +1488,7 @@ async function saveSurvey(){
 
 
 // =====================================================
-// EDIT
+// EDIT SURVEY
 // =====================================================
 
 async function editSurvey(id){
@@ -1327,17 +1565,32 @@ async function editSurvey(id){
 
 
         currentLatitude =
-            data.latitude;
+            data.latitude !== null
+            ?
+            Number(data.latitude)
+            :
+            null;
 
 
         currentLongitude =
-            data.longitude;
+            data.longitude !== null
+            ?
+            Number(data.longitude)
+            :
+            null;
 
 
         if(
             currentLatitude !== null &&
             currentLongitude !== null
         ){
+
+            const mapUrl =
+                "https://www.google.com/maps?q=" +
+                currentLatitude +
+                "," +
+                currentLongitude;
+
 
             locationStatus.innerText =
                 "✅ Saved GPS location loaded";
@@ -1349,16 +1602,22 @@ async function editSurvey(id){
             locationValues.innerHTML =
 
                 "Latitude: <b>" +
-                Number(
-                    currentLatitude
-                ).toFixed(6) +
+                currentLatitude.toFixed(6) +
                 "</b><br>" +
 
                 "Longitude: <b>" +
-                Number(
-                    currentLongitude
-                ).toFixed(6) +
-                "</b>";
+                currentLongitude.toFixed(6) +
+                "</b><br><br>" +
+
+                `<a
+                    class="map-btn"
+                    href="${mapUrl}"
+                    target="_blank"
+                    rel="noopener">
+
+                    🗺️ Open Saved Location
+
+                </a>`;
 
         }
 
@@ -1366,6 +1625,10 @@ async function editSurvey(id){
 
             locationStatus.innerText =
                 "📍 No saved GPS location";
+
+            locationStatus.style.color =
+                "#dc2626";
+
 
             locationValues.innerText =
                 "Click Get Current Location.";
@@ -1386,13 +1649,21 @@ async function editSurvey(id){
 
 
         window.scrollTo({
+
             top:0,
+
             behavior:"smooth"
+
         });
 
     }
 
     catch(error){
+
+        console.error(
+            error
+        );
+
 
         alert(
             "Could not load survey: " +
@@ -1410,13 +1681,13 @@ async function editSurvey(id){
 
 async function deleteSurvey(id){
 
-    const confirmDelete =
+    const confirmed =
         confirm(
             "Are you sure you want to delete this survey?"
         );
 
 
-    if(!confirmDelete){
+    if(!confirmed){
 
         return;
 
@@ -1446,6 +1717,13 @@ async function deleteSurvey(id){
 
         statusBox.innerText =
             "✓ Survey deleted successfully.";
+
+        statusBox.style.background =
+            "#dcfce7";
+
+        statusBox.style.color =
+            "#166534";
+
 
         await loadSurveys();
 
@@ -1515,18 +1793,10 @@ function clearForm(){
 
 
     currentLatitude = null;
+
     currentLongitude = null;
 
-
-    locationStatus.innerText =
-        "📍 Getting device location...";
-
-    locationStatus.style.color =
-        "#2563eb";
-
-
-    locationValues.innerText =
-        "Please allow location permission.";
+    currentAccuracy = null;
 
 
     document.getElementById(
@@ -1541,7 +1811,16 @@ function clearForm(){
         "💾 Save Survey";
 
 
-    // Automatically request GPS again
+    locationStatus.innerText =
+        "📍 Detecting device location...";
+
+    locationStatus.style.color =
+        "#2563eb";
+
+
+    locationValues.innerText =
+        "Waiting for GPS...";
+
 
     setTimeout(
         getLocation,
@@ -1552,16 +1831,21 @@ function clearForm(){
 
 
 // =====================================================
-// HTML ESCAPE
+// ESCAPE HTML
 // =====================================================
 
 function escapeHTML(value){
 
     return String(value)
+
         .replace(/&/g,"&amp;")
+
         .replace(/</g,"&lt;")
+
         .replace(/>/g,"&gt;")
+
         .replace(/"/g,"&quot;")
+
         .replace(/'/g,"&#039;");
 
 }
@@ -1611,8 +1895,11 @@ function goDashboard(){
 // =====================================================
 
 setInterval(
+
     loadSurveys,
+
     15000
+
 );
 
 </script>
