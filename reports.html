@@ -136,6 +136,10 @@ select{
     background:#7c3aed;
 }
 
+.refresh-btn{
+    background:#0891b2;
+}
+
 table{
     width:100%;
     border-collapse:collapse;
@@ -156,6 +160,12 @@ th{
     text-align:center;
     padding:25px;
     color:#777;
+}
+
+.loading{
+    text-align:center;
+    padding:25px;
+    color:#666;
 }
 
 .report-total{
@@ -183,12 +193,6 @@ th{
 .success{
     background:#dcfce7;
     color:#166534;
-}
-
-.loading{
-    text-align:center;
-    padding:25px;
-    color:#666;
 }
 
 @media(max-width:1000px){
@@ -280,7 +284,7 @@ th{
 </div>
 
 
-<!-- SUMMARY CARDS -->
+<!-- SUMMARY -->
 
 <div class="cards">
 
@@ -347,7 +351,7 @@ th{
     </h1>
 
 
-    <!-- FILTER -->
+    <!-- FILTERS -->
 
     <div class="filters">
 
@@ -406,6 +410,15 @@ th{
 
 
         <button
+            class="refresh-btn"
+            onclick="loadSales()">
+
+            🔄 Refresh
+
+        </button>
+
+
+        <button
             class="download-btn"
             onclick="downloadCSV()">
 
@@ -433,19 +446,41 @@ th{
 
             <tr>
 
-                <th>Date</th>
+                <th>
+                    Date
+                </th>
 
-                <th>Customer</th>
+                <th>
+                    Customer
+                </th>
 
-                <th>Product</th>
+                <th>
+                    Phone
+                </th>
 
-                <th>Code</th>
+                <th>
+                    Product
+                </th>
 
-                <th>Quantity</th>
+                <th>
+                    Code
+                </th>
 
-                <th>TP</th>
+                <th>
+                    Quantity
+                </th>
 
-                <th>Total</th>
+                <th>
+                    TP
+                </th>
+
+                <th>
+                    MRP
+                </th>
+
+                <th>
+                    Total
+                </th>
 
             </tr>
 
@@ -457,7 +492,7 @@ th{
             <tr>
 
                 <td
-                    colspan="7"
+                    colspan="9"
                     class="loading">
 
                     Loading sales...
@@ -478,7 +513,9 @@ th{
         Report Total:
 
         <span id="reportTotal">
+
             ৳ 0
+
         </span>
 
     </div>
@@ -585,8 +622,10 @@ th{
 const SUPABASE_URL =
 "https://ucrtujcqrpjcwepiugak.supabase.co";
 
+
 const SUPABASE_KEY =
 "sb_publishable_RnDm7gJ6ROuU49hcY_BA3g_snx27-M9";
+
 
 const supabaseClient =
 window.supabase.createClient(
@@ -611,17 +650,22 @@ let filteredSales = [];
 const reportTable =
 document.getElementById("reportTable");
 
+
 const productSummary =
 document.getElementById("productSummary");
+
 
 const customerSummary =
 document.getElementById("customerSummary");
 
+
 const customerSelect =
 document.getElementById("customer");
 
+
 const productSelect =
 document.getElementById("product");
+
 
 const messageBox =
 document.getElementById("message");
@@ -633,13 +677,14 @@ document.getElementById("message");
 
 function showMessage(text,type){
 
-    messageBox.innerText = text;
+    messageBox.innerText =
+    text;
 
     messageBox.className =
-        "message " + type;
+    "message " + type;
 
     messageBox.style.display =
-        "block";
+    "block";
 
 }
 
@@ -647,29 +692,123 @@ function showMessage(text,type){
 function hideMessage(){
 
     messageBox.style.display =
-        "none";
+    "none";
 
 }
 
 
 // =====================================================
-// HTML ESCAPE
+// ESCAPE HTML
 // =====================================================
 
 function escapeHtml(value){
 
     return String(value ?? "")
+
         .replace(/&/g,"&amp;")
+
         .replace(/</g,"&lt;")
+
         .replace(/>/g,"&gt;")
+
         .replace(/"/g,"&quot;")
+
         .replace(/'/g,"&#039;");
 
 }
 
 
 // =====================================================
-// LOAD SALES FROM SUPABASE
+// GET DATE
+// =====================================================
+
+function getSaleDate(sale){
+
+    const value =
+    sale["Sale_data"];
+
+
+    if(!value){
+
+        return "";
+
+    }
+
+
+    const text =
+    String(value);
+
+
+    if(
+        /^\d{4}-\d{2}-\d{2}$/.test(text)
+    ){
+
+        return text;
+
+    }
+
+
+    const date =
+    new Date(value);
+
+
+    if(
+        isNaN(date.getTime())
+    ){
+
+        return "";
+
+    }
+
+
+    return date
+        .toISOString()
+        .split("T")[0];
+
+}
+
+
+// =====================================================
+// DISPLAY DATE
+// =====================================================
+
+function formatDate(sale){
+
+    const date =
+    getSaleDate(sale);
+
+
+    if(!date){
+
+        return "";
+
+    }
+
+
+    const parts =
+    date.split("-");
+
+
+    if(parts.length === 3){
+
+        return (
+            parts[2] +
+            "/" +
+            parts[1] +
+            "/" +
+            parts[0]
+        );
+
+    }
+
+
+    return date;
+
+}
+
+
+// =====================================================
+// LOAD SALES
 // =====================================================
 
 async function loadSales(){
@@ -682,10 +821,10 @@ async function loadSales(){
         <tr>
 
             <td
-                colspan="7"
+                colspan="9"
                 class="loading">
 
-                Loading sales...
+                Loading sales from database...
 
             </td>
 
@@ -696,15 +835,23 @@ async function loadSales(){
 
     try{
 
+
         /*
-        IMPORTANT:
+        =================================================
+        IMPORTANT
 
-        We are NOT using Created_at.
+        NO localStorage
 
-        Your sales table has:
-        Sale_data
+        NO Created_at
 
-        So report is ordered by Sale_data.
+        NO Customer _id query
+
+        NO Product _id query
+
+        NO ORDER BY DATABASE COLUMN
+
+        Just select all columns.
+        =================================================
         */
 
 
@@ -714,21 +861,16 @@ async function loadSales(){
         } =
         await supabaseClient
             .from("sales")
-            .select("*")
-            .order(
-                "Sale_data",
-                {
-                    ascending:false
-                }
-            );
+            .select("*");
 
 
         if(error){
 
             console.error(
-                "Sales Load Error:",
+                "SUPABASE SALES ERROR:",
                 error
             );
+
 
             throw new Error(
                 "Sales load failed: " +
@@ -739,15 +881,41 @@ async function loadSales(){
 
 
         sales =
-            data || [];
+        Array.isArray(data)
+        ? data
+        : [];
+
+
+        /*
+        Sort in JavaScript.
+        This prevents database column
+        errors caused by column names.
+        */
+
+
+        sales.sort(function(a,b){
+
+            const dateA =
+            getSaleDate(a);
+
+
+            const dateB =
+            getSaleDate(b);
+
+
+            return dateB.localeCompare(
+                dateA
+            );
+
+        });
 
 
         filteredSales =
-            [...sales];
+        [...sales];
 
 
         console.log(
-            "Sales loaded:",
+            "ONLINE SALES:",
             sales
         );
 
@@ -763,10 +931,27 @@ async function loadSales(){
         );
 
 
+        if(sales.length > 0){
+
+            showMessage(
+                sales.length +
+                " sales loaded from Supabase.",
+                "success"
+            );
+
+        }
+
+
     }
+
     catch(error){
 
         console.error(error);
+
+
+        sales = [];
+
+        filteredSales = [];
 
 
         reportTable.innerHTML = `
@@ -774,7 +959,7 @@ async function loadSales(){
             <tr>
 
                 <td
-                    colspan="7"
+                    colspan="9"
                     class="empty">
 
                     ${escapeHtml(
@@ -792,6 +977,9 @@ async function loadSales(){
             error.message,
             "error"
         );
+
+
+        mainSummary();
 
     }
 
@@ -819,7 +1007,7 @@ function createCustomerDropdown(){
     sales.forEach(function(sale){
 
         const name =
-            sale["Customer _name"];
+        sale["Customer _name"];
 
 
         if(
@@ -840,17 +1028,17 @@ function createCustomerDropdown(){
     names.forEach(function(name){
 
         const option =
-            document.createElement(
-                "option"
-            );
+        document.createElement(
+            "option"
+        );
 
 
         option.value =
-            name;
+        name;
 
 
         option.textContent =
-            name;
+        name;
 
 
         customerSelect.appendChild(
@@ -877,44 +1065,44 @@ function createProductDropdown(){
     `;
 
 
-    const products = [];
+    const names = [];
 
 
     sales.forEach(function(sale){
 
         const name =
-            sale["Product _name"];
+        sale["Product _name"];
 
 
         if(
             name &&
-            !products.includes(name)
+            !names.includes(name)
         ){
 
-            products.push(name);
+            names.push(name);
 
         }
 
     });
 
 
-    products.sort();
+    names.sort();
 
 
-    products.forEach(function(name){
+    names.forEach(function(name){
 
         const option =
-            document.createElement(
-                "option"
-            );
+        document.createElement(
+            "option"
+        );
 
 
         option.value =
-            name;
+        name;
 
 
         option.textContent =
-            name;
+        name;
 
 
         productSelect.appendChild(
@@ -922,105 +1110,6 @@ function createProductDropdown(){
         );
 
     });
-
-}
-
-
-// =====================================================
-// GET SALE DATE
-// =====================================================
-
-function getSaleDate(sale){
-
-    /*
-    Main date column:
-    Sale_data
-
-    No Created_at is used here.
-    */
-
-
-    if(
-        sale["Sale_data"]
-    ){
-
-        const raw =
-            sale["Sale_data"];
-
-
-        /*
-        If Sale_data is:
-        2026-08-26
-        */
-
-        if(
-            /^\d{4}-\d{2}-\d{2}$/.test(
-                String(raw)
-            )
-        ){
-
-            return String(raw);
-
-        }
-
-
-        const date =
-            new Date(raw);
-
-
-        if(
-            !isNaN(date.getTime())
-        ){
-
-            return date
-                .toISOString()
-                .split("T")[0];
-
-        }
-
-    }
-
-
-    return "";
-
-}
-
-
-// =====================================================
-// FORMAT DATE
-// =====================================================
-
-function formatDate(sale){
-
-    const date =
-        getSaleDate(sale);
-
-
-    if(!date){
-
-        return "";
-
-    }
-
-
-    const parts =
-        date.split("-");
-
-
-    if(parts.length === 3){
-
-        return (
-            parts[2] +
-            "/" +
-            parts[1] +
-            "/" +
-            parts[0]
-        );
-
-    }
-
-
-    return date;
 
 }
 
@@ -1039,25 +1128,23 @@ function mainSummary(){
     sales.forEach(function(sale){
 
         total +=
-            Number(
-                sale["Total"] || 0
-            );
+        Number(
+            sale["Total"] || 0
+        );
 
 
         quantity +=
-            Number(
-                sale["Quantity"] || 0
-            );
+        Number(
+            sale["Quantity"] || 0
+        );
 
     });
 
 
-    // TODAY
-
     const today =
-        new Date()
-            .toISOString()
-            .split("T")[0];
+    new Date()
+        .toISOString()
+        .split("T")[0];
 
 
     let todayTotal = 0;
@@ -1065,18 +1152,15 @@ function mainSummary(){
 
     sales.forEach(function(sale){
 
-        const saleDate =
-            getSaleDate(sale);
-
-
         if(
-            saleDate === today
+            getSaleDate(sale) ===
+            today
         ){
 
             todayTotal +=
-                Number(
-                    sale["Total"] || 0
-                );
+            Number(
+                sale["Total"] || 0
+            );
 
         }
 
@@ -1086,27 +1170,27 @@ function mainSummary(){
     document.getElementById(
         "totalSales"
     ).innerText =
-        "৳ " +
-        total.toLocaleString();
+    "৳ " +
+    total.toLocaleString();
 
 
     document.getElementById(
         "todaySales"
     ).innerText =
-        "৳ " +
-        todayTotal.toLocaleString();
+    "৳ " +
+    todayTotal.toLocaleString();
 
 
     document.getElementById(
         "totalQuantity"
     ).innerText =
-        quantity.toLocaleString();
+    quantity.toLocaleString();
 
 
     document.getElementById(
         "transactions"
     ).innerText =
-        sales.length;
+    sales.length;
 
 }
 
@@ -1133,7 +1217,7 @@ function showReport(data){
             <tr>
 
                 <td
-                    colspan="7"
+                    colspan="9"
                     class="empty">
 
                     No sales data found.
@@ -1148,7 +1232,7 @@ function showReport(data){
         document.getElementById(
             "reportTotal"
         ).innerText =
-            "৳ 0";
+        "৳ 0";
 
 
         showProductSummary([]);
@@ -1162,42 +1246,52 @@ function showReport(data){
 
     data.forEach(function(sale){
 
-        const saleTotal =
-            Number(
-                sale["Total"] || 0
-            );
-
-
-        const quantity =
-            Number(
-                sale["Quantity"] || 0
-            );
-
-
-        const tp =
-            Number(
-                sale["Tp"] || 0
-            );
-
-
-        total +=
-            saleTotal;
-
-
         const customer =
-            sale["Customer _name"] || "";
+        sale["Customer _name"] || "";
+
+
+        const phone =
+        sale["Customer_phone"] || "";
 
 
         const product =
-            sale["Product _name"] || "";
+        sale["Product _name"] || "";
 
 
         const code =
-            sale["Product _code"] || "";
+        sale["Product _code"] || "";
+
+
+        const quantity =
+        Number(
+            sale["Quantity"] || 0
+        );
+
+
+        const tp =
+        Number(
+            sale["Tp"] || 0
+        );
+
+
+        const mrp =
+        Number(
+            sale["Mrp"] || 0
+        );
+
+
+        const saleTotal =
+        Number(
+            sale["Total"] || 0
+        );
+
+
+        total +=
+        saleTotal;
 
 
         const row =
-            document.createElement("tr");
+        document.createElement("tr");
 
 
         row.innerHTML = `
@@ -1211,6 +1305,12 @@ function showReport(data){
             <td>
                 ${escapeHtml(
                     customer
+                )}
+            </td>
+
+            <td>
+                ${escapeHtml(
+                    phone
                 )}
             </td>
 
@@ -1235,6 +1335,10 @@ function showReport(data){
             </td>
 
             <td>
+                ৳ ${mrp.toLocaleString()}
+            </td>
+
+            <td>
                 ৳ ${saleTotal.toLocaleString()}
             </td>
 
@@ -1249,8 +1353,8 @@ function showReport(data){
     document.getElementById(
         "reportTotal"
     ).innerText =
-        "৳ " +
-        total.toLocaleString();
+    "৳ " +
+    total.toLocaleString();
 
 
     showProductSummary(data);
@@ -1261,93 +1365,83 @@ function showReport(data){
 
 
 // =====================================================
-// FILTER REPORT
+// FILTER
 // =====================================================
 
 function filterReport(){
 
     const from =
-        document.getElementById(
-            "fromDate"
-        ).value;
+    document.getElementById(
+        "fromDate"
+    ).value;
 
 
     const to =
-        document.getElementById(
-            "toDate"
-        ).value;
+    document.getElementById(
+        "toDate"
+    ).value;
 
 
     const customer =
-        customerSelect.value;
+    customerSelect.value;
 
 
     const product =
-        productSelect.value;
+    productSelect.value;
 
 
     filteredSales =
-        sales.filter(function(sale){
+    sales.filter(function(sale){
 
-            const saleDate =
-                getSaleDate(sale);
-
-
-            // FROM DATE
-
-            if(
-                from &&
-                saleDate &&
-                saleDate < from
-            ){
-
-                return false;
-
-            }
+        const saleDate =
+        getSaleDate(sale);
 
 
-            // TO DATE
+        if(
+            from &&
+            saleDate < from
+        ){
 
-            if(
-                to &&
-                saleDate &&
-                saleDate > to
-            ){
+            return false;
 
-                return false;
-
-            }
+        }
 
 
-            // CUSTOMER
+        if(
+            to &&
+            saleDate > to
+        ){
 
-            if(
-                customer &&
-                sale["Customer _name"] !==
-                customer
-            ){
+            return false;
 
-                return false;
-
-            }
+        }
 
 
-            // PRODUCT
+        if(
+            customer &&
+            sale["Customer _name"] !==
+            customer
+        ){
 
-            if(
-                product &&
-                sale["Product _name"] !==
-                product
-            ){
+            return false;
 
-                return false;
-
-            }
+        }
 
 
-            return true;
+        if(
+            product &&
+            sale["Product _name"] !==
+            product
+        ){
 
-        });
+            return false;
+
+        }
+
+
+        return true;
+
+    });
 
 
     showReport(
@@ -1363,14 +1457,17 @@ function filterReport(){
 
 function showProductSummary(data){
 
+    productSummary.innerHTML = "";
+
+
     const summary = {};
 
 
     data.forEach(function(sale){
 
         const name =
-            sale["Product _name"] ||
-            "Unknown";
+        sale["Product _name"] ||
+        "Unknown";
 
 
         if(
@@ -1389,25 +1486,22 @@ function showProductSummary(data){
 
 
         summary[name].quantity +=
-            Number(
-                sale["Quantity"] || 0
-            );
+        Number(
+            sale["Quantity"] || 0
+        );
 
 
         summary[name].total +=
-            Number(
-                sale["Total"] || 0
-            );
+        Number(
+            sale["Total"] || 0
+        );
 
     });
 
 
-    productSummary.innerHTML = "";
-
-
     const names =
-        Object.keys(summary)
-            .sort();
+    Object.keys(summary)
+        .sort();
 
 
     if(names.length === 0){
@@ -1420,7 +1514,7 @@ function showProductSummary(data){
                     colspan="3"
                     class="empty">
 
-                    No product sales found.
+                    No product data.
 
                 </td>
 
@@ -1436,7 +1530,7 @@ function showProductSummary(data){
     names.forEach(function(name){
 
         const row =
-            document.createElement("tr");
+        document.createElement("tr");
 
 
         row.innerHTML = `
@@ -1473,14 +1567,17 @@ function showProductSummary(data){
 
 function showCustomerSummary(data){
 
+    customerSummary.innerHTML = "";
+
+
     const summary = {};
 
 
     data.forEach(function(sale){
 
         const name =
-            sale["Customer _name"] ||
-            "Unknown";
+        sale["Customer _name"] ||
+        "Unknown";
 
 
         if(
@@ -1504,25 +1601,22 @@ function showCustomerSummary(data){
 
 
         summary[name].quantity +=
-            Number(
-                sale["Quantity"] || 0
-            );
+        Number(
+            sale["Quantity"] || 0
+        );
 
 
         summary[name].total +=
-            Number(
-                sale["Total"] || 0
-            );
+        Number(
+            sale["Total"] || 0
+        );
 
     });
 
 
-    customerSummary.innerHTML = "";
-
-
     const names =
-        Object.keys(summary)
-            .sort();
+    Object.keys(summary)
+        .sort();
 
 
     if(names.length === 0){
@@ -1535,7 +1629,7 @@ function showCustomerSummary(data){
                     colspan="4"
                     class="empty">
 
-                    No customer sales found.
+                    No customer data.
 
                 </td>
 
@@ -1551,7 +1645,7 @@ function showCustomerSummary(data){
     names.forEach(function(name){
 
         const row =
-            document.createElement("tr");
+        document.createElement("tr");
 
 
         row.innerHTML = `
@@ -1606,11 +1700,12 @@ function clearFilter(){
 
     customerSelect.value = "";
 
+
     productSelect.value = "";
 
 
     filteredSales =
-        [...sales];
+    [...sales];
 
 
     showReport(
@@ -1626,9 +1721,13 @@ function clearFilter(){
 
 function downloadCSV(){
 
+    const data =
+    filteredSales;
+
+
     if(
-        !filteredSales ||
-        filteredSales.length === 0
+        !data ||
+        data.length === 0
     ){
 
         alert(
@@ -1641,75 +1740,48 @@ function downloadCSV(){
 
 
     let csv =
-        "Date,Customer,Product,Code,Quantity,TP,Total\n";
+    "Date,Customer,Phone,Product,Code,Quantity,TP,MRP,Total\n";
 
 
-    filteredSales.forEach(function(sale){
-
-        const date =
-            getSaleDate(sale);
-
-
-        const customer =
-            sale["Customer _name"] || "";
-
-
-        const product =
-            sale["Product _name"] || "";
-
-
-        const code =
-            sale["Product _code"] || "";
-
-
-        const quantity =
-            sale["Quantity"] || 0;
-
-
-        const tp =
-            sale["Tp"] || 0;
-
-
-        const total =
-            sale["Total"] || 0;
-
+    data.forEach(function(sale){
 
         csv +=
-            `"${date}",` +
-            `"${customer}",` +
-            `"${product}",` +
-            `"${code}",` +
-            `"${quantity}",` +
-            `"${tp}",` +
-            `"${total}"\n`;
+        `"${getSaleDate(sale)}",` +
+        `"${sale["Customer _name"] || ""}",` +
+        `"${sale["Customer_phone"] || ""}",` +
+        `"${sale["Product _name"] || ""}",` +
+        `"${sale["Product _code"] || ""}",` +
+        `"${sale["Quantity"] || 0}",` +
+        `"${sale["Tp"] || 0}",` +
+        `"${sale["Mrp"] || 0}",` +
+        `"${sale["Total"] || 0}"\n`;
 
     });
 
 
     const blob =
-        new Blob(
-            [csv],
-            {
-                type:
-                "text/csv;charset=utf-8;"
-            }
-        );
+    new Blob(
+        [csv],
+        {
+            type:
+            "text/csv;charset=utf-8;"
+        }
+    );
 
 
     const url =
-        URL.createObjectURL(blob);
+    URL.createObjectURL(blob);
 
 
     const link =
-        document.createElement("a");
+    document.createElement("a");
 
 
-    link.href =
-        url;
+    link.href = url;
 
 
     link.download =
-        "Sales-Report.csv";
+    "Sales-Report.csv";
 
 
     document.body.appendChild(link);
@@ -1744,7 +1816,7 @@ function printReport(){
 function goDashboard(){
 
     window.location.href =
-        "dashboard.html";
+    "dashboard.html";
 
 }
 
@@ -1753,14 +1825,7 @@ function goDashboard(){
 // START
 // =====================================================
 
-async function start(){
-
-    await loadSales();
-
-}
-
-
-start();
+loadSales();
 
 </script>
 
