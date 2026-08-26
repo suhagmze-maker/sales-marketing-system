@@ -1,5 +1,5 @@
-```html
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -249,85 +249,87 @@ th{
 
 <body>
 
-
 <div class="header">
 
-    <h2>Sales Reports</h2>
+```
+<h2>Sales Reports</h2>
 
-    <button
-        class="back-btn"
-        onclick="goDashboard()">
+<button
+    class="back-btn"
+    onclick="goDashboard()">
 
-        Dashboard
+    Dashboard
 
-    </button>
+</button>
+```
 
 </div>
 
-
 <div class="container">
-
 
 <div
     id="status"
     class="status">
 
-    Connecting to Supabase...
+```
+Connecting to Supabase...
+```
 
 </div>
-
 
 <!-- SUMMARY -->
 
 <div class="cards">
 
+<div class="card">
+
+```
+<p>Total Sales</p>
+
+<h2 id="totalSales">
+    ৳ 0
+</h2>
+```
+
+</div>
 
 <div class="card">
 
-    <p>Total Sales</p>
+```
+<p>Today's Sales</p>
 
-    <h2 id="totalSales">
-        ৳ 0
-    </h2>
+<h2 id="todaySales">
+    ৳ 0
+</h2>
+```
 
 </div>
-
 
 <div class="card">
 
-    <p>Today's Sales</p>
+```
+<p>Total Quantity</p>
 
-    <h2 id="todaySales">
-        ৳ 0
-    </h2>
+<h2 id="totalQuantity">
+    0
+</h2>
+```
 
 </div>
-
 
 <div class="card">
 
-    <p>Total Quantity</p>
+```
+<p>Total Transactions</p>
 
-    <h2 id="totalQuantity">
-        0
-    </h2>
-
-</div>
-
-
-<div class="card">
-
-    <p>Total Transactions</p>
-
-    <h2 id="transactions">
-        0
-    </h2>
+<h2 id="transactions">
+    0
+</h2>
+```
 
 </div>
 
-
 </div>
-
 
 <!-- REPORT -->
 
@@ -335,80 +337,81 @@ th{
 
 <h1>Sales Report</h1>
 
-
 <div class="filters">
 
+<input
+ type="date"
+ id="fromDate">
 
 <input
-    type="date"
-    id="fromDate">
-
-
-<input
-    type="date"
-    id="toDate">
-
+ type="date"
+ id="toDate">
 
 <select id="customerFilter">
 
-    <option value="">
-        All Customers
-    </option>
+```
+<option value="">
+    All Customers
+</option>
+```
 
 </select>
-
 
 <select id="productFilter">
 
-    <option value="">
-        All Products
-    </option>
+```
+<option value="">
+    All Products
+</option>
+```
 
 </select>
 
-
 </div>
-
 
 <div class="buttons">
 
 <button
-    class="search-btn"
-    onclick="applyFilter()">
+ class="search-btn"
+ onclick="applyFilter()">
 
-    Search
-
-</button>
-
-
-<button
-    class="clear-btn"
-    onclick="clearFilter()">
-
-    Clear
+```
+Search
+```
 
 </button>
 
-
 <button
-    class="download-btn"
-    onclick="downloadCSV()">
+ class="clear-btn"
+ onclick="clearFilter()">
 
-    Download CSV
+```
+Clear
+```
 
 </button>
 
+<button
+ class="download-btn"
+ onclick="downloadCSV()">
+
+```
+Download CSV
+```
+
+</button>
 
 <button
-    class="print-btn"
-    onclick="window.print()">
+ class="print-btn"
+ onclick="window.print()">
 
-    Print
+```
+Print
+```
 
 </button>
 
 </div>
-
 
 <div class="table-wrap">
 
@@ -422,13 +425,17 @@ th{
 
 <th>Customer</th>
 
-<th>Employee</th>
+<th>Phone</th>
 
 <th>Product</th>
 
 <th>Code</th>
 
+<th>Category</th>
+
 <th>Pack Size</th>
+
+<th>Unit</th>
 
 <th>Quantity</th>
 
@@ -444,32 +451,28 @@ th{
 
 </thead>
 
-
 <tbody id="salesTable">
-
 </tbody>
 
 </table>
 
 </div>
 
-
 <div class="report-total">
 
-    Report Total:
+```
+Report Total:
 
-    <span id="reportTotal">
-        ৳ 0
-    </span>
-
-</div>
-
-
-</div>
-
+<span id="reportTotal">
+    ৳ 0
+</span>
+```
 
 </div>
 
+</div>
+
+</div>
 
 <script>
 
@@ -496,8 +499,6 @@ const supabaseClient =
 // =====================================================
 
 let salesData = [];
-
-let productsData = [];
 
 let filteredData = [];
 
@@ -550,6 +551,21 @@ function formatDate(value){
         return "-";
     }
 
+    const parts =
+        String(value).split("-");
+
+    if(parts.length === 3){
+
+        return (
+            parts[2] +
+            "/" +
+            parts[1] +
+            "/" +
+            parts[0]
+        );
+
+    }
+
     const d =
         new Date(value);
 
@@ -557,82 +573,7 @@ function formatDate(value){
         return "-";
     }
 
-    return d.toLocaleDateString(
-        "en-GB"
-    );
-
-}
-
-
-// =====================================================
-// LOAD PRODUCTS
-// =====================================================
-
-async function loadProducts(){
-
-    const result =
-        await supabaseClient
-        .from("products")
-        .select(
-`
-id,
-name,
-code,
-category,
-pack_size,
-unit,
-tp,
-mrp,
-stock,
-created_at
-`
-        );
-
-
-    if(result.error){
-
-        console.error(
-            "Product load error:",
-            result.error
-        );
-
-        productsData = [];
-
-        return;
-
-    }
-
-
-    productsData =
-        result.data || [];
-
-}
-
-
-// =====================================================
-// FIND PRODUCT
-// =====================================================
-
-function findProduct(productId){
-
-    if(
-        productId === null ||
-        productId === undefined
-    ){
-
-        return null;
-
-    }
-
-
-    return productsData.find(
-        function(product){
-
-            return String(product.id) ===
-                   String(productId);
-
-        }
-    ) || null;
+    return d.toLocaleDateString("en-GB");
 
 }
 
@@ -644,41 +585,39 @@ function findProduct(productId){
 async function loadSales(){
 
     const status =
-        document.getElementById(
-            "status"
-        );
+        document.getElementById("status");
 
 
     status.innerText =
         "Loading sales data...";
 
 
-    // Products first
-
-    await loadProducts();
-
-
     // =================================================
     // IMPORTANT
-    // ONLY CONFIRMED ORDERS COLUMNS
+    // SALES TABLE
     // =================================================
 
     const result =
         await supabaseClient
-        .from("orders")
-        .select(
-`
-id,
-created_at,
-customer_name,
-employee_name,
-product_name,
-quantity,
-unit_price,
-total_amount,
-product_id
-`
-        )
+        .from("sales")
+        .select(`
+            id,
+            customer_id,
+            customer_name,
+            customer_phone,
+            product_id,
+            product_name,
+            product_code,
+            category,
+            pack_size,
+            unit,
+            quantity,
+            tp,
+            mrp,
+            total,
+            sale_date,
+            created_at
+        `)
         .order(
             "created_at",
             {
@@ -714,101 +653,69 @@ product_id
 
     salesData =
         (result.data || [])
-        .map(
-            function(sale){
+        .map(function(sale){
 
-                // Match orders.product_id
-                // with products.id
+            return {
 
-                const product =
-                    findProduct(
-                        sale.product_id
-                    );
+                id:
+                    sale.id,
 
+                customer_id:
+                    sale.customer_id,
 
-                /*
-                 TP:
-                 ALWAYS prefer products.tp
+                customer_name:
+                    sale.customer_name || "",
 
-                 MRP:
-                 ALWAYS take products.mrp
+                customer_phone:
+                    sale.customer_phone || "",
 
-                 Total:
-                 Use orders.total_amount
-                */
+                product_id:
+                    sale.product_id,
 
-                const tp =
-                    product
-                    ? Number(product.tp || 0)
-                    : Number(sale.unit_price || 0);
+                product_name:
+                    sale.product_name || "",
 
+                product_code:
+                    sale.product_code || "",
 
-                const mrp =
-                    product
-                    ? Number(product.mrp || 0)
-                    : 0;
+                category:
+                    sale.category || "",
 
+                pack_size:
+                    sale.pack_size || "",
 
-                return {
+                unit:
+                    sale.unit || "",
 
-                    id:
-                        sale.id,
+                quantity:
+                    Number(
+                        sale.quantity || 0
+                    ),
 
-                    created_at:
-                        sale.created_at,
+                tp:
+                    Number(
+                        sale.tp || 0
+                    ),
 
-                    customer_name:
-                        sale.customer_name || "",
+                mrp:
+                    Number(
+                        sale.mrp || 0
+                    ),
 
-                    employee_name:
-                        sale.employee_name || "",
+                total:
+                    Number(
+                        sale.total || 0
+                    ),
 
-                    product_name:
-                        sale.product_name || "",
+                sale_date:
+                    sale.sale_date,
 
-                    quantity:
-                        Number(
-                            sale.quantity || 0
-                        ),
+                created_at:
+                    sale.created_at
 
-                    unit_price:
-                        Number(
-                            sale.unit_price || 0
-                        ),
+            };
 
-                    total_amount:
-                        Number(
-                            sale.total_amount || 0
-                        ),
-
-                    product_id:
-                        sale.product_id,
-
-                    code:
-                        product
-                        ? product.code || ""
-                        : "",
-
-                    pack_size:
-                        product
-                        ? product.pack_size || ""
-                        : "",
-
-                    unit:
-                        product
-                        ? product.unit || ""
-                        : "",
-
-                    tp:
-                        tp,
-
-                    mrp:
-                        mrp
-
-                };
-
-            }
-        );
+        });
 
 
     filteredData =
@@ -827,7 +734,7 @@ product_id
     if(salesData.length === 0){
 
         status.innerText =
-            "Supabase connected, but orders table is empty.";
+            "Supabase connected, but sales table is empty.";
 
     }
     else{
@@ -986,7 +893,7 @@ function updateSummary(){
 
             totalSales +=
                 Number(
-                    sale.total_amount || 0
+                    sale.total || 0
                 );
 
 
@@ -1011,26 +918,19 @@ function updateSummary(){
     salesData.forEach(
         function(sale){
 
-            if(!sale.created_at){
+            if(!sale.sale_date){
                 return;
             }
 
 
-            const saleDate =
-                new Date(
-                    sale.created_at
-                )
-                .toISOString()
-                .split("T")[0];
-
-
             if(
-                saleDate === today
+                String(sale.sale_date) ===
+                today
             ){
 
                 todaySales +=
                     Number(
-                        sale.total_amount || 0
+                        sale.total || 0
                     );
 
             }
@@ -1090,7 +990,7 @@ function displaySales(data){
         <tr>
 
             <td
-                colspan="11"
+                colspan="13"
                 class="empty">
 
                 No sales data found.
@@ -1118,7 +1018,7 @@ function displaySales(data){
 
             grandTotal +=
                 Number(
-                    sale.total_amount || 0
+                    sale.total || 0
                 );
 
 
@@ -1140,7 +1040,7 @@ function displaySales(data){
 
                 <td>
                     ${formatDate(
-                        sale.created_at
+                        sale.sale_date
                     )}
                 </td>
 
@@ -1152,7 +1052,7 @@ function displaySales(data){
 
                 <td>
                     ${escapeHTML(
-                        sale.employee_name
+                        sale.customer_phone
                     )}
                 </td>
 
@@ -1164,13 +1064,25 @@ function displaySales(data){
 
                 <td>
                     ${escapeHTML(
-                        sale.code
+                        sale.product_code
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        sale.category
                     )}
                 </td>
 
                 <td>
                     ${escapeHTML(
                         pack
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        sale.unit
                     )}
                 </td>
 
@@ -1192,7 +1104,7 @@ function displaySales(data){
 
                 <td>
                     ${money(
-                        sale.total_amount
+                        sale.total
                     )}
                 </td>
 
@@ -1261,21 +1173,10 @@ function applyFilter(){
         salesData.filter(
             function(sale){
 
-                if(
-                    !sale.created_at
-                ){
-
-                    return false;
-
-                }
-
-
                 const saleDate =
-                    new Date(
-                        sale.created_at
-                    )
-                    .toISOString()
-                    .split("T")[0];
+                    String(
+                        sale.sale_date || ""
+                    );
 
 
                 if(
@@ -1332,7 +1233,7 @@ function applyFilter(){
 
 
 // =====================================================
-// CLEAR
+// CLEAR FILTER
 // =====================================================
 
 function clearFilter(){
@@ -1369,7 +1270,7 @@ function clearFilter(){
 
 
 // =====================================================
-// DELETE
+// DELETE SALE
 // =====================================================
 
 async function deleteSale(id){
@@ -1387,7 +1288,7 @@ async function deleteSale(id){
 
     const result =
         await supabaseClient
-        .from("orders")
+        .from("sales")
         .delete()
         .eq(
             "id",
@@ -1437,7 +1338,7 @@ function downloadCSV(){
 
 
     let csv =
-        "Date,Customer,Employee,Product,Code,Pack Size,Quantity,TP,MRP,Total\n";
+        "Date,Customer,Phone,Product,Code,Category,Pack Size,Unit,Quantity,TP,MRP,Total\n";
 
 
     filteredData.forEach(
@@ -1452,16 +1353,18 @@ function downloadCSV(){
 
 
             csv +=
-                `"${formatDate(sale.created_at)}",` +
+                `"${formatDate(sale.sale_date)}",` +
                 `"${sale.customer_name || ""}",` +
-                `"${sale.employee_name || ""}",` +
+                `"${sale.customer_phone || ""}",` +
                 `"${sale.product_name || ""}",` +
-                `"${sale.code || ""}",` +
+                `"${sale.product_code || ""}",` +
+                `"${sale.category || ""}",` +
                 `"${pack}",` +
+                `"${sale.unit || ""}",` +
                 `"${sale.quantity || 0}",` +
                 `"${sale.tp || 0}",` +
                 `"${sale.mrp || 0}",` +
-                `"${sale.total_amount || 0}"\n`;
+                `"${sale.total || 0}"\n`;
 
         }
     );
@@ -1491,6 +1394,7 @@ function downloadCSV(){
 
     link.href =
         url;
+
 
     link.download =
         "Sales-Report.csv";
@@ -1539,4 +1443,3 @@ loadSales();
 </body>
 
 </html>
-```
