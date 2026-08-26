@@ -86,7 +86,7 @@ h1{
 
 .form{
     display:grid;
-    grid-template-columns:repeat(4,1fr);
+    grid-template-columns:repeat(3,1fr) 1fr;
     gap:12px;
 }
 
@@ -532,7 +532,7 @@ async function checkLogin(){
 
 
 // =====================================================
-// LOAD PRODUCTS FROM SUPABASE
+// LOAD PRODUCTS
 // =====================================================
 
 async function loadProducts(){
@@ -551,7 +551,12 @@ async function loadProducts(){
     await supabaseClient
         .from("products")
         .select("*")
-        .order("name",{ascending:true});
+        .order(
+            "name",
+            {
+                ascending:true
+            }
+        );
 
 
     if(error){
@@ -814,12 +819,6 @@ async function addStock(){
     );
 
 
-    const purchasePrice =
-    Number(
-        purchasePriceInput.value || 0
-    );
-
-
     if(!productId){
 
         showMessage(
@@ -877,12 +876,16 @@ async function addStock(){
     try{
 
         // =============================================
-        // CURRENT STOCK
+        // OLD STOCK
         // =============================================
 
         const oldStock =
         Number(product.stock || 0);
 
+
+        // =============================================
+        // NEW STOCK
+        // =============================================
 
         const newStock =
         oldStock + quantity;
@@ -917,17 +920,12 @@ async function addStock(){
 
 
         // =============================================
-        // STOCK MOVEMENT
+        // SAVE STOCK MOVEMENT
         // =============================================
-        //
-        // These are the common columns used here:
-        // product_id
-        // product_name
-        // type
-        // quantity
-        // purchase_price
-        //
-        // =============================================
+
+        const movementDate =
+        new Date().toISOString();
+
 
         const {
             error: movementError
@@ -942,21 +940,37 @@ async function addStock(){
                 product_name:
                 product.name || "",
 
-                type:
+                product_code:
+                product.code || "",
+
+                "Pack size":
+                product.pack_size || "",
+
+                unit:
+                product.unit || "",
+
+                "Movement _type":
                 "Stock In",
 
                 quantity:
                 quantity,
 
-                purchase_price:
-                purchasePrice
+                "Customer _name":
+                "",
+
+                "Movement _date":
+                movementDate,
+
+                "Created_at":
+                movementDate
 
             });
 
 
         if(movementError){
 
-            // Try to restore product stock
+            // Restore old stock if movement save fails
+
             await supabaseClient
                 .from("products")
                 .update({
@@ -988,7 +1002,7 @@ async function addStock(){
 
 
         // =============================================
-        // RESET
+        // RESET FORM
         // =============================================
 
         productSelect.value =
@@ -1000,6 +1014,10 @@ async function addStock(){
         purchasePriceInput.value =
         "";
 
+
+        // =============================================
+        // SUCCESS
+        // =============================================
 
         showMessage(
             "Stock added successfully!",
@@ -1037,7 +1055,7 @@ async function addStock(){
 
 
 // =====================================================
-// LOAD STOCK MOVEMENTS FROM SUPABASE
+// LOAD STOCK MOVEMENTS
 // =====================================================
 
 async function loadMovements(){
@@ -1067,7 +1085,7 @@ async function loadMovements(){
         .from("stock_movements")
         .select("*")
         .order(
-            "created_at",
+            "Created_at",
             {
                 ascending:false
             }
@@ -1132,8 +1150,12 @@ async function loadMovements(){
         document.createElement("tr");
 
 
+        // =============================================
+        // MOVEMENT TYPE
+        // =============================================
+
         const type =
-        item.type || "";
+        item["Movement _type"] || "";
 
 
         const typeClass =
@@ -1144,26 +1166,36 @@ async function loadMovements(){
         : "stock-out";
 
 
+        // =============================================
+        // DATE
+        // =============================================
+
         let date = "";
 
 
-        if(item.created_at){
+        if(item["Movement _date"]){
 
             date =
             new Date(
-                item.created_at
+                item["Movement _date"]
             ).toLocaleDateString();
 
         }
 
 
-        else if(item.date){
+        else if(item["Created_at"]){
 
             date =
-            item.date;
+            new Date(
+                item["Created_at"]
+            ).toLocaleDateString();
 
         }
 
+
+        // =============================================
+        // ROW
+        // =============================================
 
         row.innerHTML = `
 
@@ -1173,9 +1205,7 @@ async function loadMovements(){
 
             <td>
                 ${escapeHtml(
-                    item.product_name ||
-                    item.product ||
-                    ""
+                    item.product_name || ""
                 )}
             </td>
 
