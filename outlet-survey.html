@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Outlet Survey</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#eef2ff,#f8fafc);
+    min-height:100vh;
+    color:#1e293b;
+}
+
+
+/* HEADER */
+
+.header{
+    background:linear-gradient(135deg,#166534,#22c55e);
+    color:white;
+    padding:20px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 4px 15px rgba(22,101,52,.25);
+}
+
+.header h2{
+    font-size:22px;
+}
+
+.back-btn{
+    background:white;
+    color:#166534;
+    border:none;
+    padding:10px 18px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+
+/* CONTAINER */
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:30px;
+}
+
+
+/* TITLE */
+
+.page-title{
+    margin-bottom:25px;
+}
+
+.page-title h1{
+    font-size:30px;
+    color:#111827;
+    margin-bottom:8px;
+}
+
+.page-title p{
+    color:#64748b;
+}
+
+
+/* FORM CARD */
+
+.form-card{
+    background:white;
+    padding:28px;
+    border-radius:16px;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+
+/* GRID */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+}
+
+.form-group.full{
+    grid-column:1 / -1;
+}
+
+label{
+    font-weight:bold;
+    margin-bottom:8px;
+    color:#334155;
+}
+
+input,
+textarea{
+    width:100%;
+    padding:12px 14px;
+    border:1px solid #cbd5e1;
+    border-radius:8px;
+    font-size:15px;
+    outline:none;
+    transition:.2s;
+}
+
+input:focus,
+textarea:focus{
+    border-color:#22c55e;
+    box-shadow:0 0 0 3px rgba(34,197,94,.12);
+}
+
+textarea{
+    min-height:110px;
+    resize:vertical;
+}
+
+
+/* IMAGE URL */
+
+.image-section{
+    margin-top:25px;
+    padding-top:25px;
+    border-top:1px solid #e2e8f0;
+}
+
+.image-section h3{
+    margin-bottom:18px;
+    color:#166534;
+}
+
+
+/* BUTTONS */
+
+.button-area{
+    margin-top:25px;
+    display:flex;
+    gap:12px;
+    justify-content:flex-end;
+}
+
+.save-btn{
+    background:linear-gradient(135deg,#16a34a,#22c55e);
+    color:white;
+    border:none;
+    padding:13px 25px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+    font-size:15px;
+}
+
+.clear-btn{
+    background:#e2e8f0;
+    color:#334155;
+    border:none;
+    padding:13px 25px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.save-btn:hover,
+.clear-btn:hover,
+.back-btn:hover{
+    transform:translateY(-2px);
+}
+
+.save-btn:disabled{
+    opacity:.7;
+    cursor:not-allowed;
+}
+
+
+/* STATUS */
+
+.status{
+    margin-top:20px;
+    padding:13px 17px;
+    border-radius:9px;
+    background:#eef4ff;
+    color:#2563eb;
+    font-weight:bold;
+    border-left:5px solid #2563eb;
+}
+
+
+/* TABLE */
+
+.list-card{
+    margin-top:25px;
+    background:white;
+    padding:25px;
+    border-radius:16px;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+.list-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+}
+
+.list-header h2{
+    color:#166534;
+}
+
+.refresh-btn{
+    background:#0ea5e9;
+    color:white;
+    border:none;
+    padding:10px 18px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.table-wrapper{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:800px;
+}
+
+th{
+    background:#166534;
+    color:white;
+    padding:12px;
+    text-align:left;
+}
+
+td{
+    padding:12px;
+    border-bottom:1px solid #e2e8f0;
+}
+
+tr:hover{
+    background:#f8fafc;
+}
+
+
+/* ACTION BUTTON */
+
+.edit-btn{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:7px 12px;
+    border-radius:6px;
+    cursor:pointer;
+    margin-right:5px;
+}
+
+.delete-btn{
+    background:#dc2626;
+    color:white;
+    border:none;
+    padding:7px 12px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+
+/* EMPTY */
+
+.empty{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+}
+
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+    .header{
+        padding:15px 18px;
+    }
+
+    .header h2{
+        font-size:17px;
+    }
+
+    .container{
+        padding:20px 15px;
+    }
+
+    .page-title h1{
+        font-size:25px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-group.full{
+        grid-column:auto;
+    }
+
+    .button-area{
+        flex-direction:column;
+    }
+
+    .save-btn,
+    .clear-btn{
+        width:100%;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <h2>
+        🏪 Outlet Survey
+    </h2>
+
+    <button
+        class="back-btn"
+        onclick="goDashboard()">
+
+        ← Dashboard
+
+    </button>
+
+</div>
+
+
+
+<div class="container">
+
+
+<!-- TITLE -->
+
+<div class="page-title">
+
+    <h1>
+        Outlet Survey
+    </h1>
+
+    <p>
+        Create and manage outlet survey information.
+    </p>
+
+</div>
+
+
+
+<!-- FORM -->
+
+<div class="form-card">
+
+    <div class="form-grid">
+
+
+        <!-- OUTLET CODE -->
+
+        <div class="form-group">
+
+            <label>
+                Outlet Code
+            </label>
+
+            <input
+                type="text"
+                id="outletCode"
+                placeholder="Enter outlet code">
+
+        </div>
+
+
+        <!-- OUTLET NAME -->
+
+        <div class="form-group">
+
+            <label>
+                Outlet Name *
+            </label>
+
+            <input
+                type="text"
+                id="outletName"
+                placeholder="Enter outlet name">
+
+        </div>
+
+
+        <!-- ROUTE -->
+
+        <div class="form-group full">
+
+            <label>
+                Route Name
+            </label>
+
+            <input
+                type="text"
+                id="routeName"
+                placeholder="Enter route name">
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- IMAGE SECTION -->
+
+    <div class="image-section">
+
+        <h3>
+            📸 Outlet Images
+        </h3>
+
+
+        <div class="form-grid">
+
+
+            <!-- FRONT IMAGE -->
+
+            <div class="form-group full">
+
+                <label>
+                    Front Image URL
+                </label>
+
+                <input
+                    type="url"
+                    id="frontImageUrl"
+                    placeholder="https://example.com/front.jpg">
+
+            </div>
+
+
+            <!-- SHELF IMAGE 1 -->
+
+            <div class="form-group">
+
+                <label>
+                    Shelf Image 1 URL
+                </label>
+
+                <input
+                    type="url"
+                    id="shelfImage1Url"
+                    placeholder="https://example.com/shelf1.jpg">
+
+            </div>
+
+
+            <!-- SHELF IMAGE 2 -->
+
+            <div class="form-group">
+
+                <label>
+                    Shelf Image 2 URL
+                </label>
+
+                <input
+                    type="url"
+                    id="shelfImage2Url"
+                    placeholder="https://example.com/shelf2.jpg">
+
+            </div>
+
+
+            <!-- REMARKS -->
+
+            <div class="form-group full">
+
+                <label>
+                    Remarks
+                </label>
+
+                <textarea
+                    id="remarks"
+                    placeholder="Enter survey remarks..."></textarea>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- BUTTONS -->
+
+    <div class="button-area">
+
+        <button
+            class="clear-btn"
+            id="clearButton">
+
+            Clear
+
+        </button>
+
+
+        <button
+            class="save-btn"
+            id="saveButton">
+
+            💾 Save Survey
+
+        </button>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- STATUS -->
+
+<div
+    id="status"
+    class="status">
+
+    Ready.
+
+</div>
+
+
+
+<!-- SURVEY LIST -->
+
+<div class="list-card">
+
+    <div class="list-header">
+
+        <h2>
+            Survey Records
+        </h2>
+
+        <button
+            class="refresh-btn"
+            id="refreshButton">
+
+            🔄 Refresh
+
+        </button>
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Outlet Code</th>
+                    <th>Outlet Name</th>
+                    <th>Route</th>
+                    <th>Remarks</th>
+                    <th>Created</th>
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="surveyTableBody">
+
+                <tr>
+
+                    <td
+                        colspan="7"
+                        class="empty">
+
+                        Loading...
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+
+// =====================================================
+// SUPABASE
+// =====================================================
+
+const SUPABASE_URL =
+    "https://ucrtujcqrpjcwepiugak.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_RnDm7gJ6ROuU49hcY_BA3g_snx27-M9";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+// =====================================================
+// ELEMENTS
+// =====================================================
+
+const outletCode =
+    document.getElementById(
+        "outletCode"
+    );
+
+const outletName =
+    document.getElementById(
+        "outletName"
+    );
+
+const routeName =
+    document.getElementById(
+        "routeName"
+    );
+
+const frontImageUrl =
+    document.getElementById(
+        "frontImageUrl"
+    );
+
+const shelfImage1Url =
+    document.getElementById(
+        "shelfImage1Url"
+    );
+
+const shelfImage2Url =
+    document.getElementById(
+        "shelfImage2Url"
+    );
+
+const remarks =
+    document.getElementById(
+        "remarks"
+    );
+
+const saveButton =
+    document.getElementById(
+        "saveButton"
+    );
+
+const clearButton =
+    document.getElementById(
+        "clearButton"
+    );
+
+const refreshButton =
+    document.getElementById(
+        "refreshButton"
+    );
+
+const statusBox =
+    document.getElementById(
+        "status"
+    );
+
+const tableBody =
+    document.getElementById(
+        "surveyTableBody"
+    );
+
+
+// =====================================================
+// EDIT ID
+// =====================================================
+
+let editingId = null;
+
+
+// =====================================================
+// CHECK LOGIN
+// =====================================================
+
+async function checkLogin(){
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient.auth.getSession();
+
+
+    if(error){
+
+        console.error(error);
+
+        window.location.href =
+            "index.html";
+
+        return null;
+
+    }
+
+
+    if(!data.session){
+
+        window.location.href =
+            "index.html";
+
+        return null;
+
+    }
+
+
+    return data.session.user;
+
+}
+
+
+// =====================================================
+// STATUS
+// =====================================================
+
+function showStatus(
+    message,
+    type="normal"
+){
+
+    statusBox.innerText =
+        message;
+
+
+    if(type === "success"){
+
+        statusBox.style.background =
+            "#dcfce7";
+
+        statusBox.style.color =
+            "#166534";
+
+        statusBox.style.borderLeftColor =
+            "#16a34a";
+
+    }
+    else if(type === "error"){
+
+        statusBox.style.background =
+            "#fee2e2";
+
+        statusBox.style.color =
+            "#b91c1c";
+
+        statusBox.style.borderLeftColor =
+            "#dc2626";
+
+    }
+    else{
+
+        statusBox.style.background =
+            "#eef4ff";
+
+        statusBox.style.color =
+            "#2563eb";
+
+        statusBox.style.borderLeftColor =
+            "#2563eb";
+
+    }
+
+}
+
+
+// =====================================================
+// CLEAR FORM
+// =====================================================
+
+function clearForm(){
+
+    outletCode.value = "";
+    outletName.value = "";
+    routeName.value = "";
+    frontImageUrl.value = "";
+    shelfImage1Url.value = "";
+    shelfImage2Url.value = "";
+    remarks.value = "";
+
+    editingId = null;
+
+    saveButton.innerText =
+        "💾 Save Survey";
+
+}
+
+
+// =====================================================
+// SAVE / UPDATE
+// =====================================================
+
+async function saveSurvey(){
+
+    const user =
+        await checkLogin();
+
+
+    if(!user){
+
+        return;
+
+    }
+
+
+    const name =
+        outletName.value.trim();
+
+
+    if(!name){
+
+        showStatus(
+            "Please enter Outlet Name.",
+            "error"
+        );
+
+        outletName.focus();
+
+        return;
+
+    }
+
+
+    saveButton.disabled =
+        true;
+
+
+    saveButton.innerText =
+        editingId
+            ? "⏳ Updating..."
+            : "⏳ Saving...";
+
+
+    try{
+
+        const surveyData = {
+
+            outlet_code:
+                outletCode.value.trim() || null,
+
+            outlet_name:
+                name,
+
+            route_name:
+                routeName.value.trim() || null,
+
+            front_image_url:
+                frontImageUrl.value.trim() || null,
+
+            shelf_image_1_url:
+                shelfImage1Url.value.trim() || null,
+
+            shelf_image_2_url:
+                shelfImage2Url.value.trim() || null,
+
+            remarks:
+                remarks.value.trim() || null,
+
+            updated_at:
+                new Date().toISOString()
+
+        };
+
+
+        // =============================================
+        // UPDATE
+        // =============================================
+
+        if(editingId){
+
+            const {
+                error
+            } =
+            await supabaseClient
+                .from("outlet_surveys")
+                .update(
+                    surveyData
+                )
+                .eq(
+                    "id",
+                    editingId
+                );
+
+
+            if(error){
+
+                throw error;
+
+            }
+
+
+            showStatus(
+                "✓ Outlet survey updated successfully.",
+                "success"
+            );
+
+        }
+
+
+        // =============================================
+        // INSERT
+        // =============================================
+
+        else{
+
+            surveyData.created_by =
+                user.id;
+
+
+            const {
+                error
+            } =
+            await supabaseClient
+                .from("outlet_surveys")
+                .insert([
+                    surveyData
+                ]);
+
+
+            if(error){
+
+                throw error;
+
+            }
+
+
+            showStatus(
+                "✓ Outlet survey saved successfully.",
+                "success"
+            );
+
+        }
+
+
+        clearForm();
+
+        await loadSurveys();
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Survey save error:",
+            error
+        );
+
+
+        showStatus(
+            "Save failed: " +
+            error.message,
+            "error"
+        );
+
+    }
+
+
+    finally{
+
+        saveButton.disabled =
+            false;
+
+        saveButton.innerText =
+            editingId
+                ? "💾 Update Survey"
+                : "💾 Save Survey";
+
+    }
+
+}
+
+
+// =====================================================
+// LOAD SURVEYS
+// =====================================================
+
+async function loadSurveys(){
+
+    tableBody.innerHTML =
+
+        `<tr>
+            <td colspan="7" class="empty">
+                Loading...
+            </td>
+        </tr>`;
+
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient
+            .from("outlet_surveys")
+            .select(`
+                id,
+                outlet_code,
+                outlet_name,
+                route_name,
+                remarks,
+                created_at
+            `)
+            .order(
+                "id",
+                {
+                    ascending:false
+                }
+            );
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        const surveys =
+            data || [];
+
+
+        if(
+            surveys.length === 0
+        ){
+
+            tableBody.innerHTML =
+
+                `<tr>
+                    <td colspan="7" class="empty">
+                        No survey records found.
+                    </td>
+                </tr>`;
+
+            return;
+
+        }
+
+
+        tableBody.innerHTML = "";
+
+
+        surveys.forEach(
+            function(survey){
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                const created =
+                    survey.created_at
+                        ? new Date(
+                            survey.created_at
+                          ).toLocaleString()
+                        : "";
+
+
+                row.innerHTML = `
+
+                    <td>
+                        ${escapeHtml(
+                            survey.id
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            survey.outlet_code || "-"
+                        )}
+                    </td>
+
+                    <td>
+                        <strong>
+                            ${escapeHtml(
+                                survey.outlet_name
+                            )}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            survey.route_name || "-"
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            survey.remarks || "-"
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            created
+                        )}
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="edit-btn"
+                            onclick="editSurvey(${survey.id})">
+
+                            Edit
+
+                        </button>
+
+                        <button
+                            class="delete-btn"
+                            onclick="deleteSurvey(${survey.id})">
+
+                            Delete
+
+                        </button>
+
+                    </td>
+
+                `;
+
+
+                tableBody.appendChild(
+                    row
+                );
+
+            }
+        );
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Load survey error:",
+            error
+        );
+
+
+        tableBody.innerHTML =
+
+            `<tr>
+                <td colspan="7" class="empty">
+                    Failed to load surveys:
+                    ${escapeHtml(
+                        error.message
+                    )}
+                </td>
+            </tr>`;
+
+    }
+
+}
+
+
+// =====================================================
+// EDIT SURVEY
+// =====================================================
+
+async function editSurvey(id){
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient
+            .from("outlet_surveys")
+            .select("*")
+            .eq(
+                "id",
+                id
+            )
+            .single();
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        outletCode.value =
+            data.outlet_code || "";
+
+        outletName.value =
+            data.outlet_name || "";
+
+        routeName.value =
+            data.route_name || "";
+
+        frontImageUrl.value =
+            data.front_image_url || "";
+
+        shelfImage1Url.value =
+            data.shelf_image_1_url || "";
+
+        shelfImage2Url.value =
+            data.shelf_image_2_url || "";
+
+        remarks.value =
+            data.remarks || "";
+
+
+        editingId =
+            data.id;
+
+
+        saveButton.innerText =
+            "💾 Update Survey";
+
+
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
+
+
+        showStatus(
+            "Editing survey ID: " +
+            id
+        );
+
+    }
+
+    catch(error){
+
+        showStatus(
+            "Edit failed: " +
+            error.message,
+            "error"
+        );
+
+    }
+
+}
+
+
+// =====================================================
+// DELETE
+// =====================================================
+
+async function deleteSurvey(id){
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to delete this survey?"
+        );
+
+
+    if(!confirmed){
+
+        return;
+
+    }
+
+
+    try{
+
+        const {
+            error
+        } =
+        await supabaseClient
+            .from("outlet_surveys")
+            .delete()
+            .eq(
+                "id",
+                id
+            );
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        showStatus(
+            "✓ Survey deleted successfully.",
+            "success"
+        );
+
+
+        if(
+            editingId === id
+        ){
+
+            clearForm();
+
+        }
+
+
+        await loadSurveys();
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+
+        showStatus(
+            "Delete failed: " +
+            error.message,
+            "error"
+        );
+
+    }
+
+}
+
+
+// =====================================================
+// HTML ESCAPE
+// =====================================================
+
+function escapeHtml(value){
+
+    return String(value)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+// =====================================================
+// BUTTON EVENTS
+// =====================================================
+
+saveButton.addEventListener(
+    "click",
+    saveSurvey
+);
+
+
+clearButton.addEventListener(
+    "click",
+    function(){
+
+        clearForm();
+
+        showStatus(
+            "Form cleared."
+        );
+
+    }
+);
+
+
+refreshButton.addEventListener(
+    "click",
+    loadSurveys
+);
+
+
+// =====================================================
+// DASHBOARD
+// =====================================================
+
+function goDashboard(){
+
+    window.location.href =
+        "dashboard.html";
+
+}
+
+
+// =====================================================
+// INITIAL LOAD
+// =====================================================
+
+async function init(){
+
+    const user =
+        await checkLogin();
+
+
+    if(!user){
+
+        return;
+
+    }
+
+
+    await loadSurveys();
+
+}
+
+
+init();
+
+</script>
+
+</body>
+
+</html>
