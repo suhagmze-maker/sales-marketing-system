@@ -35,7 +35,7 @@ body{
     min-height:100vh;
 }
 
-/* HEADER */
+/* ================= HEADER ================= */
 
 .header{
     background:linear-gradient(135deg,#1d4ed8,#4f46e5);
@@ -67,9 +67,10 @@ body{
 
 .logout:disabled{
     opacity:.7;
+    cursor:not-allowed;
 }
 
-/* CONTAINER */
+/* ================= CONTAINER ================= */
 
 .container{
     padding:30px;
@@ -77,7 +78,7 @@ body{
     margin:auto;
 }
 
-/* WELCOME */
+/* ================= WELCOME ================= */
 
 .welcome{
     margin-bottom:25px;
@@ -93,7 +94,7 @@ body{
     color:#64748b;
 }
 
-/* CARDS */
+/* ================= CARDS ================= */
 
 .cards{
     display:grid;
@@ -164,7 +165,7 @@ body{
     border-radius:50%;
 }
 
-/* STATUS */
+/* ================= STATUS ================= */
 
 .status{
     margin-top:25px;
@@ -176,7 +177,7 @@ body{
     border-left:5px solid #2563eb;
 }
 
-/* REFRESH */
+/* ================= REFRESH ================= */
 
 .refresh-box{
     margin-top:20px;
@@ -199,50 +200,73 @@ body{
 
 .refresh-btn:disabled{
     opacity:.7;
+    cursor:not-allowed;
 }
 
-/* MENU */
+/* ================= MENU ================= */
 
 .menu{
     margin-top:25px;
+
     display:grid;
-    grid-template-columns:repeat(4,1fr);
+
+    grid-template-columns:
+        repeat(4,minmax(0,1fr));
+
     gap:18px;
+
+    width:100%;
 }
 
 .menu button{
+
     display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
+
+    visibility:visible !important;
+
+    opacity:1 !important;
 
     width:100% !important;
+
     min-height:70px !important;
+
+    align-items:center !important;
+
+    justify-content:center !important;
 
     padding:20px 15px !important;
 
-    border:none;
-    border-radius:14px;
+    border:none !important;
 
-    font-size:16px;
-    font-weight:bold;
+    border-radius:14px !important;
 
-    cursor:pointer;
+    font-size:16px !important;
 
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    font-weight:bold !important;
+
+    cursor:pointer !important;
+
+    box-shadow:
+        0 5px 15px rgba(0,0,0,.08);
 
     transition:.25s;
+
+    position:relative;
+
+    z-index:10;
+
 }
 
 .menu button:hover{
+
     transform:translateY(-4px);
-    box-shadow:0 10px 20px rgba(0,0,0,.14);
+
+    box-shadow:
+        0 10px 20px rgba(0,0,0,.14);
+
 }
 
-.menu button:active{
-    transform:scale(.98);
-}
-
-/* BUTTON COLORS */
+/* ================= BUTTON COLORS ================= */
 
 .sales-entry-btn{
     background:#dbeafe !important;
@@ -279,9 +303,7 @@ body{
     color:#c2410c !important;
 }
 
-/* =========================================
-   OUTLET SURVEY
-========================================= */
+/* ================= OUTLET SURVEY ================= */
 
 #outletSurveyButton{
 
@@ -295,19 +317,33 @@ body{
 
     min-height:70px !important;
 
+    padding:20px 15px !important;
+
     background:#dcfce7 !important;
 
     color:#166534 !important;
 
     border:3px solid #22c55e !important;
 
+    border-radius:14px !important;
+
+    align-items:center !important;
+
+    justify-content:center !important;
+
+    font-size:16px !important;
+
+    font-weight:bold !important;
+
     cursor:pointer !important;
+
+    position:relative !important;
+
+    z-index:999 !important;
 
 }
 
-/* =========================================
-   SETTINGS
-========================================= */
+/* ================= SETTINGS ================= */
 
 #settingsButton{
 
@@ -321,17 +357,33 @@ body{
 
     min-height:70px !important;
 
+    padding:20px 15px !important;
+
     background:#e0e7ff !important;
 
     color:#4338ca !important;
 
     border:3px solid #6366f1 !important;
 
+    border-radius:14px !important;
+
+    align-items:center !important;
+
+    justify-content:center !important;
+
+    font-size:16px !important;
+
+    font-weight:bold !important;
+
     cursor:pointer !important;
+
+    position:relative !important;
+
+    z-index:999 !important;
 
 }
 
-/* MOBILE */
+/* ================= MOBILE ================= */
 
 @media(max-width:1000px){
 
@@ -375,10 +427,6 @@ body{
         min-height:135px;
     }
 
-    .menu button{
-        min-height:65px !important;
-    }
-
 }
 
 </style>
@@ -387,7 +435,7 @@ body{
 
 <body>
 
-<!-- HEADER -->
+<!-- ================= HEADER ================= -->
 
 <div class="header">
 
@@ -408,7 +456,7 @@ body{
 
 <div class="container">
 
-<!-- WELCOME -->
+<!-- ================= WELCOME ================= -->
 
 <div class="welcome">
 
@@ -423,7 +471,7 @@ body{
 </div>
 
 
-<!-- DASHBOARD CARDS -->
+<!-- ================= CARDS ================= -->
 
 <div class="cards">
 
@@ -497,7 +545,7 @@ body{
 </div>
 
 
-<!-- STATUS -->
+<!-- ================= STATUS ================= -->
 
 <div
     id="status"
@@ -508,7 +556,7 @@ body{
 </div>
 
 
-<!-- REFRESH -->
+<!-- ================= REFRESH ================= -->
 
 <div class="refresh-box">
 
@@ -523,9 +571,7 @@ body{
 </div>
 
 
-<!-- ==========================================
-     MENU
-========================================== -->
+<!-- ================= MENU ================= -->
 
 <div class="menu">
 
@@ -599,7 +645,7 @@ body{
     </button>
 
 
-    <!-- OUTLET SURVEY -->
+    <!-- ================= OUTLET SURVEY ================= -->
 
     <button
         id="outletSurveyButton"
@@ -611,7 +657,7 @@ body{
     </button>
 
 
-    <!-- SETTINGS -->
+    <!-- ================= SETTINGS ================= -->
 
     <button
         id="settingsButton"
@@ -630,9 +676,7 @@ body{
 
 <script>
 
-/* ==========================================
-   SUPABASE
-========================================== */
+/* ================= SUPABASE ================= */
 
 const SUPABASE_URL =
     "https://ucrtujcqrpjcwepiugak.supabase.co";
@@ -647,9 +691,7 @@ const supabaseClient =
     );
 
 
-/* ==========================================
-   ELEMENTS
-========================================== */
+/* ================= ELEMENTS ================= */
 
 const logoutButton =
     document.getElementById(
@@ -672,9 +714,7 @@ const statusBox =
     );
 
 
-/* ==========================================
-   LOGIN
-========================================== */
+/* ================= LOGIN ================= */
 
 async function checkLogin(){
 
@@ -734,19 +774,19 @@ async function checkLogin(){
 }
 
 
-/* ==========================================
-   LOAD DASHBOARD
-========================================== */
+/* ================= LOAD DASHBOARD ================= */
 
 async function loadDashboard(){
 
     statusBox.innerText =
         "Loading live data from Supabase...";
 
+
     try{
 
         const user =
             await checkLogin();
+
 
         if(!user){
 
@@ -823,7 +863,7 @@ async function loadDashboard(){
             ).toLocaleString();
 
 
-        /* SALES */
+        /* ORDERS */
 
         const salesResult =
             await supabaseClient
@@ -873,7 +913,7 @@ async function loadDashboard(){
             totalSales.toLocaleString();
 
 
-        /* TODAY SALES */
+        /* TODAY */
 
         const now =
             new Date();
@@ -974,6 +1014,7 @@ async function loadDashboard(){
             "Dashboard load failed: " +
             error.message;
 
+
         statusBox.style.background =
             "#fee2e2";
 
@@ -988,9 +1029,7 @@ async function loadDashboard(){
 }
 
 
-/* ==========================================
-   LOGOUT
-========================================== */
+/* ================= LOGOUT ================= */
 
 async function logout(){
 
@@ -1016,6 +1055,7 @@ async function logout(){
                 error.message
             );
 
+
             logoutButton.disabled =
                 false;
 
@@ -1037,9 +1077,11 @@ async function logout(){
 
         console.error(error);
 
+
         alert(
             "Something went wrong."
         );
+
 
         logoutButton.disabled =
             false;
@@ -1052,7 +1094,7 @@ async function logout(){
 }
 
 
-/* LOGOUT BUTTON */
+/* ================= LOGOUT EVENT ================= */
 
 logoutButton.addEventListener(
     "click",
@@ -1060,9 +1102,7 @@ logoutButton.addEventListener(
 );
 
 
-/* ==========================================
-   NAVIGATION
-========================================== */
+/* ================= NAVIGATION ================= */
 
 function go(page){
 
@@ -1072,9 +1112,7 @@ function go(page){
 }
 
 
-/* ==========================================
-   REFRESH
-========================================== */
+/* ================= REFRESH ================= */
 
 refreshButton.addEventListener(
     "click",
@@ -1100,14 +1138,12 @@ refreshButton.addEventListener(
 );
 
 
-/* ==========================================
-   INITIAL LOAD
-========================================== */
+/* ================= INITIAL LOAD ================= */
 
 loadDashboard();
 
 
-/* AUTO REFRESH */
+/* ================= AUTO REFRESH ================= */
 
 setInterval(
     loadDashboard,
