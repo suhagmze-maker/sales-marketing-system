@@ -105,9 +105,6 @@ body{
     gap:20px;
 }
 
-
-/* COMMON CARD */
-
 .card{
     position:relative;
     overflow:hidden;
@@ -135,52 +132,21 @@ body{
     font-weight:bold;
 }
 
-
-/* CARD 1 */
-
 .sales-card{
-    background:linear-gradient(
-        135deg,
-        #2563eb,
-        #3b82f6
-    );
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
 }
-
-
-/* CARD 2 */
 
 .customer-card{
-    background:linear-gradient(
-        135deg,
-        #059669,
-        #10b981
-    );
+    background:linear-gradient(135deg,#059669,#10b981);
 }
-
-
-/* CARD 3 */
 
 .product-card{
-    background:linear-gradient(
-        135deg,
-        #7c3aed,
-        #a855f7
-    );
+    background:linear-gradient(135deg,#7c3aed,#a855f7);
 }
-
-
-/* CARD 4 */
 
 .today-card{
-    background:linear-gradient(
-        135deg,
-        #ea580c,
-        #f97316
-    );
+    background:linear-gradient(135deg,#ea580c,#f97316);
 }
-
-
-/* DECORATION */
 
 .card::after{
     content:"";
@@ -233,11 +199,7 @@ body{
     padding:11px 20px;
     border:none;
     border-radius:8px;
-    background:linear-gradient(
-        135deg,
-        #059669,
-        #10b981
-    );
+    background:linear-gradient(135deg,#059669,#10b981);
     color:white;
     cursor:pointer;
     font-weight:bold;
@@ -265,9 +227,6 @@ body{
     gap:18px;
 }
 
-
-/* COMMON MENU */
-
 .menu button{
     position:relative;
     padding:22px 15px;
@@ -289,7 +248,9 @@ body{
 }
 
 
-/* INDIVIDUAL MENU COLOURS */
+/* =====================================================
+   MENU COLOURS
+===================================================== */
 
 .menu button:nth-child(1){
     background:#dbeafe;
@@ -326,18 +287,32 @@ body{
     color:#c2410c;
 }
 
-/* OUTLET SURVEY */
 
-.menu button:nth-child(8){
-    background:#dcfce7;
-    color:#166534;
+/* =====================================================
+   OUTLET SURVEY BUTTON
+===================================================== */
+
+.outlet-survey-btn{
+    display:block !important;
+    visibility:visible !important;
+    opacity:1 !important;
+    background:#dcfce7 !important;
+    color:#166534 !important;
+    border:2px solid #22c55e !important;
+    min-height:65px;
 }
 
-/* SETTINGS */
 
-.menu button:nth-child(9){
-    background:#e0e7ff;
-    color:#4338ca;
+/* =====================================================
+   SETTINGS BUTTON
+===================================================== */
+
+.settings-btn{
+    display:block !important;
+    visibility:visible !important;
+    opacity:1 !important;
+    background:#e0e7ff !important;
+    color:#4338ca !important;
 }
 
 
@@ -356,7 +331,6 @@ body{
     }
 
 }
-
 
 @media(max-width:600px){
 
@@ -419,7 +393,6 @@ body{
 </div>
 
 
-
 <div class="container">
 
 
@@ -440,15 +413,11 @@ body{
 </div>
 
 
-
 <!-- =====================================================
      CARDS
 ===================================================== -->
 
 <div class="cards">
-
-
-    <!-- TOTAL SALES -->
 
     <div class="card sales-card">
 
@@ -467,9 +436,6 @@ body{
     </div>
 
 
-
-    <!-- CUSTOMERS -->
-
     <div class="card customer-card">
 
         <h3>
@@ -486,9 +452,6 @@ body{
 
     </div>
 
-
-
-    <!-- PRODUCTS -->
 
     <div class="card product-card">
 
@@ -507,9 +470,6 @@ body{
     </div>
 
 
-
-    <!-- TODAY SALES -->
-
     <div class="card today-card">
 
         <h3>
@@ -526,9 +486,7 @@ body{
 
     </div>
 
-
 </div>
-
 
 
 <!-- =====================================================
@@ -542,7 +500,6 @@ body{
     Loading live data from Supabase...
 
 </div>
-
 
 
 <!-- =====================================================
@@ -562,7 +519,6 @@ body{
 </div>
 
 
-
 <!-- =====================================================
      MENU
 ===================================================== -->
@@ -571,70 +527,60 @@ body{
 
 
     <button onclick="go('sales.html')">
-
         📊 Sales Entry
-
     </button>
 
 
     <button onclick="go('sales-history.html')">
-
         📋 Sales History
-
     </button>
 
 
     <button onclick="go('customers.html')">
-
         👥 Customers
-
     </button>
 
 
     <button onclick="go('products.html')">
-
         📦 Products
-
     </button>
 
 
     <button onclick="go('inventory.html')">
-
         📋 Inventory
-
     </button>
 
 
     <button onclick="go('reports.html')">
-
         📈 Reports
-
     </button>
 
 
     <button onclick="go('marketing.html')">
-
         📢 Marketing
-
     </button>
 
 
-    <!-- ================================================
+    <!-- =================================================
          OUTLET SURVEY
-    ================================================= -->
+    ================================================== -->
 
-    <button onclick="go('outlet-survey.html')">
+    <button
+        class="outlet-survey-btn"
+        onclick="go('outlet-survey.html')">
 
         🏪 Outlet Survey
 
     </button>
 
 
-    <!-- ================================================
+    <!-- =================================================
          SETTINGS
-    ================================================= -->
+    ================================================== -->
 
-    <button onclick="go('settings.html')">
+    <button
+        class="settings-btn"
+        onclick="go('settings.html')">
 
         ⚙️ Settings
 
@@ -645,7 +591,6 @@ body{
 
 
 </div>
-
 
 
 <script>
@@ -666,7 +611,6 @@ const supabaseClient =
         SUPABASE_URL,
         SUPABASE_KEY
     );
-
 
 
 // =====================================================
@@ -692,7 +636,6 @@ const statusBox =
     document.getElementById(
         "status"
     );
-
 
 
 // =====================================================
@@ -755,7 +698,6 @@ async function checkLogin(){
 }
 
 
-
 // =====================================================
 // LOAD DASHBOARD
 // =====================================================
@@ -773,14 +715,12 @@ async function loadDashboard(){
 
 
         if(!user){
-
             return;
-
         }
 
 
         // =============================================
-        // LOAD CUSTOMERS
+        // CUSTOMERS
         // =============================================
 
         const customersResult =
@@ -815,9 +755,8 @@ async function loadDashboard(){
             ).toLocaleString();
 
 
-
         // =============================================
-        // LOAD PRODUCTS
+        // PRODUCTS
         // =============================================
 
         const productsResult =
@@ -852,9 +791,8 @@ async function loadDashboard(){
             ).toLocaleString();
 
 
-
         // =============================================
-        // LOAD SALES
+        // SALES
         // =============================================
 
         const salesResult =
@@ -881,7 +819,6 @@ async function loadDashboard(){
             salesResult.data || [];
 
 
-
         // =============================================
         // TOTAL SALES
         // =============================================
@@ -906,7 +843,6 @@ async function loadDashboard(){
         ).innerText =
             "৳ " +
             totalSales.toLocaleString();
-
 
 
         // =============================================
@@ -938,9 +874,7 @@ async function loadDashboard(){
                 if(
                     !sale.created_at
                 ){
-
                     return;
-
                 }
 
 
@@ -982,7 +916,6 @@ async function loadDashboard(){
         ).innerText =
             "৳ " +
             todaySales.toLocaleString();
-
 
 
         // =============================================
@@ -1029,7 +962,6 @@ async function loadDashboard(){
     }
 
 }
-
 
 
 // =====================================================
@@ -1101,7 +1033,6 @@ async function logout(){
 }
 
 
-
 // =====================================================
 // LOGOUT BUTTON
 // =====================================================
@@ -1110,7 +1041,6 @@ logoutButton.addEventListener(
     "click",
     logout
 );
-
 
 
 // =====================================================
@@ -1123,7 +1053,6 @@ function go(page){
         page;
 
 }
-
 
 
 // =====================================================
@@ -1154,7 +1083,6 @@ refreshButton.addEventListener(
 );
 
 
-
 // =====================================================
 // INITIAL LOAD
 // =====================================================
@@ -1162,10 +1090,8 @@ refreshButton.addEventListener(
 loadDashboard();
 
 
-
 // =====================================================
 // AUTO REFRESH
-// 10 SECONDS
 // =====================================================
 
 setInterval(
