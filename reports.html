@@ -140,8 +140,6 @@ select{
     padding:12px;
     margin-bottom:15px;
     border-radius:7px;
-    background:#eef4ff;
-    color:#1d4ed8;
     font-weight:bold;
     display:none;
 }
@@ -151,9 +149,19 @@ select{
     color:#b91c1c;
 }
 
+.status.success{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.table-wrap{
+    overflow-x:auto;
+}
+
 table{
     width:100%;
     border-collapse:collapse;
+    min-width:900px;
 }
 
 th,
@@ -183,6 +191,13 @@ th{
     font-weight:bold;
 }
 
+.loading{
+    text-align:center;
+    padding:25px;
+    color:#2563eb;
+    font-weight:bold;
+}
+
 @media(max-width:1000px){
 
     .cards{
@@ -205,12 +220,8 @@ th{
         grid-template-columns:1fr;
     }
 
-    .box{
-        overflow-x:auto;
-    }
-
-    table{
-        min-width:950px;
+    .container{
+        padding:10px;
     }
 
 }
@@ -222,7 +233,7 @@ th{
     .buttons,
     .cards,
     .status{
-        display:none;
+        display:none !important;
     }
 
     body{
@@ -239,7 +250,6 @@ th{
 
 </head>
 
-
 <body>
 
 
@@ -247,9 +257,7 @@ th{
 
 <div class="header">
 
-    <h2>
-        Sales Reports
-    </h2>
+    <h2>Sales Reports</h2>
 
     <button
         class="back-btn"
@@ -266,296 +274,299 @@ th{
 <div class="container">
 
 
-<!-- ================================================= -->
-<!-- SUMMARY -->
-<!-- ================================================= -->
+<!-- SUMMARY CARDS -->
 
 <div class="cards">
 
+    <div class="card">
 
-<div class="card">
+        <p>Total Sales</p>
 
-    <p>Total Sales</p>
+        <h2 id="totalSales">
+            ৳ 0
+        </h2>
 
-    <h2 id="totalSales">
-        ৳ 0
-    </h2>
-
-</div>
-
-
-<div class="card">
-
-    <p>Today's Sales</p>
-
-    <h2 id="todaySales">
-        ৳ 0
-    </h2>
-
-</div>
+    </div>
 
 
-<div class="card">
+    <div class="card">
 
-    <p>Total Quantity</p>
+        <p>Today's Sales</p>
 
-    <h2 id="totalQuantity">
-        0
-    </h2>
+        <h2 id="todaySales">
+            ৳ 0
+        </h2>
 
-</div>
+    </div>
 
 
-<div class="card">
+    <div class="card">
 
-    <p>Total Transactions</p>
+        <p>Total Quantity</p>
 
-    <h2 id="transactions">
-        0
-    </h2>
+        <h2 id="totalQuantity">
+            0
+        </h2>
 
-</div>
+    </div>
 
+
+    <div class="card">
+
+        <p>Total Transactions</p>
+
+        <h2 id="transactions">
+            0
+        </h2>
+
+    </div>
 
 </div>
 
 
 
-<!-- ================================================= -->
-<!-- REPORT -->
-<!-- ================================================= -->
+<!-- MAIN REPORT -->
 
 <div class="box">
 
+    <h1>
+        Sales Report
+    </h1>
 
-<h1>
-    Sales Report
-</h1>
+
+    <div
+        id="status"
+        class="status">
+    </div>
 
 
-<div
-    id="status"
-    class="status">
+    <!-- FILTERS -->
+
+    <div class="filters">
+
+        <input
+            type="date"
+            id="fromDate">
+
+        <input
+            type="date"
+            id="toDate">
+
+
+        <select id="customer">
+
+            <option value="">
+                All Customers
+            </option>
+
+        </select>
+
+
+        <select id="product">
+
+            <option value="">
+                All Products
+            </option>
+
+        </select>
+
+    </div>
+
+
+
+    <!-- BUTTONS -->
+
+    <div class="buttons">
+
+        <button
+            class="search-btn"
+            onclick="filterReport()">
+
+            🔍 Search
+
+        </button>
+
+
+        <button
+            class="clear-btn"
+            onclick="clearFilter()">
+
+            🧹 Clear
+
+        </button>
+
+
+        <button
+            class="download-btn"
+            onclick="downloadCSV()">
+
+            📥 Download CSV
+
+        </button>
+
+
+        <button
+            class="print-btn"
+            onclick="printReport()">
+
+            🖨️ Print Report
+
+        </button>
+
+    </div>
+
+
+
+    <!-- TABLE -->
+
+    <div class="table-wrap">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Date</th>
+
+                    <th>Customer</th>
+
+                    <th>Phone</th>
+
+                    <th>Product</th>
+
+                    <th>Code</th>
+
+                    <th>Pack Size</th>
+
+                    <th>Unit</th>
+
+                    <th>Quantity</th>
+
+                    <th>TP</th>
+
+                    <th>MRP</th>
+
+                    <th>Total</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="reportTable">
+
+                <tr>
+
+                    <td
+                        colspan="11"
+                        class="loading">
+
+                        Loading sales...
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+
+    <div class="report-total">
+
+        Report Total:
+
+        <span id="reportTotal">
+            ৳ 0
+        </span>
+
+    </div>
+
 </div>
 
 
-<!-- FILTER -->
 
-<div class="filters">
-
-
-<input
-    type="date"
-    id="fromDate">
-
-
-<input
-    type="date"
-    id="toDate">
-
-
-<select id="customer">
-
-    <option value="">
-        All Customers
-    </option>
-
-</select>
-
-
-<select id="product">
-
-    <option value="">
-        All Products
-    </option>
-
-</select>
-
-
-</div>
-
-
-
-<!-- BUTTONS -->
-
-<div class="buttons">
-
-
-<button
-    class="search-btn"
-    onclick="filterReport()">
-
-    🔍 Search
-
-</button>
-
-
-<button
-    class="clear-btn"
-    onclick="clearFilter()">
-
-    🧹 Clear
-
-</button>
-
-
-<button
-    class="download-btn"
-    onclick="downloadCSV()">
-
-    📥 Download CSV
-
-</button>
-
-
-<button
-    class="print-btn"
-    onclick="printReport()">
-
-    🖨️ Print Report
-
-</button>
-
-
-</div>
-
-
-
-<!-- TABLE -->
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>Date</th>
-
-<th>Customer</th>
-
-<th>Phone</th>
-
-<th>Product</th>
-
-<th>Code</th>
-
-<th>Pack Size</th>
-
-<th>Unit</th>
-
-<th>Quantity</th>
-
-<th>TP</th>
-
-<th>MRP</th>
-
-<th>Total</th>
-
-</tr>
-
-</thead>
-
-
-<tbody id="reportTable">
-
-</tbody>
-
-</table>
-
-
-
-<div class="report-total">
-
-    Report Total:
-
-    <span id="reportTotal">
-        ৳ 0
-    </span>
-
-</div>
-
-
-</div>
-
-
-
-<!-- ================================================= -->
 <!-- PRODUCT SUMMARY -->
-<!-- ================================================= -->
 
 <div class="box">
 
-<h1>
-    Product Sales Summary
-</h1>
+    <h1>
+        Product Sales Summary
+    </h1>
+
+    <div class="table-wrap">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Product</th>
+
+                    <th>Code</th>
+
+                    <th>Quantity Sold</th>
+
+                    <th>Total Sales</th>
+
+                </tr>
+
+            </thead>
 
 
-<table>
+            <tbody id="productSummary">
 
-<thead>
+            </tbody>
 
-<tr>
+        </table>
 
-<th>Product</th>
-
-<th>Code</th>
-
-<th>Quantity Sold</th>
-
-<th>Total Sales</th>
-
-</tr>
-
-</thead>
-
-
-<tbody id="productSummary">
-
-</tbody>
-
-</table>
-
+    </div>
 
 </div>
 
 
 
-<!-- ================================================= -->
 <!-- CUSTOMER SUMMARY -->
-<!-- ================================================= -->
 
 <div class="box">
 
-<h1>
-    Customer Sales Summary
-</h1>
+    <h1>
+        Customer Sales Summary
+    </h1>
+
+    <div class="table-wrap">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Customer</th>
+
+                    <th>Transactions</th>
+
+                    <th>Quantity</th>
+
+                    <th>Total Purchase</th>
+
+                </tr>
+
+            </thead>
 
 
-<table>
+            <tbody id="customerSummary">
 
-<thead>
+            </tbody>
 
-<tr>
+        </table>
 
-<th>Customer</th>
-
-<th>Transactions</th>
-
-<th>Quantity</th>
-
-<th>Total Purchase</th>
-
-</tr>
-
-</thead>
-
-
-<tbody id="customerSummary">
-
-</tbody>
-
-</table>
-
+    </div>
 
 </div>
 
@@ -572,18 +583,19 @@ th{
 // =====================================================
 
 const SUPABASE_URL =
-"https://ucrtujcqrpjcwepiugak.supabase.co";
+    "https://ucrtujcqrpjcwepiugak.supabase.co";
 
 
 const SUPABASE_KEY =
-"sb_publishable_RnDm7gJ6ROuU49hcY_BA3g_snx27-M9";
+    "sb_publishable_RnDm7gJ6ROuU49hcY_BA3g_snx27-M9";
 
 
 const supabaseClient =
-window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
 
 
 // =====================================================
@@ -592,42 +604,115 @@ window.supabase.createClient(
 
 let sales = [];
 
+let filteredSales = [];
+
+
+
+// =====================================================
+// ELEMENTS
+// =====================================================
+
+const reportTable =
+    document.getElementById(
+        "reportTable"
+    );
+
+const productSummary =
+    document.getElementById(
+        "productSummary"
+    );
+
+const customerSummary =
+    document.getElementById(
+        "customerSummary"
+    );
+
+const customerSelect =
+    document.getElementById(
+        "customer"
+    );
+
+const productSelect =
+    document.getElementById(
+        "product"
+    );
+
+const statusBox =
+    document.getElementById(
+        "status"
+    );
+
+
 
 // =====================================================
 // STATUS
 // =====================================================
 
-function showStatus(text,error=false){
+function showStatus(
+    text,
+    type="success"
+){
 
-    const box =
-    document.getElementById("status");
+    statusBox.innerText =
+        text;
 
-    box.innerText = text;
+    statusBox.className =
+        "status " +
+        type;
 
-    box.style.display = "block";
-
-    if(error){
-
-        box.classList.add("error");
-
-    }
-    else{
-
-        box.classList.remove("error");
-
-    }
+    statusBox.style.display =
+        "block";
 
 }
 
 
 function hideStatus(){
 
-    const box =
-    document.getElementById("status");
+    statusBox.innerText = "";
 
-    box.style.display = "none";
+    statusBox.style.display =
+        "none";
 
 }
+
+
+
+// =====================================================
+// SAFE TEXT
+// =====================================================
+
+function safe(value){
+
+    if(
+        value === null ||
+        value === undefined
+    ){
+
+        return "";
+
+    }
+
+    return String(value);
+
+}
+
+
+
+// =====================================================
+// NUMBER
+// =====================================================
+
+function number(value){
+
+    const n =
+        Number(value);
+
+    return Number.isFinite(n)
+        ? n
+        : 0;
+
+}
+
 
 
 // =====================================================
@@ -636,34 +721,29 @@ function hideStatus(){
 
 async function loadSales(){
 
-    showStatus(
-        "Loading sales from Supabase..."
+    hideStatus();
+
+
+    reportTable.innerHTML = `
+
+        <tr>
+
+            <td
+                colspan="11"
+                class="loading">
+
+                Loading sales from Supabase...
+
+            </td>
+
+        </tr>
+
+    `;
+
+
+    console.log(
+        "Loading sales table..."
     );
-
-
-    /*
-        IMPORTANT
-
-        Only these columns are requested:
-
-        id
-        Customer _name
-        Customer_phone
-        Product _id
-        Product _name
-        Product _code
-        Category
-        Pack _size
-        Unit
-        Quantity
-        Tp
-        Mrp
-        Total
-        Sale_data
-
-        Customer _id is NOT used.
-        Created_at is NOT used.
-    */
 
 
     const {
@@ -672,25 +752,13 @@ async function loadSales(){
     } =
     await supabaseClient
         .from("sales")
-        .select(`
-            id,
-            "Customer _name",
-            "Customer_phone",
-            "Product _id",
-            "Product _name",
-            "Product _code",
-            "Category",
-            "Pack _size",
-            "Unit",
-            "Quantity",
-            "Tp",
-            "Mrp",
-            "Total",
-            "Sale_data"
-        `)
-        .order("Sale_data",{
-            ascending:false
-        });
+        .select("*")
+        .order(
+            "Sale_data",
+            {
+                ascending:false
+            }
+        );
 
 
     if(error){
@@ -701,17 +769,29 @@ async function loadSales(){
         );
 
 
+        reportTable.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="11"
+                    class="empty">
+
+                    Sales load failed:<br>
+                    ${safe(error.message)}
+
+                </td>
+
+            </tr>
+
+        `;
+
+
         showStatus(
             "Sales load failed: " +
             error.message,
-            true
+            "error"
         );
-
-
-        sales = [];
-
-        showReport([]);
-
 
         return;
 
@@ -719,7 +799,11 @@ async function loadSales(){
 
 
     sales =
-    data || [];
+        data || [];
+
+
+    filteredSales =
+        [...sales];
 
 
     console.log(
@@ -728,138 +812,238 @@ async function loadSales(){
     );
 
 
+    if(sales.length === 0){
+
+        reportTable.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="11"
+                    class="empty">
+
+                    Sales table-এ কোনো data পাওয়া যায়নি.
+
+                </td>
+
+            </tr>
+
+        `;
+
+
+        updateSummary([]);
+
+
+        showStatus(
+            "Supabase connected, but sales table is empty.",
+            "error"
+        );
+
+
+        return;
+
+    }
+
+
     hideStatus();
 
 
-    createFilters();
+    createCustomerList();
 
 
-    mainSummary();
+    createProductList();
 
 
-    showReport(sales);
+    updateSummary(
+        sales
+    );
+
+
+    showReport(
+        sales
+    );
 
 }
 
 
+
 // =====================================================
-// CREATE FILTERS
+// CUSTOMER LIST
 // =====================================================
 
-function createFilters(){
-
-    const customerSelect =
-    document.getElementById("customer");
-
-
-    const productSelect =
-    document.getElementById("product");
-
+function createCustomerList(){
 
     customerSelect.innerHTML = `
+
         <option value="">
             All Customers
         </option>
+
     `;
 
 
-    productSelect.innerHTML = `
-        <option value="">
-            All Products
-        </option>
-    `;
+    const names = [];
 
 
-    const customers =
-    new Set();
+    sales.forEach(
+        function(row){
+
+            const name =
+                safe(
+                    row["Customer _name"]
+                ).trim();
 
 
-    const products =
-    new Set();
+            if(
+                name &&
+                !names.includes(name)
+            ){
 
+                names.push(name);
 
-    sales.forEach(function(sale){
-
-        const customer =
-        sale["Customer _name"];
-
-
-        const product =
-        sale["Product _name"];
-
-
-        if(customer){
-
-            customers.add(customer);
+            }
 
         }
+    );
 
 
-        if(product){
+    names.sort();
 
-            products.add(product);
+
+    names.forEach(
+        function(name){
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                name;
+
+
+            option.textContent =
+                name;
+
+
+            customerSelect.appendChild(
+                option
+            );
 
         }
-
-    });
-
-
-    Array.from(customers)
-    .sort()
-    .forEach(function(name){
-
-        const option =
-        document.createElement("option");
-
-
-        option.value =
-        name;
-
-
-        option.textContent =
-        name;
-
-
-        customerSelect.appendChild(
-            option
-        );
-
-    });
-
-
-    Array.from(products)
-    .sort()
-    .forEach(function(name){
-
-        const option =
-        document.createElement("option");
-
-
-        option.value =
-        name;
-
-
-        option.textContent =
-        name;
-
-
-        productSelect.appendChild(
-            option
-        );
-
-    });
+    );
 
 }
 
 
+
 // =====================================================
-// DATE NORMALIZER
+// PRODUCT LIST
 // =====================================================
 
-function getSaleDate(sale){
+function createProductList(){
 
-    let value =
-    sale["Sale_data"];
+    productSelect.innerHTML = `
+
+        <option value="">
+            All Products
+        </option>
+
+    `;
+
+
+    const productsMap = {};
+
+
+    sales.forEach(
+        function(row){
+
+            const name =
+                safe(
+                    row["Product _name"]
+                ).trim();
+
+
+            const code =
+                safe(
+                    row["Product _code"]
+                ).trim();
+
+
+            if(!name){
+
+                return;
+
+            }
+
+
+            const key =
+                name +
+                "||" +
+                code;
+
+
+            productsMap[key] = {
+                name:name,
+                code:code
+            };
+
+        }
+    );
+
+
+    Object.values(productsMap)
+    .sort(
+        function(a,b){
+
+            return a.name.localeCompare(
+                b.name
+            );
+
+        }
+    )
+    .forEach(
+        function(item){
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                item.name;
+
+
+            option.textContent =
+                item.code
+                ? item.name +
+                  " [" +
+                  item.code +
+                  "]"
+                : item.name;
+
+
+            productSelect.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+
+
+// =====================================================
+// GET DATE
+// =====================================================
+
+function getSaleDate(row){
+
+    const value =
+        row["Sale_data"];
 
 
     if(!value){
@@ -869,202 +1053,110 @@ function getSaleDate(sale){
     }
 
 
-    /*
-        If Sale_data is:
+    const text =
+        String(value);
 
-        2026-08-26
-        OR
-        2026-08-26T00:00:00
-    */
 
-    return String(value)
-        .substring(0,10);
+    return text.substring(
+        0,
+        10
+    );
 
 }
 
 
+
 // =====================================================
-// MAIN SUMMARY
+// SUMMARY
 // =====================================================
 
-function mainSummary(){
+function updateSummary(data){
 
-    let total = 0;
+    let totalSales =
+        0;
 
-    let quantity = 0;
-
-
-    sales.forEach(function(sale){
-
-        total +=
-        Number(
-            sale["Total"] || 0
-        );
+    let totalQuantity =
+        0;
 
 
-        quantity +=
-        Number(
-            sale["Quantity"] || 0
-        );
+    data.forEach(
+        function(row){
 
-    });
-
-
-    const now =
-    new Date();
+            totalSales +=
+                number(
+                    row["Total"]
+                );
 
 
-    const today =
-    now.getFullYear() +
-    "-" +
-    String(
-        now.getMonth()+1
-    ).padStart(2,"0") +
-    "-" +
-    String(
-        now.getDate()
-    ).padStart(2,"0");
-
-
-    let todayTotal = 0;
-
-
-    sales.forEach(function(sale){
-
-        const date =
-        getSaleDate(sale);
-
-
-        if(date === today){
-
-            todayTotal +=
-            Number(
-                sale["Total"] || 0
-            );
+            totalQuantity +=
+                number(
+                    row["Quantity"]
+                );
 
         }
+    );
 
-    });
+
+
+    // TODAY
+
+    const today =
+        new Date()
+        .toISOString()
+        .split("T")[0];
+
+
+    let todaySales =
+        0;
+
+
+    sales.forEach(
+        function(row){
+
+            if(
+                getSaleDate(row) ===
+                today
+            ){
+
+                todaySales +=
+                    number(
+                        row["Total"]
+                    );
+
+            }
+
+        }
+    );
+
 
 
     document.getElementById(
         "totalSales"
     ).innerText =
-    "৳ " +
-    total.toLocaleString();
+        "৳ " +
+        totalSales.toLocaleString();
 
 
     document.getElementById(
         "todaySales"
     ).innerText =
-    "৳ " +
-    todayTotal.toLocaleString();
+        "৳ " +
+        todaySales.toLocaleString();
 
 
     document.getElementById(
         "totalQuantity"
     ).innerText =
-    quantity.toLocaleString();
+        totalQuantity.toLocaleString();
 
 
     document.getElementById(
         "transactions"
     ).innerText =
-    sales.length;
+        data.length;
 
 }
 
-
-// =====================================================
-// FILTER DATA
-// =====================================================
-
-function getFilteredSales(){
-
-    const from =
-    document.getElementById(
-        "fromDate"
-    ).value;
-
-
-    const to =
-    document.getElementById(
-        "toDate"
-    ).value;
-
-
-    const customer =
-    document.getElementById(
-        "customer"
-    ).value;
-
-
-    const product =
-    document.getElementById(
-        "product"
-    ).value;
-
-
-    return sales.filter(function(sale){
-
-        const date =
-        getSaleDate(sale);
-
-
-        if(from && date < from){
-
-            return false;
-
-        }
-
-
-        if(to && date > to){
-
-            return false;
-
-        }
-
-
-        if(
-            customer &&
-            sale["Customer _name"] !== customer
-        ){
-
-            return false;
-
-        }
-
-
-        if(
-            product &&
-            sale["Product _name"] !== product
-        ){
-
-            return false;
-
-        }
-
-
-        return true;
-
-    });
-
-}
-
-
-// =====================================================
-// FILTER REPORT
-// =====================================================
-
-function filterReport(){
-
-    const data =
-    getFilteredSales();
-
-
-    showReport(data);
-
-}
 
 
 // =====================================================
@@ -1073,167 +1165,333 @@ function filterReport(){
 
 function showReport(data){
 
-    const table =
-    document.getElementById(
-        "reportTable"
-    );
+    filteredSales =
+        [...data];
 
 
-    table.innerHTML = "";
+    reportTable.innerHTML = "";
 
 
-    let total = 0;
+    let total =
+        0;
 
 
     if(data.length === 0){
 
-        table.innerHTML = `
+        reportTable.innerHTML = `
 
-        <tr>
+            <tr>
 
-            <td
-                colspan="11"
-                class="empty">
+                <td
+                    colspan="11"
+                    class="empty">
 
-                No sales data found.
+                    No sales data found.
 
-            </td>
+                </td>
 
-        </tr>
+            </tr>
 
         `;
+
+
+        document.getElementById(
+            "reportTotal"
+        ).innerText =
+            "৳ 0";
+
+
+        showProductSummary([]);
+
+
+        showCustomerSummary([]);
+
+
+        updateSummary([]);
+
+
+        return;
 
     }
 
 
-    data.forEach(function(sale){
 
-        const date =
-        getSaleDate(sale);
+    data.forEach(
+        function(row){
 
-
-        const customer =
-        sale["Customer _name"] || "";
+            const saleDate =
+                getSaleDate(row);
 
 
-        const phone =
-        sale["Customer_phone"] || "";
+            const customer =
+                safe(
+                    row["Customer _name"]
+                );
 
 
-        const product =
-        sale["Product _name"] || "";
+            const phone =
+                safe(
+                    row["Customer_phone"]
+                );
 
 
-        const code =
-        sale["Product _code"] || "";
+            const product =
+                safe(
+                    row["Product _name"]
+                );
 
 
-        const pack =
-        sale["Pack _size"] || "";
+            const code =
+                safe(
+                    row["Product _code"]
+                );
 
 
-        const unit =
-        sale["Unit"] || "";
+            const pack =
+                safe(
+                    row["Pack _size"]
+                );
 
 
-        const quantity =
-        Number(
-            sale["Quantity"] || 0
-        );
+            const unit =
+                safe(
+                    row["Unit"]
+                );
 
 
-        const tp =
-        Number(
-            sale["Tp"] || 0
-        );
+            const quantity =
+                number(
+                    row["Quantity"]
+                );
 
 
-        const mrp =
-        Number(
-            sale["Mrp"] || 0
-        );
+            const tp =
+                number(
+                    row["Tp"]
+                );
 
 
-        const saleTotal =
-        Number(
-            sale["Total"] || 0
-        );
+            const mrp =
+                number(
+                    row["Mrp"]
+                );
 
 
-        total += saleTotal;
+            const rowTotal =
+                number(
+                    row["Total"]
+                );
 
 
-        const row =
-        document.createElement("tr");
+            total +=
+                rowTotal;
 
 
-        row.innerHTML = `
 
-            <td>
-                ${escapeHTML(date)}
-            </td>
-
-            <td>
-                ${escapeHTML(customer)}
-            </td>
-
-            <td>
-                ${escapeHTML(phone)}
-            </td>
-
-            <td>
-                ${escapeHTML(product)}
-            </td>
-
-            <td>
-                ${escapeHTML(code)}
-            </td>
-
-            <td>
-                ${escapeHTML(pack)}
-            </td>
-
-            <td>
-                ${escapeHTML(unit)}
-            </td>
-
-            <td>
-                ${quantity.toLocaleString()}
-            </td>
-
-            <td>
-                ৳ ${tp.toLocaleString()}
-            </td>
-
-            <td>
-                ৳ ${mrp.toLocaleString()}
-            </td>
-
-            <td>
-                ৳ ${saleTotal.toLocaleString()}
-            </td>
-
-        `;
+            const tr =
+                document.createElement(
+                    "tr"
+                );
 
 
-        table.appendChild(row);
+            tr.innerHTML = `
 
-    });
+                <td>
+                    ${safe(saleDate)}
+                </td>
+
+                <td>
+                    ${safe(customer)}
+                </td>
+
+                <td>
+                    ${safe(phone)}
+                </td>
+
+                <td>
+                    ${safe(product)}
+                </td>
+
+                <td>
+                    ${safe(code)}
+                </td>
+
+                <td>
+                    ${safe(pack)}
+                </td>
+
+                <td>
+                    ${safe(unit)}
+                </td>
+
+                <td>
+                    ${quantity}
+                </td>
+
+                <td>
+                    ৳ ${tp.toLocaleString()}
+                </td>
+
+                <td>
+                    ৳ ${mrp.toLocaleString()}
+                </td>
+
+                <td>
+                    ৳ ${rowTotal.toLocaleString()}
+                </td>
+
+            `;
+
+
+            reportTable.appendChild(
+                tr
+            );
+
+        }
+    );
+
 
 
     document.getElementById(
         "reportTotal"
     ).innerText =
-    "৳ " +
-    total.toLocaleString();
+        "৳ " +
+        total.toLocaleString();
 
 
-    showProductSummary(data);
+
+    showProductSummary(
+        data
+    );
 
 
-    showCustomerSummary(data);
+    showCustomerSummary(
+        data
+    );
+
+
+    updateSummary(
+        data
+    );
 
 }
+
+
+
+// =====================================================
+// FILTER REPORT
+// =====================================================
+
+function filterReport(){
+
+    const from =
+        document.getElementById(
+            "fromDate"
+        ).value;
+
+
+    const to =
+        document.getElementById(
+            "toDate"
+        ).value;
+
+
+    const customer =
+        customerSelect.value;
+
+
+    const product =
+        productSelect.value;
+
+
+
+    const result =
+        sales.filter(
+            function(row){
+
+                const saleDate =
+                    getSaleDate(row);
+
+
+                const customerName =
+                    safe(
+                        row["Customer _name"]
+                    ).trim();
+
+
+                const productName =
+                    safe(
+                        row["Product _name"]
+                    ).trim();
+
+
+
+                // FROM DATE
+
+                if(
+                    from &&
+                    saleDate < from
+                ){
+
+                    return false;
+
+                }
+
+
+
+                // TO DATE
+
+                if(
+                    to &&
+                    saleDate > to
+                ){
+
+                    return false;
+
+                }
+
+
+
+                // CUSTOMER
+
+                if(
+                    customer &&
+                    customerName !==
+                    customer
+                ){
+
+                    return false;
+
+                }
+
+
+
+                // PRODUCT
+
+                if(
+                    product &&
+                    productName !==
+                    product
+                ){
+
+                    return false;
+
+                }
+
+
+                return true;
+
+            }
+        );
+
+
+
+    showReport(
+        result
+    );
+
+}
+
 
 
 // =====================================================
@@ -1245,75 +1503,88 @@ function showProductSummary(data){
     const summary = {};
 
 
-    data.forEach(function(sale){
+    data.forEach(
+        function(row){
 
-        const name =
-        sale["Product _name"] ||
-        "Unknown";
-
-
-        const code =
-        sale["Product _code"] ||
-        "";
+            const name =
+                safe(
+                    row["Product _name"]
+                ) ||
+                "Unknown";
 
 
-        if(!summary[name]){
+            const code =
+                safe(
+                    row["Product _code"]
+                );
 
-            summary[name] = {
 
-                code: code,
+            const key =
+                name +
+                "||" +
+                code;
 
-                quantity: 0,
 
-                total: 0
+            if(
+                !summary[key]
+            ){
 
-            };
+                summary[key] = {
+
+                    name:name,
+
+                    code:code,
+
+                    quantity:0,
+
+                    total:0
+
+                };
+
+            }
+
+
+            summary[key].quantity +=
+                number(
+                    row["Quantity"]
+                );
+
+
+            summary[key].total +=
+                number(
+                    row["Total"]
+                );
 
         }
-
-
-        summary[name].quantity +=
-        Number(
-            sale["Quantity"] || 0
-        );
-
-
-        summary[name].total +=
-        Number(
-            sale["Total"] || 0
-        );
-
-    });
-
-
-    const table =
-    document.getElementById(
-        "productSummary"
     );
 
 
-    table.innerHTML = "";
+
+    productSummary.innerHTML =
+        "";
 
 
-    const names =
-    Object.keys(summary);
+    const items =
+        Object.values(
+            summary
+        );
 
 
-    if(names.length === 0){
+    if(items.length === 0){
 
-        table.innerHTML = `
+        productSummary.innerHTML = `
 
-        <tr>
+            <tr>
 
-            <td
-                colspan="4"
-                class="empty">
+                <td
+                    colspan="4"
+                    class="empty">
 
-                No product data found.
+                    No product data.
 
-            </td>
+                </td>
 
-        </tr>
+            </tr>
 
         `;
 
@@ -1322,40 +1593,46 @@ function showProductSummary(data){
     }
 
 
-    names.sort().forEach(function(name){
 
-        const row =
-        document.createElement("tr");
+    items.forEach(
+        function(item){
 
-
-        row.innerHTML = `
-
-            <td>
-                ${escapeHTML(name)}
-            </td>
-
-            <td>
-                ${escapeHTML(
-                    summary[name].code
-                )}
-            </td>
-
-            <td>
-                ${summary[name].quantity.toLocaleString()}
-            </td>
-
-            <td>
-                ৳ ${summary[name].total.toLocaleString()}
-            </td>
-
-        `;
+            const row =
+                document.createElement(
+                    "tr"
+                );
 
 
-        table.appendChild(row);
+            row.innerHTML = `
 
-    });
+                <td>
+                    ${safe(item.name)}
+                </td>
+
+                <td>
+                    ${safe(item.code)}
+                </td>
+
+                <td>
+                    ${item.quantity.toLocaleString()}
+                </td>
+
+                <td>
+                    ৳ ${item.total.toLocaleString()}
+                </td>
+
+            `;
+
+
+            productSummary.appendChild(
+                row
+            );
+
+        }
+    );
 
 }
+
 
 
 // =====================================================
@@ -1367,73 +1644,77 @@ function showCustomerSummary(data){
     const summary = {};
 
 
-    data.forEach(function(sale){
+    data.forEach(
+        function(row){
 
-        const name =
-        sale["Customer _name"] ||
-        "Unknown";
+            const name =
+                safe(
+                    row["Customer _name"]
+                ) ||
+                "Unknown";
 
 
-        if(!summary[name]){
+            if(
+                !summary[name]
+            ){
 
-            summary[name] = {
+                summary[name] = {
 
-                transactions: 0,
+                    transactions:0,
 
-                quantity: 0,
+                    quantity:0,
 
-                total: 0
+                    total:0
 
-            };
+                };
+
+            }
+
+
+            summary[name].transactions++;
+
+
+            summary[name].quantity +=
+                number(
+                    row["Quantity"]
+                );
+
+
+            summary[name].total +=
+                number(
+                    row["Total"]
+                );
 
         }
-
-
-        summary[name].transactions++;
-
-
-        summary[name].quantity +=
-        Number(
-            sale["Quantity"] || 0
-        );
-
-
-        summary[name].total +=
-        Number(
-            sale["Total"] || 0
-        );
-
-    });
-
-
-    const table =
-    document.getElementById(
-        "customerSummary"
     );
 
 
-    table.innerHTML = "";
+
+    customerSummary.innerHTML =
+        "";
 
 
-    const names =
-    Object.keys(summary);
+    const items =
+        Object.entries(
+            summary
+        );
 
 
-    if(names.length === 0){
+    if(items.length === 0){
 
-        table.innerHTML = `
+        customerSummary.innerHTML = `
 
-        <tr>
+            <tr>
 
-            <td
-                colspan="4"
-                class="empty">
+                <td
+                    colspan="4"
+                    class="empty">
 
-                No customer data found.
+                    No customer data.
 
-            </td>
+                </td>
 
-        </tr>
+            </tr>
 
         `;
 
@@ -1442,42 +1723,58 @@ function showCustomerSummary(data){
     }
 
 
-    names.sort().forEach(function(name){
 
-        const row =
-        document.createElement("tr");
+    items.forEach(
+        function(entry){
 
-
-        row.innerHTML = `
-
-            <td>
-                ${escapeHTML(name)}
-            </td>
-
-            <td>
-                ${summary[name].transactions.toLocaleString()}
-            </td>
-
-            <td>
-                ${summary[name].quantity.toLocaleString()}
-            </td>
-
-            <td>
-                ৳ ${summary[name].total.toLocaleString()}
-            </td>
-
-        `;
+            const name =
+                entry[0];
 
 
-        table.appendChild(row);
+            const item =
+                entry[1];
 
-    });
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${safe(name)}
+                </td>
+
+                <td>
+                    ${item.transactions}
+                </td>
+
+                <td>
+                    ${item.quantity.toLocaleString()}
+                </td>
+
+                <td>
+                    ৳ ${item.total.toLocaleString()}
+                </td>
+
+            `;
+
+
+            customerSummary.appendChild(
+                row
+            );
+
+        }
+    );
 
 }
 
 
+
 // =====================================================
-// CLEAR
+// CLEAR FILTER
 // =====================================================
 
 function clearFilter(){
@@ -1492,32 +1789,36 @@ function clearFilter(){
     ).value = "";
 
 
-    document.getElementById(
-        "customer"
-    ).value = "";
+    customerSelect.value =
+        "";
 
 
-    document.getElementById(
-        "product"
-    ).value = "";
+    productSelect.value =
+        "";
 
 
-    showReport(sales);
+    showReport(
+        sales
+    );
 
 }
 
 
+
 // =====================================================
-// CSV
+// DOWNLOAD CSV
 // =====================================================
 
 function downloadCSV(){
 
     const data =
-    getFilteredSales();
+        filteredSales;
 
 
-    if(data.length === 0){
+    if(
+        !data ||
+        data.length === 0
+    ){
 
         alert(
             "No sales data found!"
@@ -1528,89 +1829,82 @@ function downloadCSV(){
     }
 
 
+
     let csv =
-    "Date,Customer,Phone,Product,Code,Pack Size,Unit,Quantity,TP,MRP,Total\n";
+        "Date,Customer,Phone,Product,Code,Pack Size,Unit,Quantity,TP,MRP,Total\n";
 
 
-    data.forEach(function(sale){
 
-        csv +=
-        `"${csvSafe(
-            getSaleDate(sale)
-        )}",` +
+    data.forEach(
+        function(row){
 
-        `"${csvSafe(
-            sale["Customer _name"]
-        )}",` +
+            csv +=
+                `"${csvSafe(getSaleDate(row))}",` +
+                `"${csvSafe(row["Customer _name"])}",` +
+                `"${csvSafe(row["Customer_phone"])}",` +
+                `"${csvSafe(row["Product _name"])}",` +
+                `"${csvSafe(row["Product _code"])}",` +
+                `"${csvSafe(row["Pack _size"])}",` +
+                `"${csvSafe(row["Unit"])}",` +
+                `"${number(row["Quantity"])}",` +
+                `"${number(row["Tp"])}",` +
+                `"${number(row["Mrp"])}",` +
+                `"${number(row["Total"])}"\n`;
 
-        `"${csvSafe(
-            sale["Customer_phone"]
-        )}",` +
-
-        `"${csvSafe(
-            sale["Product _name"]
-        )}",` +
-
-        `"${csvSafe(
-            sale["Product _code"]
-        )}",` +
-
-        `"${csvSafe(
-            sale["Pack _size"]
-        )}",` +
-
-        `"${csvSafe(
-            sale["Unit"]
-        )}",` +
-
-        `"${sale["Quantity"] || 0}",` +
-
-        `"${sale["Tp"] || 0}",` +
-
-        `"${sale["Mrp"] || 0}",` +
-
-        `"${sale["Total"] || 0}"\n`;
-
-    });
-
-
-    const blob =
-    new Blob(
-        [csv],
-        {
-            type:
-            "text/csv;charset=utf-8;"
         }
     );
 
 
+
+    const blob =
+        new Blob(
+            [csv],
+            {
+                type:
+                "text/csv;charset=utf-8;"
+            }
+        );
+
+
     const url =
-    URL.createObjectURL(blob);
+        URL.createObjectURL(
+            blob
+        );
 
 
     const link =
-    document.createElement("a");
+        document.createElement(
+            "a"
+        );
 
 
-    link.href = url;
+    link.href =
+        url;
 
 
     link.download =
-    "Sales-Report.csv";
+        "Sales-Report.csv";
 
 
-    document.body.appendChild(link);
+    document.body.appendChild(
+        link
+    );
 
 
     link.click();
 
 
-    document.body.removeChild(link);
+    document.body.removeChild(
+        link
+    );
 
 
-    URL.revokeObjectURL(url);
+    URL.revokeObjectURL(
+        url
+    );
 
 }
+
 
 
 // =====================================================
@@ -1619,42 +1913,14 @@ function downloadCSV(){
 
 function csvSafe(value){
 
-    if(value === null ||
-       value === undefined){
-
-        return "";
-
-    }
-
-
-    return String(value)
-        .replace(/"/g,'""');
+    return safe(value)
+        .replace(
+            /"/g,
+            '""'
+        );
 
 }
 
-
-// =====================================================
-// HTML SAFE
-// =====================================================
-
-function escapeHTML(value){
-
-    if(value === null ||
-       value === undefined){
-
-        return "";
-
-    }
-
-
-    return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
-}
 
 
 // =====================================================
@@ -1668,6 +1934,7 @@ function printReport(){
 }
 
 
+
 // =====================================================
 // DASHBOARD
 // =====================================================
@@ -1675,9 +1942,10 @@ function printReport(){
 function goDashboard(){
 
     window.location.href =
-    "dashboard.html";
+        "dashboard.html";
 
 }
+
 
 
 // =====================================================
@@ -1686,8 +1954,8 @@ function goDashboard(){
 
 loadSales();
 
-</script>
 
+</script>
 
 </body>
 
