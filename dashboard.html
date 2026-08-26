@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -169,33 +170,42 @@ body{
 
 .menu{
     margin-top:25px;
+
     display:grid;
-    grid-template-columns:repeat(4,1fr);
+    grid-template-columns:repeat(4,minmax(0,1fr));
+
     gap:18px;
+
+    width:100%;
 }
+
+/* EVERY MENU BUTTON */
 
 .menu-button{
     display:flex !important;
-    align-items:center;
-    justify-content:center;
-    width:100%;
-    min-height:70px;
-    padding:20px 15px;
 
-    border:none;
-    border-radius:14px;
+    width:100% !important;
+    min-height:70px !important;
 
-    font-size:16px;
-    font-weight:bold;
+    align-items:center !important;
+    justify-content:center !important;
 
-    cursor:pointer;
+    padding:20px 15px !important;
+
+    border:none !important;
+    border-radius:14px !important;
+
+    font-size:16px !important;
+    font-weight:bold !important;
+
+    cursor:pointer !important;
+
+    visibility:visible !important;
+    opacity:1 !important;
 
     box-shadow:0 5px 15px rgba(0,0,0,.08);
 
     transition:.25s;
-
-    visibility:visible !important;
-    opacity:1 !important;
 }
 
 .menu-button:hover{
@@ -203,7 +213,7 @@ body{
     box-shadow:0 10px 20px rgba(0,0,0,.14);
 }
 
-/* ================= BUTTON COLORS ================= */
+/* ================= MENU COLORS ================= */
 
 .sales-entry{
     background:#dbeafe !important;
@@ -240,15 +250,29 @@ body{
     color:#c2410c !important;
 }
 
+/* ================= OUTLET SURVEY ================= */
+
 .outlet-survey{
+    display:flex !important;
+    visibility:visible !important;
+    opacity:1 !important;
+
     background:#dcfce7 !important;
     color:#166534 !important;
+
     border:2px solid #22c55e !important;
 }
 
+/* ================= SETTINGS ================= */
+
 .settings{
+    display:flex !important;
+    visibility:visible !important;
+    opacity:1 !important;
+
     background:#e0e7ff !important;
     color:#4338ca !important;
+
     border:2px solid #6366f1 !important;
 }
 
@@ -263,6 +287,7 @@ body{
     .menu{
         grid-template-columns:repeat(2,1fr);
     }
+
 }
 
 @media(max-width:600px){
@@ -339,7 +364,7 @@ body{
 </div>
 
 
-<!-- ================= DASHBOARD CARDS ================= -->
+<!-- ================= CARDS ================= -->
 
 <div class="cards">
 
@@ -439,11 +464,14 @@ body{
 </div>
 
 
-<!-- ================= MENU ================= -->
+<!-- =================================================
+     DASHBOARD MENU
+================================================= -->
 
 <div class="menu">
 
     <button
+        type="button"
         class="menu-button sales-entry"
         onclick="go('sales.html')">
 
@@ -453,6 +481,7 @@ body{
 
 
     <button
+        type="button"
         class="menu-button sales-history"
         onclick="go('sales-history.html')">
 
@@ -462,6 +491,7 @@ body{
 
 
     <button
+        type="button"
         class="menu-button customers"
         onclick="go('customers.html')">
 
@@ -471,6 +501,7 @@ body{
 
 
     <button
+        type="button"
         class="menu-button products"
         onclick="go('products.html')">
 
@@ -480,6 +511,7 @@ body{
 
 
     <button
+        type="button"
         class="menu-button inventory"
         onclick="go('inventory.html')">
 
@@ -489,6 +521,7 @@ body{
 
 
     <button
+        type="button"
         class="menu-button reports"
         onclick="go('reports.html')">
 
@@ -498,6 +531,7 @@ body{
 
 
     <button
+        type="button"
         class="menu-button marketing"
         onclick="go('marketing.html')">
 
@@ -506,7 +540,10 @@ body{
     </button>
 
 
+    <!-- ================= OUTLET SURVEY ================= -->
+
     <button
+        type="button"
         class="menu-button outlet-survey"
         onclick="go('outlet-survey.html')">
 
@@ -515,7 +552,10 @@ body{
     </button>
 
 
+    <!-- ================= SETTINGS ================= -->
+
     <button
+        type="button"
         class="menu-button settings"
         onclick="go('settings.html')">
 
@@ -524,6 +564,7 @@ body{
     </button>
 
 </div>
+
 
 </div>
 
@@ -573,7 +614,8 @@ async function checkLogin(){
     const {
         data,
         error
-    } = await supabaseClient.auth.getSession();
+    } =
+    await supabaseClient.auth.getSession();
 
 
     if(error){
@@ -583,7 +625,9 @@ async function checkLogin(){
             error
         );
 
-        window.location.replace("index.html");
+        window.location.replace(
+            "index.html"
+        );
 
         return null;
     }
@@ -591,7 +635,9 @@ async function checkLogin(){
 
     if(!data.session){
 
-        window.location.replace("index.html");
+        window.location.replace(
+            "index.html"
+        );
 
         return null;
     }
@@ -601,7 +647,10 @@ async function checkLogin(){
         data.session.user;
 
 
-    if(user && user.email){
+    if(
+        user &&
+        user.email
+    ){
 
         welcomeText.innerText =
             "Welcome, " +
@@ -624,15 +673,6 @@ async function loadDashboard(){
 
     statusBox.innerText =
         "Loading live data from Supabase...";
-
-    statusBox.style.background =
-        "#eef4ff";
-
-    statusBox.style.color =
-        "#2563eb";
-
-    statusBox.style.borderLeftColor =
-        "#2563eb";
 
 
     try{
@@ -712,7 +752,7 @@ async function loadDashboard(){
             ).toLocaleString();
 
 
-        /* ================= SALES ================= */
+        /* ================= ORDERS ================= */
 
         const salesResult =
             await supabaseClient
@@ -741,14 +781,16 @@ async function loadDashboard(){
         let totalSales = 0;
 
 
-        sales.forEach(function(sale){
+        sales.forEach(
+            function(sale){
 
-            totalSales +=
-                Number(
-                    sale.total_amount || 0
-                );
+                totalSales +=
+                    Number(
+                        sale.total_amount || 0
+                    );
 
-        });
+            }
+        );
 
 
         document.getElementById(
@@ -779,43 +821,47 @@ async function loadDashboard(){
         let todaySales = 0;
 
 
-        sales.forEach(function(sale){
+        sales.forEach(
+            function(sale){
 
-            if(!sale.created_at){
+                if(!sale.created_at){
 
-                return;
+                    return;
 
-            }
-
-
-            const date =
-                new Date(
-                    sale.created_at
-                );
+                }
 
 
-            const saleDate =
-                date.getFullYear() +
-                "-" +
-                String(
-                    date.getMonth() + 1
-                ).padStart(2,"0") +
-                "-" +
-                String(
-                    date.getDate()
-                ).padStart(2,"0");
-
-
-            if(saleDate === today){
-
-                todaySales +=
-                    Number(
-                        sale.total_amount || 0
+                const date =
+                    new Date(
+                        sale.created_at
                     );
 
-            }
 
-        });
+                const saleDate =
+                    date.getFullYear() +
+                    "-" +
+                    String(
+                        date.getMonth() + 1
+                    ).padStart(2,"0") +
+                    "-" +
+                    String(
+                        date.getDate()
+                    ).padStart(2,"0");
+
+
+                if(
+                    saleDate === today
+                ){
+
+                    todaySales +=
+                        Number(
+                            sale.total_amount || 0
+                        );
+
+                }
+
+            }
+        );
 
 
         document.getElementById(
@@ -873,7 +919,8 @@ async function loadDashboard(){
 
 async function logout(){
 
-    logoutButton.disabled = true;
+    logoutButton.disabled =
+        true;
 
     logoutButton.innerText =
         "Logging out...";
@@ -893,6 +940,7 @@ async function logout(){
                 "Logout failed: " +
                 error.message
             );
+
 
             logoutButton.disabled =
                 false;
@@ -915,9 +963,11 @@ async function logout(){
 
         console.error(error);
 
+
         alert(
             "Something went wrong."
         );
+
 
         logoutButton.disabled =
             false;
@@ -947,7 +997,7 @@ logoutButton.addEventListener(
 function go(page){
 
     console.log(
-        "Opening:",
+        "Opening page:",
         page
     );
 
@@ -958,7 +1008,7 @@ function go(page){
 
 
 /* =====================================================
-   REFRESH BUTTON
+   REFRESH
 ===================================================== */
 
 refreshButton.addEventListener(
