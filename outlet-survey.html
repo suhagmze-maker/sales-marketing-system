@@ -26,7 +26,9 @@ body{
 }
 
 
-/* HEADER */
+/* =====================================================
+   HEADER
+===================================================== */
 
 .header{
     background:linear-gradient(135deg,#166534,#22c55e);
@@ -53,7 +55,9 @@ body{
 }
 
 
-/* CONTAINER */
+/* =====================================================
+   CONTAINER
+===================================================== */
 
 .container{
     max-width:1100px;
@@ -62,7 +66,9 @@ body{
 }
 
 
-/* TITLE */
+/* =====================================================
+   TITLE
+===================================================== */
 
 .page-title{
     margin-bottom:25px;
@@ -79,7 +85,9 @@ body{
 }
 
 
-/* FORM CARD */
+/* =====================================================
+   FORM CARD
+===================================================== */
 
 .form-card{
     background:white;
@@ -89,7 +97,9 @@ body{
 }
 
 
-/* GRID */
+/* =====================================================
+   FORM GRID
+===================================================== */
 
 .form-grid{
     display:grid;
@@ -135,7 +145,64 @@ textarea{
 }
 
 
-/* IMAGE URL */
+/* =====================================================
+   LOCATION
+===================================================== */
+
+.location-section{
+    margin-top:25px;
+    padding:20px;
+    border-radius:12px;
+    background:#f0fdf4;
+    border:1px solid #bbf7d0;
+}
+
+.location-section h3{
+    color:#166534;
+    margin-bottom:15px;
+}
+
+.location-status{
+    margin-top:12px;
+    padding:10px 12px;
+    border-radius:7px;
+    background:#ecfdf5;
+    color:#166534;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.location-btn{
+    background:linear-gradient(135deg,#15803d,#22c55e);
+    color:white;
+    border:none;
+    padding:12px 18px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+    font-size:15px;
+}
+
+.location-btn:hover{
+    transform:translateY(-2px);
+}
+
+.location-btn:disabled{
+    opacity:.7;
+    cursor:not-allowed;
+}
+
+.coordinates{
+    margin-top:15px;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+
+/* =====================================================
+   IMAGE SECTION
+===================================================== */
 
 .image-section{
     margin-top:25px;
@@ -149,7 +216,9 @@ textarea{
 }
 
 
-/* BUTTONS */
+/* =====================================================
+   BUTTONS
+===================================================== */
 
 .button-area{
     margin-top:25px;
@@ -191,7 +260,9 @@ textarea{
 }
 
 
-/* STATUS */
+/* =====================================================
+   STATUS
+===================================================== */
 
 .status{
     margin-top:20px;
@@ -204,7 +275,9 @@ textarea{
 }
 
 
-/* TABLE */
+/* =====================================================
+   LIST
+===================================================== */
 
 .list-card{
     margin-top:25px;
@@ -242,7 +315,7 @@ textarea{
 table{
     width:100%;
     border-collapse:collapse;
-    min-width:800px;
+    min-width:1000px;
 }
 
 th{
@@ -262,7 +335,9 @@ tr:hover{
 }
 
 
-/* ACTION BUTTON */
+/* =====================================================
+   ACTION BUTTONS
+===================================================== */
 
 .edit-btn{
     background:#2563eb;
@@ -283,8 +358,19 @@ tr:hover{
     cursor:pointer;
 }
 
+.map-btn{
+    background:#16a34a;
+    color:white;
+    border:none;
+    padding:7px 12px;
+    border-radius:6px;
+    cursor:pointer;
+}
 
-/* EMPTY */
+
+/* =====================================================
+   EMPTY
+===================================================== */
 
 .empty{
     text-align:center;
@@ -293,7 +379,9 @@ tr:hover{
 }
 
 
-/* MOBILE */
+/* =====================================================
+   MOBILE
+===================================================== */
 
 @media(max-width:700px){
 
@@ -321,6 +409,10 @@ tr:hover{
         grid-column:auto;
     }
 
+    .coordinates{
+        grid-template-columns:1fr;
+    }
+
     .button-area{
         flex-direction:column;
     }
@@ -340,7 +432,9 @@ tr:hover{
 <body>
 
 
-<!-- HEADER -->
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
 <div class="header">
 
@@ -363,7 +457,9 @@ tr:hover{
 <div class="container">
 
 
-<!-- TITLE -->
+<!-- =====================================================
+     TITLE
+===================================================== -->
 
 <div class="page-title">
 
@@ -379,9 +475,12 @@ tr:hover{
 
 
 
-<!-- FORM -->
+<!-- =====================================================
+     FORM CARD
+===================================================== -->
 
 <div class="form-card">
+
 
     <div class="form-grid">
 
@@ -438,7 +537,78 @@ tr:hover{
 
 
 
-    <!-- IMAGE SECTION -->
+    <!-- =================================================
+         LOCATION
+    ================================================== -->
+
+    <div class="location-section">
+
+        <h3>
+            📍 Outlet Location
+        </h3>
+
+
+        <button
+            type="button"
+            class="location-btn"
+            id="locationButton">
+
+            📍 Get Current Location
+
+        </button>
+
+
+        <div
+            id="locationStatus"
+            class="location-status">
+
+            Location not captured yet.
+
+        </div>
+
+
+        <div class="coordinates">
+
+
+            <div class="form-group">
+
+                <label>
+                    Latitude
+                </label>
+
+                <input
+                    type="text"
+                    id="latitude"
+                    readonly
+                    placeholder="Waiting for GPS">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Longitude
+                </label>
+
+                <input
+                    type="text"
+                    id="longitude"
+                    readonly
+                    placeholder="Waiting for GPS">
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         IMAGES
+    ================================================== -->
 
     <div class="image-section">
 
@@ -449,8 +619,6 @@ tr:hover{
 
         <div class="form-grid">
 
-
-            <!-- FRONT IMAGE -->
 
             <div class="form-group full">
 
@@ -466,8 +634,6 @@ tr:hover{
             </div>
 
 
-            <!-- SHELF IMAGE 1 -->
-
             <div class="form-group">
 
                 <label>
@@ -482,8 +648,6 @@ tr:hover{
             </div>
 
 
-            <!-- SHELF IMAGE 2 -->
-
             <div class="form-group">
 
                 <label>
@@ -497,8 +661,6 @@ tr:hover{
 
             </div>
 
-
-            <!-- REMARKS -->
 
             <div class="form-group full">
 
@@ -524,6 +686,7 @@ tr:hover{
     <div class="button-area">
 
         <button
+            type="button"
             class="clear-btn"
             id="clearButton">
 
@@ -533,6 +696,7 @@ tr:hover{
 
 
         <button
+            type="button"
             class="save-btn"
             id="saveButton">
 
@@ -547,7 +711,9 @@ tr:hover{
 
 
 
-<!-- STATUS -->
+<!-- =====================================================
+     STATUS
+===================================================== -->
 
 <div
     id="status"
@@ -559,7 +725,9 @@ tr:hover{
 
 
 
-<!-- SURVEY LIST -->
+<!-- =====================================================
+     SURVEY LIST
+===================================================== -->
 
 <div class="list-card">
 
@@ -592,6 +760,7 @@ tr:hover{
                     <th>Outlet Code</th>
                     <th>Outlet Name</th>
                     <th>Route</th>
+                    <th>Location</th>
                     <th>Remarks</th>
                     <th>Created</th>
                     <th>Action</th>
@@ -606,7 +775,7 @@ tr:hover{
                 <tr>
 
                     <td
-                        colspan="7"
+                        colspan="8"
                         class="empty">
 
                         Loading...
@@ -665,6 +834,26 @@ const outletName =
 const routeName =
     document.getElementById(
         "routeName"
+    );
+
+const latitude =
+    document.getElementById(
+        "latitude"
+    );
+
+const longitude =
+    document.getElementById(
+        "longitude"
+    );
+
+const locationButton =
+    document.getElementById(
+        "locationButton"
+    );
+
+const locationStatus =
+    document.getElementById(
+        "locationStatus"
     );
 
 const frontImageUrl =
@@ -814,6 +1003,180 @@ function showStatus(
 
 
 // =====================================================
+// GET CURRENT LOCATION
+// =====================================================
+
+function getCurrentLocation(){
+
+    if(
+        !navigator.geolocation
+    ){
+
+        showLocationStatus(
+            "❌ Geolocation is not supported by this browser.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    locationButton.disabled =
+        true;
+
+    locationButton.innerText =
+        "⏳ Getting Location...";
+
+
+    showLocationStatus(
+        "📍 Requesting device location..."
+    );
+
+
+    navigator.geolocation.getCurrentPosition(
+
+        function(position){
+
+            const lat =
+                position.coords.latitude;
+
+            const lng =
+                position.coords.longitude;
+
+
+            latitude.value =
+                lat.toFixed(7);
+
+            longitude.value =
+                lng.toFixed(7);
+
+
+            locationButton.disabled =
+                false;
+
+            locationButton.innerText =
+                "📍 Location Captured";
+
+
+            showLocationStatus(
+                "✓ Location captured successfully.",
+                "success"
+            );
+
+        },
+
+        function(error){
+
+            console.error(
+                "Location error:",
+                error
+            );
+
+
+            locationButton.disabled =
+                false;
+
+            locationButton.innerText =
+                "📍 Get Current Location";
+
+
+            let message =
+                "❌ Unable to get location.";
+
+
+            if(
+                error.code ===
+                error.PERMISSION_DENIED
+            ){
+
+                message =
+                    "❌ Location permission denied. Please allow location access in browser settings.";
+
+            }
+            else if(
+                error.code ===
+                error.POSITION_UNAVAILABLE
+            ){
+
+                message =
+                    "❌ Location information unavailable.";
+
+            }
+            else if(
+                error.code ===
+                error.TIMEOUT
+            ){
+
+                message =
+                    "❌ Location request timed out. Try again.";
+
+            }
+
+
+            showLocationStatus(
+                message,
+                "error"
+            );
+
+        },
+
+        {
+            enableHighAccuracy:true,
+            timeout:15000,
+            maximumAge:0
+        }
+
+    );
+
+}
+
+
+// =====================================================
+// LOCATION STATUS
+// =====================================================
+
+function showLocationStatus(
+    message,
+    type="normal"
+){
+
+    locationStatus.innerText =
+        message;
+
+
+    if(type === "success"){
+
+        locationStatus.style.background =
+            "#dcfce7";
+
+        locationStatus.style.color =
+            "#166534";
+
+    }
+    else if(type === "error"){
+
+        locationStatus.style.background =
+            "#fee2e2";
+
+        locationStatus.style.color =
+            "#b91c1c";
+
+    }
+    else{
+
+        locationStatus.style.background =
+            "#ecfdf5";
+
+        locationStatus.style.color =
+            "#166534";
+
+    }
+
+}
+
+
+// =====================================================
 // CLEAR FORM
 // =====================================================
 
@@ -822,15 +1185,30 @@ function clearForm(){
     outletCode.value = "";
     outletName.value = "";
     routeName.value = "";
+
+    latitude.value = "";
+    longitude.value = "";
+
     frontImageUrl.value = "";
     shelfImage1Url.value = "";
     shelfImage2Url.value = "";
+
     remarks.value = "";
 
     editingId = null;
 
     saveButton.innerText =
         "💾 Save Survey";
+
+    locationButton.disabled =
+        false;
+
+    locationButton.innerText =
+        "📍 Get Current Location";
+
+    showLocationStatus(
+        "Location not captured yet."
+    );
 
 }
 
@@ -892,6 +1270,16 @@ async function saveSurvey(){
 
             route_name:
                 routeName.value.trim() || null,
+
+            latitude:
+                latitude.value
+                    ? Number(latitude.value)
+                    : null,
+
+            longitude:
+                longitude.value
+                    ? Number(longitude.value)
+                    : null,
 
             front_image_url:
                 frontImageUrl.value.trim() || null,
@@ -1028,7 +1416,7 @@ async function loadSurveys(){
     tableBody.innerHTML =
 
         `<tr>
-            <td colspan="7" class="empty">
+            <td colspan="8" class="empty">
                 Loading...
             </td>
         </tr>`;
@@ -1047,6 +1435,8 @@ async function loadSurveys(){
                 outlet_code,
                 outlet_name,
                 route_name,
+                latitude,
+                longitude,
                 remarks,
                 created_at
             `)
@@ -1076,7 +1466,7 @@ async function loadSurveys(){
             tableBody.innerHTML =
 
                 `<tr>
-                    <td colspan="7" class="empty">
+                    <td colspan="8" class="empty">
                         No survey records found.
                     </td>
                 </tr>`;
@@ -1106,6 +1496,46 @@ async function loadSurveys(){
                         : "";
 
 
+                let mapButton =
+                    "";
+
+
+                if(
+                    survey.latitude !== null &&
+                    survey.longitude !== null
+                ){
+
+                    const mapUrl =
+                        "https://www.google.com/maps?q=" +
+                        survey.latitude +
+                        "," +
+                        survey.longitude;
+
+
+                    mapButton = `
+
+                        <button
+                            class="map-btn"
+                            onclick="openMap(
+                                ${survey.latitude},
+                                ${survey.longitude}
+                            )">
+
+                            📍 Map
+
+                        </button>
+
+                    `;
+
+                }
+                else{
+
+                    mapButton =
+                        "No Location";
+
+                }
+
+
                 row.innerHTML = `
 
                     <td>
@@ -1132,6 +1562,12 @@ async function loadSurveys(){
                         ${escapeHtml(
                             survey.route_name || "-"
                         )}
+                    </td>
+
+                    <td>
+
+                        ${mapButton}
+
                     </td>
 
                     <td>
@@ -1189,7 +1625,7 @@ async function loadSurveys(){
         tableBody.innerHTML =
 
             `<tr>
-                <td colspan="7" class="empty">
+                <td colspan="8" class="empty">
                     Failed to load surveys:
                     ${escapeHtml(
                         error.message
@@ -1198,6 +1634,30 @@ async function loadSurveys(){
             </tr>`;
 
     }
+
+}
+
+
+// =====================================================
+// OPEN GOOGLE MAP
+// =====================================================
+
+function openMap(
+    lat,
+    lng
+){
+
+    const url =
+        "https://www.google.com/maps?q=" +
+        lat +
+        "," +
+        lng;
+
+
+    window.open(
+        url,
+        "_blank"
+    );
 
 }
 
@@ -1240,6 +1700,16 @@ async function editSurvey(id){
         routeName.value =
             data.route_name || "";
 
+        latitude.value =
+            data.latitude !== null
+                ? data.latitude
+                : "";
+
+        longitude.value =
+            data.longitude !== null
+                ? data.longitude
+                : "";
+
         frontImageUrl.value =
             data.front_image_url || "";
 
@@ -1259,6 +1729,29 @@ async function editSurvey(id){
 
         saveButton.innerText =
             "💾 Update Survey";
+
+
+        if(
+            data.latitude !== null &&
+            data.longitude !== null
+        ){
+
+            showLocationStatus(
+                "✓ Saved location loaded.",
+                "success"
+            );
+
+            locationButton.innerText =
+                "📍 Update Current Location";
+
+        }
+        else{
+
+            showLocationStatus(
+                "No location saved for this survey."
+            );
+
+        }
 
 
         window.scrollTo({
@@ -1396,6 +1889,12 @@ function escapeHtml(value){
 // =====================================================
 // BUTTON EVENTS
 // =====================================================
+
+locationButton.addEventListener(
+    "click",
+    getCurrentLocation
+);
+
 
 saveButton.addEventListener(
     "click",
