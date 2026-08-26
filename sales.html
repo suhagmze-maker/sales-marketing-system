@@ -232,7 +232,6 @@ input[readonly]{
 <h1>New Sale</h1>
 
 
-
 <!-- EMPLOYEE -->
 
 <div class="employee-box">
@@ -246,7 +245,6 @@ input[readonly]{
 </div>
 
 
-
 <!-- ERROR -->
 
 <div
@@ -255,14 +253,12 @@ input[readonly]{
 </div>
 
 
-
 <!-- SUCCESS -->
 
 <div
     id="successBox"
     class="success-box">
 </div>
-
 
 
 <form id="salesForm">
@@ -280,14 +276,24 @@ input[readonly]{
 <input
     type="text"
     id="customerName"
-    list="customerSuggestions"
     placeholder="Type customer name"
     autocomplete="off"
     required>
 
-<datalist
-    id="customerSuggestions">
-</datalist>
+</div>
+
+
+
+<!-- CUSTOMER PHONE -->
+
+<div>
+
+<label>Customer Phone</label>
+
+<input
+    type="text"
+    id="customerPhone"
+    placeholder="Enter customer phone">
 
 </div>
 
@@ -443,6 +449,18 @@ input[readonly]{
 
 <div class="total-row">
 
+    <span>Category:</span>
+
+    <strong id="summaryCategory">
+        -
+    </strong>
+
+</div>
+
+
+
+<div class="total-row">
+
     <span>Pack Size:</span>
 
     <strong id="summaryPack">
@@ -548,8 +566,8 @@ const salesForm =
 const customerNameInput =
     document.getElementById("customerName");
 
-const customerSuggestions =
-    document.getElementById("customerSuggestions");
+const customerPhoneInput =
+    document.getElementById("customerPhone");
 
 const productSelect =
     document.getElementById("product");
@@ -613,10 +631,6 @@ function showMessage(text,color="green"){
 
 
 
-// =====================================================
-// ERROR
-// =====================================================
-
 function showError(text){
 
     errorBox.innerText = text;
@@ -624,6 +638,7 @@ function showError(text){
     errorBox.style.display = "block";
 
 }
+
 
 
 function hideError(){
@@ -636,10 +651,6 @@ function hideError(){
 
 
 
-// =====================================================
-// SUCCESS
-// =====================================================
-
 function showSuccess(text){
 
     successBox.innerText = text;
@@ -647,6 +658,7 @@ function showSuccess(text){
     successBox.style.display = "block";
 
 }
+
 
 
 function hideSuccess(){
@@ -783,7 +795,8 @@ async function loadProducts(){
     }
 
 
-    products = data || [];
+    products =
+        data || [];
 
 
     productSelect.innerHTML = `
@@ -834,7 +847,8 @@ async function loadProducts(){
         }
 
 
-        option.textContent = text;
+        option.textContent =
+            text;
 
 
         productSelect.appendChild(
@@ -862,98 +876,7 @@ loadProducts();
 
 
 // =====================================================
-// LOAD CUSTOMERS
-// =====================================================
-
-async function loadCustomers(){
-
-    const {
-        data,
-        error
-    } =
-    await supabaseClient
-        .from("orders")
-        .select("customer_name");
-
-
-    if(error){
-
-        console.log(
-            "Customer loading:",
-            error.message
-        );
-
-        return;
-
-    }
-
-
-    const names = [];
-
-
-    (data || []).forEach(function(row){
-
-        if(
-            row.customer_name &&
-            !names.includes(
-                row.customer_name
-            )
-        ){
-
-            names.push(
-                row.customer_name
-            );
-
-        }
-
-    });
-
-
-    customerSuggestions.innerHTML = "";
-
-
-    names.forEach(function(name){
-
-        const option =
-            document.createElement("option");
-
-
-        option.value = name;
-
-
-        customerSuggestions.appendChild(
-            option
-        );
-
-    });
-
-}
-
-
-loadCustomers();
-
-
-
-// =====================================================
-// CUSTOMER INPUT
-// =====================================================
-
-customerNameInput.addEventListener(
-    "input",
-    function(){
-
-        document.getElementById(
-            "summaryCustomer"
-        ).innerText =
-            this.value.trim() || "-";
-
-    }
-);
-
-
-
-// =====================================================
-// SELECTED PRODUCT
+// GET SELECTED PRODUCT
 // =====================================================
 
 function getSelectedProduct(){
@@ -969,12 +892,14 @@ function getSelectedProduct(){
     }
 
 
-    return products.find(function(product){
+    return products.find(
+        function(product){
 
-        return String(product.id) ===
-               String(productId);
+            return String(product.id) ===
+                   String(productId);
 
-    }) || null;
+        }
+    ) || null;
 
 }
 
@@ -1026,6 +951,11 @@ productSelect.addEventListener(
 
 
             document.getElementById(
+                "summaryCategory"
+            ).innerText = "-";
+
+
+            document.getElementById(
                 "summaryPack"
             ).innerText = "-";
 
@@ -1049,10 +979,12 @@ productSelect.addEventListener(
             Number(product.stock || 0);
 
 
-        tpInput.value = tp;
+        tpInput.value =
+            tp;
 
-        mrpInput.value = mrp;
 
+        mrpInput.value =
+            mrp;
 
 
         const pack =
@@ -1061,7 +993,6 @@ productSelect.addEventListener(
                 " " +
                 (product.unit || "")
             ).trim();
-
 
 
         productInfo.innerText =
@@ -1083,9 +1014,7 @@ productSelect.addEventListener(
             );
 
 
-
         updateStockDisplay(stock);
-
 
 
         document.getElementById(
@@ -1098,6 +1027,12 @@ productSelect.addEventListener(
             "summaryCode"
         ).innerText =
             product.code || "-";
+
+
+        document.getElementById(
+            "summaryCategory"
+        ).innerText =
+            product.category || "-";
 
 
         document.getElementById(
@@ -1149,6 +1084,24 @@ function updateStockDisplay(stock){
 
 
 // =====================================================
+// CUSTOMER
+// =====================================================
+
+customerNameInput.addEventListener(
+    "input",
+    function(){
+
+        document.getElementById(
+            "summaryCustomer"
+        ).innerText =
+            this.value.trim() || "-";
+
+    }
+);
+
+
+
+// =====================================================
 // TOTAL
 // =====================================================
 
@@ -1161,11 +1114,15 @@ quantityInput.addEventListener(
 function calculateTotal(){
 
     const quantity =
-        Number(quantityInput.value || 0);
+        Number(
+            quantityInput.value || 0
+        );
 
 
     const tp =
-        Number(tpInput.value || 0);
+        Number(
+            tpInput.value || 0
+        );
 
 
     const total =
@@ -1219,14 +1176,13 @@ salesForm.addEventListener(
         }
 
 
-
         // CUSTOMER
 
-        const customerName =
+        const customer =
             customerNameInput.value.trim();
 
 
-        if(!customerName){
+        if(!customer){
 
             showError(
                 "Please enter customer name."
@@ -1237,16 +1193,21 @@ salesForm.addEventListener(
         }
 
 
+        // PHONE
+
+        const phone =
+            customerPhoneInput.value.trim();
+
 
         // DATE
 
-        const salesDate =
+        const saleDate =
             document.getElementById(
                 "salesDate"
             ).value;
 
 
-        if(!salesDate){
+        if(!saleDate){
 
             showError(
                 "Please select sales date."
@@ -1255,7 +1216,6 @@ salesForm.addEventListener(
             return;
 
         }
-
 
 
         // PRODUCT
@@ -1273,7 +1233,6 @@ salesForm.addEventListener(
             return;
 
         }
-
 
 
         // QUANTITY
@@ -1299,8 +1258,7 @@ salesForm.addEventListener(
         }
 
 
-
-        // CURRENT STOCK
+        // STOCK
 
         const currentStock =
             Number(product.stock || 0);
@@ -1318,23 +1276,26 @@ salesForm.addEventListener(
         }
 
 
-
         // PRICE
 
-        const unitPrice =
+        const tp =
             Number(product.tp || 0);
 
 
-        const totalAmount =
-            quantity * unitPrice;
+        const mrp =
+            Number(product.mrp || 0);
 
 
+        const total =
+            quantity * tp;
 
-        saveButton.disabled = true;
+
+        saveButton.disabled =
+            true;
+
 
         saveButton.innerText =
             "Processing...";
-
 
 
         try{
@@ -1363,18 +1324,10 @@ salesForm.addEventListener(
 
             if(stockError){
 
-                console.error(
-                    "Stock RPC Error:",
-                    stockError
-                );
-
-
-                showError(
+                throw new Error(
                     "Stock update failed: " +
                     stockError.message
                 );
-
-                return;
 
             }
 
@@ -1382,69 +1335,81 @@ salesForm.addEventListener(
 
             // =================================================
             // STEP 2
-            // SAVE ORDER
-            //
-            // IMPORTANT:
-            // Only columns currently confirmed in your
-            // orders table are used.
+            // SAVE TO SALES TABLE
             // =================================================
+
+            const saleData = {
+
+                customer_name:
+                    customer,
+
+                customer_phone:
+                    phone,
+
+                product_id:
+                    product.id,
+
+                product_name:
+                    product.name || "",
+
+                product_code:
+                    product.code || "",
+
+                category:
+                    product.category || "",
+
+                pack_size:
+                    product.pack_size || "",
+
+                unit:
+                    product.unit || "",
+
+                quantity:
+                    quantity,
+
+                tp:
+                    tp,
+
+                mrp:
+                    mrp,
+
+                total:
+                    total,
+
+                sale_date:
+                    saleDate
+
+            };
+
+
+            console.log(
+                "Saving sale:",
+                saleData
+            );
+
 
             const {
-                data:orderData,
-                error:orderError
+                data:saleResult,
+                error:saleError
             } =
             await supabaseClient
-                .from("orders")
-                .insert({
-
-                    customer_name:
-                        customerName,
-
-                    employee_name:
-                        currentUser.email || "",
-
-                    product_name:
-                        product.name || "",
-
-                    quantity:
-                        quantity
-
-                })
-                .select()
-                .single();
+                .from("sales")
+                .insert(saleData)
+                .select();
 
 
-
-            // =================================================
-            // ORDER ERROR
-            // =================================================
-
-            if(orderError){
+            if(saleError){
 
                 console.error(
-                    "Order Error:",
-                    orderError
+                    "Sales Insert Error:",
+                    saleError
                 );
 
 
                 showError(
-                    "Order save failed: " +
-                    orderError.message
+                    "Sales save failed: " +
+                    saleError.message
                 );
-
-
-                /*
-                 IMPORTANT:
-
-                 এখানে products table direct update
-                 করে stock restore করছি না।
-
-                 কারণ RLS-এর কারণে আবার error হতে পারে।
-
-                 যদি order save fail হয়, page reload করে
-                 stock check করতে হবে।
-                */
-
 
                 return;
 
@@ -1453,51 +1418,25 @@ salesForm.addEventListener(
 
 
             // =================================================
-            // LOCAL STOCK UPDATE
-            // =================================================
-
-            let finalStock;
-
-
-            if(
-                newStock !== null &&
-                newStock !== undefined
-            ){
-
-                finalStock =
-                    Number(newStock);
-
-            }
-            else{
-
-                finalStock =
-                    currentStock - quantity;
-
-            }
-
-
-            product.stock =
-                finalStock;
-
-
-            updateStockDisplay(
-                finalStock
-            );
-
-
-
-            // =================================================
             // SUCCESS
             // =================================================
 
+            const finalStock =
+                newStock !== null &&
+                newStock !== undefined
+                ? Number(newStock)
+                : currentStock - quantity;
+
+
             showSuccess(
-                "Sale saved successfully! New stock: " +
+                "Sale saved successfully! " +
+                "New Stock: " +
                 finalStock
             );
 
 
             showMessage(
-                "Order saved successfully.",
+                "Sale saved successfully.",
                 "green"
             );
 
@@ -1510,9 +1449,7 @@ salesForm.addEventListener(
             salesForm.reset();
 
 
-            document.getElementById(
-                "salesDate"
-            ).value =
+            salesDate.value =
                 today;
 
 
@@ -1548,6 +1485,12 @@ salesForm.addEventListener(
 
 
             document.getElementById(
+                "summaryCategory"
+            ).innerText =
+                "-";
+
+
+            document.getElementById(
                 "summaryPack"
             ).innerText =
                 "-";
@@ -1571,15 +1514,9 @@ salesForm.addEventListener(
                 "0";
 
 
-
             // Reload products
 
             await loadProducts();
-
-
-            // Reload customers
-
-            await loadCustomers();
 
         }
 
@@ -1587,13 +1524,12 @@ salesForm.addEventListener(
         catch(error){
 
             console.error(
-                "Unexpected Error:",
+                "SAVE SALE ERROR:",
                 error
             );
 
 
             showError(
-                "Something went wrong: " +
                 error.message
             );
 
