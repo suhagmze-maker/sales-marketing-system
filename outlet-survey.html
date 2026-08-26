@@ -1,9 +1,7 @@
 ```html
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -12,11 +10,10 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-
 *{
+    box-sizing:border-box;
     margin:0;
     padding:0;
-    box-sizing:border-box;
     font-family:Arial,sans-serif;
 }
 
@@ -25,11 +22,6 @@ body{
     min-height:100vh;
     color:#1e293b;
 }
-
-
-/* =====================================================
-   HEADER
-===================================================== */
 
 .header{
     background:linear-gradient(135deg,#1d4ed8,#4f46e5);
@@ -55,87 +47,52 @@ body{
     cursor:pointer;
 }
 
-
-/* =====================================================
-   CONTAINER
-===================================================== */
-
 .container{
-    max-width:1250px;
+    max-width:1450px;
     margin:auto;
     padding:25px;
 }
-
-
-/* =====================================================
-   TITLE
-===================================================== */
 
 .title{
     margin-bottom:20px;
 }
 
 .title h1{
-    color:#111827;
-    margin-bottom:6px;
+    font-size:28px;
+    margin-bottom:7px;
 }
 
 .title p{
     color:#64748b;
 }
 
-
-/* =====================================================
-   STATUS
-===================================================== */
-
-.status{
-    margin-bottom:20px;
-    padding:13px 16px;
-    border-radius:8px;
-    background:#eef4ff;
-    color:#2563eb;
-    font-weight:bold;
-    border-left:5px solid #2563eb;
-}
-
-
-/* =====================================================
-   FORM CARD
-===================================================== */
-
 .form-card,
 .table-card{
     background:white;
-    padding:25px;
     border-radius:16px;
-    box-shadow:0 6px 20px rgba(0,0,0,.08);
+    padding:25px;
     margin-bottom:25px;
+    box-shadow:0 7px 20px rgba(0,0,0,.08);
 }
 
 .form-card h2,
 .table-card h2{
     margin-bottom:20px;
-    color:#1e293b;
+    color:#1e3a8a;
 }
 
-
-/* =====================================================
-   FORM GRID
-===================================================== */
-
-.grid{
+.form-grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
     gap:18px;
 }
 
-.field{
+.form-group{
     display:flex;
     flex-direction:column;
 }
 
-.field.full{
+.form-group.full{
     grid-column:1/-1;
 }
 
@@ -151,8 +108,8 @@ textarea{
     padding:12px;
     border:1px solid #cbd5e1;
     border-radius:8px;
-    outline:none;
     font-size:15px;
+    outline:none;
 }
 
 input:focus,
@@ -166,80 +123,85 @@ textarea{
     resize:vertical;
 }
 
-
-/* =====================================================
-   GPS BOX
-===================================================== */
-
 .location-box{
-    margin-top:20px;
-    padding:18px;
-    border-radius:12px;
     background:#eff6ff;
     border:1px solid #bfdbfe;
-}
-
-.location-title{
-    font-size:18px;
-    font-weight:bold;
-    color:#1e40af;
-    margin-bottom:10px;
+    border-radius:10px;
+    padding:14px;
 }
 
 .location-status{
+    color:#1d4ed8;
     font-weight:bold;
-    color:#2563eb;
     margin-bottom:10px;
 }
 
-.location-values{
-    background:white;
-    padding:12px;
-    border-radius:8px;
-    line-height:1.8;
-    color:#475569;
-    font-size:14px;
+.location-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
 }
 
-.location-btn{
-    margin-top:12px;
-    padding:10px 16px;
+.image-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    grid-column:1/-1;
+}
+
+.image-box{
+    border:2px dashed #cbd5e1;
+    border-radius:12px;
+    padding:15px;
+    text-align:center;
+    background:#f8fafc;
+}
+
+.image-box h3{
+    font-size:16px;
+    margin-bottom:10px;
+}
+
+.image-box input{
     border:none;
+    padding:5px;
+    background:transparent;
+}
+
+.preview{
+    width:100%;
+    height:180px;
+    object-fit:cover;
     border-radius:8px;
-    background:#2563eb;
-    color:white;
-    cursor:pointer;
-    font-weight:bold;
+    margin-top:10px;
+    display:none;
 }
 
-.location-btn:hover{
-    background:#1d4ed8;
-}
-
-
-/* =====================================================
-   FORM ACTIONS
-===================================================== */
-
-.actions{
-    margin-top:20px;
+.buttons{
+    grid-column:1/-1;
     display:flex;
     gap:10px;
-    flex-wrap:wrap;
+    margin-top:5px;
+}
+
+.save-btn,
+.cancel-btn{
+    border:none;
+    padding:13px 22px;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
 .save-btn{
-    padding:12px 25px;
-    border:none;
-    border-radius:8px;
-    background:linear-gradient(135deg,#059669,#10b981);
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
     color:white;
-    font-weight:bold;
-    cursor:pointer;
 }
 
-.save-btn:hover{
-    transform:translateY(-1px);
+.cancel-btn{
+    background:#e2e8f0;
+    color:#334155;
+    display:none;
 }
 
 .save-btn:disabled{
@@ -247,33 +209,28 @@ textarea{
     cursor:not-allowed;
 }
 
-.clear-btn{
-    padding:12px 25px;
-    border:none;
+.status{
+    margin-bottom:20px;
+    padding:13px 16px;
     border-radius:8px;
-    background:#64748b;
-    color:white;
+    background:#eff6ff;
+    color:#1d4ed8;
+    border-left:5px solid #2563eb;
     font-weight:bold;
-    cursor:pointer;
 }
 
-
-/* =====================================================
-   TABLE
-===================================================== */
-
-.table-wrap{
+.table-wrapper{
     overflow-x:auto;
 }
 
 table{
     width:100%;
     border-collapse:collapse;
-    min-width:1050px;
+    min-width:1000px;
 }
 
 th{
-    background:#1d4ed8;
+    background:#1e3a8a;
     color:white;
     padding:12px;
     text-align:left;
@@ -290,452 +247,355 @@ tr:hover{
     background:#f8fafc;
 }
 
-
-/* =====================================================
-   MAP BUTTON
-===================================================== */
-
-.map-btn{
-    display:inline-flex;
-    align-items:center;
-    gap:5px;
-    background:#2563eb;
-    color:white;
-    text-decoration:none;
-    padding:8px 12px;
-    border-radius:7px;
-    font-size:13px;
-    font-weight:bold;
-}
-
-.map-btn:hover{
-    background:#1d4ed8;
-}
-
-
-/* =====================================================
-   COORDINATES
-===================================================== */
-
-.coordinates{
-    font-size:12px;
-    color:#64748b;
-    line-height:1.6;
-}
-
-
-/* =====================================================
-   ACTION BUTTONS
-===================================================== */
-
-.edit-btn{
-    background:#f59e0b;
-    color:white;
-    border:none;
-    padding:7px 12px;
+.thumb{
+    width:65px;
+    height:50px;
+    object-fit:cover;
     border-radius:6px;
     cursor:pointer;
-    margin-right:5px;
+    border:1px solid #cbd5e1;
+}
+
+.no-image{
+    color:#94a3b8;
+    font-size:13px;
+}
+
+.action-btn{
+    border:none;
+    padding:7px 10px;
+    border-radius:6px;
+    cursor:pointer;
     font-weight:bold;
+    margin:2px;
+}
+
+.edit-btn{
+    background:#dbeafe;
+    color:#1d4ed8;
 }
 
 .delete-btn{
-    background:#dc2626;
+    background:#fee2e2;
+    color:#b91c1c;
+}
+
+.refresh-btn{
+    float:right;
+    background:#059669;
     color:white;
     border:none;
-    padding:7px 12px;
-    border-radius:6px;
-    cursor:pointer;
+    padding:10px 16px;
+    border-radius:8px;
     font-weight:bold;
+    cursor:pointer;
 }
-
-.edit-btn:hover{
-    background:#d97706;
-}
-
-.delete-btn:hover{
-    background:#b91c1c;
-}
-
-
-/* =====================================================
-   EMPTY
-===================================================== */
 
 .empty{
     text-align:center;
-    padding:25px;
+    padding:30px;
     color:#64748b;
 }
 
+.modal{
+    display:none;
+    position:fixed;
+    z-index:9999;
+    inset:0;
+    background:rgba(0,0,0,.8);
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
 
-/* =====================================================
-   MOBILE
-===================================================== */
+.modal img{
+    max-width:95%;
+    max-height:90vh;
+    border-radius:10px;
+}
 
-@media(max-width:700px){
+.close-modal{
+    position:absolute;
+    top:20px;
+    right:25px;
+    color:white;
+    font-size:35px;
+    cursor:pointer;
+}
+
+@media(max-width:800px){
 
     .container{
         padding:15px;
     }
 
-    .grid{
+    .form-grid{
         grid-template-columns:1fr;
     }
 
-    .field.full{
-        grid-column:auto;
-    }
-
-    .header{
-        padding:15px 18px;
+    .image-grid{
+        grid-template-columns:1fr;
     }
 
     .header h2{
         font-size:17px;
     }
 
-    .form-card,
-    .table-card{
-        padding:18px;
+    .title h1{
+        font-size:24px;
     }
 
+    .location-grid{
+        grid-template-columns:1fr;
+    }
 }
-
 </style>
-
 </head>
-
 
 <body>
 
-
-<!-- =====================================================
-     HEADER
-===================================================== -->
-
 <div class="header">
+    <h2>🏪 Outlet Survey</h2>
 
-    <h2>
-        🏪 Outlet Survey
-    </h2>
-
-    <button
-        class="back-btn"
-        onclick="goDashboard()">
-
+    <button class="back-btn" onclick="goDashboard()">
         ← Dashboard
-
     </button>
-
 </div>
-
 
 <div class="container">
 
+    <div class="title">
+        <h1>Outlet Survey</h1>
+        <p>Capture outlet information, location and images.</p>
+    </div>
 
-<!-- =====================================================
-     TITLE
-===================================================== -->
+    <div id="status" class="status">
+        Loading...
+    </div>
 
-<div class="title">
+    <!-- FORM -->
+    <div class="form-card">
 
-    <h1>
-        Outlet Survey
-    </h1>
+        <h2 id="formTitle">➕ Add Outlet Survey</h2>
 
-    <p>
-        Record outlet information with GPS location
-    </p>
+        <div class="form-grid">
 
-</div>
+            <div class="form-group">
+                <label>Outlet Code</label>
+                <input
+                    type="text"
+                    id="outletCode"
+                    placeholder="Example: D15-1010">
+            </div>
 
+            <div class="form-group">
+                <label>Outlet Name *</label>
+                <input
+                    type="text"
+                    id="outletName"
+                    placeholder="Outlet name"
+                    required>
+            </div>
 
-<!-- =====================================================
-     STATUS
-===================================================== -->
+            <div class="form-group">
+                <label>Route Name</label>
+                <input
+                    type="text"
+                    id="routeName"
+                    placeholder="Route name">
+            </div>
 
-<div
-    id="status"
-    class="status">
+            <div class="form-group">
+                <label>Remarks</label>
+                <input
+                    type="text"
+                    id="remarks"
+                    placeholder="Remarks">
+            </div>
 
-    Loading...
+            <!-- LOCATION -->
+            <div class="form-group full">
 
-</div>
+                <label>📍 Outlet Location</label>
 
+                <div class="location-box">
 
-<!-- =====================================================
-     FORM
-===================================================== -->
+                    <div
+                        id="locationStatus"
+                        class="location-status">
 
-<div class="form-card">
+                        Getting your location...
 
-    <h2 id="formTitle">
-        Add New Outlet Survey
-    </h2>
+                    </div>
 
+                    <div class="location-grid">
 
-    <input
-        type="hidden"
-        id="editId">
+                        <input
+                            type="text"
+                            id="latitude"
+                            placeholder="Latitude"
+                            readonly>
 
+                        <input
+                            type="text"
+                            id="longitude"
+                            placeholder="Longitude"
+                            readonly>
 
-    <div class="grid">
+                    </div>
 
+                </div>
 
-        <!-- OUTLET CODE -->
+            </div>
 
-        <div class="field">
+            <!-- IMAGES -->
+            <div class="image-grid">
 
-            <label>
-                Outlet Code
-            </label>
+                <div class="image-box">
 
-            <input
-                type="text"
-                id="outletCode"
-                placeholder="Example: D15-1010">
+                    <h3>📷 Front Image</h3>
 
-        </div>
+                    <input
+                        type="file"
+                        id="frontImage"
+                        accept="image/jpeg,image/png,image/webp"
+                        capture="environment">
 
+                    <img
+                        id="frontPreview"
+                        class="preview">
 
-        <!-- OUTLET NAME -->
+                </div>
 
-        <div class="field">
+                <div class="image-box">
 
-            <label>
-                Outlet Name *
+                    <h3>📷 Shelf Image 1</h3>
 
-            </label>
+                    <input
+                        type="file"
+                        id="shelfImage1"
+                        accept="image/jpeg,image/png,image/webp"
+                        capture="environment">
 
-            <input
-                type="text"
-                id="outletName"
-                placeholder="Enter outlet name">
+                    <img
+                        id="shelfPreview1"
+                        class="preview">
 
-        </div>
+                </div>
 
+                <div class="image-box">
 
-        <!-- ROUTE -->
+                    <h3>📷 Shelf Image 2</h3>
 
-        <div class="field">
+                    <input
+                        type="file"
+                        id="shelfImage2"
+                        accept="image/jpeg,image/png,image/webp"
+                        capture="environment">
 
-            <label>
-                Route Name
-            </label>
+                    <img
+                        id="shelfPreview2"
+                        class="preview">
 
-            <input
-                type="text"
-                id="routeName"
-                placeholder="Enter route name">
+                </div>
 
-        </div>
+            </div>
 
+            <div class="buttons">
 
-        <!-- FRONT IMAGE -->
+                <button
+                    id="saveButton"
+                    class="save-btn">
 
-        <div class="field">
+                    💾 Save Survey
 
-            <label>
-                Front Image URL
-            </label>
+                </button>
 
-            <input
-                type="text"
-                id="frontImageUrl"
-                placeholder="Paste image URL">
+                <button
+                    id="cancelButton"
+                    class="cancel-btn">
 
-        </div>
+                    Cancel Edit
 
+                </button>
 
-        <!-- SHELF IMAGE 1 -->
-
-        <div class="field">
-
-            <label>
-                Shelf Image 1 URL
-            </label>
-
-            <input
-                type="text"
-                id="shelfImage1Url"
-                placeholder="Paste image URL">
-
-        </div>
-
-
-        <!-- SHELF IMAGE 2 -->
-
-        <div class="field">
-
-            <label>
-                Shelf Image 2 URL
-            </label>
-
-            <input
-                type="text"
-                id="shelfImage2Url"
-                placeholder="Paste image URL">
-
-        </div>
-
-
-        <!-- REMARKS -->
-
-        <div class="field full">
-
-            <label>
-                Remarks
-            </label>
-
-            <textarea
-                id="remarks"
-                placeholder="Write remarks..."></textarea>
+            </div>
 
         </div>
-
 
     </div>
 
 
-    <!-- =================================================
-         GPS
-    ================================================== -->
-
-    <div class="location-box">
-
-        <div class="location-title">
-            📍 Outlet GPS Location
-        </div>
-
-
-        <div
-            id="locationStatus"
-            class="location-status">
-
-            📍 Detecting device location...
-
-        </div>
-
-
-        <div
-            id="locationValues"
-            class="location-values">
-
-            Waiting for GPS...
-
-        </div>
-
+    <!-- TABLE -->
+    <div class="table-card">
 
         <button
-            type="button"
-            class="location-btn"
-            onclick="getLocation()">
+            id="refreshButton"
+            class="refresh-btn">
 
-            📍 Get Current Location
+            🔄 Refresh
 
         </button>
 
-    </div>
+        <h2>📋 All Outlet Surveys</h2>
 
+        <div class="table-wrapper">
 
-    <!-- =================================================
-         ACTIONS
-    ================================================== -->
+            <table>
 
-    <div class="actions">
+                <thead>
 
-        <button
-            id="saveButton"
-            class="save-btn"
-            onclick="saveSurvey()">
+                    <tr>
+                        <th>ID</th>
+                        <th>Outlet Code</th>
+                        <th>Outlet Name</th>
+                        <th>Route</th>
+                        <th>Location</th>
+                        <th>Front</th>
+                        <th>Shelf 1</th>
+                        <th>Shelf 2</th>
+                        <th>Remarks</th>
+                        <th>Created</th>
+                        <th>Action</th>
+                    </tr>
 
-            💾 Save Survey
+                </thead>
 
-        </button>
+                <tbody id="surveyTableBody">
 
+                    <tr>
+                        <td colspan="11" class="empty">
+                            Loading surveys...
+                        </td>
+                    </tr>
 
-        <button
-            class="clear-btn"
-            onclick="clearForm()">
+                </tbody>
 
-            Clear
+            </table>
 
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- =====================================================
-     TABLE
-===================================================== -->
-
-<div class="table-card">
-
-    <h2>
-        Survey Records
-    </h2>
-
-
-    <div class="table-wrap">
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>ID</th>
-
-                    <th>Outlet Code</th>
-
-                    <th>Outlet Name</th>
-
-                    <th>Route</th>
-
-                    <th>Remarks</th>
-
-                    <th>GPS Location</th>
-
-                    <th>Created</th>
-
-                    <th>Action</th>
-
-                </tr>
-
-            </thead>
-
-
-            <tbody id="surveyTableBody">
-
-                <tr>
-
-                    <td
-                        colspan="8"
-                        class="empty">
-
-                        Loading survey records...
-
-                    </td>
-
-                </tr>
-
-            </tbody>
-
-        </table>
+        </div>
 
     </div>
 
 </div>
 
+
+<!-- IMAGE MODAL -->
+
+<div id="imageModal" class="modal">
+
+    <span
+        id="closeModal"
+        class="close-modal">
+        ×
+    </span>
+
+    <img id="modalImage">
 
 </div>
 
 
 <script>
-
 
 // =====================================================
 // SUPABASE
@@ -755,14 +615,11 @@ const supabaseClient =
 
 
 // =====================================================
-// GPS VARIABLES
+// VARIABLES
 // =====================================================
 
-let currentLatitude = null;
-
-let currentLongitude = null;
-
-let currentAccuracy = null;
+let currentUser = null;
+let editingId = null;
 
 
 // =====================================================
@@ -770,23 +627,53 @@ let currentAccuracy = null;
 // =====================================================
 
 const statusBox =
-    document.getElementById(
-        "status"
-    );
+    document.getElementById("status");
 
-const locationStatus =
-    document.getElementById(
-        "locationStatus"
-    );
+const saveButton =
+    document.getElementById("saveButton");
 
-const locationValues =
-    document.getElementById(
-        "locationValues"
-    );
+const cancelButton =
+    document.getElementById("cancelButton");
+
+const refreshButton =
+    document.getElementById("refreshButton");
+
+const tableBody =
+    document.getElementById("surveyTableBody");
 
 
 // =====================================================
-// LOGIN
+// STATUS
+// =====================================================
+
+function showStatus(message,type="info"){
+
+    statusBox.innerText = message;
+
+    if(type === "success"){
+
+        statusBox.style.background = "#dcfce7";
+        statusBox.style.color = "#166534";
+        statusBox.style.borderLeftColor = "#16a34a";
+
+    }else if(type === "error"){
+
+        statusBox.style.background = "#fee2e2";
+        statusBox.style.color = "#b91c1c";
+        statusBox.style.borderLeftColor = "#dc2626";
+
+    }else{
+
+        statusBox.style.background = "#eff6ff";
+        statusBox.style.color = "#1d4ed8";
+        statusBox.style.borderLeftColor = "#2563eb";
+
+    }
+}
+
+
+// =====================================================
+// CHECK LOGIN
 // =====================================================
 
 async function checkLogin(){
@@ -797,177 +684,595 @@ async function checkLogin(){
     } =
     await supabaseClient.auth.getSession();
 
-
     if(error){
 
-        console.error(
-            "Session error:",
-            error
-        );
+        console.error(error);
 
-        window.location.href =
-            "index.html";
+        window.location.href = "index.html";
 
-        return null;
-
+        return false;
     }
-
 
     if(!data.session){
 
-        window.location.href =
-            "index.html";
+        window.location.href = "index.html";
 
-        return null;
-
+        return false;
     }
 
+    currentUser =
+        data.session.user;
 
-    return data.session.user;
-
+    return true;
 }
 
 
 // =====================================================
-// GET GPS LOCATION
+// GPS LOCATION
 // =====================================================
 
 function getLocation(){
 
+    const locationStatus =
+        document.getElementById("locationStatus");
+
     if(!navigator.geolocation){
 
         locationStatus.innerText =
-            "❌ GPS is not supported by this device.";
-
-        locationStatus.style.color =
-            "#dc2626";
-
-        locationValues.innerText =
-            "Your device/browser does not support GPS.";
+            "❌ This device does not support GPS.";
 
         return;
-
     }
-
 
     locationStatus.innerText =
         "📍 Getting current location...";
-
-    locationStatus.style.color =
-        "#2563eb";
-
-
-    locationValues.innerText =
-        "Please wait while GPS is detecting your position...";
-
 
     navigator.geolocation.getCurrentPosition(
 
         function(position){
 
-            currentLatitude =
+            const lat =
                 position.coords.latitude;
 
-            currentLongitude =
+            const lng =
                 position.coords.longitude;
 
-            currentAccuracy =
-                position.coords.accuracy;
+            document.getElementById("latitude").value =
+                lat.toFixed(7);
 
+            document.getElementById("longitude").value =
+                lng.toFixed(7);
 
             locationStatus.innerText =
-                "✅ GPS location detected";
+                "✓ Current location detected.";
 
             locationStatus.style.color =
-                "#15803d";
-
-
-            locationValues.innerHTML =
-
-                "Latitude: <b>" +
-                currentLatitude.toFixed(6) +
-                "</b><br>" +
-
-                "Longitude: <b>" +
-                currentLongitude.toFixed(6) +
-                "</b><br>" +
-
-                "GPS Accuracy: <b>" +
-                Math.round(
-                    currentAccuracy
-                ) +
-                " meters</b>";
-
+                "#166534";
 
         },
-
 
         function(error){
 
             console.error(
-                "GPS Error:",
+                "Location error:",
                 error
             );
 
-
-            currentLatitude = null;
-
-            currentLongitude = null;
-
-            currentAccuracy = null;
-
-
             let message =
-                "❌ Unable to get GPS location.";
-
+                "❌ Location unavailable.";
 
             if(error.code === 1){
 
                 message =
-                    "❌ Location permission denied.";
+                    "❌ Location permission denied. Please allow location access.";
 
-            }
-
-            else if(error.code === 2){
+            }else if(error.code === 2){
 
                 message =
-                    "❌ Location unavailable.";
+                    "❌ Location unavailable. Turn on GPS/location.";
 
-            }
-
-            else if(error.code === 3){
+            }else if(error.code === 3){
 
                 message =
-                    "❌ GPS request timed out.";
+                    "❌ Location request timed out.";
 
             }
-
 
             locationStatus.innerText =
                 message;
 
             locationStatus.style.color =
-                "#dc2626";
-
-
-            locationValues.innerText =
-                "Turn on device location and try again.";
-
+                "#b91c1c";
         },
 
-
         {
-
             enableHighAccuracy:true,
-
-            timeout:20000,
-
+            timeout:15000,
             maximumAge:0
+        }
+    );
+}
+
+
+// =====================================================
+// IMAGE PREVIEW
+// =====================================================
+
+function setupPreview(inputId,previewId){
+
+    const input =
+        document.getElementById(inputId);
+
+    const preview =
+        document.getElementById(previewId);
+
+    input.addEventListener(
+        "change",
+        function(){
+
+            const file =
+                this.files[0];
+
+            if(!file){
+
+                preview.style.display =
+                    "none";
+
+                preview.src = "";
+
+                return;
+            }
+
+            if(file.size > 10 * 1024 * 1024){
+
+                alert(
+                    "Image size must be 10 MB or less."
+                );
+
+                this.value = "";
+
+                preview.style.display =
+                    "none";
+
+                return;
+            }
+
+            const allowed = [
+                "image/jpeg",
+                "image/png",
+                "image/webp"
+            ];
+
+            if(!allowed.includes(file.type)){
+
+                alert(
+                    "Only JPG, PNG and WEBP images are allowed."
+                );
+
+                this.value = "";
+
+                return;
+            }
+
+            preview.src =
+                URL.createObjectURL(file);
+
+            preview.style.display =
+                "block";
+
+        }
+    );
+}
+
+setupPreview(
+    "frontImage",
+    "frontPreview"
+);
+
+setupPreview(
+    "shelfImage1",
+    "shelfPreview1"
+);
+
+setupPreview(
+    "shelfImage2",
+    "shelfPreview2"
+);
+
+
+// =====================================================
+// UPLOAD IMAGE
+// =====================================================
+
+async function uploadImage(file){
+
+    if(!file){
+        return null;
+    }
+
+    const extension =
+        file.name
+            .split(".")
+            .pop()
+            .toLowerCase();
+
+    const fileName =
+        Date.now() +
+        "-" +
+        Math.random()
+            .toString(36)
+            .substring(2,10) +
+        "." +
+        extension;
+
+    const filePath =
+        currentUser.id +
+        "/" +
+        fileName;
+
+
+    const {
+        error
+    } =
+    await supabaseClient.storage
+        .from("outlet-survey-images")
+        .upload(
+            filePath,
+            file,
+            {
+                cacheControl:"3600",
+                upsert:false,
+                contentType:file.type
+            }
+        );
+
+
+    if(error){
+
+        console.error(
+            "Image upload error:",
+            error
+        );
+
+        throw new Error(
+            "Image upload failed: " +
+            error.message
+        );
+    }
+
+
+    // Private bucket:
+    // create signed URL for saving/viewing
+    const {
+        data,
+        error: signedError
+    } =
+    await supabaseClient.storage
+        .from("outlet-survey-images")
+        .createSignedUrl(
+            filePath,
+            60 * 60 * 24 * 365
+        );
+
+
+    if(signedError){
+
+        console.error(
+            signedError
+        );
+
+        throw new Error(
+            "Could not create image URL."
+        );
+    }
+
+
+    return data.signedUrl;
+}
+
+
+// =====================================================
+// SAVE SURVEY
+// =====================================================
+
+saveButton.addEventListener(
+    "click",
+    saveSurvey
+);
+
+
+async function saveSurvey(){
+
+    const outletCode =
+        document.getElementById("outletCode")
+            .value.trim();
+
+    const outletName =
+        document.getElementById("outletName")
+            .value.trim();
+
+    const routeName =
+        document.getElementById("routeName")
+            .value.trim();
+
+    const remarks =
+        document.getElementById("remarks")
+            .value.trim();
+
+    const latitude =
+        document.getElementById("latitude")
+            .value;
+
+    const longitude =
+        document.getElementById("longitude")
+            .value;
+
+
+    if(!outletName){
+
+        alert(
+            "Outlet Name is required."
+        );
+
+        return;
+    }
+
+
+    if(!currentUser){
+
+        alert(
+            "Please login again."
+        );
+
+        return;
+    }
+
+
+    saveButton.disabled = true;
+
+    saveButton.innerText =
+        editingId
+            ? "⏳ Updating..."
+            : "⏳ Saving...";
+
+
+    try{
+
+        let frontUrl = null;
+        let shelf1Url = null;
+        let shelf2Url = null;
+
+
+        // =============================================
+        // UPLOAD NEW IMAGES
+        // =============================================
+
+        const frontFile =
+            document.getElementById("frontImage")
+                .files[0];
+
+        const shelf1File =
+            document.getElementById("shelfImage1")
+                .files[0];
+
+        const shelf2File =
+            document.getElementById("shelfImage2")
+                .files[0];
+
+
+        if(frontFile){
+
+            showStatus(
+                "Uploading Front Image..."
+            );
+
+            frontUrl =
+                await uploadImage(
+                    frontFile
+                );
+        }
+
+
+        if(shelf1File){
+
+            showStatus(
+                "Uploading Shelf Image 1..."
+            );
+
+            shelf1Url =
+                await uploadImage(
+                    shelf1File
+                );
+        }
+
+
+        if(shelf2File){
+
+            showStatus(
+                "Uploading Shelf Image 2..."
+            );
+
+            shelf2Url =
+                await uploadImage(
+                    shelf2File
+                );
+        }
+
+
+        // =============================================
+        // UPDATE
+        // =============================================
+
+        if(editingId){
+
+            const updateData = {
+
+                outlet_code:
+                    outletCode || null,
+
+                outlet_name:
+                    outletName,
+
+                route_name:
+                    routeName || null,
+
+                remarks:
+                    remarks || null,
+
+                latitude:
+                    latitude
+                        ? Number(latitude)
+                        : null,
+
+                longitude:
+                    longitude
+                        ? Number(longitude)
+                        : null,
+
+                updated_at:
+                    new Date().toISOString()
+
+            };
+
+
+            if(frontUrl){
+
+                updateData.front_image_url =
+                    frontUrl;
+
+            }
+
+            if(shelf1Url){
+
+                updateData.shelf_image_1_url =
+                    shelf1Url;
+
+            }
+
+            if(shelf2Url){
+
+                updateData.shelf_image_2_url =
+                    shelf2Url;
+
+            }
+
+
+            const {
+                error
+            } =
+            await supabaseClient
+                .from("outlet_surveys")
+                .update(updateData)
+                .eq("id",editingId);
+
+
+            if(error){
+
+                throw error;
+            }
+
+
+            showStatus(
+                "✓ Outlet Survey updated successfully.",
+                "success"
+            );
 
         }
 
-    );
+        // =============================================
+        // INSERT
+        // =============================================
 
+        else{
+
+            const insertData = {
+
+                outlet_code:
+                    outletCode || null,
+
+                outlet_name:
+                    outletName,
+
+                route_name:
+                    routeName || null,
+
+                front_image_url:
+                    frontUrl,
+
+                shelf_image_1_url:
+                    shelf1Url,
+
+                shelf_image_2_url:
+                    shelf2Url,
+
+                remarks:
+                    remarks || null,
+
+                created_by:
+                    currentUser.id,
+
+                latitude:
+                    latitude
+                        ? Number(latitude)
+                        : null,
+
+                longitude:
+                    longitude
+                        ? Number(longitude)
+                        : null
+
+            };
+
+
+            const {
+                error
+            } =
+            await supabaseClient
+                .from("outlet_surveys")
+                .insert(insertData);
+
+
+            if(error){
+
+                throw error;
+            }
+
+
+            showStatus(
+                "✓ Outlet Survey saved successfully.",
+                "success"
+            );
+        }
+
+
+        resetForm();
+
+        await loadSurveys();
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Save survey error:",
+            error
+        );
+
+        showStatus(
+            "❌ Save failed: " +
+            error.message,
+            "error"
+        );
+
+    }
+
+    finally{
+
+        saveButton.disabled = false;
+
+        saveButton.innerText =
+            "💾 Save Survey";
+    }
 }
 
 
@@ -977,513 +1282,199 @@ function getLocation(){
 
 async function loadSurveys(){
 
-    try{
-
-        const user =
-            await checkLogin();
-
-
-        if(!user){
-
-            return;
-
-        }
+    tableBody.innerHTML = `
+        <tr>
+            <td colspan="11" class="empty">
+                Loading surveys...
+            </td>
+        </tr>
+    `;
 
 
-        const {
-            data,
-            error
-        } =
-        await supabaseClient
-            .from("outlet_surveys")
-            .select("*")
-            .order(
-                "created_at",
-                {
-                    ascending:false
-                }
-            );
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+        .from("outlet_surveys")
+        .select("*")
+        .order(
+            "id",
+            {
+                ascending:false
+            }
+        );
 
 
-        if(error){
+    if(error){
 
-            throw error;
+        console.error(error);
 
-        }
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="11" class="empty">
+                    Failed to load surveys: ${escapeHtml(error.message)}
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
 
 
-        const tbody =
-            document.getElementById(
-                "surveyTableBody"
-            );
+    if(!data || data.length === 0){
+
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="11" class="empty">
+                    No outlet surveys found.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
 
 
-        tbody.innerHTML = "";
+    tableBody.innerHTML = "";
 
 
-        if(!data || data.length === 0){
+    data.forEach(
+        function(survey){
 
-            tbody.innerHTML = `
+            const row =
+                document.createElement("tr");
 
-                <tr>
 
-                    <td
-                        colspan="8"
-                        class="empty">
+            const location =
+                survey.latitude &&
+                survey.longitude
+                    ? `${Number(survey.latitude).toFixed(5)}, ${Number(survey.longitude).toFixed(5)}`
+                    : "N/A";
 
-                        No survey records found.
 
-                    </td>
+            const created =
+                survey.created_at
+                    ? new Date(
+                        survey.created_at
+                      ).toLocaleString()
+                    : "N/A";
 
-                </tr>
 
+            row.innerHTML = `
+
+                <td>${survey.id}</td>
+
+                <td>
+                    ${escapeHtml(
+                        survey.outlet_code || "-"
+                    )}
+                </td>
+
+                <td>
+                    <strong>
+                        ${escapeHtml(
+                            survey.outlet_name || "-"
+                        )}
+                    </strong>
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        survey.route_name || "-"
+                    )}
+                </td>
+
+                <td>
+                    ${
+                        survey.latitude &&
+                        survey.longitude
+                        ?
+                        `<a
+                            href="https://www.google.com/maps?q=${survey.latitude},${survey.longitude}"
+                            target="_blank">
+                            📍 Map
+                         </a>`
+                        :
+                        "N/A"
+                    }
+                </td>
+
+                <td>
+                    ${
+                        survey.front_image_url
+                        ?
+                        `<img
+                            class="thumb"
+                            src="${survey.front_image_url}"
+                            onclick="openImage('${escapeAttribute(survey.front_image_url)}')">`
+                        :
+                        `<span class="no-image">No image</span>`
+                    }
+                </td>
+
+                <td>
+                    ${
+                        survey.shelf_image_1_url
+                        ?
+                        `<img
+                            class="thumb"
+                            src="${survey.shelf_image_1_url}"
+                            onclick="openImage('${escapeAttribute(survey.shelf_image_1_url)}')">`
+                        :
+                        `<span class="no-image">No image</span>`
+                    }
+                </td>
+
+                <td>
+                    ${
+                        survey.shelf_image_2_url
+                        ?
+                        `<img
+                            class="thumb"
+                            src="${survey.shelf_image_2_url}"
+                            onclick="openImage('${escapeAttribute(survey.shelf_image_2_url)}')">`
+                        :
+                        `<span class="no-image">No image</span>`
+                    }
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        survey.remarks || "-"
+                    )}
+                </td>
+
+                <td>
+                    ${created}
+                </td>
+
+                <td>
+
+                    <button
+                        class="action-btn edit-btn"
+                        onclick="editSurvey(${survey.id})">
+
+                        Edit
+
+                    </button>
+
+                    <button
+                        class="action-btn delete-btn"
+                        onclick="deleteSurvey(${survey.id})">
+
+                        Delete
+
+                    </button>
+
+                </td>
             `;
 
-        }
 
-        else{
-
-            data.forEach(
-                function(row){
-
-                    const tr =
-                        document.createElement(
-                            "tr"
-                        );
-
-
-                    let locationHTML =
-                        "No GPS";
-
-
-                    if(
-                        row.latitude !== null &&
-                        row.longitude !== null
-                    ){
-
-                        const latitude =
-                            Number(
-                                row.latitude
-                            );
-
-                        const longitude =
-                            Number(
-                                row.longitude
-                            );
-
-
-                        const mapUrl =
-                            "https://www.google.com/maps?q=" +
-                            latitude +
-                            "," +
-                            longitude;
-
-
-                        locationHTML = `
-
-                            <div class="coordinates">
-
-                                <b>Lat:</b>
-                                ${latitude.toFixed(6)}
-
-                                <br>
-
-                                <b>Lng:</b>
-                                ${longitude.toFixed(6)}
-
-                            </div>
-
-                            <br>
-
-                            <a
-                                class="map-btn"
-                                href="${mapUrl}"
-                                target="_blank"
-                                rel="noopener">
-
-                                🗺️ View Map
-
-                            </a>
-
-                        `;
-
-                    }
-
-
-                    const created =
-                        row.created_at
-                        ?
-                        new Date(
-                            row.created_at
-                        ).toLocaleString()
-                        :
-                        "";
-
-
-                    tr.innerHTML = `
-
-                        <td>
-                            ${row.id}
-                        </td>
-
-
-                        <td>
-                            ${escapeHTML(
-                                row.outlet_code || ""
-                            )}
-                        </td>
-
-
-                        <td>
-                            <b>
-                                ${escapeHTML(
-                                    row.outlet_name || ""
-                                )}
-                            </b>
-                        </td>
-
-
-                        <td>
-                            ${escapeHTML(
-                                row.route_name || ""
-                            )}
-                        </td>
-
-
-                        <td>
-                            ${escapeHTML(
-                                row.remarks || ""
-                            )}
-                        </td>
-
-
-                        <td>
-                            ${locationHTML}
-                        </td>
-
-
-                        <td>
-                            ${created}
-                        </td>
-
-
-                        <td>
-
-                            <button
-                                class="edit-btn"
-                                onclick="editSurvey(${row.id})">
-
-                                Edit
-
-                            </button>
-
-
-                            <button
-                                class="delete-btn"
-                                onclick="deleteSurvey(${row.id})">
-
-                                Delete
-
-                            </button>
-
-                        </td>
-
-                    `;
-
-
-                    tbody.appendChild(tr);
-
-                }
-            );
+            tableBody.appendChild(row);
 
         }
-
-
-        statusBox.innerText =
-            "✓ Survey data loaded successfully.";
-
-        statusBox.style.background =
-            "#dcfce7";
-
-        statusBox.style.color =
-            "#166534";
-
-        statusBox.style.borderLeftColor =
-            "#16a34a";
-
-    }
-
-    catch(error){
-
-        console.error(
-            "Load survey error:",
-            error
-        );
-
-
-        statusBox.innerText =
-            "Survey load failed: " +
-            error.message;
-
-        statusBox.style.background =
-            "#fee2e2";
-
-        statusBox.style.color =
-            "#b91c1c";
-
-        statusBox.style.borderLeftColor =
-            "#dc2626";
-
-    }
-
-}
-
-
-// =====================================================
-// SAVE SURVEY
-// =====================================================
-
-async function saveSurvey(){
-
-    const saveButton =
-        document.getElementById(
-            "saveButton"
-        );
-
-
-    const outletCode =
-        document.getElementById(
-            "outletCode"
-        ).value.trim();
-
-
-    const outletName =
-        document.getElementById(
-            "outletName"
-        ).value.trim();
-
-
-    const routeName =
-        document.getElementById(
-            "routeName"
-        ).value.trim();
-
-
-    const frontImageUrl =
-        document.getElementById(
-            "frontImageUrl"
-        ).value.trim();
-
-
-    const shelfImage1Url =
-        document.getElementById(
-            "shelfImage1Url"
-        ).value.trim();
-
-
-    const shelfImage2Url =
-        document.getElementById(
-            "shelfImage2Url"
-        ).value.trim();
-
-
-    const remarks =
-        document.getElementById(
-            "remarks"
-        ).value.trim();
-
-
-    const editId =
-        document.getElementById(
-            "editId"
-        ).value;
-
-
-    if(!outletName){
-
-        alert(
-            "Please enter Outlet Name."
-        );
-
-        return;
-
-    }
-
-
-    if(
-        currentLatitude === null ||
-        currentLongitude === null
-    ){
-
-        const retry =
-            confirm(
-                "GPS location has not been detected.\n\nDo you want to get your current location now?"
-            );
-
-
-        if(retry){
-
-            getLocation();
-
-        }
-
-
-        return;
-
-    }
-
-
-    saveButton.disabled =
-        true;
-
-
-    saveButton.innerText =
-        editId
-        ?
-        "Updating..."
-        :
-        "Saving...";
-
-
-    try{
-
-        const user =
-            await checkLogin();
-
-
-        if(!user){
-
-            return;
-
-        }
-
-
-        const surveyData = {
-
-            outlet_code:
-                outletCode || null,
-
-            outlet_name:
-                outletName,
-
-            route_name:
-                routeName || null,
-
-            front_image_url:
-                frontImageUrl || null,
-
-            shelf_image_1_url:
-                shelfImage1Url || null,
-
-            shelf_image_2_url:
-                shelfImage2Url || null,
-
-            remarks:
-                remarks || null,
-
-            latitude:
-                currentLatitude,
-
-            longitude:
-                currentLongitude,
-
-            updated_at:
-                new Date().toISOString()
-
-        };
-
-
-        let result;
-
-
-        if(editId){
-
-            result =
-                await supabaseClient
-                    .from("outlet_surveys")
-                    .update(
-                        surveyData
-                    )
-                    .eq(
-                        "id",
-                        editId
-                    );
-
-        }
-
-        else{
-
-            surveyData.created_by =
-                user.id;
-
-
-            result =
-                await supabaseClient
-                    .from("outlet_surveys")
-                    .insert(
-                        surveyData
-                    );
-
-        }
-
-
-        if(result.error){
-
-            throw result.error;
-
-        }
-
-
-        statusBox.innerText =
-            editId
-            ?
-            "✓ Survey updated successfully."
-            :
-            "✓ Survey saved successfully.";
-
-
-        statusBox.style.background =
-            "#dcfce7";
-
-        statusBox.style.color =
-            "#166534";
-
-        statusBox.style.borderLeftColor =
-            "#16a34a";
-
-
-        clearForm();
-
-
-        await loadSurveys();
-
-    }
-
-    catch(error){
-
-        console.error(
-            "Save error:",
-            error
-        );
-
-
-        alert(
-            "Save failed: " +
-            error.message
-        );
-
-    }
-
-    finally{
-
-        saveButton.disabled =
-            false;
-
-        saveButton.innerText =
-            "💾 Save Survey";
-
-    }
-
+    );
 }
 
 
@@ -1493,185 +1484,64 @@ async function saveSurvey(){
 
 async function editSurvey(id){
 
-    try{
-
-        const {
-            data,
-            error
-        } =
-        await supabaseClient
-            .from("outlet_surveys")
-            .select("*")
-            .eq(
-                "id",
-                id
-            )
-            .single();
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+        .from("outlet_surveys")
+        .select("*")
+        .eq("id",id)
+        .single();
 
 
-        if(error){
-
-            throw error;
-
-        }
-
-
-        document.getElementById(
-            "editId"
-        ).value =
-            data.id;
-
-
-        document.getElementById(
-            "outletCode"
-        ).value =
-            data.outlet_code || "";
-
-
-        document.getElementById(
-            "outletName"
-        ).value =
-            data.outlet_name || "";
-
-
-        document.getElementById(
-            "routeName"
-        ).value =
-            data.route_name || "";
-
-
-        document.getElementById(
-            "frontImageUrl"
-        ).value =
-            data.front_image_url || "";
-
-
-        document.getElementById(
-            "shelfImage1Url"
-        ).value =
-            data.shelf_image_1_url || "";
-
-
-        document.getElementById(
-            "shelfImage2Url"
-        ).value =
-            data.shelf_image_2_url || "";
-
-
-        document.getElementById(
-            "remarks"
-        ).value =
-            data.remarks || "";
-
-
-        currentLatitude =
-            data.latitude !== null
-            ?
-            Number(data.latitude)
-            :
-            null;
-
-
-        currentLongitude =
-            data.longitude !== null
-            ?
-            Number(data.longitude)
-            :
-            null;
-
-
-        if(
-            currentLatitude !== null &&
-            currentLongitude !== null
-        ){
-
-            const mapUrl =
-                "https://www.google.com/maps?q=" +
-                currentLatitude +
-                "," +
-                currentLongitude;
-
-
-            locationStatus.innerText =
-                "✅ Saved GPS location loaded";
-
-            locationStatus.style.color =
-                "#15803d";
-
-
-            locationValues.innerHTML =
-
-                "Latitude: <b>" +
-                currentLatitude.toFixed(6) +
-                "</b><br>" +
-
-                "Longitude: <b>" +
-                currentLongitude.toFixed(6) +
-                "</b><br><br>" +
-
-                `<a
-                    class="map-btn"
-                    href="${mapUrl}"
-                    target="_blank"
-                    rel="noopener">
-
-                    🗺️ Open Saved Location
-
-                </a>`;
-
-        }
-
-        else{
-
-            locationStatus.innerText =
-                "📍 No saved GPS location";
-
-            locationStatus.style.color =
-                "#dc2626";
-
-
-            locationValues.innerText =
-                "Click Get Current Location.";
-
-        }
-
-
-        document.getElementById(
-            "formTitle"
-        ).innerText =
-            "Edit Outlet Survey";
-
-
-        document.getElementById(
-            "saveButton"
-        ).innerText =
-            "💾 Update Survey";
-
-
-        window.scrollTo({
-
-            top:0,
-
-            behavior:"smooth"
-
-        });
-
-    }
-
-    catch(error){
-
-        console.error(
-            error
-        );
-
+    if(error){
 
         alert(
             "Could not load survey: " +
             error.message
         );
 
+        return;
     }
 
+
+    editingId = id;
+
+
+    document.getElementById("outletCode").value =
+        data.outlet_code || "";
+
+    document.getElementById("outletName").value =
+        data.outlet_name || "";
+
+    document.getElementById("routeName").value =
+        data.route_name || "";
+
+    document.getElementById("remarks").value =
+        data.remarks || "";
+
+    document.getElementById("latitude").value =
+        data.latitude || "";
+
+    document.getElementById("longitude").value =
+        data.longitude || "";
+
+
+    document.getElementById("formTitle").innerText =
+        "✏️ Edit Outlet Survey";
+
+    saveButton.innerText =
+        "💾 Update Survey";
+
+    cancelButton.style.display =
+        "block";
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
 }
 
 
@@ -1683,171 +1553,201 @@ async function deleteSurvey(id){
 
     const confirmed =
         confirm(
-            "Are you sure you want to delete this survey?"
+            "Are you sure you want to delete this outlet survey?"
         );
 
 
     if(!confirmed){
-
         return;
-
     }
 
 
-    try{
-
-        const {
-            error
-        } =
-        await supabaseClient
-            .from("outlet_surveys")
-            .delete()
-            .eq(
-                "id",
-                id
-            );
+    const {
+        error
+    } =
+    await supabaseClient
+        .from("outlet_surveys")
+        .delete()
+        .eq("id",id);
 
 
-        if(error){
-
-            throw error;
-
-        }
-
-
-        statusBox.innerText =
-            "✓ Survey deleted successfully.";
-
-        statusBox.style.background =
-            "#dcfce7";
-
-        statusBox.style.color =
-            "#166534";
-
-
-        await loadSurveys();
-
-    }
-
-    catch(error){
-
-        console.error(
-            error
-        );
-
+    if(error){
 
         alert(
             "Delete failed: " +
             error.message
         );
 
+        return;
     }
 
-}
 
-
-// =====================================================
-// CLEAR FORM
-// =====================================================
-
-function clearForm(){
-
-    document.getElementById(
-        "editId"
-    ).value = "";
-
-
-    document.getElementById(
-        "outletCode"
-    ).value = "";
-
-
-    document.getElementById(
-        "outletName"
-    ).value = "";
-
-
-    document.getElementById(
-        "routeName"
-    ).value = "";
-
-
-    document.getElementById(
-        "frontImageUrl"
-    ).value = "";
-
-
-    document.getElementById(
-        "shelfImage1Url"
-    ).value = "";
-
-
-    document.getElementById(
-        "shelfImage2Url"
-    ).value = "";
-
-
-    document.getElementById(
-        "remarks"
-    ).value = "";
-
-
-    currentLatitude = null;
-
-    currentLongitude = null;
-
-    currentAccuracy = null;
-
-
-    document.getElementById(
-        "formTitle"
-    ).innerText =
-        "Add New Outlet Survey";
-
-
-    document.getElementById(
-        "saveButton"
-    ).innerText =
-        "💾 Save Survey";
-
-
-    locationStatus.innerText =
-        "📍 Detecting device location...";
-
-    locationStatus.style.color =
-        "#2563eb";
-
-
-    locationValues.innerText =
-        "Waiting for GPS...";
-
-
-    setTimeout(
-        getLocation,
-        300
+    showStatus(
+        "✓ Survey deleted successfully.",
+        "success"
     );
 
+
+    await loadSurveys();
 }
+
+
+// =====================================================
+// RESET FORM
+// =====================================================
+
+function resetForm(){
+
+    editingId = null;
+
+    document.getElementById("outletCode").value =
+        "";
+
+    document.getElementById("outletName").value =
+        "";
+
+    document.getElementById("routeName").value =
+        "";
+
+    document.getElementById("remarks").value =
+        "";
+
+    document.getElementById("latitude").value =
+        "";
+
+    document.getElementById("longitude").value =
+        "";
+
+
+    document.getElementById("frontImage").value =
+        "";
+
+    document.getElementById("shelfImage1").value =
+        "";
+
+    document.getElementById("shelfImage2").value =
+        "";
+
+
+    document.getElementById("frontPreview").style.display =
+        "none";
+
+    document.getElementById("shelfPreview1").style.display =
+        "none";
+
+    document.getElementById("shelfPreview2").style.display =
+        "none";
+
+
+    document.getElementById("formTitle").innerText =
+        "➕ Add Outlet Survey";
+
+    saveButton.innerText =
+        "💾 Save Survey";
+
+    cancelButton.style.display =
+        "none";
+
+
+    getLocation();
+}
+
+
+// =====================================================
+// CANCEL EDIT
+// =====================================================
+
+cancelButton.addEventListener(
+    "click",
+    resetForm
+);
+
+
+// =====================================================
+// REFRESH
+// =====================================================
+
+refreshButton.addEventListener(
+    "click",
+    async function(){
+
+        refreshButton.disabled = true;
+
+        refreshButton.innerText =
+            "⏳ Loading...";
+
+        await loadSurveys();
+
+        refreshButton.disabled = false;
+
+        refreshButton.innerText =
+            "🔄 Refresh";
+    }
+);
+
+
+// =====================================================
+// IMAGE MODAL
+// =====================================================
+
+function openImage(url){
+
+    document.getElementById("modalImage").src =
+        url;
+
+    document.getElementById("imageModal").style.display =
+        "flex";
+}
+
+
+document.getElementById("closeModal")
+    .addEventListener(
+        "click",
+        function(){
+
+            document.getElementById("imageModal").style.display =
+                "none";
+
+        }
+    );
+
+
+document.getElementById("imageModal")
+    .addEventListener(
+        "click",
+        function(e){
+
+            if(e.target === this){
+
+                this.style.display =
+                    "none";
+
+            }
+
+        }
+    );
 
 
 // =====================================================
 // ESCAPE HTML
 // =====================================================
 
-function escapeHTML(value){
+function escapeHtml(value){
 
     return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
 
-        .replace(/&/g,"&amp;")
 
-        .replace(/</g,"&lt;")
+function escapeAttribute(value){
 
-        .replace(/>/g,"&gt;")
-
-        .replace(/"/g,"&quot;")
-
-        .replace(/'/g,"&#039;");
-
+    return String(value)
+        .replaceAll("\\","\\\\")
+        .replaceAll("'","\\'");
 }
 
 
@@ -1859,35 +1759,38 @@ function goDashboard(){
 
     window.location.href =
         "dashboard.html";
-
 }
 
 
 // =====================================================
-// INITIAL LOAD
+// INITIAL
 // =====================================================
 
-(async function(){
+async function init(){
 
-    const user =
+    const loggedIn =
         await checkLogin();
 
-
-    if(!user){
-
+    if(!loggedIn){
         return;
-
     }
 
-
-    await loadSurveys();
-
-
-    // Auto GPS
+    showStatus(
+        "Loading outlet surveys..."
+    );
 
     getLocation();
 
-})();
+    await loadSurveys();
+
+    showStatus(
+        "✓ Outlet Survey ready.",
+        "success"
+    );
+}
+
+
+init();
 
 
 // =====================================================
@@ -1895,16 +1798,12 @@ function goDashboard(){
 // =====================================================
 
 setInterval(
-
     loadSurveys,
-
-    15000
-
+    30000
 );
 
 </script>
 
 </body>
-
 </html>
 ```
