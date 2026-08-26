@@ -377,6 +377,10 @@ th{
 
                 <th>Code</th>
 
+                <th>Pack Size</th>
+
+                <th>Unit</th>
+
                 <th>Type</th>
 
                 <th>Quantity</th>
@@ -958,41 +962,50 @@ async function addStock(){
 
         // =============================================
         // SAVE STOCK MOVEMENT
-        // ONLY EXISTING COLUMNS
         // =============================================
+        //
+        // IMPORTANT:
+        // Only existing columns are used.
+        //
+        // =============================================
+
+        const movementData = {
+
+            product_id:
+            product.id,
+
+            product_name:
+            product.name || "",
+
+            product_code:
+            product.code || "",
+
+            "Pack size":
+            product.pack_size || "",
+
+            unit:
+            product.unit || "",
+
+            "Movement _type":
+            "Stock In",
+
+            quantity:
+            quantity,
+
+            "Movement _date":
+            movementDate
+
+        };
+
 
         const {
             error: movementError
         } =
         await supabaseClient
             .from("stock_movements")
-            .insert({
-
-                product_id:
-                product.id,
-
-                product_name:
-                product.name || "",
-
-                product_code:
-                product.code || "",
-
-                "Pack size":
-                product.pack_size || "",
-
-                unit:
-                product.unit || "",
-
-                "Movement _type":
-                "Stock In",
-
-                quantity:
-                quantity,
-
-                "Movement _date":
-                movementDate
-
-            });
+            .insert(
+                movementData
+            );
 
 
         // =============================================
@@ -1002,7 +1015,7 @@ async function addStock(){
         if(movementError){
 
             console.error(
-                "Movement Error:",
+                "Stock Movement Error:",
                 movementError
             );
 
@@ -1032,7 +1045,7 @@ async function addStock(){
 
 
         // =============================================
-        // UPDATE LOCAL PRODUCT
+        // UPDATE LOCAL MEMORY
         // =============================================
 
         product.stock =
@@ -1065,10 +1078,12 @@ async function addStock(){
 
 
         // =============================================
-        // RELOAD MOVEMENTS
+        // RELOAD DATA
         // =============================================
 
         await loadMovements();
+
+        await loadProducts();
 
     }
 
@@ -1114,7 +1129,7 @@ async function loadMovements(){
         <tr>
 
             <td
-                colspan="5"
+                colspan="7"
                 class="empty">
 
                 Loading...
@@ -1154,7 +1169,7 @@ async function loadMovements(){
             <tr>
 
                 <td
-                    colspan="5"
+                    colspan="7"
                     class="empty">
 
                     Stock movement load failed:
@@ -1187,7 +1202,7 @@ async function loadMovements(){
             <tr>
 
                 <td
-                    colspan="5"
+                    colspan="7"
                     class="empty">
 
                     No stock movement found.
@@ -1278,6 +1293,18 @@ async function loadMovements(){
             <td>
                 ${escapeHtml(
                     item.product_code || ""
+                )}
+            </td>
+
+            <td>
+                ${escapeHtml(
+                    item["Pack size"] || ""
+                )}
+            </td>
+
+            <td>
+                ${escapeHtml(
+                    item.unit || ""
                 )}
             </td>
 
