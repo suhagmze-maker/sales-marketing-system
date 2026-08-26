@@ -8,6 +8,8 @@
 
 <title>Product Management</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 
 * {
@@ -129,6 +131,11 @@ input {
     background: #1d4ed8;
 }
 
+.save-btn:disabled {
+    background: #93c5fd;
+    cursor: not-allowed;
+}
+
 .cancel-btn {
     margin-top: 10px;
     width: 100%;
@@ -185,6 +192,7 @@ th {
     text-align: center;
     margin-top: 15px;
     font-weight: bold;
+    min-height: 20px;
 }
 
 @media (max-width: 700px) {
@@ -211,7 +219,9 @@ th {
 <body>
 
 
-<!-- HEADER -->
+<!-- ==========================================
+     HEADER
+========================================== -->
 
 <div class="header">
 
@@ -234,7 +244,9 @@ th {
 <div class="container">
 
 
-<!-- TOTAL PRODUCTS -->
+<!-- ==========================================
+     TOTAL PRODUCTS
+========================================== -->
 
 <div class="count-box">
 
@@ -254,7 +266,9 @@ th {
 
 
 
-<!-- PRODUCT FORM -->
+<!-- ==========================================
+     PRODUCT FORM
+========================================== -->
 
 <div class="box">
 
@@ -420,6 +434,7 @@ th {
                     id="stock"
                     placeholder="Enter stock quantity"
                     min="0"
+                    step="1"
                     required>
 
             </div>
@@ -460,7 +475,9 @@ th {
 
 
 
-<!-- PRODUCT LIST -->
+<!-- ==========================================
+     PRODUCT LIST
+========================================== -->
 
 <div class="box">
 
@@ -508,320 +525,588 @@ th {
 <script>
 
 
-// ======================================
-// LOAD PRODUCTS
-// ======================================
+// =====================================================
+// SUPABASE CONNECTION
+// =====================================================
+
+const SUPABASE_URL =
+    "https://ucrtujcqrpjcwepiugak.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_RnDm7gJ6ROuU49hcY_BA3g_snx27-M9";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+
+// =====================================================
+// DATA
+// =====================================================
 
 let products = [];
 
-let editIndex = -1;
+let editId = null;
 
 
-function loadProducts() {
 
-    const saved =
-        localStorage.getItem("products");
+// =====================================================
+// ELEMENTS
+// =====================================================
+
+const productForm =
+    document.getElementById(
+        "productForm"
+    );
+
+const productList =
+    document.getElementById(
+        "productList"
+    );
+
+const productCount =
+    document.getElementById(
+        "productCount"
+    );
+
+const saveBtn =
+    document.getElementById(
+        "saveBtn"
+    );
+
+const formTitle =
+    document.getElementById(
+        "formTitle"
+    );
+
+const cancelBtn =
+    document.getElementById(
+        "cancelBtn"
+    );
+
+const message =
+    document.getElementById(
+        "message"
+    );
 
 
-    if (saved) {
 
-        try {
+// =====================================================
+// SHOW MESSAGE
+// =====================================================
 
-            const data =
-                JSON.parse(saved);
+function showMessage(
+    text,
+    color = "green"
+) {
 
+    message.innerText =
+        text;
 
-            if (Array.isArray(data)) {
-
-                products = data;
-
-            } else {
-
-                products = [];
-
-            }
-
-        } catch(error) {
-
-            products = [];
-
-        }
-
-    } else {
-
-        products = [];
-
-    }
+    message.style.color =
+        color;
 
 }
 
 
-loadProducts();
+
+// =====================================================
+// LOAD PRODUCTS
+// FROM SUPABASE
+// =====================================================
+
+async function loadProducts() {
+
+
+    productList.innerHTML = `
+
+        <tr>
+
+            <td colspan="9"
+                style="text-align:center;">
+
+                Loading products...
+
+            </td>
+
+        </tr>
+
+    `;
+
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+        .from("products")
+        .select("*")
+        .order(
+            "name",
+            {
+                ascending: true
+            }
+        );
+
+
+    if (error) {
+
+        console.error(
+            "Product loading error:",
+            error
+        );
+
+
+        productList.innerHTML = `
+
+            <tr>
+
+                <td colspan="9"
+                    style="text-align:center;color:red;">
+
+                    Failed to load products
+
+                </td>
+
+            </tr>
+
+        `;
+
+
+        showMessage(
+            "Products load failed: " +
+            error.message,
+            "red"
+        );
+
+
+        return;
+
+    }
+
+
+    products =
+        data || [];
+
+
+    displayProducts();
+
+}
 
 
 
-// ======================================
-// PRODUCT COUNT
-// ======================================
+// =====================================================
+// DISPLAY PRODUCTS
+// =====================================================
 
-function updateProductCount() {
+function displayProducts() {
 
-    document.getElementById(
-        "productCount"
-    ).innerText =
+
+    productList.innerHTML =
+        "";
+
+
+    if (products.length === 0) {
+
+        productList.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="9"
+                    style="text-align:center;">
+
+                    No products found
+
+                </td>
+
+            </tr>
+
+        `;
+
+
+        productCount.innerText =
+            "0";
+
+
+        return;
+
+    }
+
+
+    products.forEach(
+        function(product) {
+
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${product.name || ""}
+                </td>
+
+                <td>
+                    ${product.code || ""}
+                </td>
+
+                <td>
+                    ${product.category || ""}
+                </td>
+
+                <td>
+                    ${product.pack_size || ""}
+                </td>
+
+                <td>
+                    ${product.unit || ""}
+                </td>
+
+                <td>
+                    ৳ ${Number(
+                        product.tp || 0
+                    ).toLocaleString()}
+                </td>
+
+                <td>
+                    ৳ ${Number(
+                        product.mrp || 0
+                    ).toLocaleString()}
+                </td>
+
+                <td>
+                    ${Number(
+                        product.stock || 0
+                    ).toLocaleString()}
+                </td>
+
+                <td>
+
+                    <button
+                        class="edit-btn"
+                        onclick="editProduct(${product.id})">
+
+                        Edit
+
+                    </button>
+
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteProduct(${product.id})">
+
+                        Delete
+
+                    </button>
+
+                </td>
+
+            `;
+
+
+            productList.appendChild(
+                row
+            );
+
+        }
+    );
+
+
+    productCount.innerText =
         products.length;
 
 }
 
 
 
-// ======================================
-// DISPLAY PRODUCTS
-// ======================================
+// =====================================================
+// SAVE / UPDATE PRODUCT
+// =====================================================
 
-function displayProducts() {
+productForm.addEventListener(
+    "submit",
+    async function(event) {
 
-
-    const list =
-        document.getElementById(
-            "productList"
-        );
+        event.preventDefault();
 
 
-    list.innerHTML = "";
+        // ---------------------------------------------
+        // GET FORM DATA
+        // ---------------------------------------------
+
+        const product = {
+
+            name:
+                document.getElementById(
+                    "productName"
+                ).value.trim(),
+
+            code:
+                document.getElementById(
+                    "productCode"
+                ).value.trim(),
+
+            category:
+                document.getElementById(
+                    "category"
+                ).value.trim(),
+
+            pack_size:
+                document.getElementById(
+                    "packSize"
+                ).value.trim(),
+
+            unit:
+                document.getElementById(
+                    "unit"
+                ).value.trim(),
+
+            tp:
+                Number(
+                    document.getElementById(
+                        "tp"
+                    ).value
+                ),
+
+            mrp:
+                Number(
+                    document.getElementById(
+                        "mrp"
+                    ).value
+                ),
+
+            stock:
+                Number(
+                    document.getElementById(
+                        "stock"
+                    ).value
+                )
+
+        };
 
 
-    products.forEach(
-    function(product, index) {
+        // ---------------------------------------------
+        // DISABLE BUTTON
+        // ---------------------------------------------
+
+        saveBtn.disabled =
+            true;
 
 
-        const row =
-            document.createElement("tr");
+        saveBtn.innerText =
+            editId === null
+            ? "Saving..."
+            : "Updating...";
 
 
-        row.innerHTML = `
-
-            <td>
-                ${product.name || ""}
-            </td>
-
-            <td>
-                ${product.code || ""}
-            </td>
-
-            <td>
-                ${product.category || ""}
-            </td>
-
-            <td>
-                ${product.packSize || ""}
-            </td>
-
-            <td>
-                ${product.unit || ""}
-            </td>
-
-            <td>
-                ৳ ${Number(product.tp || 0).toLocaleString()}
-            </td>
-
-            <td>
-                ৳ ${Number(product.mrp || 0).toLocaleString()}
-            </td>
-
-            <td>
-                ${Number(product.stock || 0).toLocaleString()}
-            </td>
-
-            <td>
-
-                <button
-                    class="edit-btn"
-                    onclick="editProduct(${index})">
-
-                    Edit
-
-                </button>
+        try {
 
 
-                <button
-                    class="delete-btn"
-                    onclick="deleteProduct(${index})">
+            // =========================================
+            // ADD NEW PRODUCT
+            // =========================================
 
-                    Delete
-
-                </button>
-
-            </td>
-
-        `;
+            if (editId === null) {
 
 
-        list.appendChild(row);
-
-    });
-
-
-    updateProductCount();
-
-}
-
-
-
-// ======================================
-// SAVE PRODUCT
-// ======================================
-
-document
-.getElementById("productForm")
-.addEventListener(
-"submit",
-function(event) {
+                const {
+                    data,
+                    error
+                } =
+                await supabaseClient
+                    .from("products")
+                    .insert(product)
+                    .select()
+                    .single();
 
 
-    event.preventDefault();
+                if (error) {
+
+                    console.error(
+                        "Product insert error:",
+                        error
+                    );
 
 
-    const product = {
+                    showMessage(
+                        "Product save failed: " +
+                        error.message,
+                        "red"
+                    );
 
-        name:
-            document.getElementById(
-                "productName"
-            ).value.trim(),
 
-        code:
-            document.getElementById(
-                "productCode"
-            ).value.trim(),
+                    return;
 
-        category:
-            document.getElementById(
-                "category"
-            ).value.trim(),
+                }
 
-        packSize:
-            document.getElementById(
-                "packSize"
-            ).value.trim(),
 
-        unit:
-            document.getElementById(
-                "unit"
-            ).value.trim(),
+                showMessage(
+                    "Product saved successfully!",
+                    "green"
+                );
 
-        tp:
-            document.getElementById(
-                "tp"
-            ).value,
+            }
 
-        mrp:
-            document.getElementById(
-                "mrp"
-            ).value,
 
-        stock:
-            document.getElementById(
-                "stock"
-            ).value
+            // =========================================
+            // UPDATE EXISTING PRODUCT
+            // =========================================
 
-    };
+            else {
+
+
+                const {
+                    data,
+                    error
+                } =
+                await supabaseClient
+                    .from("products")
+                    .update(product)
+                    .eq(
+                        "id",
+                        editId
+                    )
+                    .select()
+                    .single();
+
+
+                if (error) {
+
+                    console.error(
+                        "Product update error:",
+                        error
+                    );
+
+
+                    showMessage(
+                        "Product update failed: " +
+                        error.message,
+                        "red"
+                    );
+
+
+                    return;
+
+                }
+
+
+                showMessage(
+                    "Product updated successfully!",
+                    "green"
+                );
+
+            }
 
 
 
-    // NEW PRODUCT
+            // =========================================
+            // RESET EDIT MODE
+            // =========================================
 
-    if (editIndex === -1) {
+            editId =
+                null;
 
 
-        products.push(product);
+            productForm.reset();
 
 
-        showMessage(
-            "Product saved successfully!",
-            "green"
-        );
+            formTitle.innerText =
+                "Add Product";
+
+
+            saveBtn.innerText =
+                "Save Product";
+
+
+            cancelBtn.style.display =
+                "none";
+
+
+            // =========================================
+            // RELOAD PRODUCTS
+            // =========================================
+
+            await loadProducts();
+
+        }
+
+
+        catch(error) {
+
+            console.error(
+                "Unexpected error:",
+                error
+            );
+
+
+            showMessage(
+                "Something went wrong: " +
+                error.message,
+                "red"
+            );
+
+        }
+
+
+        finally {
+
+            saveBtn.disabled =
+                false;
+
+
+            saveBtn.innerText =
+                editId === null
+                ? "Save Product"
+                : "Update Product";
+
+        }
 
     }
-
-
-    // UPDATE PRODUCT
-
-    else {
-
-
-        products[editIndex] =
-            product;
-
-
-        showMessage(
-            "Product updated successfully!",
-            "green"
-        );
-
-
-        editIndex = -1;
-
-
-        document.getElementById(
-            "formTitle"
-        ).innerText =
-            "Add Product";
-
-
-        document.getElementById(
-            "saveBtn"
-        ).innerText =
-            "Save Product";
-
-
-        document.getElementById(
-            "cancelBtn"
-        ).style.display =
-            "none";
-
-    }
+);
 
 
 
-    // SAVE
-
-    localStorage.setItem(
-        "products",
-        JSON.stringify(products)
-    );
-
-
-
-    // RESET
-
-    document
-    .getElementById(
-        "productForm"
-    )
-    .reset();
-
-
-
-    // DISPLAY
-
-    displayProducts();
-
-});
-
-
-
-// ======================================
+// =====================================================
 // EDIT PRODUCT
-// ======================================
+// =====================================================
 
-function editProduct(index) {
+function editProduct(id) {
 
 
     const product =
-        products[index];
+        products.find(
+            function(item) {
+
+                return String(
+                    item.id
+                ) === String(id);
+
+            }
+        );
 
 
-    editIndex = index;
+    if (!product) {
+
+        showMessage(
+            "Product not found.",
+            "red"
+        );
+
+        return;
+
+    }
+
+
+    editId =
+        product.id;
 
 
     document.getElementById(
@@ -845,7 +1130,7 @@ function editProduct(index) {
     document.getElementById(
         "packSize"
     ).value =
-        product.packSize || "";
+        product.pack_size || "";
 
 
     document.getElementById(
@@ -857,36 +1142,30 @@ function editProduct(index) {
     document.getElementById(
         "tp"
     ).value =
-        product.tp || "";
+        product.tp ?? "";
 
 
     document.getElementById(
         "mrp"
     ).value =
-        product.mrp || "";
+        product.mrp ?? "";
 
 
     document.getElementById(
         "stock"
     ).value =
-        product.stock || "";
+        product.stock ?? "";
 
 
-    document.getElementById(
-        "formTitle"
-    ).innerText =
+    formTitle.innerText =
         "Edit Product";
 
 
-    document.getElementById(
-        "saveBtn"
-    ).innerText =
+    saveBtn.innerText =
         "Update Product";
 
 
-    document.getElementById(
-        "cancelBtn"
-    ).style.display =
+    cancelBtn.style.display =
         "block";
 
 
@@ -902,108 +1181,108 @@ function editProduct(index) {
 
 
 
-// ======================================
+// =====================================================
 // CANCEL EDIT
-// ======================================
+// =====================================================
 
 function cancelEdit() {
 
 
-    editIndex = -1;
+    editId =
+        null;
 
 
-    document
-    .getElementById(
-        "productForm"
-    )
-    .reset();
+    productForm.reset();
 
 
-    document.getElementById(
-        "formTitle"
-    ).innerText =
+    formTitle.innerText =
         "Add Product";
 
 
-    document.getElementById(
-        "saveBtn"
-    ).innerText =
+    saveBtn.innerText =
         "Save Product";
 
 
-    document.getElementById(
-        "cancelBtn"
-    ).style.display =
+    cancelBtn.style.display =
         "none";
+
+
+    showMessage(
+        "",
+        "green"
+    );
 
 }
 
 
 
-// ======================================
+// =====================================================
 // DELETE PRODUCT
-// ======================================
+// =====================================================
 
-function deleteProduct(index) {
+async function deleteProduct(id) {
 
 
-    if (
+    const confirmed =
         confirm(
             "Are you sure you want to delete this product?"
-        )
-    ) {
-
-
-        products.splice(
-            index,
-            1
         );
 
 
-        localStorage.setItem(
-            "products",
-            JSON.stringify(products)
-        );
+    if (!confirmed) {
 
-
-        displayProducts();
+        return;
 
     }
 
-}
 
-
-
-// ======================================
-// MESSAGE
-// ======================================
-
-function showMessage(
-    text,
-    color
-) {
-
-
-    const message =
-        document.getElementById(
-            "message"
+    const {
+        error
+    } =
+    await supabaseClient
+        .from("products")
+        .delete()
+        .eq(
+            "id",
+            id
         );
 
 
-    message.innerText =
-        text;
+    if (error) {
+
+        console.error(
+            "Delete error:",
+            error
+        );
 
 
-    message.style.color =
-        color;
+        showMessage(
+            "Delete failed: " +
+            error.message,
+            "red"
+        );
+
+
+        return;
+
+    }
+
+
+    showMessage(
+        "Product deleted successfully!",
+        "green"
+    );
+
+
+    await loadProducts();
 
 }
 
 
 
-// ======================================
+// =====================================================
 // DASHBOARD
-// ======================================
+// =====================================================
 
 function goDashboard() {
 
@@ -1014,11 +1293,11 @@ function goDashboard() {
 
 
 
-// ======================================
-// INITIAL DISPLAY
-// ======================================
+// =====================================================
+// INITIAL LOAD
+// =====================================================
 
-displayProducts();
+loadProducts();
 
 </script>
 
