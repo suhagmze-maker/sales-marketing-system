@@ -213,6 +213,7 @@ body{
 
 .refresh-btn:disabled{
     opacity:.7;
+    cursor:not-allowed;
 }
 
 
@@ -228,18 +229,19 @@ body{
 }
 
 .menu button{
-    position:relative;
-    padding:22px 15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    min-height:65px;
+    padding:18px 15px;
     border:none;
     border-radius:14px;
     font-size:16px;
     font-weight:bold;
     cursor:pointer;
-    color:#1e293b;
-    background:white;
     box-shadow:0 5px 15px rgba(0,0,0,.08);
     transition:.25s;
-    overflow:hidden;
 }
 
 .menu button:hover{
@@ -247,72 +249,118 @@ body{
     box-shadow:0 10px 20px rgba(0,0,0,.14);
 }
 
+.menu button:active{
+    transform:scale(.98);
+}
+
 
 /* =====================================================
-   MENU COLOURS
+   SALES ENTRY
 ===================================================== */
 
-.menu button:nth-child(1){
+.sales-entry-btn{
     background:#dbeafe;
     color:#1d4ed8;
 }
 
-.menu button:nth-child(2){
+
+/* =====================================================
+   SALES HISTORY
+===================================================== */
+
+.sales-history-btn{
     background:#dcfce7;
     color:#15803d;
 }
 
-.menu button:nth-child(3){
+
+/* =====================================================
+   CUSTOMERS
+===================================================== */
+
+.customers-btn{
     background:#f3e8ff;
     color:#7e22ce;
 }
 
-.menu button:nth-child(4){
+
+/* =====================================================
+   PRODUCTS
+===================================================== */
+
+.products-btn{
     background:#fef3c7;
     color:#b45309;
 }
 
-.menu button:nth-child(5){
+
+/* =====================================================
+   INVENTORY
+===================================================== */
+
+.inventory-btn{
     background:#cffafe;
     color:#0e7490;
 }
 
-.menu button:nth-child(6){
+
+/* =====================================================
+   REPORTS
+===================================================== */
+
+.reports-btn{
     background:#fce7f3;
     color:#be185d;
 }
 
-.menu button:nth-child(7){
+
+/* =====================================================
+   MARKETING
+===================================================== */
+
+.marketing-btn{
     background:#ffedd5;
     color:#c2410c;
 }
 
 
 /* =====================================================
-   OUTLET SURVEY BUTTON
+   OUTLET SURVEY
 ===================================================== */
 
 .outlet-survey-btn{
-    display:block !important;
+    display:flex !important;
     visibility:visible !important;
     opacity:1 !important;
+
     background:#dcfce7 !important;
     color:#166534 !important;
+
     border:2px solid #22c55e !important;
+
     min-height:65px;
+
+    cursor:pointer !important;
 }
 
 
 /* =====================================================
-   SETTINGS BUTTON
+   SETTINGS
 ===================================================== */
 
 .settings-btn{
-    display:block !important;
+    display:flex !important;
     visibility:visible !important;
     opacity:1 !important;
+
     background:#e0e7ff !important;
     color:#4338ca !important;
+
+    border:2px solid #6366f1 !important;
+
+    min-height:65px;
+
+    cursor:pointer !important;
 }
 
 
@@ -331,6 +379,7 @@ body{
     }
 
 }
+
 
 @media(max-width:600px){
 
@@ -360,6 +409,10 @@ body{
 
     .card{
         min-height:135px;
+    }
+
+    .menu button{
+        min-height:60px;
     }
 
 }
@@ -414,10 +467,11 @@ body{
 
 
 <!-- =====================================================
-     CARDS
+     DASHBOARD CARDS
 ===================================================== -->
 
 <div class="cards">
+
 
     <div class="card sales-card">
 
@@ -486,6 +540,7 @@ body{
 
     </div>
 
+
 </div>
 
 
@@ -526,38 +581,80 @@ body{
 <div class="menu">
 
 
-    <button onclick="go('sales.html')">
+    <!-- SALES ENTRY -->
+
+    <button
+        class="sales-entry-btn"
+        onclick="go('sales.html')">
+
         📊 Sales Entry
+
     </button>
 
 
-    <button onclick="go('sales-history.html')">
+    <!-- SALES HISTORY -->
+
+    <button
+        class="sales-history-btn"
+        onclick="go('sales-history.html')">
+
         📋 Sales History
+
     </button>
 
 
-    <button onclick="go('customers.html')">
+    <!-- CUSTOMERS -->
+
+    <button
+        class="customers-btn"
+        onclick="go('customers.html')">
+
         👥 Customers
+
     </button>
 
 
-    <button onclick="go('products.html')">
+    <!-- PRODUCTS -->
+
+    <button
+        class="products-btn"
+        onclick="go('products.html')">
+
         📦 Products
+
     </button>
 
 
-    <button onclick="go('inventory.html')">
+    <!-- INVENTORY -->
+
+    <button
+        class="inventory-btn"
+        onclick="go('inventory.html')">
+
         📋 Inventory
+
     </button>
 
 
-    <button onclick="go('reports.html')">
+    <!-- REPORTS -->
+
+    <button
+        class="reports-btn"
+        onclick="go('reports.html')">
+
         📈 Reports
+
     </button>
 
 
-    <button onclick="go('marketing.html')">
+    <!-- MARKETING -->
+
+    <button
+        class="marketing-btn"
+        onclick="go('marketing.html')">
+
         📢 Marketing
+
     </button>
 
 
@@ -566,6 +663,7 @@ body{
     ================================================== -->
 
     <button
+        type="button"
         class="outlet-survey-btn"
         onclick="go('outlet-survey.html')">
 
@@ -579,6 +677,7 @@ body{
     ================================================== -->
 
     <button
+        type="button"
         class="settings-btn"
         onclick="go('settings.html')">
 
@@ -715,7 +814,9 @@ async function loadDashboard(){
 
 
         if(!user){
+
             return;
+
         }
 
 
@@ -874,7 +975,9 @@ async function loadDashboard(){
                 if(
                     !sale.created_at
                 ){
+
                     return;
+
                 }
 
 
