@@ -13,179 +13,371 @@
 
 <style>
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
 }
 
-body {
-    background: #f4f6f9;
+body{
+    background:linear-gradient(135deg,#eef2ff,#f8fafc);
+    min-height:100vh;
 }
 
-.header {
-    background: #2563eb;
-    color: white;
-    padding: 18px 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header{
+    background:linear-gradient(135deg,#1d4ed8,#4f46e5);
+    color:white;
+    padding:20px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 4px 15px rgba(37,99,235,.25);
 }
 
-.header h2 {
-    font-size: 22px;
+.header h2{
+    font-size:22px;
 }
 
-.logout {
-    background: white;
-    color: #2563eb;
-    border: none;
-    padding: 9px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
+.logout{
+    background:white;
+    color:#1d4ed8;
+    border:none;
+    padding:10px 18px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:.2s;
 }
 
-.logout:hover {
-    background: #eef4ff;
+.logout:hover{
+    transform:translateY(-2px);
+    box-shadow:0 4px 10px rgba(0,0,0,.15);
 }
 
-.logout:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
+.logout:disabled{
+    opacity:.7;
+    cursor:not-allowed;
 }
 
-.container {
-    padding: 30px;
-    max-width: 1400px;
-    margin: auto;
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+.container{
+    padding:30px;
+    max-width:1450px;
+    margin:auto;
 }
 
-.welcome {
-    margin-bottom: 25px;
+
+/* =====================================================
+   WELCOME
+===================================================== */
+
+.welcome{
+    margin-bottom:25px;
 }
 
-.welcome h1 {
-    margin-bottom: 8px;
-    color: #222;
+.welcome h1{
+    margin-bottom:8px;
+    color:#111827;
+    font-size:30px;
 }
 
-.welcome p {
-    color: #666;
+.welcome p{
+    color:#64748b;
 }
 
-.cards {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+
+/* =====================================================
+   DASHBOARD CARDS
+===================================================== */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
 }
 
-.card {
-    background: white;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+
+/* COMMON CARD */
+
+.card{
+    position:relative;
+    overflow:hidden;
+    padding:25px;
+    border-radius:16px;
+    color:white;
+    min-height:145px;
+    box-shadow:0 8px 20px rgba(0,0,0,.12);
+    transition:.25s;
 }
 
-.card h3 {
-    color: #666;
-    margin-bottom: 12px;
+.card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 12px 25px rgba(0,0,0,.18);
 }
 
-.number {
-    font-size: 28px;
-    font-weight: bold;
-    color: #2563eb;
+.card h3{
+    font-size:16px;
+    margin-bottom:15px;
+    opacity:.95;
 }
 
-.menu {
-    margin-top: 30px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+.number{
+    font-size:30px;
+    font-weight:bold;
 }
 
-.menu button {
-    padding: 20px;
-    border: none;
-    background: white;
-    border-radius: 10px;
-    font-size: 17px;
-    cursor: pointer;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-    transition: 0.2s;
+
+/* CARD 1 */
+
+.sales-card{
+    background:linear-gradient(
+        135deg,
+        #2563eb,
+        #3b82f6
+    );
 }
 
-.menu button:hover {
-    background: #eef4ff;
-    transform: translateY(-2px);
+
+/* CARD 2 */
+
+.customer-card{
+    background:linear-gradient(
+        135deg,
+        #059669,
+        #10b981
+    );
 }
 
-.refresh-box {
-    margin-top: 25px;
-    text-align: right;
+
+/* CARD 3 */
+
+.product-card{
+    background:linear-gradient(
+        135deg,
+        #7c3aed,
+        #a855f7
+    );
 }
 
-.refresh-btn {
-    padding: 10px 18px;
-    border: none;
-    border-radius: 6px;
-    background: #16a34a;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
+
+/* CARD 4 */
+
+.today-card{
+    background:linear-gradient(
+        135deg,
+        #ea580c,
+        #f97316
+    );
 }
 
-.refresh-btn:hover {
-    background: #15803d;
+
+/* DECORATION */
+
+.card::after{
+    content:"";
+    position:absolute;
+    width:100px;
+    height:100px;
+    right:-30px;
+    bottom:-35px;
+    background:rgba(255,255,255,.15);
+    border-radius:50%;
 }
 
-.status {
-    margin-top: 20px;
-    padding: 12px;
-    border-radius: 7px;
-    background: #eef4ff;
-    color: #2563eb;
-    font-weight: bold;
+.card::before{
+    content:"";
+    position:absolute;
+    width:55px;
+    height:55px;
+    right:45px;
+    top:-20px;
+    background:rgba(255,255,255,.08);
+    border-radius:50%;
 }
 
-@media (max-width: 900px) {
 
-    .cards {
-        grid-template-columns: repeat(2, 1fr);
+/* =====================================================
+   STATUS
+===================================================== */
+
+.status{
+    margin-top:25px;
+    padding:13px 17px;
+    border-radius:9px;
+    background:#eef4ff;
+    color:#2563eb;
+    font-weight:bold;
+    border-left:5px solid #2563eb;
+}
+
+
+/* =====================================================
+   REFRESH
+===================================================== */
+
+.refresh-box{
+    margin-top:20px;
+    text-align:right;
+}
+
+.refresh-btn{
+    padding:11px 20px;
+    border:none;
+    border-radius:8px;
+    background:linear-gradient(
+        135deg,
+        #059669,
+        #10b981
+    );
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+    box-shadow:0 4px 10px rgba(16,185,129,.25);
+    transition:.2s;
+}
+
+.refresh-btn:hover{
+    transform:translateY(-2px);
+}
+
+.refresh-btn:disabled{
+    opacity:.7;
+}
+
+
+/* =====================================================
+   MENU
+===================================================== */
+
+.menu{
+    margin-top:25px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
+
+
+/* COMMON MENU */
+
+.menu button{
+    position:relative;
+    padding:22px 15px;
+    border:none;
+    border-radius:14px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    color:#1e293b;
+    background:white;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    transition:.25s;
+    overflow:hidden;
+}
+
+.menu button:hover{
+    transform:translateY(-4px);
+    box-shadow:0 10px 20px rgba(0,0,0,.14);
+}
+
+
+/* INDIVIDUAL MENU COLOURS */
+
+.menu button:nth-child(1){
+    background:#dbeafe;
+    color:#1d4ed8;
+}
+
+.menu button:nth-child(2){
+    background:#dcfce7;
+    color:#15803d;
+}
+
+.menu button:nth-child(3){
+    background:#f3e8ff;
+    color:#7e22ce;
+}
+
+.menu button:nth-child(4){
+    background:#fef3c7;
+    color:#b45309;
+}
+
+.menu button:nth-child(5){
+    background:#cffafe;
+    color:#0e7490;
+}
+
+.menu button:nth-child(6){
+    background:#fce7f3;
+    color:#be185d;
+}
+
+.menu button:nth-child(7){
+    background:#ffedd5;
+    color:#c2410c;
+}
+
+.menu button:nth-child(8){
+    background:#e0e7ff;
+    color:#4338ca;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:1000px){
+
+    .cards{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    .menu {
-        grid-template-columns: repeat(2, 1fr);
+    .menu{
+        grid-template-columns:repeat(2,1fr);
     }
 
 }
 
-@media (max-width: 600px) {
 
-    .header {
-        padding: 15px;
+@media(max-width:600px){
+
+    .header{
+        padding:15px 18px;
     }
 
-    .header h2 {
-        font-size: 17px;
+    .header h2{
+        font-size:17px;
     }
 
-    .logout {
-        padding: 8px 12px;
+    .container{
+        padding:20px 15px;
     }
 
-    .cards {
-        grid-template-columns: 1fr;
+    .welcome h1{
+        font-size:25px;
     }
 
-    .menu {
-        grid-template-columns: 1fr;
+    .cards{
+        grid-template-columns:1fr;
     }
 
-    .container {
-        padding: 20px;
+    .menu{
+        grid-template-columns:1fr;
+    }
+
+    .card{
+        min-height:135px;
     }
 
 }
@@ -198,7 +390,9 @@ body {
 <body>
 
 
-<!-- HEADER -->
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
 <div class="header">
 
@@ -221,176 +415,211 @@ body {
 <div class="container">
 
 
-    <!-- WELCOME -->
+<!-- =====================================================
+     WELCOME
+===================================================== -->
 
-    <div class="welcome">
+<div class="welcome">
 
-        <h1>
-            Dashboard
-        </h1>
+    <h1>
+        Dashboard
+    </h1>
 
-        <p id="welcomeText">
-            Loading user...
-        </p>
+    <p id="welcomeText">
+        Loading user...
+    </p>
 
-    </div>
-
-
-
-    <!-- CARDS -->
-
-    <div class="cards">
-
-
-        <div class="card">
-
-            <h3>
-                Total Sales
-            </h3>
-
-            <div
-                class="number"
-                id="totalSales">
-
-                ৳ 0
-
-            </div>
-
-        </div>
+</div>
 
 
 
-        <div class="card">
+<!-- =====================================================
+     CARDS
+===================================================== -->
 
-            <h3>
-                Total Customers
-            </h3>
+<div class="cards">
 
-            <div
-                class="number"
-                id="totalCustomers">
 
-                0
+    <!-- TOTAL SALES -->
 
-            </div>
+    <div class="card sales-card">
+
+        <h3>
+            💰 Total Sales
+        </h3>
+
+        <div
+            class="number"
+            id="totalSales">
+
+            ৳ 0
 
         </div>
 
+    </div>
 
 
-        <div class="card">
 
-            <h3>
-                Total Products
-            </h3>
+    <!-- CUSTOMERS -->
 
-            <div
-                class="number"
-                id="totalProducts">
+    <div class="card customer-card">
 
-                0
+        <h3>
+            👥 Total Customers
+        </h3>
 
-            </div>
+        <div
+            class="number"
+            id="totalCustomers">
+
+            0
 
         </div>
 
+    </div>
 
 
-        <div class="card">
 
-            <h3>
-                Today's Sales
-            </h3>
+    <!-- PRODUCTS -->
 
-            <div
-                class="number"
-                id="todaySales">
+    <div class="card product-card">
 
-                ৳ 0
+        <h3>
+            📦 Total Products
+        </h3>
 
-            </div>
+        <div
+            class="number"
+            id="totalProducts">
+
+            0
 
         </div>
 
-
     </div>
 
 
 
-    <!-- STATUS -->
+    <!-- TODAY SALES -->
 
-    <div
-        id="status"
-        class="status">
+    <div class="card today-card">
 
-        Loading dashboard data...
+        <h3>
+            📅 Today's Sales
+        </h3>
 
-    </div>
+        <div
+            class="number"
+            id="todaySales">
 
+            ৳ 0
 
-
-    <!-- REFRESH -->
-
-    <div class="refresh-box">
-
-        <button
-            class="refresh-btn"
-            id="refreshButton">
-
-            🔄 Refresh Dashboard
-
-        </button>
+        </div>
 
     </div>
 
 
-
-    <!-- MENU -->
-
-    <div class="menu">
+</div>
 
 
-        <button onclick="go('sales.html')">
-            📊 Sales Entry
-        </button>
+
+<!-- =====================================================
+     STATUS
+===================================================== -->
+
+<div
+    id="status"
+    class="status">
+
+    Loading live data from Supabase...
+
+</div>
 
 
-        <button onclick="go('sales-history.html')">
-            📋 Sales History
-        </button>
+
+<!-- =====================================================
+     REFRESH
+===================================================== -->
+
+<div class="refresh-box">
+
+    <button
+        class="refresh-btn"
+        id="refreshButton">
+
+        🔄 Refresh Dashboard
+
+    </button>
+
+</div>
 
 
-        <button onclick="go('customers.html')">
-            👥 Customers
-        </button>
+
+<!-- =====================================================
+     MENU
+===================================================== -->
+
+<div class="menu">
 
 
-        <button onclick="go('products.html')">
-            📦 Products
-        </button>
+    <button onclick="go('sales.html')">
+
+        📊 Sales Entry
+
+    </button>
 
 
-        <button onclick="go('inventory.html')">
-            📋 Inventory
-        </button>
+    <button onclick="go('sales-history.html')">
+
+        📋 Sales History
+
+    </button>
 
 
-        <button onclick="go('reports.html')">
-            📈 Reports
-        </button>
+    <button onclick="go('customers.html')">
+
+        👥 Customers
+
+    </button>
 
 
-        <button onclick="go('marketing.html')">
-            📢 Marketing
-        </button>
+    <button onclick="go('products.html')">
+
+        📦 Products
+
+    </button>
 
 
-        <button onclick="go('settings.html')">
-            ⚙️ Settings
-        </button>
+    <button onclick="go('inventory.html')">
+
+        📋 Inventory
+
+    </button>
 
 
-    </div>
+    <button onclick="go('reports.html')">
+
+        📈 Reports
+
+    </button>
+
+
+    <button onclick="go('marketing.html')">
+
+        📢 Marketing
+
+    </button>
+
+
+    <button onclick="go('settings.html')">
+
+        ⚙️ Settings
+
+    </button>
+
+
+</div>
+
 
 </div>
 
@@ -447,7 +676,7 @@ const statusBox =
 // CHECK LOGIN
 // =====================================================
 
-async function checkLogin() {
+async function checkLogin(){
 
     const {
         data,
@@ -456,7 +685,7 @@ async function checkLogin() {
     await supabaseClient.auth.getSession();
 
 
-    if (error) {
+    if(error){
 
         console.error(
             "Session error:",
@@ -471,7 +700,7 @@ async function checkLogin() {
     }
 
 
-    if (!data.session) {
+    if(!data.session){
 
         window.location.href =
             "index.html";
@@ -485,7 +714,10 @@ async function checkLogin() {
         data.session.user;
 
 
-    if (user && user.email) {
+    if(
+        user &&
+        user.email
+    ){
 
         welcomeText.innerText =
             "Welcome, " +
@@ -502,102 +734,47 @@ async function checkLogin() {
 
 
 // =====================================================
-// LOAD DASHBOARD FROM SUPABASE
+// LOAD DASHBOARD
 // =====================================================
 
-async function loadDashboard() {
+async function loadDashboard(){
 
     statusBox.innerText =
         "Loading live data from Supabase...";
 
-    statusBox.style.background =
-        "#eef4ff";
 
-    statusBox.style.color =
-        "#2563eb";
-
-
-    try {
-
-        // =============================================
-        // CHECK LOGIN FIRST
-        // =============================================
+    try{
 
         const user =
             await checkLogin();
 
 
-        if (!user) {
+        if(!user){
+
             return;
+
         }
 
 
-
         // =============================================
-        // LOAD ALL DATA
+        // LOAD CUSTOMERS
         // =============================================
 
-        const [
-            customersResult,
-            productsResult,
-            salesResult
-        ] =
-        await Promise.all([
-
-
-            // CUSTOMERS
-
-            supabaseClient
+        const customersResult =
+            await supabaseClient
                 .from("customers")
                 .select(
                     "id",
                     {
-                        count: "exact",
-                        head: true
+                        count:"exact",
+                        head:true
                     }
-                ),
+                );
 
 
-
-            // PRODUCTS
-
-            supabaseClient
-                .from("products")
-                .select(
-                    "id",
-                    {
-                        count: "exact",
-                        head: true
-                    }
-                ),
-
-
-
-            // SALES
-
-            supabaseClient
-                .from("orders")
-                .select(
-                    "total_amount,created_at"
-                )
-                .order(
-                    "created_at",
-                    {
-                        ascending: false
-                    }
-                )
-
-        ]);
-
-
-
-        // =============================================
-        // CHECK CUSTOMER ERROR
-        // =============================================
-
-        if (
+        if(
             customersResult.error
-        ) {
+        ){
 
             throw new Error(
                 "Customers: " +
@@ -607,14 +784,34 @@ async function loadDashboard() {
         }
 
 
+        document.getElementById(
+            "totalCustomers"
+        ).innerText =
+            (
+                customersResult.count || 0
+            ).toLocaleString();
+
+
 
         // =============================================
-        // CHECK PRODUCT ERROR
+        // LOAD PRODUCTS
         // =============================================
 
-        if (
+        const productsResult =
+            await supabaseClient
+                .from("products")
+                .select(
+                    "id",
+                    {
+                        count:"exact",
+                        head:true
+                    }
+                );
+
+
+        if(
             productsResult.error
-        ) {
+        ){
 
             throw new Error(
                 "Products: " +
@@ -624,14 +821,30 @@ async function loadDashboard() {
         }
 
 
+        document.getElementById(
+            "totalProducts"
+        ).innerText =
+            (
+                productsResult.count || 0
+            ).toLocaleString();
+
+
 
         // =============================================
-        // CHECK SALES ERROR
+        // LOAD SALES
         // =============================================
 
-        if (
+        const salesResult =
+            await supabaseClient
+                .from("orders")
+                .select(
+                    "total_amount,created_at"
+                );
+
+
+        if(
             salesResult.error
-        ) {
+        ){
 
             throw new Error(
                 "Sales: " +
@@ -640,41 +853,6 @@ async function loadDashboard() {
 
         }
 
-
-
-        // =============================================
-        // CUSTOMER COUNT
-        // =============================================
-
-        const customerCount =
-            customersResult.count || 0;
-
-
-        document.getElementById(
-            "totalCustomers"
-        ).innerText =
-            customerCount.toLocaleString();
-
-
-
-        // =============================================
-        // PRODUCT COUNT
-        // =============================================
-
-        const productCount =
-            productsResult.count || 0;
-
-
-        document.getElementById(
-            "totalProducts"
-        ).innerText =
-            productCount.toLocaleString();
-
-
-
-        // =============================================
-        // SALES DATA
-        // =============================================
 
         const sales =
             salesResult.data || [];
@@ -689,7 +867,7 @@ async function loadDashboard() {
 
 
         sales.forEach(
-            function(sale) {
+            function(sale){
 
                 totalSales +=
                     Number(
@@ -721,22 +899,22 @@ async function loadDashboard() {
             "-" +
             String(
                 now.getMonth() + 1
-            ).padStart(2, "0") +
+            ).padStart(2,"0") +
             "-" +
             String(
                 now.getDate()
-            ).padStart(2, "0");
+            ).padStart(2,"0");
 
 
         let todaySales = 0;
 
 
         sales.forEach(
-            function(sale) {
+            function(sale){
 
-                if (
+                if(
                     !sale.created_at
-                ) {
+                ){
 
                     return;
 
@@ -754,16 +932,16 @@ async function loadDashboard() {
                     "-" +
                     String(
                         date.getMonth() + 1
-                    ).padStart(2, "0") +
+                    ).padStart(2,"0") +
                     "-" +
                     String(
                         date.getDate()
-                    ).padStart(2, "0");
+                    ).padStart(2,"0");
 
 
-                if (
+                if(
                     saleDate === today
-                ) {
+                ){
 
                     todaySales +=
                         Number(
@@ -791,17 +969,19 @@ async function loadDashboard() {
         statusBox.innerText =
             "✓ Live Supabase data loaded successfully.";
 
-
         statusBox.style.background =
             "#dcfce7";
 
         statusBox.style.color =
             "#166534";
 
+        statusBox.style.borderLeftColor =
+            "#16a34a";
+
 
     }
 
-    catch(error) {
+    catch(error){
 
         console.error(
             "Dashboard error:",
@@ -820,6 +1000,9 @@ async function loadDashboard() {
         statusBox.style.color =
             "#b91c1c";
 
+        statusBox.style.borderLeftColor =
+            "#dc2626";
+
     }
 
 }
@@ -830,7 +1013,7 @@ async function loadDashboard() {
 // LOGOUT
 // =====================================================
 
-async function logout() {
+async function logout(){
 
     logoutButton.disabled =
         true;
@@ -839,7 +1022,7 @@ async function logout() {
         "Logging out...";
 
 
-    try {
+    try{
 
         const {
             error
@@ -847,12 +1030,13 @@ async function logout() {
         await supabaseClient.auth.signOut();
 
 
-        if (error) {
+        if(error){
 
             alert(
                 "Logout failed: " +
                 error.message
             );
+
 
             logoutButton.disabled =
                 false;
@@ -871,15 +1055,17 @@ async function logout() {
 
     }
 
-    catch(error) {
+    catch(error){
 
         console.error(
             error
         );
 
+
         alert(
             "Something went wrong."
         );
+
 
         logoutButton.disabled =
             false;
@@ -908,7 +1094,7 @@ logoutButton.addEventListener(
 // NAVIGATION
 // =====================================================
 
-function go(page) {
+function go(page){
 
     window.location.href =
         page;
@@ -923,7 +1109,7 @@ function go(page) {
 
 refreshButton.addEventListener(
     "click",
-    async function() {
+    async function(){
 
         refreshButton.disabled =
             true;
@@ -956,7 +1142,7 @@ loadDashboard();
 
 // =====================================================
 // AUTO REFRESH
-// Every 10 seconds
+// 10 SECONDS
 // =====================================================
 
 setInterval(
