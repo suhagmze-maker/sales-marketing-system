@@ -10,6 +10,7 @@ content="width=device-width, initial-scale=1.0">
 
 <title>Inventory Management</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 
@@ -20,323 +21,198 @@ content="width=device-width, initial-scale=1.0">
     font-family: Arial, sans-serif;
 }
 
-
 body {
     background: #f4f6f9;
 }
-
-
-/* HEADER */
 
 .header {
     background: #2563eb;
     color: white;
     padding: 18px 25px;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+.header h2 {
+    font-size: 22px;
+}
 
 .back-btn {
     background: white;
     color: #2563eb;
     border: none;
-
     padding: 9px 15px;
-
     border-radius: 6px;
-
     cursor: pointer;
-
     font-weight: bold;
 }
-
-
-
-/* CONTAINER */
 
 .container {
     max-width: 1200px;
-
     margin: 30px auto;
-
     padding: 20px;
 }
 
-
-
-/* CARDS */
-
 .cards {
-
     display: grid;
-
-    grid-template-columns:
-    repeat(4, 1fr);
-
+    grid-template-columns: repeat(4, 1fr);
     gap: 18px;
-
     margin-bottom: 25px;
 }
 
-
 .card {
-
     background: white;
-
     padding: 22px;
-
     border-radius: 10px;
-
-    box-shadow:
-    0 3px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
 }
 
-
 .card p {
-
     color: #666;
-
     margin-bottom: 10px;
 }
 
-
 .card h2 {
-
     color: #2563eb;
 }
 
-
-
-/* BOX */
-
 .box {
-
     background: white;
-
     padding: 25px;
-
     border-radius: 12px;
-
-    box-shadow:
-    0 3px 15px rgba(0,0,0,0.08);
-
+    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
     margin-bottom: 25px;
 }
 
-
 h1 {
-
     margin-bottom: 20px;
-
     color: #222;
 }
 
-
-
-/* FORM */
-
 .form {
-
     display: grid;
-
-    grid-template-columns:
-    repeat(4, 1fr);
-
+    grid-template-columns: repeat(4, 1fr);
     gap: 12px;
-
     margin-bottom: 20px;
 }
 
-
 input,
 select {
-
     padding: 11px;
-
     border: 1px solid #ccc;
-
     border-radius: 6px;
-
     width: 100%;
 }
 
-
 .add-btn {
-
     background: #16a34a;
-
     color: white;
-
     border: none;
-
     border-radius: 6px;
-
     cursor: pointer;
-
     font-weight: bold;
 }
 
-
-.reset-btn {
-
-    background: #64748b;
-
-    color: white;
-
-    border: none;
-
-    border-radius: 6px;
-
-    cursor: pointer;
+.add-btn:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
 }
 
-
-
-/* TABLE */
-
 table {
-
     width: 100%;
-
     border-collapse: collapse;
 }
 
-
 th,
 td {
-
     padding: 12px;
-
-    border-bottom:
-    1px solid #ddd;
-
+    border-bottom: 1px solid #ddd;
     text-align: left;
 }
 
-
 th {
-
     background: #f1f5f9;
 }
 
-
-
-/* STOCK */
-
 .low {
-
     color: #dc2626;
-
     font-weight: bold;
 }
-
 
 .good {
-
     color: #16a34a;
-
     font-weight: bold;
 }
-
 
 .stock-in {
-
     color: #16a34a;
-
     font-weight: bold;
 }
-
 
 .stock-out {
-
     color: #dc2626;
-
     font-weight: bold;
 }
 
-
-
-/* BUTTON */
-
-.delete-btn {
-
-    background: #dc2626;
-
-    color: white;
-
-    border: none;
-
-    padding: 7px 10px;
-
-    border-radius: 5px;
-
-    cursor: pointer;
-}
-
-
 .empty {
-
     text-align: center;
-
     padding: 25px;
-
     color: #777;
 }
 
+.loading {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
 
+.error-box {
+    background: #fee2e2;
+    color: #b91c1c;
+    padding: 12px;
+    border-radius: 7px;
+    margin-bottom: 15px;
+    display: none;
+}
 
-/* MOBILE */
+.success-box {
+    background: #dcfce7;
+    color: #166534;
+    padding: 12px;
+    border-radius: 7px;
+    margin-bottom: 15px;
+    display: none;
+}
 
 @media(max-width:900px) {
 
     .cards {
-
-        grid-template-columns:
-        repeat(2,1fr);
-
+        grid-template-columns: repeat(2,1fr);
     }
 
-
     .form {
-
-        grid-template-columns:
-        repeat(2,1fr);
-
+        grid-template-columns: repeat(2,1fr);
     }
 
 }
 
-
 @media(max-width:600px) {
 
     .cards {
-
         grid-template-columns: 1fr;
-
     }
-
 
     .form {
-
         grid-template-columns: 1fr;
-
     }
-
 
     .box {
-
         overflow-x: auto;
-
     }
 
-
     table {
-
         min-width: 900px;
-
     }
 
 }
@@ -344,7 +220,6 @@ th {
 </style>
 
 </head>
-
 
 
 <body>
@@ -357,7 +232,6 @@ th {
     <h2>
         Inventory Management
     </h2>
-
 
     <button
     class="back-btn"
@@ -372,6 +246,23 @@ th {
 
 
 <div class="container">
+
+
+<!-- ERROR -->
+
+<div
+id="errorBox"
+class="error-box">
+</div>
+
+
+<!-- SUCCESS -->
+
+<div
+id="successBox"
+class="success-box">
+</div>
+
 
 
 <!-- SUMMARY -->
@@ -450,7 +341,7 @@ th {
         <select id="productSelect">
 
             <option value="">
-                Select Product
+                Loading Products...
             </option>
 
         </select>
@@ -460,18 +351,21 @@ th {
         type="number"
         id="quantity"
         placeholder="Quantity"
-        min="1">
+        min="1"
+        step="1">
 
 
         <input
         type="number"
         id="purchasePrice"
         placeholder="Purchase Price"
-        min="0">
+        min="0"
+        step="0.01">
 
 
         <button
         class="add-btn"
+        id="addStockButton"
         onclick="addStock()">
 
             + Add Stock
@@ -535,6 +429,18 @@ th {
 
         <tbody id="inventoryTable">
 
+            <tr>
+
+                <td
+                colspan="7"
+                class="loading">
+
+                    Loading inventory...
+
+                </td>
+
+            </tr>
+
         </tbody>
 
     </table>
@@ -567,6 +473,10 @@ th {
                 </th>
 
                 <th>
+                    Code
+                </th>
+
+                <th>
                     Type
                 </th>
 
@@ -580,6 +490,18 @@ th {
 
 
         <tbody id="movementTable">
+
+            <tr>
+
+                <td
+                colspan="5"
+                class="loading">
+
+                    Loading movements...
+
+                </td>
+
+            </tr>
 
         </tbody>
 
@@ -595,439 +517,850 @@ th {
 <script>
 
 
-// =====================================
-// LOAD PRODUCTS
-// =====================================
+// =====================================================
+// SUPABASE CONNECTION
+// =====================================================
 
-let products =
-JSON.parse(
-localStorage.getItem("products")
-) || [];
+const SUPABASE_URL =
+    "https://ucrtujcqrpjcwepiugak.supabase.co";
 
 
-// =====================================
-// STOCK MOVEMENTS
-// =====================================
-
-let movements =
-JSON.parse(
-localStorage.getItem("stockMovements")
-) || [];
+const SUPABASE_KEY =
+    "sb_publishable_RnDm7gJ6ROuU49hcY_BA3g_snx27-M9";
 
 
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
-// =====================================
-// PRODUCT DROPDOWN
-// =====================================
+
+
+// =====================================================
+// DATA
+// =====================================================
+
+let products = [];
+
+let movements = [];
+
+
+
+// =====================================================
+// ELEMENTS
+// =====================================================
 
 const productSelect =
-document.getElementById(
-"productSelect"
-);
-
-
-products.forEach(
-function(product, index) {
-
-    const option =
-    document.createElement(
-    "option"
+    document.getElementById(
+        "productSelect"
     );
 
 
-    option.value =
-    index;
-
-
-    option.textContent =
-    product.name;
-
-
-    productSelect.appendChild(
-    option
+const quantityInput =
+    document.getElementById(
+        "quantity"
     );
 
-});
+
+const purchasePriceInput =
+    document.getElementById(
+        "purchasePrice"
+    );
+
+
+const addStockButton =
+    document.getElementById(
+        "addStockButton"
+    );
+
+
+const inventoryTable =
+    document.getElementById(
+        "inventoryTable"
+    );
+
+
+const movementTable =
+    document.getElementById(
+        "movementTable"
+    );
+
+
+const errorBox =
+    document.getElementById(
+        "errorBox"
+    );
+
+
+const successBox =
+    document.getElementById(
+        "successBox"
+    );
 
 
 
-// =====================================
-// MAKE SURE STOCK EXISTS
-// =====================================
+// =====================================================
+// MESSAGE
+// =====================================================
 
-products.forEach(
-function(product) {
+function showError(text) {
 
-    if (
-        product.stock === undefined
-    ) {
+    errorBox.innerText =
+        text;
 
-        product.stock = 0;
+    errorBox.style.display =
+        "block";
+
+    successBox.style.display =
+        "none";
+}
+
+
+function showSuccess(text) {
+
+    successBox.innerText =
+        text;
+
+    successBox.style.display =
+        "block";
+
+    errorBox.style.display =
+        "none";
+}
+
+
+function hideMessages() {
+
+    errorBox.innerText =
+        "";
+
+    successBox.innerText =
+        "";
+
+    errorBox.style.display =
+        "none";
+
+    successBox.style.display =
+        "none";
+}
+
+
+
+// =====================================================
+// LOAD PRODUCTS FROM SUPABASE
+// =====================================================
+
+async function loadProducts() {
+
+    productSelect.innerHTML = `
+
+        <option value="">
+            Loading Products...
+        </option>
+
+    `;
+
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+        .from("products")
+        .select("*")
+        .order(
+            "name",
+            {
+                ascending: true
+            }
+        );
+
+
+    if (error) {
+
+        console.error(
+            "Products error:",
+            error
+        );
+
+
+        productSelect.innerHTML = `
+
+            <option value="">
+                Failed to load products
+            </option>
+
+        `;
+
+
+        showError(
+            "Products load failed: " +
+            error.message
+        );
+
+
+        return;
 
     }
 
-});
+
+    products =
+        data || [];
 
 
+    productSelect.innerHTML = `
 
-// =====================================
-// DISPLAY INVENTORY
-// =====================================
+        <option value="">
+            Select Product
+        </option>
 
-function displayInventory() {
+    `;
 
 
-    const table =
-    document.getElementById(
-    "inventoryTable"
+    products.forEach(
+        function(product) {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                product.id;
+
+
+            const code =
+                product.code ||
+                product.product_code ||
+                product.productCode ||
+                "";
+
+
+            const pack =
+                (
+                    (product.pack_size || "") +
+                    " " +
+                    (product.unit || "")
+                ).trim();
+
+
+            let text =
+                product.name || "";
+
+
+            if (pack) {
+
+                text +=
+                    " - " +
+                    pack;
+
+            }
+
+
+            if (code) {
+
+                text +=
+                    " [" +
+                    code +
+                    "]";
+
+            }
+
+
+            option.textContent =
+                text;
+
+
+            productSelect.appendChild(
+                option
+            );
+
+        }
     );
 
 
-    table.innerHTML = "";
+    displayInventory();
+
+}
 
 
-    let totalStock = 0;
 
-    let stockValue = 0;
+// =====================================================
+// DISPLAY INVENTORY
+// =====================================================
 
-    let lowStock = 0;
+function displayInventory() {
 
+    inventoryTable.innerHTML =
+        "";
+
+
+    let totalStock =
+        0;
+
+
+    let stockValue =
+        0;
+
+
+    let lowStock =
+        0;
 
 
     if (
         products.length === 0
     ) {
 
-        table.innerHTML = `
+        inventoryTable.innerHTML = `
 
-        <tr>
+            <tr>
 
-            <td
-            colspan="7"
-            class="empty">
+                <td
+                colspan="7"
+                class="empty">
 
-                No products found.
+                    No products found.
 
-            </td>
+                </td>
 
-        </tr>
+            </tr>
 
         `;
 
     }
 
 
-
     products.forEach(
-    function(product) {
+        function(product) {
 
 
-        const stock =
+            const stock =
+                Number(
+                    product.stock || 0
+                );
+
+
+            const tp =
+                Number(
+                    product.tp || 0
+                );
+
+
+            const mrp =
+                Number(
+                    product.mrp || 0
+                );
+
+
+            const value =
+                stock * tp;
+
+
+            totalStock +=
+                stock;
+
+
+            stockValue +=
+                value;
+
+
+            if (
+                stock <= 10
+            ) {
+
+                lowStock++;
+
+            }
+
+
+            const status =
+                stock <= 10
+
+                ? `
+                    <span class="low">
+                        Low Stock
+                    </span>
+                  `
+
+                : `
+                    <span class="good">
+                        Good
+                    </span>
+                  `;
+
+
+            const code =
+                product.code ||
+                product.product_code ||
+                product.productCode ||
+                "";
+
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${escapeHtml(
+                        product.name || ""
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        code
+                    )}
+                </td>
+
+                <td>
+                    ৳ ${tp.toLocaleString()}
+                </td>
+
+                <td>
+                    ৳ ${mrp.toLocaleString()}
+                </td>
+
+                <td>
+                    ${stock.toLocaleString()}
+                </td>
+
+                <td>
+                    ৳ ${value.toLocaleString()}
+                </td>
+
+                <td>
+                    ${status}
+                </td>
+
+            `;
+
+
+            inventoryTable.appendChild(
+                row
+            );
+
+        }
+    );
+
+
+    document.getElementById(
+        "totalProducts"
+    ).innerText =
+        products.length;
+
+
+    document.getElementById(
+        "totalStock"
+    ).innerText =
+        totalStock.toLocaleString();
+
+
+    document.getElementById(
+        "stockValue"
+    ).innerText =
+        "৳ " +
+        stockValue.toLocaleString();
+
+
+    document.getElementById(
+        "lowStock"
+    ).innerText =
+        lowStock;
+
+}
+
+
+
+// =====================================================
+// ADD STOCK
+// =====================================================
+
+async function addStock() {
+
+    hideMessages();
+
+
+    const productId =
+        productSelect.value;
+
+
+    const quantity =
         Number(
-        product.stock || 0
+            quantityInput.value
         );
 
 
-        const tp =
+    const purchasePrice =
         Number(
-        product.tp || 0
+            purchasePriceInput.value || 0
         );
 
 
-        const value =
-        stock * tp;
+    if (!productId) {
+
+        showError(
+            "Please select a product."
+        );
+
+        return;
+
+    }
 
 
-        totalStock +=
-        stock;
+    if (
+        !Number.isInteger(quantity) ||
+        quantity <= 0
+    ) {
+
+        showError(
+            "Please enter a valid whole quantity."
+        );
+
+        return;
+
+    }
 
 
-        stockValue +=
-        value;
+    const product =
+        products.find(
+            function(item) {
+
+                return String(
+                    item.id
+                ) === String(
+                    productId
+                );
+
+            }
+        );
 
 
+    if (!product) {
 
-        if (stock <= 10) {
+        showError(
+            "Product not found."
+        );
 
-            lowStock++;
+        return;
+
+    }
+
+
+    const oldStock =
+        Number(
+            product.stock || 0
+        );
+
+
+    const newStock =
+        oldStock +
+        quantity;
+
+
+    addStockButton.disabled =
+        true;
+
+
+    addStockButton.innerText =
+        "Saving...";
+
+
+    try {
+
+
+        // =================================================
+        // STEP 1
+        // UPDATE PRODUCT STOCK
+        // =================================================
+
+        const {
+            error: updateError
+        } =
+        await supabaseClient
+            .from("products")
+            .update({
+
+                stock:
+                    newStock
+
+            })
+            .eq(
+                "id",
+                product.id
+            );
+
+
+        if (updateError) {
+
+            console.error(
+                "Stock update error:",
+                updateError
+            );
+
+
+            throw new Error(
+                "Stock update failed: " +
+                updateError.message
+            );
 
         }
 
 
 
-        const status =
-        stock <= 10
+        // =================================================
+        // STEP 2
+        // GET PRODUCT CODE
+        // =================================================
 
-        ? `<span class="low">
-            Low Stock
-          </span>`
-
-        : `<span class="good">
-            Good
-          </span>`;
+        const productCode =
+            product.code ||
+            product.product_code ||
+            product.productCode ||
+            "";
 
 
 
-        const row =
-        document.createElement(
-        "tr"
+        // =================================================
+        // STEP 3
+        // SAVE STOCK MOVEMENT
+        // =================================================
+
+        const {
+            error: movementError
+        } =
+        await supabaseClient
+            .from("stock_movements")
+            .insert({
+
+                product_id:
+                    product.id,
+
+                product_name:
+                    product.name || "",
+
+                product_code:
+                    productCode,
+
+                type:
+                    "Stock In",
+
+                quantity:
+                    quantity
+
+            });
+
+
+        if (movementError) {
+
+            console.error(
+                "Movement error:",
+                movementError
+            );
+
+
+            // Restore stock if movement failed
+
+            await supabaseClient
+                .from("products")
+                .update({
+
+                    stock:
+                        oldStock
+
+                })
+                .eq(
+                    "id",
+                    product.id
+                );
+
+
+            throw new Error(
+                "Stock movement save failed: " +
+                movementError.message
+            );
+
+        }
+
+
+
+        // =================================================
+        // SUCCESS
+        // =================================================
+
+        showSuccess(
+            "Stock added successfully!"
         );
 
 
-        row.innerHTML = `
+        quantityInput.value =
+            "";
 
-        <td>
-            ${product.name || ""}
-        </td>
 
-        <td>
-            ${product.code || product.productCode || ""}
-        </td>
+        purchasePriceInput.value =
+            "";
 
-        <td>
-            ৳ ${tp.toLocaleString()}
-        </td>
 
-        <td>
-            ৳ ${Number(
-                product.mrp || 0
-            ).toLocaleString()}
-        </td>
+        productSelect.value =
+            "";
 
-        <td>
-            ${stock}
-        </td>
 
-        <td>
-            ৳ ${value.toLocaleString()}
-        </td>
+        // Reload everything
 
-        <td>
-            ${status}
-        </td>
+        await loadProducts();
+
+        await loadMovements();
+
+    }
+
+
+    catch(error) {
+
+        console.error(
+            "Add stock error:",
+            error
+        );
+
+
+        showError(
+            error.message
+        );
+
+    }
+
+
+    finally {
+
+        addStockButton.disabled =
+            false;
+
+
+        addStockButton.innerText =
+            "+ Add Stock";
+
+    }
+
+}
+
+
+
+// =====================================================
+// LOAD STOCK MOVEMENTS FROM SUPABASE
+// =====================================================
+
+async function loadMovements() {
+
+    movementTable.innerHTML = `
+
+        <tr>
+
+            <td
+            colspan="5"
+            class="loading">
+
+                Loading movements...
+
+            </td>
+
+        </tr>
+
+    `;
+
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+        .from("stock_movements")
+        .select("*")
+        .order(
+            "created_at",
+            {
+                ascending: false
+            }
+        )
+        .limit(200);
+
+
+    if (error) {
+
+        console.error(
+            "Movement loading error:",
+            error
+        );
+
+
+        movementTable.innerHTML = `
+
+            <tr>
+
+                <td
+                colspan="5"
+                class="empty">
+
+                    Failed to load stock movements.
+
+                </td>
+
+            </tr>
 
         `;
 
 
-        table.appendChild(row);
-
-
-    });
-
-
-
-    document.getElementById(
-    "totalProducts"
-    ).innerText =
-    products.length;
-
-
-    document.getElementById(
-    "totalStock"
-    ).innerText =
-    totalStock.toLocaleString();
-
-
-    document.getElementById(
-    "stockValue"
-    ).innerText =
-    "৳ " +
-    stockValue.toLocaleString();
-
-
-    document.getElementById(
-    "lowStock"
-    ).innerText =
-    lowStock;
-
-
-
-    localStorage.setItem(
-    "products",
-    JSON.stringify(products)
-    );
-
-}
-
-
-
-// =====================================
-// ADD STOCK
-// =====================================
-
-function addStock() {
-
-
-    const index =
-    document.getElementById(
-    "productSelect"
-    ).value;
-
-
-    const quantity =
-    Number(
-    document.getElementById(
-    "quantity"
-    ).value
-    );
-
-
-    const purchasePrice =
-    Number(
-    document.getElementById(
-    "purchasePrice"
-    ).value
-    );
-
-
-
-    if (
-        index === ""
-    ) {
-
-        alert(
-        "Please select a product."
+        showError(
+            "Stock movement load failed: " +
+            error.message
         );
+
 
         return;
 
     }
 
 
+    movements =
+        data || [];
 
-    if (
-        quantity <= 0
-    ) {
-
-        alert(
-        "Please enter a valid quantity."
-        );
-
-        return;
-
-    }
-
-
-
-    const product =
-    products[index];
-
-
-
-    product.stock =
-    Number(
-    product.stock || 0
-    ) + quantity;
-
-
-
-    // SAVE PRODUCT
-
-    localStorage.setItem(
-    "products",
-    JSON.stringify(products)
-    );
-
-
-
-    // MOVEMENT
-
-    movements.push({
-
-        date:
-        new Date()
-        .toISOString()
-        .split("T")[0],
-
-        product:
-        product.name,
-
-        type:
-        "Stock In",
-
-        quantity:
-        quantity,
-
-        purchasePrice:
-        purchasePrice
-
-    });
-
-
-
-    localStorage.setItem(
-    "stockMovements",
-    JSON.stringify(movements)
-    );
-
-
-
-    // RESET
-
-    document.getElementById(
-    "quantity"
-    ).value = "";
-
-
-    document.getElementById(
-    "purchasePrice"
-    ).value = "";
-
-
-    document.getElementById(
-    "productSelect"
-    ).value = "";
-
-
-
-    displayInventory();
 
     displayMovements();
 
-
-
-    alert(
-    "Stock added successfully!"
-    );
-
 }
 
 
 
-// =====================================
+// =====================================================
 // DISPLAY MOVEMENTS
-// =====================================
+// =====================================================
 
 function displayMovements() {
 
-
-    const table =
-    document.getElementById(
-    "movementTable"
-    );
-
-
-    table.innerHTML = "";
-
+    movementTable.innerHTML =
+        "";
 
 
     if (
         movements.length === 0
     ) {
 
-        table.innerHTML = `
+        movementTable.innerHTML = `
 
-        <tr>
+            <tr>
 
-            <td
-            colspan="4"
-            class="empty">
+                <td
+                colspan="5"
+                class="empty">
 
-                No stock movement found.
+                    No stock movement found.
 
-            </td>
+                </td>
 
-        </tr>
+            </tr>
 
         `;
 
@@ -1036,80 +1369,175 @@ function displayMovements() {
     }
 
 
-
-    movements
-    .slice()
-    .reverse()
-    .forEach(
-    function(item) {
+    movements.forEach(
+        function(item) {
 
 
-        const row =
-        document.createElement(
-        "tr"
-        );
+            const row =
+                document.createElement(
+                    "tr"
+                );
 
 
-        const typeClass =
-        item.type === "Stock In"
-
-        ? "stock-in"
-
-        : "stock-out";
+            const type =
+                item.type ||
+                "Stock In";
 
 
+            const typeClass =
+                type.toLowerCase()
+                    .includes("out")
 
-        row.innerHTML = `
+                ? "stock-out"
 
-        <td>
-            ${item.date}
-        </td>
-
-        <td>
-            ${item.product}
-        </td>
-
-        <td class="${typeClass}">
-            ${item.type}
-        </td>
-
-        <td>
-            ${item.quantity}
-        </td>
-
-        `;
+                : "stock-in";
 
 
-        table.appendChild(row);
+            let date =
+                "";
 
 
-    });
+            if (
+                item.created_at
+            ) {
+
+                date =
+                    new Date(
+                        item.created_at
+                    ).toLocaleString();
+
+            }
+
+
+            else if (
+                item.date
+            ) {
+
+                date =
+                    item.date;
+
+            }
+
+
+            const productName =
+                item.product_name ||
+                "";
+
+
+            const productCode =
+                item.product_code ||
+                "";
+
+
+            const quantity =
+                Number(
+                    item.quantity || 0
+                );
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${escapeHtml(
+                        date
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        productName
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        productCode
+                    )}
+                </td>
+
+                <td class="${typeClass}">
+                    ${escapeHtml(
+                        type
+                    )}
+                </td>
+
+                <td>
+                    ${quantity.toLocaleString()}
+                </td>
+
+            `;
+
+
+            movementTable.appendChild(
+                row
+            );
+
+        }
+    );
 
 }
 
 
 
-// =====================================
+// =====================================================
+// HTML ESCAPE
+// =====================================================
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+
+// =====================================================
 // DASHBOARD
-// =====================================
+// =====================================================
 
 function goDashboard() {
 
     window.location.href =
-    "dashboard.html";
+        "dashboard.html";
 
 }
 
 
 
-// =====================================
+// =====================================================
 // START
-// =====================================
+// =====================================================
 
-displayInventory();
+async function init() {
 
-displayMovements();
+    await loadProducts();
 
+    await loadMovements();
+
+}
+
+
+init();
 
 </script>
 
