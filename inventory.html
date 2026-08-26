@@ -210,7 +210,9 @@ th{
 <body>
 
 
-<!-- HEADER -->
+<!-- =====================================================
+HEADER
+===================================================== -->
 
 <div class="header">
 
@@ -230,7 +232,9 @@ th{
 <div class="container">
 
 
-<!-- MESSAGE -->
+<!-- =====================================================
+MESSAGE
+===================================================== -->
 
 <div
     id="message"
@@ -238,7 +242,9 @@ th{
 </div>
 
 
-<!-- SUMMARY -->
+<!-- =====================================================
+SUMMARY
+===================================================== -->
 
 <div class="cards">
 
@@ -280,7 +286,9 @@ th{
 </div>
 
 
-<!-- STOCK IN -->
+<!-- =====================================================
+STOCK IN
+===================================================== -->
 
 <div class="box">
 
@@ -319,7 +327,9 @@ th{
 </div>
 
 
-<!-- INVENTORY -->
+<!-- =====================================================
+CURRENT INVENTORY
+===================================================== -->
 
 <div class="box">
 
@@ -358,7 +368,9 @@ th{
 </div>
 
 
-<!-- STOCK MOVEMENT -->
+<!-- =====================================================
+STOCK MOVEMENT
+===================================================== -->
 
 <div class="box">
 
@@ -808,6 +820,10 @@ async function addStock(){
     );
 
 
+    // =================================================
+    // VALIDATION
+    // =================================================
+
     if(!productId){
 
         showMessage(
@@ -834,6 +850,10 @@ async function addStock(){
 
     }
 
+
+    // =================================================
+    // FIND PRODUCT
+    // =================================================
 
     const product =
     products.find(function(item){
@@ -864,6 +884,7 @@ async function addStock(){
 
     try{
 
+
         // =============================================
         // OLD STOCK
         // =============================================
@@ -890,7 +911,10 @@ async function addStock(){
         await supabaseClient
             .from("products")
             .update({
-                stock:newStock
+
+                stock:
+                newStock
+
             })
             .eq(
                 "id",
@@ -909,12 +933,35 @@ async function addStock(){
 
 
         // =============================================
-        // SAVE STOCK MOVEMENT
+        // MOVEMENT DATE
         // =============================================
 
         const movementDate =
         new Date().toISOString();
 
+
+        // =============================================
+        // SAVE STOCK MOVEMENT
+        // =============================================
+        //
+        // IMPORTANT:
+        // Created_at ব্যবহার করা হচ্ছে না।
+        //
+        // তোমার table-এর:
+        //
+        // product_id
+        // product_name
+        // product_code
+        // Pack size
+        // unit
+        // Movement _type
+        // quantity
+        // Customer _name
+        // Movement _date
+        //
+        // এই column-গুলো ব্যবহার করা হচ্ছে।
+        //
+        // =============================================
 
         const {
             error: movementError
@@ -948,22 +995,32 @@ async function addStock(){
                 "",
 
                 "Movement _date":
-                movementDate,
-
-                "Created_at":
                 movementDate
 
             });
 
 
+        // =============================================
+        // CHECK MOVEMENT ERROR
+        // =============================================
+
         if(movementError){
 
-            // Restore old stock if movement fails
+            console.error(
+                "Stock movement error:",
+                movementError
+            );
+
+
+            // Restore old stock
 
             await supabaseClient
                 .from("products")
                 .update({
-                    stock:oldStock
+
+                    stock:
+                    oldStock
+
                 })
                 .eq(
                     "id",
@@ -991,7 +1048,7 @@ async function addStock(){
 
 
         // =============================================
-        // RESET
+        // RESET FORM
         // =============================================
 
         productSelect.value =
@@ -1010,6 +1067,10 @@ async function addStock(){
             "success"
         );
 
+
+        // =============================================
+        // RELOAD MOVEMENTS
+        // =============================================
 
         await loadMovements();
 
@@ -1063,6 +1124,12 @@ async function loadMovements(){
     `;
 
 
+    // =================================================
+    // IMPORTANT
+    // Created_at ব্যবহার করছি না
+    // Movement _date দিয়ে sort করছি
+    // =================================================
+
     const {
         data,
         error
@@ -1071,7 +1138,7 @@ async function loadMovements(){
         .from("stock_movements")
         .select("*")
         .order(
-            "Created_at",
+            "Movement _date",
             {
                 ascending:false
             }
@@ -1169,16 +1236,6 @@ async function loadMovements(){
         }
 
 
-        else if(item["Created_at"]){
-
-            date =
-            new Date(
-                item["Created_at"]
-            ).toLocaleDateString();
-
-        }
-
-
         // =============================================
         // ROW
         // =============================================
@@ -1223,15 +1280,30 @@ function escapeHtml(value){
 
     return String(value)
 
-        .replace(/&/g,"&amp;")
+        .replace(
+            /&/g,
+            "&amp;"
+        )
 
-        .replace(/</g,"&lt;")
+        .replace(
+            /</g,
+            "&lt;"
+        )
 
-        .replace(/>/g,"&gt;")
+        .replace(
+            />/g,
+            "&gt;"
+        )
 
-        .replace(/"/g,"&quot;")
+        .replace(
+            /"/g,
+            "&quot;"
+        )
 
-        .replace(/'/g,"&#039;");
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
 }
 
