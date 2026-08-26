@@ -105,7 +105,6 @@ select{
     border-radius:6px;
     cursor:pointer;
     font-weight:bold;
-    padding:11px;
 }
 
 .add-btn:disabled{
@@ -336,6 +335,10 @@ th{
 
                 <th>Code</th>
 
+                <th>Pack Size</th>
+
+                <th>Unit</th>
+
                 <th>TP</th>
 
                 <th>MRP</th>
@@ -376,10 +379,6 @@ th{
                 <th>Product</th>
 
                 <th>Code</th>
-
-                <th>Pack Size</th>
-
-                <th>Unit</th>
 
                 <th>Type</th>
 
@@ -459,14 +458,12 @@ function showMessage(text,type){
     const box =
     document.getElementById("message");
 
-    box.innerText =
-    text;
+    box.innerText = text;
 
     box.className =
     "message " + type;
 
-    box.style.display =
-    "block";
+    box.style.display = "block";
 
 }
 
@@ -476,8 +473,7 @@ function hideMessage(){
     const box =
     document.getElementById("message");
 
-    box.style.display =
-    "none";
+    box.style.display = "none";
 
 }
 
@@ -515,8 +511,7 @@ async function checkLogin(){
             "error"
         );
 
-        addButton.disabled =
-        true;
+        addButton.disabled = true;
 
         return false;
 
@@ -655,20 +650,14 @@ async function loadProducts(){
 
 function displayInventory(){
 
-    inventoryTable.innerHTML =
-    "";
+    inventoryTable.innerHTML = "";
 
 
-    let totalStock =
-    0;
+    let totalStock = 0;
 
+    let stockValue = 0;
 
-    let stockValue =
-    0;
-
-
-    let lowStock =
-    0;
+    let lowStock = 0;
 
 
     if(products.length === 0){
@@ -678,7 +667,7 @@ function displayInventory(){
             <tr>
 
                 <td
-                    colspan="7"
+                    colspan="9"
                     class="empty">
 
                     No products found.
@@ -695,21 +684,15 @@ function displayInventory(){
     products.forEach(function(product){
 
         const stock =
-        Number(
-            product.stock || 0
-        );
+        Number(product.stock || 0);
 
 
         const tp =
-        Number(
-            product.tp || 0
-        );
+        Number(product.tp || 0);
 
 
         const mrp =
-        Number(
-            product.mrp || 0
-        );
+        Number(product.mrp || 0);
 
 
         const value =
@@ -750,15 +733,19 @@ function displayInventory(){
         row.innerHTML = `
 
             <td>
-                ${escapeHtml(
-                    product.name || ""
-                )}
+                ${escapeHtml(product.name || "")}
             </td>
 
             <td>
-                ${escapeHtml(
-                    product.code || ""
-                )}
+                ${escapeHtml(product.code || "")}
+            </td>
+
+            <td>
+                ${escapeHtml(product.pack_size || "")}
+            </td>
+
+            <td>
+                ${escapeHtml(product.unit || "")}
             </td>
 
             <td>
@@ -784,9 +771,7 @@ function displayInventory(){
         `;
 
 
-        inventoryTable.appendChild(
-            row
-        );
+        inventoryTable.appendChild(row);
 
     });
 
@@ -837,10 +822,6 @@ async function addStock(){
     );
 
 
-    // =============================================
-    // VALIDATION
-    // =============================================
-
     if(!productId){
 
         showMessage(
@@ -868,10 +849,6 @@ async function addStock(){
     }
 
 
-    // =============================================
-    // FIND PRODUCT
-    // =============================================
-
     const product =
     products.find(function(item){
 
@@ -893,9 +870,7 @@ async function addStock(){
     }
 
 
-    addButton.disabled =
-    true;
-
+    addButton.disabled = true;
 
     addButton.innerText =
     "Saving...";
@@ -908,9 +883,7 @@ async function addStock(){
         // =============================================
 
         const oldStock =
-        Number(
-            product.stock || 0
-        );
+        Number(product.stock || 0);
 
 
         // =============================================
@@ -931,10 +904,7 @@ async function addStock(){
         await supabaseClient
             .from("products")
             .update({
-
-                stock:
-                newStock
-
+                stock:newStock
             })
             .eq(
                 "id",
@@ -953,20 +923,14 @@ async function addStock(){
 
 
         // =============================================
-        // MOVEMENT DATE
-        // =============================================
-
-        const movementDate =
-        new Date().toISOString();
-
-
-        // =============================================
-        // SAVE STOCK MOVEMENT
-        // =============================================
-        //
+        // STOCK MOVEMENT
         // IMPORTANT:
-        // Only existing columns are used.
-        //
+        // Only basic columns are inserted.
+        // No Created_at
+        // No Customer _name
+        // No Movement _date
+        // No purchase_price
+        // No type
         // =============================================
 
         const movementData = {
@@ -980,20 +944,8 @@ async function addStock(){
             product_code:
             product.code || "",
 
-            "Pack size":
-            product.pack_size || "",
-
-            unit:
-            product.unit || "",
-
-            "Movement _type":
-            "Stock In",
-
             quantity:
-            quantity,
-
-            "Movement _date":
-            movementDate
+            quantity
 
         };
 
@@ -1008,27 +960,14 @@ async function addStock(){
             );
 
 
-        // =============================================
-        // MOVEMENT ERROR
-        // =============================================
-
         if(movementError){
-
-            console.error(
-                "Stock Movement Error:",
-                movementError
-            );
-
 
             // Restore old stock
 
             await supabaseClient
                 .from("products")
                 .update({
-
-                    stock:
-                    oldStock
-
+                    stock:oldStock
                 })
                 .eq(
                     "id",
@@ -1062,7 +1001,6 @@ async function addStock(){
         productSelect.value =
         "";
 
-
         quantityInput.value =
         "";
 
@@ -1077,24 +1015,14 @@ async function addStock(){
         );
 
 
-        // =============================================
-        // RELOAD DATA
-        // =============================================
-
         await loadMovements();
-
-        await loadProducts();
 
     }
 
 
     catch(error){
 
-        console.error(
-            "Add Stock Error:",
-            error
-        );
-
+        console.error(error);
 
         showMessage(
             error.message,
@@ -1106,9 +1034,7 @@ async function addStock(){
 
     finally{
 
-        addButton.disabled =
-        false;
-
+        addButton.disabled = false;
 
         addButton.innerText =
         "+ Add Stock";
@@ -1129,7 +1055,7 @@ async function loadMovements(){
         <tr>
 
             <td
-                colspan="7"
+                colspan="5"
                 class="empty">
 
                 Loading...
@@ -1141,41 +1067,33 @@ async function loadMovements(){
     `;
 
 
+    // IMPORTANT:
+    // No .order("Created_at")
+    // because Created_at column does not exist.
+
     const {
         data,
         error
     } =
     await supabaseClient
         .from("stock_movements")
-        .select("*")
-        .order(
-            "Movement _date",
-            {
-                ascending:false
-            }
-        );
+        .select("*");
 
 
     if(error){
 
-        console.error(
-            "Movement Load Error:",
-            error
-        );
-
+        console.error(error);
 
         movementTable.innerHTML = `
 
             <tr>
 
                 <td
-                    colspan="7"
+                    colspan="5"
                     class="empty">
 
                     Stock movement load failed:
-                    ${escapeHtml(
-                        error.message
-                    )}
+                    ${escapeHtml(error.message)}
 
                 </td>
 
@@ -1188,21 +1106,17 @@ async function loadMovements(){
     }
 
 
-    movementTable.innerHTML =
-    "";
+    movementTable.innerHTML = "";
 
 
-    if(
-        !data ||
-        data.length === 0
-    ){
+    if(!data || data.length === 0){
 
         movementTable.innerHTML = `
 
             <tr>
 
                 <td
-                    colspan="7"
+                    colspan="5"
                     class="empty">
 
                     No stock movement found.
@@ -1218,7 +1132,13 @@ async function loadMovements(){
     }
 
 
-    data.forEach(function(item){
+    // Newest records first if ID is numeric
+
+    const sortedData =
+    [...data].reverse();
+
+
+    sortedData.forEach(function(item){
 
         const row =
         document.createElement("tr");
@@ -1229,13 +1149,16 @@ async function loadMovements(){
         // =============================================
 
         const type =
-        item["Movement _type"] || "";
+            item.movement_type ||
+            item["Movement _type"] ||
+            item.type ||
+            "Stock In";
 
 
         const typeClass =
-        type
-        .toLowerCase()
-        .includes("in")
+        String(type)
+            .toLowerCase()
+            .includes("in")
 
         ? "stock-in"
 
@@ -1246,32 +1169,86 @@ async function loadMovements(){
         // DATE
         // =============================================
 
-        let date =
-        "";
+        let date = "";
 
 
-        if(
-            item["Movement _date"]
-        ){
+        if(item.date){
 
-            const parsedDate =
-            new Date(
+            date =
+            formatDate(item.date);
+
+        }
+
+        else if(item.movement_date){
+
+            date =
+            formatDate(item.movement_date);
+
+        }
+
+        else if(item["Movement _date"]){
+
+            date =
+            formatDate(
                 item["Movement _date"]
             );
 
+        }
 
-            if(
-                !isNaN(
-                    parsedDate.getTime()
-                )
-            ){
+        else if(item.created_at){
 
-                date =
-                parsedDate.toLocaleDateString();
-
-            }
+            date =
+            formatDate(
+                item.created_at
+            );
 
         }
+
+        else if(item["Created_at"]){
+
+            date =
+            formatDate(
+                item["Created_at"]
+            );
+
+        }
+
+        else{
+
+            date =
+            new Date()
+                .toLocaleDateString();
+
+        }
+
+
+        // =============================================
+        // PRODUCT
+        // =============================================
+
+        const productName =
+        item.product_name ||
+        item.product ||
+        "";
+
+
+        // =============================================
+        // CODE
+        // =============================================
+
+        const productCode =
+        item.product_code ||
+        "";
+
+
+        // =============================================
+        // QUANTITY
+        // =============================================
+
+        const qty =
+        Number(
+            item.quantity || 0
+        );
 
 
         // =============================================
@@ -1285,27 +1262,11 @@ async function loadMovements(){
             </td>
 
             <td>
-                ${escapeHtml(
-                    item.product_name || ""
-                )}
+                ${escapeHtml(productName)}
             </td>
 
             <td>
-                ${escapeHtml(
-                    item.product_code || ""
-                )}
-            </td>
-
-            <td>
-                ${escapeHtml(
-                    item["Pack size"] || ""
-                )}
-            </td>
-
-            <td>
-                ${escapeHtml(
-                    item.unit || ""
-                )}
+                ${escapeHtml(productCode)}
             </td>
 
             <td class="${typeClass}">
@@ -1313,19 +1274,44 @@ async function loadMovements(){
             </td>
 
             <td>
-                ${Number(
-                    item.quantity || 0
-                ).toLocaleString()}
+                ${qty.toLocaleString()}
             </td>
 
         `;
 
 
-        movementTable.appendChild(
-            row
-        );
+        movementTable.appendChild(row);
 
     });
+
+}
+
+
+// =====================================================
+// FORMAT DATE
+// =====================================================
+
+function formatDate(value){
+
+    if(!value){
+
+        return "";
+
+    }
+
+
+    const d =
+    new Date(value);
+
+
+    if(isNaN(d.getTime())){
+
+        return String(value);
+
+    }
+
+
+    return d.toLocaleDateString();
 
 }
 
@@ -1338,30 +1324,15 @@ function escapeHtml(value){
 
     return String(value)
 
-        .replace(
-            /&/g,
-            "&amp;"
-        )
+        .replace(/&/g,"&amp;")
 
-        .replace(
-            /</g,
-            "&lt;"
-        )
+        .replace(/</g,"&lt;")
 
-        .replace(
-            />/g,
-            "&gt;"
-        )
+        .replace(/>/g,"&gt;")
 
-        .replace(
-            /"/g,
-            "&quot;"
-        )
+        .replace(/"/g,"&quot;")
 
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+        .replace(/'/g,"&#039;");
 
 }
 
