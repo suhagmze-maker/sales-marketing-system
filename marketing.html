@@ -4,7 +4,9 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
 <title>Marketing Management</title>
 
@@ -30,6 +32,10 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.header h2 {
+    font-size: 22px;
 }
 
 .back-btn {
@@ -79,6 +85,7 @@ label {
     display: block;
     margin-bottom: 7px;
     font-weight: bold;
+    color: #333;
 }
 
 input,
@@ -89,6 +96,7 @@ textarea {
     border: 1px solid #ccc;
     border-radius: 7px;
     font-size: 15px;
+    background: white;
 }
 
 input:focus,
@@ -157,11 +165,16 @@ td {
     padding: 12px;
     border-bottom: 1px solid #ddd;
     text-align: left;
-    vertical-align: middle;
+    vertical-align: top;
 }
 
 th {
     background: #f1f5f9;
+    font-weight: bold;
+}
+
+tr:hover {
+    background: #f8fafc;
 }
 
 .edit-btn {
@@ -192,11 +205,11 @@ th {
 }
 
 .status {
+    display: inline-block;
     padding: 5px 9px;
     border-radius: 5px;
     font-size: 13px;
     font-weight: bold;
-    display: inline-block;
 }
 
 .active {
@@ -236,29 +249,28 @@ th {
 
 @media (max-width: 700px) {
 
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .full {
-        grid-column: auto;
-    }
-
-    .box {
-        overflow-x: auto;
-        padding: 18px;
-    }
-
-    table {
-        min-width: 1100px;
-    }
-
     .header {
         padding: 15px;
     }
 
     .header h2 {
         font-size: 18px;
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    .box {
+        padding: 18px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full {
+        grid-column: auto;
     }
 
 }
@@ -270,9 +282,9 @@ th {
 <body>
 
 
-<!-- ==========================================
+<!-- =====================================================
      HEADER
-========================================== -->
+===================================================== -->
 
 <div class="header">
 
@@ -291,13 +303,12 @@ th {
 </div>
 
 
-
 <div class="container">
 
 
-<!-- ==========================================
+<!-- =====================================================
      CAMPAIGN FORM
-========================================== -->
+===================================================== -->
 
 <div class="box">
 
@@ -307,6 +318,7 @@ th {
 
 
     <form id="marketingForm">
+
 
         <div class="form-grid">
 
@@ -512,6 +524,8 @@ th {
         </div>
 
 
+        <!-- SAVE -->
+
         <button
             class="save-btn"
             id="saveBtn"
@@ -521,6 +535,8 @@ th {
 
         </button>
 
+
+        <!-- CANCEL -->
 
         <button
             class="cancel-btn"
@@ -541,10 +557,9 @@ th {
 </div>
 
 
-
-<!-- ==========================================
+<!-- =====================================================
      CAMPAIGN HISTORY
-========================================== -->
+===================================================== -->
 
 <div class="box">
 
@@ -562,13 +577,21 @@ th {
                 <tr>
 
                     <th>Campaign</th>
+
                     <th>Type</th>
+
                     <th>Start Date</th>
+
                     <th>End Date</th>
+
                     <th>Budget</th>
+
                     <th>Target</th>
+
                     <th>Status</th>
+
                     <th>Details</th>
+
                     <th>Action</th>
 
                 </tr>
@@ -602,13 +625,12 @@ th {
 </div>
 
 
-
 <script>
 
 
-/* ==========================================
-   SUPABASE CONFIGURATION
-========================================== */
+/* =====================================================
+   SUPABASE
+===================================================== */
 
 const SUPABASE_URL =
     "https://ucrtujcqrpjcwepiugak.supabase.co";
@@ -625,30 +647,52 @@ const supabaseClient =
     );
 
 
-
-/* ==========================================
+/* =====================================================
    DATA
-========================================== */
+===================================================== */
 
 let campaigns = [];
 
 let editId = null;
 
 
+/* =====================================================
+   ELEMENTS
+===================================================== */
 
-/* ==========================================
+const marketingForm =
+    document.getElementById(
+        "marketingForm"
+    );
+
+const campaignList =
+    document.getElementById(
+        "campaignList"
+    );
+
+const saveBtn =
+    document.getElementById(
+        "saveBtn"
+    );
+
+const cancelBtn =
+    document.getElementById(
+        "cancelBtn"
+    );
+
+const formTitle =
+    document.getElementById(
+        "formTitle"
+    );
+
+
+/* =====================================================
    LOAD CAMPAIGNS
-========================================== */
+===================================================== */
 
 async function loadCampaigns() {
 
-    const list =
-        document.getElementById(
-            "campaignList"
-        );
-
-
-    list.innerHTML = `
+    campaignList.innerHTML = `
 
         <tr>
 
@@ -690,7 +734,7 @@ async function loadCampaigns() {
             );
 
 
-            list.innerHTML = `
+            campaignList.innerHTML = `
 
                 <tr>
 
@@ -699,7 +743,6 @@ async function loadCampaigns() {
                         class="empty">
 
                         Failed to load campaigns:<br>
-
                         ${escapeHTML(
                             error.message
                         )}
@@ -726,12 +769,12 @@ async function loadCampaigns() {
     catch(error) {
 
         console.error(
-            "Unexpected load error:",
+            "Unexpected error:",
             error
         );
 
 
-        list.innerHTML = `
+        campaignList.innerHTML = `
 
             <tr>
 
@@ -739,7 +782,7 @@ async function loadCampaigns() {
                     colspan="9"
                     class="empty">
 
-                    Something went wrong while loading campaigns.
+                    Something went wrong.
 
                 </td>
 
@@ -752,27 +795,20 @@ async function loadCampaigns() {
 }
 
 
-
-/* ==========================================
+/* =====================================================
    DISPLAY CAMPAIGNS
-========================================== */
+===================================================== */
 
 function displayCampaigns() {
 
-    const list =
-        document.getElementById(
-            "campaignList"
-        );
-
-
-    list.innerHTML = "";
+    campaignList.innerHTML = "";
 
 
     if (
         campaigns.length === 0
     ) {
 
-        list.innerHTML = `
+        campaignList.innerHTML = `
 
             <tr>
 
@@ -795,7 +831,6 @@ function displayCampaigns() {
 
     campaigns.forEach(
         function(campaign) {
-
 
             const row =
                 document.createElement(
@@ -831,28 +866,28 @@ function displayCampaigns() {
 
                 <td>
                     ${escapeHTML(
-                        campaign.name || "-"
+                        campaign.name
                     )}
                 </td>
 
 
                 <td>
                     ${escapeHTML(
-                        campaign.type || "-"
+                        campaign.type
                     )}
                 </td>
 
 
                 <td>
                     ${escapeHTML(
-                        campaign.start_date || "-"
+                        campaign.start_date
                     )}
                 </td>
 
 
                 <td>
                     ${escapeHTML(
-                        campaign.end_date || "-"
+                        campaign.end_date
                     )}
                 </td>
 
@@ -866,7 +901,7 @@ function displayCampaigns() {
 
                 <td>
                     ${escapeHTML(
-                        campaign.target || "-"
+                        campaign.target
                     )}
                 </td>
 
@@ -877,7 +912,7 @@ function displayCampaigns() {
                         class="status ${statusClass}">
 
                         ${escapeHTML(
-                            campaign.status || "Pending"
+                            campaign.status
                         )}
 
                     </span>
@@ -916,7 +951,7 @@ function displayCampaigns() {
             `;
 
 
-            list.appendChild(
+            campaignList.appendChild(
                 row
             );
 
@@ -926,32 +961,26 @@ function displayCampaigns() {
 }
 
 
+/* =====================================================
+   SAVE / UPDATE
+===================================================== */
 
-/* ==========================================
-   SAVE / UPDATE CAMPAIGN
-========================================== */
-
-document
-.getElementById("marketingForm")
-.addEventListener(
+marketingForm.addEventListener(
     "submit",
     async function(event) {
 
         event.preventDefault();
 
 
-        const saveBtn =
-            document.getElementById(
-                "saveBtn"
-            );
+        saveBtn.disabled = true;
 
 
-        saveBtn.disabled =
-            true;
+        const isEditing =
+            editId !== null;
 
 
         saveBtn.innerText =
-            editId
+            isEditing
             ? "Updating..."
             : "Saving...";
 
@@ -963,24 +992,20 @@ document
                     "campaignName"
                 ).value.trim(),
 
-
             type:
                 document.getElementById(
                     "campaignType"
                 ).value,
-
 
             start_date:
                 document.getElementById(
                     "startDate"
                 ).value,
 
-
             end_date:
                 document.getElementById(
                     "endDate"
                 ).value,
-
 
             budget:
                 Number(
@@ -989,18 +1014,15 @@ document
                     ).value || 0
                 ),
 
-
             target:
                 document.getElementById(
                     "targetCustomer"
                 ).value,
 
-
             status:
                 document.getElementById(
                     "status"
                 ).value,
-
 
             details:
                 document.getElementById(
@@ -1010,6 +1032,37 @@ document
         };
 
 
+        /* ==========================================
+           DATE VALIDATION
+        ========================================== */
+
+        if (
+            campaign.start_date &&
+            campaign.end_date &&
+            campaign.start_date >
+            campaign.end_date
+        ) {
+
+            showMessage(
+                "End Date cannot be before Start Date.",
+                "red"
+            );
+
+
+            saveBtn.disabled = false;
+
+
+            saveBtn.innerText =
+                isEditing
+                ? "Update Campaign"
+                : "Save Campaign";
+
+
+            return;
+
+        }
+
+
         try {
 
 
@@ -1017,7 +1070,7 @@ document
                UPDATE
             ====================================== */
 
-            if (editId) {
+            if (isEditing) {
 
                 const {
                     error
@@ -1077,34 +1130,31 @@ document
             }
 
 
-            editId =
-                null;
+            /* ======================================
+               RESET FORM
+            ====================================== */
+
+            editId = null;
 
 
-            document
-            .getElementById(
-                "marketingForm"
-            )
-            .reset();
+            marketingForm.reset();
 
 
-            document.getElementById(
-                "formTitle"
-            ).innerText =
+            formTitle.innerText =
                 "Add Marketing Campaign";
 
 
-            document.getElementById(
-                "saveBtn"
-            ).innerText =
+            saveBtn.innerText =
                 "Save Campaign";
 
 
-            document.getElementById(
-                "cancelBtn"
-            ).style.display =
+            cancelBtn.style.display =
                 "none";
 
+
+            /* ======================================
+               RELOAD ONLINE DATA
+            ====================================== */
 
             await loadCampaigns();
 
@@ -1127,12 +1177,11 @@ document
         }
 
 
-        saveBtn.disabled =
-            false;
+        saveBtn.disabled = false;
 
 
         saveBtn.innerText =
-            editId
+            editId !== null
             ? "Update Campaign"
             : "Save Campaign";
 
@@ -1140,10 +1189,9 @@ document
 );
 
 
-
-/* ==========================================
+/* =====================================================
    EDIT CAMPAIGN
-========================================== */
+===================================================== */
 
 function editCampaign(id) {
 
@@ -1153,7 +1201,8 @@ function editCampaign(id) {
 
                 return String(
                     item.id
-                ) === String(id);
+                ) ===
+                String(id);
 
             }
         );
@@ -1222,21 +1271,15 @@ function editCampaign(id) {
         campaign.details || "";
 
 
-    document.getElementById(
-        "formTitle"
-    ).innerText =
+    formTitle.innerText =
         "Edit Marketing Campaign";
 
 
-    document.getElementById(
-        "saveBtn"
-    ).innerText =
+    saveBtn.innerText =
         "Update Campaign";
 
 
-    document.getElementById(
-        "cancelBtn"
-    ).style.display =
+    cancelBtn.style.display =
         "block";
 
 
@@ -1251,54 +1294,40 @@ function editCampaign(id) {
 }
 
 
-
-/* ==========================================
+/* =====================================================
    CANCEL EDIT
-========================================== */
+===================================================== */
 
 function cancelEdit() {
 
-    editId =
-        null;
+    editId = null;
 
 
-    document
-    .getElementById(
-        "marketingForm"
-    )
-    .reset();
+    marketingForm.reset();
 
 
-    document.getElementById(
-        "formTitle"
-    ).innerText =
+    formTitle.innerText =
         "Add Marketing Campaign";
 
 
-    document.getElementById(
-        "saveBtn"
-    ).innerText =
+    saveBtn.innerText =
         "Save Campaign";
 
 
-    document.getElementById(
-        "cancelBtn"
-    ).style.display =
+    cancelBtn.style.display =
         "none";
 
 
     document.getElementById(
         "message"
-    ).innerText =
-        "";
+    ).innerText = "";
 
 }
 
 
-
-/* ==========================================
+/* =====================================================
    DELETE CAMPAIGN
-========================================== */
+===================================================== */
 
 async function deleteCampaign(id) {
 
@@ -1365,10 +1394,9 @@ async function deleteCampaign(id) {
 }
 
 
-
-/* ==========================================
+/* =====================================================
    MESSAGE
-========================================== */
+===================================================== */
 
 function showMessage(
     text,
@@ -1402,10 +1430,9 @@ function showMessage(
 }
 
 
-
-/* ==========================================
+/* =====================================================
    ESCAPE HTML
-========================================== */
+===================================================== */
 
 function escapeHTML(value) {
 
@@ -1449,10 +1476,9 @@ function escapeHTML(value) {
 }
 
 
-
-/* ==========================================
+/* =====================================================
    DASHBOARD
-========================================== */
+===================================================== */
 
 function goDashboard() {
 
@@ -1462,18 +1488,16 @@ function goDashboard() {
 }
 
 
-
-/* ==========================================
+/* =====================================================
    INITIAL LOAD
-========================================== */
+===================================================== */
 
 loadCampaigns();
 
 
-
-/* ==========================================
+/* =====================================================
    AUTO REFRESH
-========================================== */
+===================================================== */
 
 setInterval(
     loadCampaigns,
