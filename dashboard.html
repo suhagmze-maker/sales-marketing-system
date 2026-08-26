@@ -5,19 +5,11 @@
 <head>
 
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Sales & Marketing Dashboard</title>
 
-
-<!-- =====================================================
-     SUPABASE LIBRARY
-===================================================== -->
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 
 <style>
 
@@ -31,11 +23,6 @@
 body {
     background: #f4f6f9;
 }
-
-
-/* =====================================================
-   HEADER
-===================================================== */
 
 .header {
     background: #2563eb;
@@ -69,21 +56,11 @@ body {
     cursor: not-allowed;
 }
 
-
-/* =====================================================
-   CONTAINER
-===================================================== */
-
 .container {
     padding: 30px;
     max-width: 1400px;
     margin: auto;
 }
-
-
-/* =====================================================
-   WELCOME
-===================================================== */
 
 .welcome {
     margin-bottom: 25px;
@@ -97,11 +74,6 @@ body {
 .welcome p {
     color: #666;
 }
-
-
-/* =====================================================
-   CARDS
-===================================================== */
 
 .cards {
     display: grid;
@@ -127,11 +99,6 @@ body {
     color: #2563eb;
 }
 
-
-/* =====================================================
-   MENU
-===================================================== */
-
 .menu {
     margin-top: 30px;
     display: grid;
@@ -155,11 +122,6 @@ body {
     transform: translateY(-2px);
 }
 
-
-/* =====================================================
-   REFRESH
-===================================================== */
-
 .refresh-box {
     margin-top: 25px;
     text-align: right;
@@ -179,10 +141,14 @@ body {
     background: #15803d;
 }
 
-
-/* =====================================================
-   MOBILE
-===================================================== */
+.status {
+    margin-top: 20px;
+    padding: 12px;
+    border-radius: 7px;
+    background: #eef4ff;
+    color: #2563eb;
+    font-weight: bold;
+}
 
 @media (max-width: 900px) {
 
@@ -195,7 +161,6 @@ body {
     }
 
 }
-
 
 @media (max-width: 600px) {
 
@@ -233,16 +198,13 @@ body {
 <body>
 
 
-<!-- =====================================================
-     HEADER
-===================================================== -->
+<!-- HEADER -->
 
 <div class="header">
 
     <h2>
         Sales & Marketing System
     </h2>
-
 
     <button
         class="logout"
@@ -256,10 +218,6 @@ body {
 
 
 
-<!-- =====================================================
-     MAIN
-===================================================== -->
-
 <div class="container">
 
 
@@ -272,21 +230,17 @@ body {
         </h1>
 
         <p id="welcomeText">
-            Welcome to your Sales & Marketing Management System.
+            Loading user...
         </p>
 
     </div>
 
 
 
-    <!-- =================================================
-         DASHBOARD CARDS
-    ================================================== -->
+    <!-- CARDS -->
 
     <div class="cards">
 
-
-        <!-- TOTAL SALES -->
 
         <div class="card">
 
@@ -306,8 +260,6 @@ body {
 
 
 
-        <!-- CUSTOMERS -->
-
         <div class="card">
 
             <h3>
@@ -325,8 +277,6 @@ body {
         </div>
 
 
-
-        <!-- PRODUCTS -->
 
         <div class="card">
 
@@ -346,8 +296,6 @@ body {
 
 
 
-        <!-- TODAY SALES -->
-
         <div class="card">
 
             <h3>
@@ -364,13 +312,24 @@ body {
 
         </div>
 
+
     </div>
 
 
 
-    <!-- =================================================
-         REFRESH
-    ================================================== -->
+    <!-- STATUS -->
+
+    <div
+        id="status"
+        class="status">
+
+        Loading dashboard data...
+
+    </div>
+
+
+
+    <!-- REFRESH -->
 
     <div class="refresh-box">
 
@@ -386,70 +345,52 @@ body {
 
 
 
-    <!-- =================================================
-         MENU
-    ================================================== -->
+    <!-- MENU -->
 
     <div class="menu">
 
 
         <button onclick="go('sales.html')">
-
             📊 Sales Entry
-
         </button>
 
 
         <button onclick="go('sales-history.html')">
-
             📋 Sales History
-
         </button>
 
 
         <button onclick="go('customers.html')">
-
             👥 Customers
-
         </button>
 
 
         <button onclick="go('products.html')">
-
             📦 Products
-
         </button>
 
 
         <button onclick="go('inventory.html')">
-
             📋 Inventory
-
         </button>
 
 
         <button onclick="go('reports.html')">
-
             📈 Reports
-
         </button>
 
 
         <button onclick="go('marketing.html')">
-
             📢 Marketing
-
         </button>
 
 
         <button onclick="go('settings.html')">
-
             ⚙️ Settings
-
         </button>
 
-    </div>
 
+    </div>
 
 </div>
 
@@ -459,16 +400,14 @@ body {
 
 
 // =====================================================
-// SUPABASE CONFIGURATION
+// SUPABASE
 // =====================================================
 
 const SUPABASE_URL =
     "https://ucrtujcqrpjcwepiugak.supabase.co";
 
-
 const SUPABASE_KEY =
     "sb_publishable_RnDm7gJ6ROuU49hcY_BA3g_snx27-M9";
-
 
 const supabaseClient =
     window.supabase.createClient(
@@ -483,90 +422,407 @@ const supabaseClient =
 // =====================================================
 
 const logoutButton =
-    document.getElementById("logoutButton");
+    document.getElementById(
+        "logoutButton"
+    );
 
 const refreshButton =
-    document.getElementById("refreshButton");
+    document.getElementById(
+        "refreshButton"
+    );
 
 const welcomeText =
-    document.getElementById("welcomeText");
+    document.getElementById(
+        "welcomeText"
+    );
+
+const statusBox =
+    document.getElementById(
+        "status"
+    );
 
 
 
 // =====================================================
-// CHECK LOGIN SESSION
+// CHECK LOGIN
 // =====================================================
 
 async function checkLogin() {
 
-    try {
-
-        const {
-            data,
-            error
-        } =
-        await supabaseClient.auth.getSession();
+    const {
+        data,
+        error
+    } =
+    await supabaseClient.auth.getSession();
 
 
-        if (error) {
-
-            console.error(
-                "Session error:",
-                error
-            );
-
-            window.location.href =
-                "index.html";
-
-            return;
-
-        }
-
-
-        // No logged-in user
-
-        if (!data.session) {
-
-            window.location.href =
-                "index.html";
-
-            return;
-
-        }
-
-
-        // Show logged-in email
-
-        if (
-            data.session.user &&
-            data.session.user.email
-        ) {
-
-            welcomeText.innerText =
-                "Welcome, " +
-                data.session.user.email +
-                " — Sales & Marketing Management System.";
-
-        }
-
-    }
-
-    catch (error) {
+    if (error) {
 
         console.error(
-            "Authentication error:",
+            "Session error:",
             error
         );
 
         window.location.href =
             "index.html";
 
+        return null;
+
     }
+
+
+    if (!data.session) {
+
+        window.location.href =
+            "index.html";
+
+        return null;
+
+    }
+
+
+    const user =
+        data.session.user;
+
+
+    if (user && user.email) {
+
+        welcomeText.innerText =
+            "Welcome, " +
+            user.email +
+            " — Sales & Marketing Management System.";
+
+    }
+
+
+    return user;
 
 }
 
 
-checkLogin();
+
+// =====================================================
+// LOAD DASHBOARD FROM SUPABASE
+// =====================================================
+
+async function loadDashboard() {
+
+    statusBox.innerText =
+        "Loading live data from Supabase...";
+
+    statusBox.style.background =
+        "#eef4ff";
+
+    statusBox.style.color =
+        "#2563eb";
+
+
+    try {
+
+        // =============================================
+        // CHECK LOGIN FIRST
+        // =============================================
+
+        const user =
+            await checkLogin();
+
+
+        if (!user) {
+            return;
+        }
+
+
+
+        // =============================================
+        // LOAD ALL DATA
+        // =============================================
+
+        const [
+            customersResult,
+            productsResult,
+            salesResult
+        ] =
+        await Promise.all([
+
+
+            // CUSTOMERS
+
+            supabaseClient
+                .from("customers")
+                .select(
+                    "id",
+                    {
+                        count: "exact",
+                        head: true
+                    }
+                ),
+
+
+
+            // PRODUCTS
+
+            supabaseClient
+                .from("products")
+                .select(
+                    "id",
+                    {
+                        count: "exact",
+                        head: true
+                    }
+                ),
+
+
+
+            // SALES
+
+            supabaseClient
+                .from("orders")
+                .select(
+                    "total_amount,created_at"
+                )
+                .order(
+                    "created_at",
+                    {
+                        ascending: false
+                    }
+                )
+
+        ]);
+
+
+
+        // =============================================
+        // CHECK CUSTOMER ERROR
+        // =============================================
+
+        if (
+            customersResult.error
+        ) {
+
+            throw new Error(
+                "Customers: " +
+                customersResult.error.message
+            );
+
+        }
+
+
+
+        // =============================================
+        // CHECK PRODUCT ERROR
+        // =============================================
+
+        if (
+            productsResult.error
+        ) {
+
+            throw new Error(
+                "Products: " +
+                productsResult.error.message
+            );
+
+        }
+
+
+
+        // =============================================
+        // CHECK SALES ERROR
+        // =============================================
+
+        if (
+            salesResult.error
+        ) {
+
+            throw new Error(
+                "Sales: " +
+                salesResult.error.message
+            );
+
+        }
+
+
+
+        // =============================================
+        // CUSTOMER COUNT
+        // =============================================
+
+        const customerCount =
+            customersResult.count || 0;
+
+
+        document.getElementById(
+            "totalCustomers"
+        ).innerText =
+            customerCount.toLocaleString();
+
+
+
+        // =============================================
+        // PRODUCT COUNT
+        // =============================================
+
+        const productCount =
+            productsResult.count || 0;
+
+
+        document.getElementById(
+            "totalProducts"
+        ).innerText =
+            productCount.toLocaleString();
+
+
+
+        // =============================================
+        // SALES DATA
+        // =============================================
+
+        const sales =
+            salesResult.data || [];
+
+
+
+        // =============================================
+        // TOTAL SALES
+        // =============================================
+
+        let totalSales = 0;
+
+
+        sales.forEach(
+            function(sale) {
+
+                totalSales +=
+                    Number(
+                        sale.total_amount || 0
+                    );
+
+            }
+        );
+
+
+        document.getElementById(
+            "totalSales"
+        ).innerText =
+            "৳ " +
+            totalSales.toLocaleString();
+
+
+
+        // =============================================
+        // TODAY SALES
+        // =============================================
+
+        const now =
+            new Date();
+
+
+        const today =
+            now.getFullYear() +
+            "-" +
+            String(
+                now.getMonth() + 1
+            ).padStart(2, "0") +
+            "-" +
+            String(
+                now.getDate()
+            ).padStart(2, "0");
+
+
+        let todaySales = 0;
+
+
+        sales.forEach(
+            function(sale) {
+
+                if (
+                    !sale.created_at
+                ) {
+
+                    return;
+
+                }
+
+
+                const date =
+                    new Date(
+                        sale.created_at
+                    );
+
+
+                const saleDate =
+                    date.getFullYear() +
+                    "-" +
+                    String(
+                        date.getMonth() + 1
+                    ).padStart(2, "0") +
+                    "-" +
+                    String(
+                        date.getDate()
+                    ).padStart(2, "0");
+
+
+                if (
+                    saleDate === today
+                ) {
+
+                    todaySales +=
+                        Number(
+                            sale.total_amount || 0
+                        );
+
+                }
+
+            }
+        );
+
+
+        document.getElementById(
+            "todaySales"
+        ).innerText =
+            "৳ " +
+            todaySales.toLocaleString();
+
+
+
+        // =============================================
+        // SUCCESS
+        // =============================================
+
+        statusBox.innerText =
+            "✓ Live Supabase data loaded successfully.";
+
+
+        statusBox.style.background =
+            "#dcfce7";
+
+        statusBox.style.color =
+            "#166534";
+
+
+    }
+
+    catch(error) {
+
+        console.error(
+            "Dashboard error:",
+            error
+        );
+
+
+        statusBox.innerText =
+            "Dashboard load failed: " +
+            error.message;
+
+
+        statusBox.style.background =
+            "#fee2e2";
+
+        statusBox.style.color =
+            "#b91c1c";
+
+    }
+
+}
 
 
 
@@ -593,17 +849,10 @@ async function logout() {
 
         if (error) {
 
-            console.error(
-                "Logout error:",
-                error
-            );
-
-
             alert(
                 "Logout failed: " +
                 error.message
             );
-
 
             logoutButton.disabled =
                 false;
@@ -616,26 +865,21 @@ async function logout() {
         }
 
 
-        // Logout successful
-
         window.location.replace(
             "index.html"
         );
 
     }
 
-    catch (error) {
+    catch(error) {
 
         console.error(
-            "Unexpected logout error:",
             error
         );
 
-
         alert(
-            "Something went wrong during logout."
+            "Something went wrong."
         );
-
 
         logoutButton.disabled =
             false;
@@ -661,158 +905,7 @@ logoutButton.addEventListener(
 
 
 // =====================================================
-// SAFE LOCAL STORAGE
-// =====================================================
-
-function getData(key) {
-
-    try {
-
-        const data =
-            localStorage.getItem(key);
-
-
-        if (!data) {
-
-            return [];
-
-        }
-
-
-        const parsed =
-            JSON.parse(data);
-
-
-        return Array.isArray(parsed)
-            ? parsed
-            : [];
-
-    }
-
-    catch(error) {
-
-        console.error(
-            "Storage error:",
-            key,
-            error
-        );
-
-
-        return [];
-
-    }
-
-}
-
-
-
-// =====================================================
-// LOAD DASHBOARD
-// =====================================================
-
-function loadDashboard() {
-
-
-    // CUSTOMERS
-
-    const customers =
-        getData("customers");
-
-
-    // PRODUCTS
-
-    const products =
-        getData("products");
-
-
-    // SALES
-
-    const sales =
-        getData("sales");
-
-
-
-    // TOTAL CUSTOMERS
-
-    document.getElementById(
-        "totalCustomers"
-    ).innerText =
-        customers.length;
-
-
-
-    // TOTAL PRODUCTS
-
-    document.getElementById(
-        "totalProducts"
-    ).innerText =
-        products.length;
-
-
-
-    // TOTAL SALES
-
-    let totalSales = 0;
-
-
-    sales.forEach(
-        function(sale) {
-
-            totalSales +=
-                Number(sale.total) || 0;
-
-        }
-    );
-
-
-    document.getElementById(
-        "totalSales"
-    ).innerText =
-        "৳ " +
-        totalSales.toLocaleString();
-
-
-
-    // TODAY SALES
-
-    const today =
-        new Date()
-        .toISOString()
-        .split("T")[0];
-
-
-    let todaySales = 0;
-
-
-    sales.forEach(
-        function(sale) {
-
-            if (
-                String(sale.date) ===
-                today
-            ) {
-
-                todaySales +=
-                    Number(sale.total) || 0;
-
-            }
-
-        }
-    );
-
-
-    document.getElementById(
-        "todaySales"
-    ).innerText =
-        "৳ " +
-        todaySales.toLocaleString();
-
-}
-
-
-
-// =====================================================
-// PAGE NAVIGATION
+// NAVIGATION
 // =====================================================
 
 function go(page) {
@@ -825,12 +918,30 @@ function go(page) {
 
 
 // =====================================================
-// REFRESH BUTTON
+// REFRESH
 // =====================================================
 
 refreshButton.addEventListener(
     "click",
-    loadDashboard
+    async function() {
+
+        refreshButton.disabled =
+            true;
+
+        refreshButton.innerText =
+            "⏳ Loading...";
+
+
+        await loadDashboard();
+
+
+        refreshButton.disabled =
+            false;
+
+        refreshButton.innerText =
+            "🔄 Refresh Dashboard";
+
+    }
 );
 
 
@@ -841,8 +952,19 @@ refreshButton.addEventListener(
 
 loadDashboard();
 
-</script>
 
+
+// =====================================================
+// AUTO REFRESH
+// Every 10 seconds
+// =====================================================
+
+setInterval(
+    loadDashboard,
+    10000
+);
+
+</script>
 
 </body>
 
