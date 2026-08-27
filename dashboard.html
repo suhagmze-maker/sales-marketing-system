@@ -23,10 +23,6 @@
 
 <style>
 
-/* =====================================================
-   RESET
-===================================================== */
-
 *{
     margin:0;
     padding:0;
@@ -34,699 +30,370 @@
     font-family:Arial,sans-serif;
 }
 
-
-/* =====================================================
-   BODY
-===================================================== */
-
 body{
     background:linear-gradient(
         135deg,
         #eef2ff,
         #f8fafc
     );
-
     min-height:100vh;
 }
 
-
-/* =====================================================
-   HEADER
-===================================================== */
-
 .header{
-
     background:linear-gradient(
         135deg,
         #1d4ed8,
         #4f46e5
     );
-
     color:white;
-
     padding:20px 30px;
-
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     box-shadow:
         0 4px 15px rgba(37,99,235,.25);
-
 }
 
 .header h2{
-
     font-size:22px;
-
 }
 
-
-/* =====================================================
-   LOGOUT
-===================================================== */
-
 .logout{
-
     background:white;
-
     color:#1d4ed8;
-
     border:none;
-
     padding:10px 18px;
-
     border-radius:8px;
-
     cursor:pointer;
-
     font-weight:bold;
-
     transition:.2s;
-
 }
 
 .logout:hover{
-
     transform:translateY(-2px);
-
     box-shadow:
         0 4px 10px rgba(0,0,0,.15);
-
 }
 
 .logout:disabled{
-
     opacity:.7;
-
     cursor:not-allowed;
-
 }
-
-
-/* =====================================================
-   CONTAINER
-===================================================== */
 
 .container{
-
     padding:30px;
-
     max-width:1450px;
-
     margin:auto;
-
 }
 
-
-/* =====================================================
-   WELCOME
-===================================================== */
-
 .welcome{
-
     margin-bottom:25px;
-
 }
 
 .welcome h1{
-
     margin-bottom:8px;
-
     color:#111827;
-
     font-size:30px;
-
 }
 
 .welcome p{
-
     color:#64748b;
-
 }
-
-
-/* =====================================================
-   DASHBOARD CARDS
-===================================================== */
 
 .cards{
-
     display:grid;
-
     grid-template-columns:
         repeat(4,1fr);
-
     gap:20px;
-
 }
 
-
-/* =====================================================
-   COMMON CARD
-===================================================== */
-
 .card{
-
     position:relative;
-
     overflow:hidden;
-
     padding:25px;
-
     border-radius:16px;
-
     color:white;
-
     min-height:145px;
-
     box-shadow:
         0 8px 20px rgba(0,0,0,.12);
-
     transition:.25s;
-
 }
 
 .card:hover{
-
     transform:translateY(-5px);
-
     box-shadow:
         0 12px 25px rgba(0,0,0,.18);
-
 }
 
 .card h3{
-
     font-size:16px;
-
     margin-bottom:15px;
-
     opacity:.95;
-
 }
 
 .number{
-
     font-size:30px;
-
     font-weight:bold;
-
 }
 
-
-/* =====================================================
-   CARD COLORS
-===================================================== */
-
 .sales-card{
-
     background:
         linear-gradient(
             135deg,
             #2563eb,
             #3b82f6
         );
-
 }
 
 .customer-card{
-
     background:
         linear-gradient(
             135deg,
             #059669,
             #10b981
         );
-
 }
 
 .product-card{
-
     background:
         linear-gradient(
             135deg,
             #7c3aed,
             #a855f7
         );
-
 }
 
 .today-card{
-
     background:
         linear-gradient(
             135deg,
             #ea580c,
             #f97316
         );
-
 }
 
-
-/* =====================================================
-   CARD DECORATION
-===================================================== */
-
 .card::after{
-
     content:"";
-
     position:absolute;
-
     width:100px;
-
     height:100px;
-
     right:-30px;
-
     bottom:-35px;
-
     background:
         rgba(255,255,255,.15);
-
     border-radius:50%;
-
 }
 
 .card::before{
-
     content:"";
-
     position:absolute;
-
     width:55px;
-
     height:55px;
-
     right:45px;
-
     top:-20px;
-
     background:
         rgba(255,255,255,.08);
-
     border-radius:50%;
-
 }
-
-
-/* =====================================================
-   STATUS
-===================================================== */
 
 .status{
-
     margin-top:25px;
-
     padding:13px 17px;
-
     border-radius:9px;
-
     background:#eef4ff;
-
     color:#2563eb;
-
     font-weight:bold;
-
     border-left:
         5px solid #2563eb;
-
 }
-
-
-/* =====================================================
-   REFRESH BOX
-===================================================== */
 
 .refresh-box{
-
     margin-top:20px;
-
     text-align:right;
-
 }
 
-
-/* =====================================================
-   REFRESH BUTTON
-===================================================== */
-
 .refresh-btn{
-
     padding:11px 20px;
-
     border:none;
-
     border-radius:8px;
-
     background:
         linear-gradient(
             135deg,
             #059669,
             #10b981
         );
-
     color:white;
-
     cursor:pointer;
-
     font-weight:bold;
-
     box-shadow:
         0 4px 10px
         rgba(16,185,129,.25);
-
     transition:.2s;
-
 }
 
 .refresh-btn:hover{
-
     transform:translateY(-2px);
-
 }
 
 .refresh-btn:disabled{
-
     opacity:.7;
-
 }
-
-
-/* =====================================================
-   MENU
-===================================================== */
 
 .menu{
-
     margin-top:25px;
-
     display:grid;
-
     grid-template-columns:
         repeat(4,1fr);
-
     gap:18px;
-
 }
 
-
-/* =====================================================
-   ALL MENU BUTTONS
-===================================================== */
-
 .menu-button{
-
     display:flex !important;
-
     visibility:visible !important;
-
     opacity:1 !important;
-
     width:100%;
-
     min-height:70px;
-
     align-items:center;
-
     justify-content:center;
-
     padding:22px 15px;
-
     border:none;
-
     border-radius:14px;
-
     font-size:16px;
-
     font-weight:bold;
-
     cursor:pointer;
-
     box-shadow:
         0 5px 15px rgba(0,0,0,.08);
-
     transition:.25s;
-
 }
 
 .menu-button:hover{
-
     transform:translateY(-4px);
-
     box-shadow:
         0 10px 20px rgba(0,0,0,.14);
-
 }
-
-
-/* =====================================================
-   SALES ENTRY
-===================================================== */
 
 .sales-entry-btn{
-
     background:#dbeafe;
-
     color:#1d4ed8;
-
 }
-
-
-/* =====================================================
-   SALES HISTORY
-===================================================== */
 
 .sales-history-btn{
-
     background:#dcfce7;
-
     color:#15803d;
-
 }
-
-
-/* =====================================================
-   CUSTOMERS
-===================================================== */
 
 .customers-btn{
-
     background:#f3e8ff;
-
     color:#7e22ce;
-
 }
-
-
-/* =====================================================
-   PRODUCTS
-===================================================== */
 
 .products-btn{
-
     background:#fef3c7;
-
     color:#b45309;
-
 }
-
-
-/* =====================================================
-   INVENTORY
-===================================================== */
 
 .inventory-btn{
-
     background:#cffafe;
-
     color:#0e7490;
-
 }
-
-
-/* =====================================================
-   REPORTS
-===================================================== */
 
 .reports-btn{
-
     background:#fce7f3;
-
     color:#be185d;
-
 }
-
-
-/* =====================================================
-   MARKETING
-===================================================== */
 
 .marketing-btn{
-
     background:#ffedd5;
-
     color:#c2410c;
-
 }
-
-
-/* =====================================================
-   OUTLET SURVEY
-===================================================== */
 
 .outlet-survey-btn{
-
     display:flex !important;
-
     visibility:visible !important;
-
     opacity:1 !important;
-
     background:#dcfce7 !important;
-
     color:#166534 !important;
-
     border:2px solid #22c55e !important;
-
     min-height:70px;
-
 }
-
-
-/* =====================================================
-   SETTINGS
-===================================================== */
 
 .settings-btn{
-
     display:flex !important;
-
     visibility:visible !important;
-
     opacity:1 !important;
-
     background:#e0e7ff !important;
-
     color:#4338ca !important;
-
     border:2px solid #6366f1 !important;
-
     min-height:70px;
-
 }
-
-
-/* =====================================================
-   MOBILE / TABLET
-===================================================== */
 
 @media(max-width:1000px){
 
     .cards{
-
         grid-template-columns:
             repeat(2,1fr);
-
     }
 
     .menu{
-
         grid-template-columns:
             repeat(2,1fr);
-
     }
 
 }
-
-
-/* =====================================================
-   MOBILE
-===================================================== */
 
 @media(max-width:600px){
 
     .header{
-
         padding:
             15px 18px;
-
     }
 
     .header h2{
-
         font-size:17px;
-
     }
 
     .container{
-
         padding:
             20px 15px;
-
     }
 
     .welcome h1{
-
         font-size:25px;
-
     }
 
     .cards{
-
         grid-template-columns:
             1fr;
-
     }
 
     .menu{
-
         grid-template-columns:
             1fr;
-
     }
 
     .card{
-
         min-height:135px;
-
     }
 
     .menu-button{
-
         min-height:65px;
-
     }
 
 }
 
-
-/* =====================================================
-   VERY SMALL MOBILE
-===================================================== */
-
 @media(max-width:380px){
 
     .header{
-
         gap:10px;
-
     }
 
     .logout{
-
         padding:
             8px 12px;
-
     }
 
     .menu-button{
-
         font-size:15px;
-
     }
 
 }
@@ -735,13 +402,7 @@ body{
 
 </head>
 
-
 <body>
-
-
-<!-- =====================================================
-     HEADER
-===================================================== -->
 
 <div class="header">
 
@@ -760,17 +421,7 @@ body{
 
 </div>
 
-
-<!-- =====================================================
-     MAIN CONTAINER
-===================================================== -->
-
 <div class="container">
-
-
-    <!-- =================================================
-         WELCOME
-    ================================================== -->
 
     <div class="welcome">
 
@@ -784,15 +435,7 @@ body{
 
     </div>
 
-
-    <!-- =================================================
-         CARDS
-    ================================================== -->
-
     <div class="cards">
-
-
-        <!-- TOTAL SALES -->
 
         <div class="card sales-card">
 
@@ -810,9 +453,6 @@ body{
 
         </div>
 
-
-        <!-- TOTAL CUSTOMERS -->
-
         <div class="card customer-card">
 
             <h3>
@@ -828,9 +468,6 @@ body{
             </div>
 
         </div>
-
-
-        <!-- TOTAL PRODUCTS -->
 
         <div class="card product-card">
 
@@ -848,9 +485,6 @@ body{
 
         </div>
 
-
-        <!-- TODAY SALES -->
-
         <div class="card today-card">
 
             <h3>
@@ -867,13 +501,7 @@ body{
 
         </div>
 
-
     </div>
-
-
-    <!-- =================================================
-         STATUS
-    ================================================== -->
 
     <div
         id="status"
@@ -882,11 +510,6 @@ body{
         Loading live data from Supabase...
 
     </div>
-
-
-    <!-- =================================================
-         REFRESH
-    ================================================== -->
 
     <div class="refresh-box">
 
@@ -901,13 +524,7 @@ body{
 
     </div>
 
-
-    <!-- =================================================
-         MENU
-    ================================================== -->
-
     <div class="menu">
-
 
         <!-- 1 SALES ENTRY -->
 
@@ -1018,18 +635,11 @@ body{
 
         </button>
 
-
     </div>
-
 
 </div>
 
-
 <script>
-
-/* =====================================================
-   SUPABASE
-===================================================== */
 
 const SUPABASE_URL =
     "https://ucrtujcqrpjcwepiugak.supabase.co";
@@ -1037,17 +647,11 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
     "sb_publishable_RnDm7gJ6ROuU49hcY_BA3g_snx27-M9";
 
-
 const supabaseClient =
     window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
     );
-
-
-/* =====================================================
-   ELEMENTS
-===================================================== */
 
 const logoutButton =
     document.getElementById(
@@ -1070,10 +674,6 @@ const statusBox =
     );
 
 
-/* =====================================================
-   CHECK LOGIN
-===================================================== */
-
 async function checkLogin(){
 
     const {
@@ -1081,7 +681,6 @@ async function checkLogin(){
         error
     } =
     await supabaseClient.auth.getSession();
-
 
     if(error){
 
@@ -1097,7 +696,6 @@ async function checkLogin(){
 
     }
 
-
     if(!data.session){
 
         window.location.href =
@@ -1107,10 +705,8 @@ async function checkLogin(){
 
     }
 
-
     const user =
         data.session.user;
-
 
     if(
         user &&
@@ -1124,21 +720,15 @@ async function checkLogin(){
 
     }
 
-
     return user;
 
 }
 
 
-/* =====================================================
-   LOAD DASHBOARD
-===================================================== */
-
 async function loadDashboard(){
 
     statusBox.innerText =
         "Loading live data from Supabase...";
-
 
     statusBox.style.background =
         "#eef4ff";
@@ -1149,23 +739,15 @@ async function loadDashboard(){
     statusBox.style.borderLeftColor =
         "#2563eb";
 
-
     try{
 
         const user =
             await checkLogin();
 
-
         if(!user){
-
             return;
-
         }
 
-
-        /* =============================================
-           CUSTOMERS
-        ============================================= */
 
         const customersResult =
             await supabaseClient
@@ -1178,7 +760,6 @@ async function loadDashboard(){
                     }
                 );
 
-
         if(
             customersResult.error
         ){
@@ -1190,7 +771,6 @@ async function loadDashboard(){
 
         }
 
-
         document.getElementById(
             "totalCustomers"
         ).innerText =
@@ -1198,10 +778,6 @@ async function loadDashboard(){
                 customersResult.count || 0
             ).toLocaleString();
 
-
-        /* =============================================
-           PRODUCTS
-        ============================================= */
 
         const productsResult =
             await supabaseClient
@@ -1214,7 +790,6 @@ async function loadDashboard(){
                     }
                 );
 
-
         if(
             productsResult.error
         ){
@@ -1226,7 +801,6 @@ async function loadDashboard(){
 
         }
 
-
         document.getElementById(
             "totalProducts"
         ).innerText =
@@ -1235,17 +809,12 @@ async function loadDashboard(){
             ).toLocaleString();
 
 
-        /* =============================================
-           ORDERS
-        ============================================= */
-
         const salesResult =
             await supabaseClient
                 .from("orders")
                 .select(
                     "total_amount,created_at"
                 );
-
 
         if(
             salesResult.error
@@ -1258,17 +827,11 @@ async function loadDashboard(){
 
         }
 
-
         const sales =
             salesResult.data || [];
 
 
-        /* =============================================
-           TOTAL SALES
-        ============================================= */
-
         let totalSales = 0;
-
 
         sales.forEach(
             function(sale){
@@ -1289,13 +852,8 @@ async function loadDashboard(){
             totalSales.toLocaleString();
 
 
-        /* =============================================
-           TODAY SALES
-        ============================================= */
-
         const now =
             new Date();
-
 
         const today =
             now.getFullYear() +
@@ -1311,24 +869,19 @@ async function loadDashboard(){
 
         let todaySales = 0;
 
-
         sales.forEach(
             function(sale){
 
                 if(
                     !sale.created_at
                 ){
-
                     return;
-
                 }
-
 
                 const date =
                     new Date(
                         sale.created_at
                     );
-
 
                 const saleDate =
                     date.getFullYear() +
@@ -1340,7 +893,6 @@ async function loadDashboard(){
                     String(
                         date.getDate()
                     ).padStart(2,"0");
-
 
                 if(
                     saleDate === today
@@ -1364,10 +916,6 @@ async function loadDashboard(){
             todaySales.toLocaleString();
 
 
-        /* =============================================
-           SUCCESS
-        ============================================= */
-
         statusBox.innerText =
             "✓ Live Supabase data loaded successfully.";
 
@@ -1380,7 +928,6 @@ async function loadDashboard(){
         statusBox.style.borderLeftColor =
             "#16a34a";
 
-
     }
 
     catch(error){
@@ -1390,11 +937,9 @@ async function loadDashboard(){
             error
         );
 
-
         statusBox.innerText =
             "Dashboard load failed: " +
             error.message;
-
 
         statusBox.style.background =
             "#fee2e2";
@@ -1410,10 +955,6 @@ async function loadDashboard(){
 }
 
 
-/* =====================================================
-   LOGOUT
-===================================================== */
-
 async function logout(){
 
     logoutButton.disabled =
@@ -1422,7 +963,6 @@ async function logout(){
     logoutButton.innerText =
         "Logging out...";
 
-
     try{
 
         const {
@@ -1430,14 +970,12 @@ async function logout(){
         } =
         await supabaseClient.auth.signOut();
 
-
         if(error){
 
             alert(
                 "Logout failed: " +
                 error.message
             );
-
 
             logoutButton.disabled =
                 false;
@@ -1448,7 +986,6 @@ async function logout(){
             return;
 
         }
-
 
         window.location.replace(
             "index.html"
@@ -1462,11 +999,9 @@ async function logout(){
             error
         );
 
-
         alert(
             "Something went wrong."
         );
-
 
         logoutButton.disabled =
             false;
@@ -1479,19 +1014,11 @@ async function logout(){
 }
 
 
-/* =====================================================
-   LOGOUT BUTTON
-===================================================== */
-
 logoutButton.addEventListener(
     "click",
     logout
 );
 
-
-/* =====================================================
-   NAVIGATION
-===================================================== */
 
 function go(page){
 
@@ -1500,10 +1027,6 @@ function go(page){
 
 }
 
-
-/* =====================================================
-   REFRESH BUTTON
-===================================================== */
 
 refreshButton.addEventListener(
     "click",
@@ -1515,9 +1038,7 @@ refreshButton.addEventListener(
         refreshButton.innerText =
             "⏳ Loading...";
 
-
         await loadDashboard();
-
 
         refreshButton.disabled =
             false;
@@ -1529,26 +1050,14 @@ refreshButton.addEventListener(
 );
 
 
-/* =====================================================
-   INITIAL LOAD
-===================================================== */
-
 loadDashboard();
 
-
-/* =====================================================
-   AUTO REFRESH
-===================================================== */
 
 setInterval(
     loadDashboard,
     10000
 );
 
-
-/* =====================================================
-   FORCE BUTTON VISIBILITY
-===================================================== */
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -1564,7 +1073,6 @@ document.addEventListener(
                 "settingsButton"
             );
 
-
         if(outletButton){
 
             outletButton.style.display =
@@ -1577,7 +1085,6 @@ document.addEventListener(
                 "1";
 
         }
-
 
         if(settingsButton){
 
