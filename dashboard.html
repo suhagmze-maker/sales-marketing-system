@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,6 +24,10 @@
 
 <style>
 
+/* ================================
+   RESET
+================================ */
+
 *{
     margin:0;
     padding:0;
@@ -31,32 +36,31 @@
 }
 
 body{
-    background:linear-gradient(
-        135deg,
-        #eef2ff,
-        #f8fafc
-    );
+    background:linear-gradient(135deg,#eef2ff,#f8fafc);
     min-height:100vh;
 }
 
+/* ================================
+   HEADER
+================================ */
+
 .header{
-    background:linear-gradient(
-        135deg,
-        #1d4ed8,
-        #4f46e5
-    );
+    background:linear-gradient(135deg,#1d4ed8,#4f46e5);
     color:white;
     padding:20px 30px;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    box-shadow:
-        0 4px 15px rgba(37,99,235,.25);
+    box-shadow:0 4px 15px rgba(37,99,235,.25);
 }
 
 .header h2{
     font-size:22px;
 }
+
+/* ================================
+   LOGOUT
+================================ */
 
 .logout{
     background:white;
@@ -71,8 +75,7 @@ body{
 
 .logout:hover{
     transform:translateY(-2px);
-    box-shadow:
-        0 4px 10px rgba(0,0,0,.15);
+    box-shadow:0 4px 10px rgba(0,0,0,.15);
 }
 
 .logout:disabled{
@@ -80,11 +83,19 @@ body{
     cursor:not-allowed;
 }
 
+/* ================================
+   CONTAINER
+================================ */
+
 .container{
     padding:30px;
     max-width:1450px;
     margin:auto;
 }
+
+/* ================================
+   WELCOME
+================================ */
 
 .welcome{
     margin-bottom:25px;
@@ -100,10 +111,13 @@ body{
     color:#64748b;
 }
 
+/* ================================
+   DASHBOARD CARDS
+================================ */
+
 .cards{
     display:grid;
-    grid-template-columns:
-        repeat(4,1fr);
+    grid-template-columns:repeat(4,1fr);
     gap:20px;
 }
 
@@ -114,15 +128,13 @@ body{
     border-radius:16px;
     color:white;
     min-height:145px;
-    box-shadow:
-        0 8px 20px rgba(0,0,0,.12);
+    box-shadow:0 8px 20px rgba(0,0,0,.12);
     transition:.25s;
 }
 
 .card:hover{
     transform:translateY(-5px);
-    box-shadow:
-        0 12px 25px rgba(0,0,0,.18);
+    box-shadow:0 12px 25px rgba(0,0,0,.18);
 }
 
 .card h3{
@@ -137,39 +149,19 @@ body{
 }
 
 .sales-card{
-    background:
-        linear-gradient(
-            135deg,
-            #2563eb,
-            #3b82f6
-        );
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
 }
 
 .customer-card{
-    background:
-        linear-gradient(
-            135deg,
-            #059669,
-            #10b981
-        );
+    background:linear-gradient(135deg,#059669,#10b981);
 }
 
 .product-card{
-    background:
-        linear-gradient(
-            135deg,
-            #7c3aed,
-            #a855f7
-        );
+    background:linear-gradient(135deg,#7c3aed,#a855f7);
 }
 
 .today-card{
-    background:
-        linear-gradient(
-            135deg,
-            #ea580c,
-            #f97316
-        );
+    background:linear-gradient(135deg,#ea580c,#f97316);
 }
 
 .card::after{
@@ -179,8 +171,7 @@ body{
     height:100px;
     right:-30px;
     bottom:-35px;
-    background:
-        rgba(255,255,255,.15);
+    background:rgba(255,255,255,.15);
     border-radius:50%;
 }
 
@@ -191,10 +182,13 @@ body{
     height:55px;
     right:45px;
     top:-20px;
-    background:
-        rgba(255,255,255,.08);
+    background:rgba(255,255,255,.08);
     border-radius:50%;
 }
+
+/* ================================
+   STATUS
+================================ */
 
 .status{
     margin-top:25px;
@@ -203,9 +197,12 @@ body{
     background:#eef4ff;
     color:#2563eb;
     font-weight:bold;
-    border-left:
-        5px solid #2563eb;
+    border-left:5px solid #2563eb;
 }
+
+/* ================================
+   REFRESH
+================================ */
 
 .refresh-box{
     margin-top:20px;
@@ -216,18 +213,11 @@ body{
     padding:11px 20px;
     border:none;
     border-radius:8px;
-    background:
-        linear-gradient(
-            135deg,
-            #059669,
-            #10b981
-        );
+    background:linear-gradient(135deg,#059669,#10b981);
     color:white;
     cursor:pointer;
     font-weight:bold;
-    box-shadow:
-        0 4px 10px
-        rgba(16,185,129,.25);
+    box-shadow:0 4px 10px rgba(16,185,129,.25);
     transition:.2s;
 }
 
@@ -239,38 +229,90 @@ body{
     opacity:.7;
 }
 
+/* ================================
+   MENU
+================================ */
+
 .menu{
     margin-top:25px;
     display:grid;
-    grid-template-columns:
-        repeat(4,1fr);
+    grid-template-columns:repeat(4,1fr);
     gap:18px;
 }
 
+/* ================================
+   MENU BUTTON
+================================ */
+
 .menu-button{
+
     display:flex !important;
+
     visibility:visible !important;
+
     opacity:1 !important;
+
     width:100%;
-    min-height:70px;
+
+    min-height:78px;
+
     align-items:center;
+
     justify-content:center;
-    padding:22px 15px;
+
+    gap:11px;
+
+    padding:18px 15px;
+
     border:none;
+
     border-radius:14px;
+
     font-size:16px;
+
     font-weight:bold;
+
     cursor:pointer;
-    box-shadow:
-        0 5px 15px rgba(0,0,0,.08);
+
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+
     transition:.25s;
+
 }
 
 .menu-button:hover{
+
     transform:translateY(-4px);
-    box-shadow:
-        0 10px 20px rgba(0,0,0,.14);
+
+    box-shadow:0 10px 20px rgba(0,0,0,.14);
+
 }
+
+/* ================================
+   ICON
+================================ */
+
+.menu-icon{
+
+    width:27px;
+
+    height:27px;
+
+    flex-shrink:0;
+
+    display:block;
+
+}
+
+.menu-text{
+
+    line-height:1;
+
+}
+
+/* ================================
+   BUTTON COLORS
+================================ */
 
 .sales-entry-btn{
     background:#dbeafe;
@@ -308,44 +350,41 @@ body{
 }
 
 .outlet-survey-btn{
-    display:flex !important;
-    visibility:visible !important;
-    opacity:1 !important;
     background:#dcfce7 !important;
     color:#166534 !important;
     border:2px solid #22c55e !important;
-    min-height:70px;
 }
 
 .settings-btn{
-    display:flex !important;
-    visibility:visible !important;
-    opacity:1 !important;
     background:#e0e7ff !important;
     color:#4338ca !important;
     border:2px solid #6366f1 !important;
-    min-height:70px;
 }
+
+/* ================================
+   TABLET
+================================ */
 
 @media(max-width:1000px){
 
     .cards{
-        grid-template-columns:
-            repeat(2,1fr);
+        grid-template-columns:repeat(2,1fr);
     }
 
     .menu{
-        grid-template-columns:
-            repeat(2,1fr);
+        grid-template-columns:repeat(2,1fr);
     }
 
 }
 
+/* ================================
+   MOBILE
+================================ */
+
 @media(max-width:600px){
 
     .header{
-        padding:
-            15px 18px;
+        padding:15px 18px;
     }
 
     .header h2{
@@ -353,8 +392,7 @@ body{
     }
 
     .container{
-        padding:
-            20px 15px;
+        padding:20px 15px;
     }
 
     .welcome h1{
@@ -362,13 +400,11 @@ body{
     }
 
     .cards{
-        grid-template-columns:
-            1fr;
+        grid-template-columns:1fr;
     }
 
     .menu{
-        grid-template-columns:
-            1fr;
+        grid-template-columns:1fr;
     }
 
     .card{
@@ -381,6 +417,10 @@ body{
 
 }
 
+/* ================================
+   VERY SMALL MOBILE
+================================ */
+
 @media(max-width:380px){
 
     .header{
@@ -388,12 +428,16 @@ body{
     }
 
     .logout{
-        padding:
-            8px 12px;
+        padding:8px 12px;
     }
 
     .menu-button{
         font-size:15px;
+    }
+
+    .menu-icon{
+        width:24px;
+        height:24px;
     }
 
 }
@@ -403,6 +447,10 @@ body{
 </head>
 
 <body>
+
+<!-- ================================
+     HEADER
+================================ -->
 
 <div class="header">
 
@@ -423,6 +471,10 @@ body{
 
 <div class="container">
 
+    <!-- ================================
+         WELCOME
+    ================================= -->
+
     <div class="welcome">
 
         <h1>
@@ -435,13 +487,15 @@ body{
 
     </div>
 
+    <!-- ================================
+         CARDS
+    ================================= -->
+
     <div class="cards">
 
         <div class="card sales-card">
 
-            <h3>
-                💰 Total Sales
-            </h3>
+            <h3>💰 Total Sales</h3>
 
             <div
                 class="number"
@@ -455,9 +509,7 @@ body{
 
         <div class="card customer-card">
 
-            <h3>
-                👥 Total Customers
-            </h3>
+            <h3>👥 Total Customers</h3>
 
             <div
                 class="number"
@@ -471,9 +523,7 @@ body{
 
         <div class="card product-card">
 
-            <h3>
-                📦 Total Products
-            </h3>
+            <h3>📦 Total Products</h3>
 
             <div
                 class="number"
@@ -487,9 +537,7 @@ body{
 
         <div class="card today-card">
 
-            <h3>
-                📅 Today's Sales
-            </h3>
+            <h3>📅 Today's Sales</h3>
 
             <div
                 class="number"
@@ -503,6 +551,10 @@ body{
 
     </div>
 
+    <!-- ================================
+         STATUS
+    ================================= -->
+
     <div
         id="status"
         class="status">
@@ -510,6 +562,10 @@ body{
         Loading live data from Supabase...
 
     </div>
+
+    <!-- ================================
+         REFRESH
+    ================================= -->
 
     <div class="refresh-box">
 
@@ -524,93 +580,206 @@ body{
 
     </div>
 
+    <!-- ================================
+         MENU
+    ================================= -->
+
     <div class="menu">
 
-        <!-- 1 SALES ENTRY -->
+        <!-- SALES ENTRY -->
 
         <button
             type="button"
             class="menu-button sales-entry-btn"
             onclick="go('sales.html')">
 
-            💰 Sales Entry
+            <svg class="menu-icon"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <path d="M3 3h18v18H3z"/>
+                <path d="M7 16l3-4 3 3 4-6"/>
+                <path d="M7 7h.01"/>
+
+            </svg>
+
+            <span class="menu-text">
+                Sales Entry
+            </span>
 
         </button>
 
-
-        <!-- 2 SALES HISTORY -->
+        <!-- SALES HISTORY -->
 
         <button
             type="button"
             class="menu-button sales-history-btn"
             onclick="go('sales-history.html')">
 
-            🧾 Sales History
+            <svg class="menu-icon"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <path d="M6 3h12v18H6z"/>
+                <path d="M9 7h6"/>
+                <path d="M9 11h6"/>
+                <path d="M9 15h4"/>
+
+            </svg>
+
+            <span class="menu-text">
+                Sales History
+            </span>
 
         </button>
 
-
-        <!-- 3 CUSTOMERS -->
+        <!-- CUSTOMERS -->
 
         <button
             type="button"
             class="menu-button customers-btn"
             onclick="go('customers.html')">
 
-            👤 Customers
+            <svg class="menu-icon"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <circle cx="9" cy="8" r="3"/>
+                <path d="M3 21c0-3.3 2.7-6 6-6s6 2.7 6 6"/>
+                <path d="M16 11c2.8 0 5 2.2 5 5"/>
+                <path d="M16 5.5a3 3 0 0 1 0 5"/>
+
+            </svg>
+
+            <span class="menu-text">
+                Customers
+            </span>
 
         </button>
 
-
-        <!-- 4 PRODUCTS -->
+        <!-- PRODUCTS -->
 
         <button
             type="button"
             class="menu-button products-btn"
             onclick="go('products.html')">
 
-            🏷️ Products
+            <svg class="menu-icon"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/>
+                <path d="M4 7.5L12 12l8-4.5"/>
+                <path d="M12 12v9"/>
+
+            </svg>
+
+            <span class="menu-text">
+                Products
+            </span>
 
         </button>
 
-
-        <!-- 5 INVENTORY -->
+        <!-- INVENTORY -->
 
         <button
             type="button"
             class="menu-button inventory-btn"
             onclick="go('inventory.html')">
 
-            📦 Inventory
+            <svg class="menu-icon"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <path d="M3 7h18"/>
+                <path d="M5 7l1-4h12l1 4"/>
+                <path d="M5 7v13h14V7"/>
+                <path d="M9 11h6"/>
+                <path d="M9 15h6"/>
+
+            </svg>
+
+            <span class="menu-text">
+                Inventory
+            </span>
 
         </button>
 
-
-        <!-- 6 REPORTS -->
+        <!-- REPORTS -->
 
         <button
             type="button"
             class="menu-button reports-btn"
             onclick="go('reports.html')">
 
-            📊 Reports
+            <svg class="menu-icon"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <path d="M4 19V5"/>
+                <path d="M4 19h17"/>
+                <path d="M7 15l4-4 3 2 5-6"/>
+
+            </svg>
+
+            <span class="menu-text">
+                Reports
+            </span>
 
         </button>
 
-
-        <!-- 7 MARKETING -->
+        <!-- MARKETING -->
 
         <button
             type="button"
             class="menu-button marketing-btn"
             onclick="go('marketing.html')">
 
-            📣 Marketing
+            <svg class="menu-icon"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <path d="M3 11v2h4l9 5V6l-9 5H3z"/>
+                <path d="M16 9c2 1 3 2 3 3s-1 2-3 3"/>
+                <path d="M7 13l1 6h3l-1-5"/>
+
+            </svg>
+
+            <span class="menu-text">
+                Marketing
+            </span>
 
         </button>
 
-
-        <!-- 8 OUTLET SURVEY -->
+        <!-- OUTLET SURVEY -->
 
         <button
             type="button"
@@ -618,12 +787,30 @@ body{
             class="menu-button outlet-survey-btn"
             onclick="go('outlet-survey.html')">
 
-            🏪 Outlet Survey
+            <svg class="menu-icon"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <path d="M4 21V4h16v17"/>
+                <path d="M8 8h2"/>
+                <path d="M14 8h2"/>
+                <path d="M8 12h2"/>
+                <path d="M14 12h2"/>
+                <path d="M9 21v-5h6v5"/>
+
+            </svg>
+
+            <span class="menu-text">
+                Outlet Survey
+            </span>
 
         </button>
 
-
-        <!-- 9 SETTINGS -->
+        <!-- SETTINGS -->
 
         <button
             type="button"
@@ -631,7 +818,22 @@ body{
             class="menu-button settings-btn"
             onclick="go('settings.html')">
 
-            ⚙️ Settings
+            <svg class="menu-icon"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.8 1.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V21h-2.6v-.2a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1-1.8-1.8.1-.1A1.7 1.7 0 0 0 8 15a1.7 1.7 0 0 0-1.6-1H6v-2.6h.2a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1 1.8-1.8.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.6V5h2.6v.2a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.8 1.8-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2V14h-.2a1.7 1.7 0 0 0-1.6 1z"/>
+
+            </svg>
+
+            <span class="menu-text">
+                Settings
+            </span>
 
         </button>
 
@@ -640,6 +842,10 @@ body{
 </div>
 
 <script>
+
+/* ================================
+   SUPABASE
+================================ */
 
 const SUPABASE_URL =
     "https://ucrtujcqrpjcwepiugak.supabase.co";
@@ -653,26 +859,25 @@ const supabaseClient =
         SUPABASE_KEY
     );
 
+/* ================================
+   ELEMENTS
+================================ */
+
 const logoutButton =
-    document.getElementById(
-        "logoutButton"
-    );
+    document.getElementById("logoutButton");
 
 const refreshButton =
-    document.getElementById(
-        "refreshButton"
-    );
+    document.getElementById("refreshButton");
 
 const welcomeText =
-    document.getElementById(
-        "welcomeText"
-    );
+    document.getElementById("welcomeText");
 
 const statusBox =
-    document.getElementById(
-        "status"
-    );
+    document.getElementById("status");
 
+/* ================================
+   CHECK LOGIN
+================================ */
 
 async function checkLogin(){
 
@@ -708,10 +913,7 @@ async function checkLogin(){
     const user =
         data.session.user;
 
-    if(
-        user &&
-        user.email
-    ){
+    if(user && user.email){
 
         welcomeText.innerText =
             "Welcome, " +
@@ -724,6 +926,9 @@ async function checkLogin(){
 
 }
 
+/* ================================
+   LOAD DASHBOARD
+================================ */
 
 async function loadDashboard(){
 
@@ -745,9 +950,12 @@ async function loadDashboard(){
             await checkLogin();
 
         if(!user){
+
             return;
+
         }
 
+        /* CUSTOMERS */
 
         const customersResult =
             await supabaseClient
@@ -760,9 +968,7 @@ async function loadDashboard(){
                     }
                 );
 
-        if(
-            customersResult.error
-        ){
+        if(customersResult.error){
 
             throw new Error(
                 "Customers: " +
@@ -778,6 +984,7 @@ async function loadDashboard(){
                 customersResult.count || 0
             ).toLocaleString();
 
+        /* PRODUCTS */
 
         const productsResult =
             await supabaseClient
@@ -790,9 +997,7 @@ async function loadDashboard(){
                     }
                 );
 
-        if(
-            productsResult.error
-        ){
+        if(productsResult.error){
 
             throw new Error(
                 "Products: " +
@@ -808,6 +1013,7 @@ async function loadDashboard(){
                 productsResult.count || 0
             ).toLocaleString();
 
+        /* ORDERS */
 
         const salesResult =
             await supabaseClient
@@ -816,9 +1022,7 @@ async function loadDashboard(){
                     "total_amount,created_at"
                 );
 
-        if(
-            salesResult.error
-        ){
+        if(salesResult.error){
 
             throw new Error(
                 "Sales: " +
@@ -830,6 +1034,7 @@ async function loadDashboard(){
         const sales =
             salesResult.data || [];
 
+        /* TOTAL SALES */
 
         let totalSales = 0;
 
@@ -844,13 +1049,13 @@ async function loadDashboard(){
             }
         );
 
-
         document.getElementById(
             "totalSales"
         ).innerText =
             "৳ " +
             totalSales.toLocaleString();
 
+        /* TODAY SALES */
 
         const now =
             new Date();
@@ -866,16 +1071,15 @@ async function loadDashboard(){
                 now.getDate()
             ).padStart(2,"0");
 
-
         let todaySales = 0;
 
         sales.forEach(
             function(sale){
 
-                if(
-                    !sale.created_at
-                ){
+                if(!sale.created_at){
+
                     return;
+
                 }
 
                 const date =
@@ -894,9 +1098,7 @@ async function loadDashboard(){
                         date.getDate()
                     ).padStart(2,"0");
 
-                if(
-                    saleDate === today
-                ){
+                if(saleDate === today){
 
                     todaySales +=
                         Number(
@@ -908,13 +1110,11 @@ async function loadDashboard(){
             }
         );
 
-
         document.getElementById(
             "todaySales"
         ).innerText =
             "৳ " +
             todaySales.toLocaleString();
-
 
         statusBox.innerText =
             "✓ Live Supabase data loaded successfully.";
@@ -954,6 +1154,9 @@ async function loadDashboard(){
 
 }
 
+/* ================================
+   LOGOUT
+================================ */
 
 async function logout(){
 
@@ -995,9 +1198,7 @@ async function logout(){
 
     catch(error){
 
-        console.error(
-            error
-        );
+        console.error(error);
 
         alert(
             "Something went wrong."
@@ -1013,12 +1214,14 @@ async function logout(){
 
 }
 
-
 logoutButton.addEventListener(
     "click",
     logout
 );
 
+/* ================================
+   NAVIGATION
+================================ */
 
 function go(page){
 
@@ -1027,6 +1230,9 @@ function go(page){
 
 }
 
+/* ================================
+   REFRESH
+================================ */
 
 refreshButton.addEventListener(
     "click",
@@ -1049,57 +1255,19 @@ refreshButton.addEventListener(
     }
 );
 
+/* ================================
+   INITIAL LOAD
+================================ */
 
 loadDashboard();
 
+/* ================================
+   AUTO REFRESH
+================================ */
 
 setInterval(
     loadDashboard,
     10000
-);
-
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function(){
-
-        const outletButton =
-            document.getElementById(
-                "outletSurveyButton"
-            );
-
-        const settingsButton =
-            document.getElementById(
-                "settingsButton"
-            );
-
-        if(outletButton){
-
-            outletButton.style.display =
-                "flex";
-
-            outletButton.style.visibility =
-                "visible";
-
-            outletButton.style.opacity =
-                "1";
-
-        }
-
-        if(settingsButton){
-
-            settingsButton.style.display =
-                "flex";
-
-            settingsButton.style.visibility =
-                "visible";
-
-            settingsButton.style.opacity =
-                "1";
-
-        }
-
-    }
 );
 
 </script>
@@ -1107,3 +1275,4 @@ document.addEventListener(
 </body>
 
 </html>
+```
